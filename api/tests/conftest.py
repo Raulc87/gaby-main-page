@@ -9,6 +9,7 @@ from app import create_app
 def app():
     flask_app = create_app(api_prefix="/api")
     flask_app.config.update(TESTING=True)
+    flask_app.config["PRIVACY_NOTICE_VERSION"] = "2026-09-draft-1"
     return flask_app
 
 

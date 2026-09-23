@@ -1,8 +1,9 @@
-"""POST /save-lead route.
+"""POST /save-lead route per LEAD_API_CONTRACT.md sections 3, 5, 7, and 8.
 
-Phase 0 scaffold: structural request checks (content type, JSON body shape)
-and the memory storage path. Full field validation (LEAD_API_CONTRACT.md
-section 3/8) and the Google Sheets adapter land in GK-006-google-sheets.
+Unexpected exceptions are caught here (rather than left to Flask's error
+handler) so the 500 response is deterministic under Flask's TESTING config,
+where unhandled exceptions otherwise propagate instead of being converted.
+Never log the payload or lead row: it may carry personal data.
 """
 
 from __future__ import annotations
@@ -10,6 +11,9 @@ from __future__ import annotations
 from flask import Blueprint, current_app, request
 
 from responses import contract_response
+from storage.base import StorageError
+from time_utils import format_costa_rica_timestamp
+from validation import validate_lead
 
 bp = Blueprint("lead", __name__)
 
@@ -35,8 +39,41 @@ def save_lead():
         response.status_code = 400
         return response
 
-    storage = current_app.config["LEAD_STORAGE"]
-    storage.save(payload)
+    try:
+        normalized, field_errors = validate_lead(payload)
+        if field_errors:
+            response = contract_response(
+                False, "Validation failed.", "validation_error", field_errors
+            )
+            response.status_code = 422
+            return response
+
+        lead_row = {
+            "submitted_at": format_costa_rica_timestamp(),
+            "name": normalized["name"],
+            "email": normalized["email"],
+            "phone": normalized["phone"],
+            "screening_answer": normalized["screening_answer"],
+            "language": normalized["language"],
+            "consent": normalized["consent"],
+            "privacy_notice_version": current_app.config["PRIVACY_NOTICE_VERSION"],
+            "status": "started",
+        }
+
+        storage = current_app.config["LEAD_STORAGE"]
+        storage.save(lead_row)
+    except StorageError:
+        response = contract_response(
+            False, "Failed to save lead.", "storage_unavailable"
+        )
+        response.status_code = 503
+        return response
+    except Exception:  # noqa: BLE001 - never leak internals; contract requires a generic 500
+        response = contract_response(
+            False, "An unexpected error occurred.", "internal_error"
+        )
+        response.status_code = 500
+        return response
 
     response = contract_response(True, "Lead saved.")
     response.status_code = 201
