@@ -36,24 +36,26 @@ A demonstrable prototype, running locally, that:
 
 ## Planned Stories
 
-| Story | Points | Owner | Dependencies | Status |
-|---|---:|---|---|---|
-| US-001 | 3 | Agent 1 | Frontend scaffold | Planned |
-| US-002 | 3 | Agent 1 | Frontend scaffold | Planned |
-| US-003 | 2 | Agent 1 | Frontend scaffold | Planned |
-| US-010 | 5 | Agent 1 | Frontend scaffold | Planned |
-| US-004 | 5 | Agent 2 | Frontend scaffold, contract | Planned |
-| US-005 | 3 | Agent 2 | Frontend scaffold, contract | Planned |
-| US-007 | 3 | Agent 2 | US-004 | Planned |
-| US-011 | 3 | Agent 2 (client) + Agent 3 (server) | Contract | Planned |
-| US-006 | 5 | Agent 3 | Contract | Planned |
-| US-012 | 3 | Agent 3 | Scaffolds | Planned |
-| US-008 | 5 | Agent 1 (sections) + Agent 2 (form, scheduler) | Sections, form | Planned |
-| US-009 | 3 | Sprint Review | All above | Planned |
+| Story | Points | Owner | Dependencies | Branch | Status |
+|---|---:|---|---|---|---|
+| US-001 | 3 | Agent 1 | Frontend scaffold | `GK-001-hero` | Planned |
+| US-002 | 3 | Agent 1 | Frontend scaffold | `GK-002-roadmap` | Planned |
+| US-003 | 2 | Agent 1 | Frontend scaffold | `GK-003-guide-section` | Planned |
+| US-010 | 5 | Agent 1 | Frontend scaffold | `GK-010-i18n-toggle` | Planned |
+| US-004 | 5 | Agent 2 | Frontend scaffold, contract | `GK-004-lead-form` | Planned |
+| US-005 | 3 | Agent 2 | Frontend scaffold, contract | `GK-005-pre-screening` | Planned |
+| US-007 | 3 | Agent 2 | US-004 | `GK-007-calendly` | Planned |
+| US-011 | 3 | Agent 2 (client) + Agent 3 (server) | Contract | `GK-011-privacy-consent` | Planned |
+| US-006 | 5 | Agent 3 | Contract | `GK-006-google-sheets` | Planned |
+| US-012 | 3 | Agent 3 | Scaffolds | `GK-012-local-env-ci` | Planned |
+| US-008 | 5 | Agent 1 (sections) + Agent 2 (form, scheduler) | Sections, form | Within each story; fixes on `GK-008-<slug>` | Planned |
+| US-009 | 3 | Sprint Review | All above | — | Planned |
 
 Total planned points: 43
 
 Not in this sprint: US-013 (spam protection), US-014 (GoDaddy deployment).
+
+Foundation branches: `GK-010-frontend-scaffold` (Agent 1), `GK-006-backend-scaffold` (Agent 3). Integration branch: `GK-004-integration-e2e` (Agent 2). Naming rules: `AGENTS.md`.
 
 ## Parallel Workstreams
 

@@ -2,6 +2,7 @@
 
 ## Project
 - Name: Gabriela Kelly — Financial Health One-Page Pilot
+- Project key: `GK` (branches `GK-<NNN>-<slug>`, see `AGENTS.md`)
 - Repository: https://github.com/Raulc87/gaby-main-page
 - Starter Kit: https://github.com/Raulc87/sdd_starter_kit
 - Status: Ready for Sprint 001 (not started; waiting for go-ahead)

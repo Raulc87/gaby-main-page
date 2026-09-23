@@ -85,11 +85,37 @@ Small implementation details may be decided autonomously when they do not alter 
 - Integration must be verified after merging parallel work.
 - A change is not complete merely because its own tests pass; it must not break already accepted functionality.
 
+## Branch, PR, and commit naming
+
+Every project defines a short uppercase **project key** (its initials, 2–5 letters) in `PROJECT_CONTEXT.md`, e.g. `GK`.
+
+### Branches
+
+| Work | Pattern | Example |
+|---|---|---|
+| User story | `<KEY>-<NNN>-<short-slug>` | `GK-004-lead-form` |
+| Fix or follow-up for a story | `<KEY>-<NNN>-fix-<short-slug>` | `GK-004-fix-phone-validation` |
+| Work outside the stories | `<KEY>-<TYPE>-<short-slug>` | `GK-DOCS-sprint-001-readiness` |
+
+- `<NNN>` is the story number with three digits (`US-004` → `004`). When Jira is adopted, use the Jira issue number instead.
+- `<TYPE>` for non-story work: `DOCS`, `CHORE`, `CI`, `FIX`, `SPIKE`.
+- `<short-slug>`: lowercase, kebab-case, a few words, total branch name at most 60 characters.
+- One branch per story and agent. If a branch serves several stories, name it after the primary story and list the others in the PR.
+- Never commit directly to `main`.
+
+### Pull request titles
+
+`[<KEY>-<NNN>] <Short description>` or `[<KEY>-<TYPE>] <Short description>`, e.g. `[GK-004] Lead form with client-side validation`.
+
+### Commit messages
+
+Start the subject with the same key: `GK-004: add phone normalization`.
+
 ## Pull requests
 
-Each implementation agent should:
+Use `.github/pull_request_template.md`. Each implementation agent should:
 
-1. Work on an isolated branch.
+1. Work on an isolated branch named as above.
 2. Reference the related user stories and acceptance criteria.
 3. Keep the PR focused.
 4. Include verification evidence.

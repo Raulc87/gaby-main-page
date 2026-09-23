@@ -7,6 +7,7 @@ Run this checklist before starting any sprint. Record the result in the sprint p
 - [ ] **(blocking)** `AGENTS.md` and `CLAUDE.md` are present and match the Starter Kit version (or differences are intentional and documented).
 - [ ] `PROJECT_CONTEXT.md` has the repository URL, status, and active sprint filled in.
 - [ ] `README.md` status matches `PROJECT_CONTEXT.md`.
+- [ ] **(blocking)** The project key is defined in `PROJECT_CONTEXT.md`, and the sprint plan lists the planned branch name for each story (naming rules in `AGENTS.md`).
 
 ## 2. Documentation consistency
 - [ ] **(blocking)** Spec, user stories, UX direction, tech stack, plan, and sprint plan agree on scope, field names, and behavior.
