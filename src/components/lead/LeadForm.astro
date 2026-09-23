@@ -77,6 +77,25 @@ const scriptCopy = {
         <p id="lead-phone-error" role="alert" class="mt-1 text-sm text-red-600"></p>
       </div>
 
+      <fieldset id="lead-screening" aria-describedby="lead-screening-error" class="space-y-2">
+        <legend class="block text-sm font-medium text-ink-800">{form.screening.prompt}</legend>
+        {
+          form.screening.options.map((option, index) => (
+            <label class="flex min-h-11 items-center gap-2 text-sm text-ink-800">
+              <input
+                type="radio"
+                name="screening_answer"
+                value={option.code}
+                required={index === 0}
+                class="h-4 w-4 shrink-0"
+              />
+              {option.label}
+            </label>
+          ))
+        }
+        <p id="lead-screening-error" role="alert" class="mt-1 text-sm text-red-600"></p>
+      </fieldset>
+
       <p id="lead-submission-error" role="alert" hidden class="text-sm text-red-600"></p>
 
       <button

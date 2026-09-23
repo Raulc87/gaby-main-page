@@ -18,6 +18,22 @@ export const form: FormDictionary = {
     label: 'Teléfono (WhatsApp)',
     hint: 'Incluye el código de país. Ejemplo: +50684104791',
   },
+  screening: {
+    prompt:
+      'Si este programa encaja con lo que buscas, ¿cuál es tu disposición para invertir en mejorar tu salud financiera?',
+    options: [
+      { code: 'ready_to_invest', label: 'Quiero invertir si el programa es adecuado para mí.' },
+      {
+        code: 'needs_investment_info',
+        label: 'Tengo disposición, pero necesito conocer la inversión primero.',
+      },
+      {
+        code: 'no_capacity_now',
+        label: 'Me interesa, pero actualmente no tengo capacidad para invertir.',
+      },
+      { code: 'exploring', label: 'Solo estoy explorando por ahora.' },
+    ],
+  },
   submit: {
     idle: 'Enviar y agendar mi llamada',
     submitting: 'Enviando…',
@@ -30,6 +46,7 @@ export const form: FormDictionary = {
     full_name_required: 'Escribe tu nombre completo: nombre y al menos un apellido.',
     invalid_format_email: 'Escribe un correo válido, por ejemplo nombre@dominio.com.',
     invalid_format_phone: 'Escribe el número con código de país, por ejemplo +50684104791.',
+    invalid_option: 'Selecciona una opción.',
   },
   submissionError:
     'No pudimos guardar tu información. Por favor, inténtalo de nuevo en unos minutos. Si el problema continúa, escríbenos a {contact_email}.',
