@@ -1,7 +1,8 @@
 ---
-// Copy filled in by GK-002-roadmap (US-002). Stacks vertically by default
-// (single-column grid) and becomes 3 columns at the sm breakpoint, per
-// UX_UI_DIRECTION.md section 7.
+// Copy filled in by GK-002-roadmap (US-002). Stacks vertically through
+// every "common mobile width" (360/390/768 px, see USER_STORIES.md) and
+// only becomes a 3-column row at the lg breakpoint (1024 px), so it is
+// still stacked at 768 px per US-002 AC4 / UX_UI_DIRECTION.md section 7.
 import { SECTION_IDS, type RoadmapContent } from '../../i18n';
 
 interface Props {
@@ -12,7 +13,7 @@ const { content } = Astro.props;
 ---
 
 <section id={SECTION_IDS.roadmap} class="mx-auto max-w-4xl px-4 py-12">
-  <ol class="grid gap-6 sm:grid-cols-3">
+  <ol class="grid gap-6 lg:grid-cols-3">
     {
       content.steps.map((step, index) => (
         <li class="rounded-lg border border-ink-100 bg-surface-muted p-6">
