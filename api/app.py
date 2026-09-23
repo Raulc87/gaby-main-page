@@ -24,7 +24,7 @@ def create_app(api_prefix: str = "") -> Flask:
     app.config["MAX_CONTENT_LENGTH"] = MAX_REQUEST_BODY_BYTES
 
     config = Config()
-    app.config["LEAD_STORAGE"] = create_storage(config.LEADS_STORAGE)
+    app.config["LEAD_STORAGE"] = create_storage(config)
     app.config["PRIVACY_NOTICE_VERSION"] = config.PRIVACY_NOTICE_VERSION
 
     register_error_handlers(app)
