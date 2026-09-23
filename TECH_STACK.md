@@ -1,9 +1,10 @@
 # TECH_STACK — Gabriela Kelly Pilot
 
 ## Metadata
-- Version: 0.2
+- Version: 0.3
 - Status: Approved for Sprint 001
 - Complexity: Simple
+- Last updated: 2026-09-23 (v0.3: Node floor raised from 20 LTS to 22 LTS, section 4 — see GK-010-frontend-scaffold PR #4)
 
 ## 1. Complexity Assessment
 
@@ -37,7 +38,11 @@ Use the least-complex stack that satisfies the requirements and works reliably i
 - Astro (static output) with built-in i18n routing (`/es/`, `/en/`)
 - TypeScript
 - Tailwind CSS
-- Node.js 20 LTS for development and CI
+- Node.js 22 LTS for development and CI (raised from 20 LTS in v0.3: the
+  Node-20-compatible majors of Astro/Vitest/`eslint-plugin-astro` carry
+  unpatched critical advisories — XSS, SSRF, RCE via AVIF image
+  optimization; the human owner approved the Node 22 floor over shipping
+  those, 2026-09-23)
 
 ### Why
 - Excellent fit for a mostly static one-page site

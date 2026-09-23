@@ -1,0 +1,44 @@
+@import 'tailwindcss';
+
+/*
+ * Provisional neutral palette (see UX_UI_DIRECTION.md section 2: calm,
+ * clean, professional). Final brand colors are an open question
+ * (PROJECT_CONTEXT.md); everything below is a Tailwind theme token so the
+ * palette can be swapped later without touching component markup.
+ */
+@theme {
+  --color-brand-50: #f4f7f7;
+  --color-brand-100: #e4ecec;
+  --color-brand-200: #c9d8d8;
+  --color-brand-300: #a3bcbd;
+  --color-brand-400: #74999b;
+  --color-brand-500: #4f7c7f;
+  --color-brand-600: #3d6467;
+  --color-brand-700: #335154;
+  --color-brand-800: #2c4345;
+  --color-brand-900: #27393b;
+
+  --color-ink-50: #f7f7f6;
+  --color-ink-100: #ececeb;
+  --color-ink-200: #d7d6d3;
+  --color-ink-300: #b6b4b0;
+  --color-ink-400: #8f8c86;
+  --color-ink-500: #6f6c66;
+  --color-ink-600: #57544f;
+  --color-ink-700: #464440;
+  --color-ink-800: #302f2c;
+  --color-ink-900: #1c1b19;
+
+  --color-surface: #ffffff;
+  --color-surface-muted: var(--color-brand-50);
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-surface text-ink-800 font-sans antialiased;
+}

@@ -1,0 +1,18 @@
+---
+// Copy, photo/bio/credentials placeholders filled in by
+// GK-003-guide-section (US-003).
+import PendingBadge from './PendingBadge.astro';
+import { SECTION_IDS, type GuideContent } from '../../i18n';
+
+interface Props {
+  content: GuideContent;
+  pendingLabel: string;
+}
+
+const { content, pendingLabel } = Astro.props;
+---
+
+<section id={SECTION_IDS.guide} class="mx-auto max-w-2xl px-4 py-12">
+  <PendingBadge label={pendingLabel} />
+  {content.paragraphs.map((paragraph) => <p class="mt-4 text-base text-ink-700">{paragraph}</p>)}
+</section>
