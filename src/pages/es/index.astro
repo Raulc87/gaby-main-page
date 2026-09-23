@@ -14,11 +14,7 @@ import { content } from '../../i18n/es/content';
 const lang = 'es' as const;
 ---
 
-<BaseLayout
-  lang={lang}
-  title="Gabriela Kelly — Salud financiera"
-  description={content.hero.supportingLine}
->
+<BaseLayout lang={lang} title={content.meta.title} description={content.hero.supportingLine}>
   <Header lang={lang} content={content.header} />
   <main>
     <Hero content={content.hero} />

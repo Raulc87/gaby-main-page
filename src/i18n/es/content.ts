@@ -4,6 +4,9 @@ import type { ContentDictionary } from '../index';
 // docs/ux/UX_UI_DIRECTION.md is filled in by GK-001-hero, GK-002-roadmap,
 // and GK-003-guide-section.
 export const content: ContentDictionary = {
+  meta: {
+    title: 'Gabriela Kelly — Salud financiera',
+  },
   header: {
     languageToggleLabel: 'Cambiar idioma',
   },

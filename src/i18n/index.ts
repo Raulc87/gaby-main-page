@@ -35,6 +35,10 @@ export interface HeaderContent {
   languageToggleLabel: string;
 }
 
+export interface MetaContent {
+  title: string;
+}
+
 export interface HeroContent {
   headline: string;
   supportingLine: string;
@@ -75,6 +79,7 @@ export interface PendingBadgeContent {
 }
 
 export interface ContentDictionary {
+  meta: MetaContent;
   header: HeaderContent;
   hero: HeroContent;
   recognition: RecognitionContent;

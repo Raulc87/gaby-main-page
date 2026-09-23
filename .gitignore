@@ -1,22 +1,29 @@
-# build output
+# Secrets and local environment
+.env
+.env.production
+*.env.local
+**/*service-account*.json
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Node build output and dependencies
 dist/
 .astro/
-
-# dependencies
 node_modules/
 
-# logs
+# Node logs
 npm-debug.log*
 *.log
 
-# environment variables
-.env
-.env.production
-
-# macOS
-.DS_Store
-
-# test artifacts
+# Test artifacts
 test-results/
 playwright-report/
 coverage/
+
+# Editor / OS
+.DS_Store
