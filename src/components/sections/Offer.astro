@@ -1,0 +1,14 @@
+---
+// Copy filled in by GK-003-guide-section (US-003).
+import { SECTION_IDS, type OfferContent } from '../../i18n';
+
+interface Props {
+  content: OfferContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section id={SECTION_IDS.offer} class="mx-auto max-w-2xl px-4 py-12 text-center">
+  <p class="text-base text-ink-700">{content.paragraph}</p>
+</section>

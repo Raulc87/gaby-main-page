@@ -1,0 +1,17 @@
+---
+// "Pendiente de validación" / "Pending validation" marker (US-003, US-009,
+// US-011). Placement per section is wired up in GK-003-guide-section; the
+// single-flag on/off switch described in UX_UI_DIRECTION.md section 5 is
+// also added there.
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<span
+  class="inline-flex min-h-6 items-center rounded-full bg-brand-100 px-3 py-1 text-xs font-medium text-brand-700"
+>
+  {label}
+</span>

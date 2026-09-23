@@ -1,0 +1,20 @@
+---
+import LanguageToggle from './LanguageToggle.astro';
+import { SECTION_IDS, type HeaderContent, type Language } from '../../i18n';
+
+interface Props {
+  lang: Language;
+  content: HeaderContent;
+}
+
+const { lang, content } = Astro.props;
+---
+
+<header class="sticky top-0 z-50 w-full border-b border-ink-100 bg-surface/95 backdrop-blur">
+  <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+    <a href={`/${lang}/#${SECTION_IDS.hero}`} class="text-sm font-semibold text-ink-800">
+      Gabriela Kelly
+    </a>
+    <LanguageToggle lang={lang} label={content.languageToggleLabel} />
+  </div>
+</header>

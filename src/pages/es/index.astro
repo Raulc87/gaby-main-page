@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/sections/Header.astro';
+import Hero from '../../components/sections/Hero.astro';
+import Recognition from '../../components/sections/Recognition.astro';
+import TransformationRoadmap from '../../components/sections/TransformationRoadmap.astro';
+import Guide from '../../components/sections/Guide.astro';
+import SocialProof from '../../components/sections/SocialProof.astro';
+import Offer from '../../components/sections/Offer.astro';
+import ClosingCTA from '../../components/sections/ClosingCTA.astro';
+import LeadForm from '../../components/lead/LeadForm.astro';
+import { content } from '../../i18n/es/content';
+
+const lang = 'es' as const;
+---
+
+<BaseLayout lang={lang} title={content.meta.title} description={content.hero.supportingLine}>
+  <Header lang={lang} content={content.header} />
+  <main>
+    <Hero content={content.hero} />
+    <Recognition content={content.recognition} />
+    <TransformationRoadmap content={content.roadmap} />
+    <Guide content={content.guide} pendingLabel={content.pendingBadge.label} />
+    <SocialProof content={content.proof} pendingLabel={content.pendingBadge.label} />
+    <Offer content={content.offer} />
+    <LeadForm />
+    <ClosingCTA content={content.closing} />
+  </main>
+</BaseLayout>
