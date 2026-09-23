@@ -1,0 +1,26 @@
+---
+// Copy filled in by GK-002-roadmap (US-002). Stacks vertically by default
+// (single-column grid) and becomes 3 columns at the sm breakpoint, per
+// UX_UI_DIRECTION.md section 7.
+import { SECTION_IDS, type RoadmapContent } from '../../i18n';
+
+interface Props {
+  content: RoadmapContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section id={SECTION_IDS.roadmap} class="mx-auto max-w-4xl px-4 py-12">
+  <ol class="grid gap-6 sm:grid-cols-3">
+    {
+      content.steps.map((step, index) => (
+        <li class="rounded-lg border border-ink-100 bg-surface-muted p-6">
+          <span class="text-sm font-semibold text-brand-600">{index + 1}</span>
+          <h3 class="mt-2 text-lg font-semibold text-ink-900">{step.title}</h3>
+          <p class="mt-2 text-sm text-ink-600">{step.description}</p>
+        </li>
+      ))
+    }
+  </ol>
+</section>

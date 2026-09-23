@@ -1,0 +1,18 @@
+---
+// Copy filled in by GK-002-roadmap (US-002).
+import { SECTION_IDS, type RecognitionContent } from '../../i18n';
+
+interface Props {
+  content: RecognitionContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section id={SECTION_IDS.recognition} class="mx-auto max-w-2xl px-4 py-12">
+  {
+    content.paragraphs.map((paragraph) => (
+      <p class="mt-4 text-base text-ink-700 first:mt-0">{paragraph}</p>
+    ))
+  }
+</section>

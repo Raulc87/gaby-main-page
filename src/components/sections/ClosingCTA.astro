@@ -1,0 +1,14 @@
+---
+// Copy filled in by GK-003-guide-section (US-003).
+import { SECTION_IDS, type ClosingContent } from '../../i18n';
+
+interface Props {
+  content: ClosingContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section id={SECTION_IDS.closing} class="mx-auto max-w-2xl px-4 py-16 text-center">
+  <p class="text-lg text-ink-800">{content.paragraph}</p>
+</section>
