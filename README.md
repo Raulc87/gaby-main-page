@@ -4,7 +4,7 @@ First pilot project built with the [Spec-Driven Development Starter Kit](https:/
 
 ## Project status
 
-Planning and readiness validation complete. **Sprint 001 is READY but NOT STARTED** — it starts only after the human owner's explicit go-ahead.
+**Sprint 001 is ACTIVE** (2026-09-23 → 2026-10-01).
 
 See `PROJECT_CONTEXT.md` for the document map and current status.
 

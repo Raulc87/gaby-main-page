@@ -1,11 +1,11 @@
-# SPRINT 001 — Ready / NOT STARTED
+# SPRINT 001 — ACTIVE
 
 ## Metadata
-- Status: READY — waiting for the human owner's go-ahead
+- Status: ACTIVE
 - Duration: 7 business days
 - Saturdays and Sundays excluded
-- Start: TBD (set at go-ahead)
-- End: TBD (start + 7 business days)
+- Start: 2026-09-23 (Wednesday)
+- End: 2026-10-01 (Thursday) — Sprint Review
 - Final reviewer: Human project owner
 
 ## Sprint Goal
@@ -32,7 +32,7 @@ A demonstrable prototype, running locally, that:
 | 3 | Repository structure and documentation validated (readiness checklist) | Done — 2026-09-23 |
 | 4 | Agent bootstrap instructions validated (`AGENTS.md` paths resolve) | Done — 2026-09-23 |
 | 5 | Lead API contract locked (`LEAD_API_CONTRACT.md` v1.0) | Done |
-| 6 | Final go-ahead from the human owner | Pending |
+| 6 | Final go-ahead from the human owner | Done — 2026-09-23 |
 
 ## Planned Stories
 
@@ -143,4 +143,6 @@ Parallel work is not considered complete until:
 
 ## Important
 
-This sprint must remain **NOT STARTED** until gate 6 (final go-ahead) is given by the human owner.
+Go-ahead given by the human owner on 2026-09-23. All entry gates are done; agents may start per the merge order above.
+
+Agent kickoff prompts and model assignments: `docs/sprints/SPRINT_001_AGENT_PROMPTS.md`.
