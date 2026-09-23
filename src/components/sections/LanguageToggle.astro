@@ -1,8 +1,7 @@
 ---
-// Stub for Phase 0. Saved-preference persistence, detection override, and
-// the noscript fallback described in ADR-003 are implemented in
-// GK-010-i18n-toggle; for now this only links between /es/ and /en/,
-// keeping the same in-page anchor when there is one.
+// ES | EN toggle (ADR-003, UX_UI_DIRECTION.md section 3): links to the same
+// in-page anchor in the other language and saves the choice so it overrides
+// browser detection on later visits.
 import { LANGUAGES, type Language } from '../../i18n';
 
 interface Props {
@@ -14,11 +13,12 @@ const { lang, label } = Astro.props;
 const hash = Astro.url.hash;
 ---
 
-<nav aria-label={label} class="flex items-center gap-1 text-sm font-medium">
+<nav aria-label={label} class="flex items-center gap-1 text-sm font-medium" data-language-toggle>
   {
     LANGUAGES.map((code) => (
       <a
         href={`/${code}/${hash}`}
+        data-lang={code}
         aria-current={code === lang ? 'page' : undefined}
         class:list={[
           'flex min-h-11 min-w-11 items-center justify-center rounded-md px-2 uppercase',
@@ -30,3 +30,21 @@ const hash = Astro.url.hash;
     ))
   }
 </nav>
+
+<script>
+  import { LANGUAGE_STORAGE_KEY } from '../../i18n';
+
+  document
+    .querySelectorAll<HTMLAnchorElement>('[data-language-toggle] [data-lang]')
+    .forEach((link) => {
+      link.addEventListener('click', () => {
+        const lang = link.dataset.lang;
+        if (!lang) return;
+        try {
+          window.localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+        } catch {
+          // Storage unavailable (e.g. private browsing); navigation still works.
+        }
+      });
+    });
+</script>

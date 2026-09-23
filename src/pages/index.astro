@@ -1,7 +1,7 @@
 ---
-// Placeholder redirect for Phase 0. Real browser-language detection, the
-// saved-preference override, and the <noscript> fallback described in
-// ADR-003 are implemented in GK-010-i18n-toggle (US-010).
+// Language detection per ADR-003 / US-010: the saved toggle choice first,
+// otherwise the browser's preferred language, keeping the URL hash.
+// The <noscript> block is the fallback described in US-010 AC6.
 ---
 
 <!doctype html>
@@ -10,10 +10,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gabriela Kelly</title>
+    <script>
+      import { LANGUAGE_STORAGE_KEY, detectLanguage } from '../i18n';
+
+      let storedPreference: string | null = null;
+      try {
+        storedPreference = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+      } catch {
+        // Storage unavailable (e.g. private browsing); fall back to detection.
+        storedPreference = null;
+      }
+
+      const lang = detectLanguage({
+        storedPreference,
+        browserLanguages: navigator.languages ?? [navigator.language],
+      });
+
+      window.location.replace(`/${lang}/${window.location.hash}`);
+    </script>
   </head>
   <body>
-    <main>
+    <noscript>
       <p><a href="/es/">Español</a> · <a href="/en/">English</a></p>
-    </main>
+    </noscript>
   </body>
 </html>
