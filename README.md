@@ -1,28 +1,26 @@
 # Gabriela Kelly — Financial Health One-Page Pilot
 
-Pilot project used to validate the Spec-Driven Development Starter Kit.
+First pilot project built with the [Spec-Driven Development Starter Kit](https://github.com/Raulc87/sdd_starter_kit).
 
 ## Project status
 
-Planning complete enough to prepare the repository.
+Planning and readiness validation complete. **Sprint 001 is READY but NOT STARTED** — it starts only after the human owner's explicit go-ahead.
 
-**Sprint 1 is intentionally NOT started yet.**
-
-The next operational step is to place this project in GitHub, validate the repository structure, then activate the sprint.
+See `PROJECT_CONTEXT.md` for the document map and current status.
 
 ## Product summary
 
-A one-page lead-generation website for Gabriela Kelly's high-ticket financial-health program.
+A bilingual (Spanish/English) one-page lead-generation website for Gabriela Kelly's high-ticket financial-health program.
 
 The target audience is people who already earn enough income but have financial disorder and tend to seek more income instead of first organizing and managing what they already have.
 
 Primary conversion:
 
-1. Visitor understands the problem and proposed transformation.
-2. Visitor leaves contact information.
+1. Visitor understands the problem and proposed transformation (in Spanish or English).
+2. Visitor leaves contact information and accepts the privacy notice.
 3. Visitor answers one pre-screening question about willingness/capacity to invest.
-4. Lead is stored.
-5. Visitor proceeds to Calendly to book a call.
+4. Lead is stored in Google Sheets.
+5. Visitor sees a thank-you message and books a call in the inline Calendly scheduler.
 
 ## Reference approach
 
