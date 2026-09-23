@@ -83,6 +83,15 @@ export interface FormDictionary {
   email: { label: string };
   phone: { label: string; hint: string };
   screening: { prompt: string; options: ScreeningOptionCopy[] };
+  /** `text` contains one `{privacy_notice_link}` placeholder rendered as the dialog trigger. */
+  consent: { text: string; linkLabel: string };
+  privacyNotice: {
+    title: string;
+    draftLabel: string;
+    closeLabel: string;
+    /** Paragraphs may contain `{contact_email}`, replaced with `PUBLIC_CONTACT_EMAIL` before rendering. */
+    paragraphs: string[];
+  };
   submit: { idle: string; submitting: string };
   /**
    * Keyed by contract field error code (section 8), except `invalid_format`
@@ -100,6 +109,7 @@ export interface FormDictionary {
     invalid_format_email: string;
     invalid_format_phone: string;
     invalid_option: string;
+    consent_required: string;
   };
   /** Generic error for any non-201 result or network failure; contains one `{contact_email}` placeholder. */
   submissionError: string;

@@ -1,0 +1,42 @@
+---
+// Consent checkbox (US-011, unchecked by default per BR-006). The link to
+// the privacy notice opens PrivacyNotice.astro's <dialog> in place, so no
+// form data is lost (AC2).
+import { splitTemplate } from '../../lib/lead/format';
+import type { FormDictionary } from '../../lib/lead/types';
+
+interface Props {
+  consent: FormDictionary['consent'];
+}
+
+const { consent } = Astro.props;
+const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
+---
+
+<div>
+  <label class="flex min-h-11 items-start gap-2 text-sm text-ink-800">
+    <input
+      id="lead-consent"
+      name="consent"
+      type="checkbox"
+      required
+      aria-required="true"
+      aria-describedby="lead-consent-error"
+      class="mt-0.5 h-4 w-4 shrink-0"
+    />
+    <span>
+      {before}
+      <button
+        type="button"
+        id="privacy-notice-trigger"
+        aria-haspopup="dialog"
+        aria-controls="privacy-notice-dialog"
+        class="underline underline-offset-2"
+      >
+        {consent.linkLabel}
+      </button>
+      {after}
+    </span>
+  </label>
+  <p id="lead-consent-error" role="alert" class="mt-1 text-sm text-red-600"></p>
+</div>

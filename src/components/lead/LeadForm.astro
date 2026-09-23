@@ -11,6 +11,8 @@ import { form as esForm } from '../../i18n/es/form';
 import { CONTACT_EMAIL } from '../../lib/lead/config';
 import { detectPageLanguage } from '../../lib/lead/language';
 import { splitTemplate } from '../../lib/lead/format';
+import ConsentField from './ConsentField.astro';
+import PrivacyNotice from './PrivacyNotice.astro';
 
 const lang = detectPageLanguage(Astro.url.pathname);
 const form = lang === 'en' ? enForm : esForm;
@@ -96,6 +98,8 @@ const scriptCopy = {
         <p id="lead-screening-error" role="alert" class="mt-1 text-sm text-red-600"></p>
       </fieldset>
 
+      <ConsentField consent={form.consent} />
+
       <p id="lead-submission-error" role="alert" hidden class="text-sm text-red-600"></p>
 
       <button
@@ -109,6 +113,8 @@ const scriptCopy = {
   </div>
 
   <div id="lead-success-container" hidden></div>
+
+  <PrivacyNotice privacyNotice={form.privacyNotice} contactEmail={CONTACT_EMAIL} />
 </section>
 
 <script>

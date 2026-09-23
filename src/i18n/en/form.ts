@@ -34,6 +34,25 @@ export const form: FormDictionary = {
       { code: 'exploring', label: 'I am only exploring for now.' },
     ],
   },
+  consent: {
+    text: 'I agree to the processing of my personal data as described in the {privacy_notice_link}.',
+    linkLabel: 'Privacy Notice',
+  },
+  privacyNotice: {
+    title: 'Privacy Notice',
+    draftLabel: 'Draft — pending legal review',
+    closeLabel: 'Close',
+    paragraphs: [
+      'Responsible party: Gabriela Kelly. Contact: {contact_email} (to be confirmed).',
+      'Data we collect: full name, email, phone, your pre-screening answer, the language you viewed the page in, and the date and time of your submission.',
+      'Purpose: to contact you about the initial call and the program, and to prioritize calls. We do not use it for any other purpose and do not sell it.',
+      'Who we share it with: Google (Google Sheets storage) and Calendly (scheduling the call), which may store data outside Costa Rica.',
+      'Voluntary nature: providing your data is optional. Without it, we cannot process the form or schedule your call from this page.',
+      'Your rights: you can request access, rectification, cancellation (deletion), or opposition to the processing of your data by emailing {contact_email}.',
+      'Retention period: to be defined; this will be updated once legal review is complete.',
+      'Each submission is associated with the version of this notice in effect at the time you submitted it.',
+    ],
+  },
   submit: {
     idle: 'Send and book my call',
     submitting: 'Sending…',
@@ -47,6 +66,7 @@ export const form: FormDictionary = {
     invalid_format_email: 'Enter a valid email, for example name@domain.com.',
     invalid_format_phone: 'Enter the number with country code, for example +50684104791.',
     invalid_option: 'Please select an option.',
+    consent_required: 'We need your consent to save your information.',
   },
   submissionError:
     "We couldn't save your information. Please try again in a few minutes. If the problem continues, email us at {contact_email}.",

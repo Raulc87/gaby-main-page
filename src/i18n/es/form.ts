@@ -34,6 +34,25 @@ export const form: FormDictionary = {
       { code: 'exploring', label: 'Solo estoy explorando por ahora.' },
     ],
   },
+  consent: {
+    text: 'Acepto el tratamiento de mis datos personales según el {privacy_notice_link}.',
+    linkLabel: 'Aviso de Privacidad',
+  },
+  privacyNotice: {
+    title: 'Aviso de Privacidad',
+    draftLabel: 'Borrador — pendiente de revisión legal',
+    closeLabel: 'Cerrar',
+    paragraphs: [
+      'Responsable del tratamiento: Gabriela Kelly. Contacto: {contact_email} (dato por confirmar).',
+      'Datos que recopilamos: nombre completo, correo electrónico, teléfono, tu respuesta a la pregunta de preselección, el idioma en el que ves la página, y la fecha y hora de tu envío.',
+      'Para qué los usamos: para contactarte sobre la llamada inicial y el programa, y para priorizar las llamadas. No los usamos para ningún otro fin ni los vendemos.',
+      'Con quién los compartimos: con Google (almacenamiento en Google Sheets) y Calendly (agendamiento de la llamada), que pueden almacenar información fuera de Costa Rica.',
+      'Carácter voluntario: brindar tus datos es opcional. Sin ellos no podemos procesar el formulario ni agendar tu llamada desde esta página.',
+      'Tus derechos: puedes solicitar acceso, rectificación, cancelación (eliminación) u oposición al tratamiento de tus datos escribiendo a {contact_email}.',
+      'Plazo de conservación: por definir; se actualizará cuando se complete la revisión legal.',
+      'Cada envío queda asociado a la versión de este aviso vigente en el momento de tu envío.',
+    ],
+  },
   submit: {
     idle: 'Enviar y agendar mi llamada',
     submitting: 'Enviando…',
@@ -47,6 +66,7 @@ export const form: FormDictionary = {
     invalid_format_email: 'Escribe un correo válido, por ejemplo nombre@dominio.com.',
     invalid_format_phone: 'Escribe el número con código de país, por ejemplo +50684104791.',
     invalid_option: 'Selecciona una opción.',
+    consent_required: 'Necesitamos tu aceptación para poder guardar tus datos.',
   },
   submissionError:
     'No pudimos guardar tu información. Por favor, inténtalo de nuevo en unos minutos. Si el problema continúa, escríbenos a {contact_email}.',
