@@ -16,7 +16,7 @@ Do not skip required stages.
 
 When sources conflict, use this order:
 
-1. Approved specification
+1. Approved specification (including feature specs and integration contracts)
 2. Approved ADR
 3. Approved implementation plan
 4. Sprint plan
@@ -26,18 +26,42 @@ When sources conflict, use this order:
 
 If code conflicts with an approved spec, the spec wins unless the spec is explicitly changed.
 
+## Document map
+
+`PROJECT_CONTEXT.md` is the authoritative list of the active documents and their paths. Standard locations:
+
+| Document | Path | Required |
+|---|---|---|
+| Project context | `PROJECT_CONTEXT.md` | Always |
+| Project spec | `docs/specs/PROJECT_SPEC.md` | Always |
+| User stories | `docs/specs/USER_STORIES.md` | Always |
+| Feature specs | `docs/specs/FEATURE_SPEC_<name>.md` | Standard/complex projects, or when listed in `PROJECT_CONTEXT.md` |
+| Architecture spec | `docs/specs/ARCHITECTURE_SPEC.md` | Standard/complex projects, or when listed |
+| Integration contracts | `docs/specs/<NAME>_CONTRACT.md` | Whenever two workstreams share an interface |
+| UX/UI direction | `docs/ux/UX_UI_DIRECTION.md` | Projects with a user interface |
+| Tech stack | `TECH_STACK.md` | Always |
+| ADRs | `docs/decisions/ADR-<NNN>_<TITLE>.md` | When a decision needs recording |
+| Implementation plan | `docs/plans/IMPLEMENTATION_PLAN.md` | Always |
+| Sprint plans | `docs/sprints/SPRINT_<NNN>.md` (the active one is named in `PROJECT_CONTEXT.md`) | Always |
+| Readiness checklist | `docs/checklists/SPRINT_READINESS_CHECKLIST.md` | Before every sprint |
+
+Templates in the Starter Kit end in `_TEMPLATE.md`. When a project instantiates one, it copies the file to the path above without the `_TEMPLATE` suffix.
+
+If a path listed in `PROJECT_CONTEXT.md` does not exist, or a required document is missing, stop and report it before implementing.
+
 ## Before implementing
 
-Read:
+Read, in this order:
 
-- `PROJECT_CONTEXT.md`
-- relevant `PROJECT_SPEC`
-- relevant `FEATURE_SPEC`
-- `USER_STORIES.md`
-- `TECH_STACK.md`
-- relevant ADRs
-- `IMPLEMENTATION_PLAN.md`
-- active `SPRINT_PLAN.md`
+1. `PROJECT_CONTEXT.md`
+2. `docs/specs/PROJECT_SPEC.md`
+3. relevant feature specs and integration contracts listed in `PROJECT_CONTEXT.md`
+4. `docs/specs/USER_STORIES.md`
+5. `docs/ux/UX_UI_DIRECTION.md` (if the project has a UI)
+6. `TECH_STACK.md`
+7. relevant ADRs in `docs/decisions/`
+8. `docs/plans/IMPLEMENTATION_PLAN.md`
+9. the active sprint plan `docs/sprints/SPRINT_<NNN>.md`
 
 Do not invent business requirements.
 
@@ -45,20 +69,53 @@ If ambiguity materially changes behavior, scope, security, cost, data handling, 
 
 Small implementation details may be decided autonomously when they do not alter the approved behavior.
 
+## Sprint readiness
+
+- A sprint starts only after its readiness check (`docs/checklists/SPRINT_READINESS_CHECKLIST.md`) has no open blocking items and the human owner gives an explicit go-ahead.
+- Agents do not start a sprint on their own initiative.
+
 ## Parallel agent rules
 
 - Maximum recommended implementation agents in parallel: 3.
 - Agents must not knowingly modify the same responsibility without an explicit integration plan.
-- Shared interfaces/contracts must be defined before parallel implementation.
-- Each agent owns only its assigned scope.
+- Shared interfaces/contracts must be defined and locked before parallel implementation.
+- Shared foundations (project scaffold, configuration, shared conventions) are merged before parallel work starts.
+- The sprint plan must include a file/directory ownership map. Each agent owns only its assigned scope and edits only files it owns; changes needed in another owner's files are requested, not made.
+- Merge conflicts are resolved when found, by the human owner together with the agent that owns the conflicting file. An agent must not rewrite another agent's files to resolve a conflict.
 - Integration must be verified after merging parallel work.
 - A change is not complete merely because its own tests pass; it must not break already accepted functionality.
 
+## Branch, PR, and commit naming
+
+Every project defines a short uppercase **project key** (its initials, 2–5 letters) in `PROJECT_CONTEXT.md`, e.g. `GK`.
+
+### Branches
+
+| Work | Pattern | Example |
+|---|---|---|
+| User story | `<KEY>-<NNN>-<short-slug>` | `GK-004-lead-form` |
+| Fix or follow-up for a story | `<KEY>-<NNN>-fix-<short-slug>` | `GK-004-fix-phone-validation` |
+| Work outside the stories | `<KEY>-<TYPE>-<short-slug>` | `GK-DOCS-sprint-001-readiness` |
+
+- `<NNN>` is the story number with three digits (`US-004` → `004`). When Jira is adopted, use the Jira issue number instead.
+- `<TYPE>` for non-story work: `DOCS`, `CHORE`, `CI`, `FIX`, `SPIKE`.
+- `<short-slug>`: lowercase, kebab-case, a few words, total branch name at most 60 characters.
+- One branch per story and agent. If a branch serves several stories, name it after the primary story and list the others in the PR.
+- Never commit directly to `main`.
+
+### Pull request titles
+
+`[<KEY>-<NNN>] <Short description>` or `[<KEY>-<TYPE>] <Short description>`, e.g. `[GK-004] Lead form with client-side validation`.
+
+### Commit messages
+
+Start the subject with the same key: `GK-004: add phone normalization`.
+
 ## Pull requests
 
-Each implementation agent should:
+Use `.github/pull_request_template.md`. Each implementation agent should:
 
-1. Work on an isolated branch.
+1. Work on an isolated branch named as above.
 2. Reference the related user stories and acceptance criteria.
 3. Keep the PR focused.
 4. Include verification evidence.
