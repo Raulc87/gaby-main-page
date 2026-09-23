@@ -57,6 +57,12 @@ export const form: FormDictionary = {
     idle: 'Send and book my call',
     submitting: 'Sending…',
   },
+  thankYou: {
+    title: 'Thank you for your information!',
+    text: "We may reach out by email or WhatsApp. If you'd like, you can book your initial call now:",
+  },
+  calendlyFallback:
+    "We couldn't load the calendar. Email us at {contact_email} and we'll arrange your call.",
   fieldErrors: {
     required: 'This field is required.',
     too_short: 'This is too short.',

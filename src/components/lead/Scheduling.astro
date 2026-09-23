@@ -1,0 +1,42 @@
+---
+// Inline Calendly embed (US-007). Only ever initialized after a real 201
+// (schedulingController.ts listens for the `lead:success` event dispatched
+// by leadFormController.ts's `onSuccess`), so the Calendly script is never
+// requested before a successful save (AC2). Falls back to a mailto link
+// when PUBLIC_CALENDLY_URL is unset, the widget script fails to load, or no
+// iframe renders within 10 seconds (AC5).
+import { splitTemplate } from '../../lib/lead/format';
+import { CALENDLY_URL, CONTACT_EMAIL } from '../../lib/lead/config';
+import type { FormDictionary } from '../../lib/lead/types';
+
+interface Props {
+  calendlyFallback: FormDictionary['calendlyFallback'];
+}
+
+const { calendlyFallback } = Astro.props;
+const fallbackParts = splitTemplate(calendlyFallback, 'contact_email');
+
+const fallbackCopy = {
+  before: fallbackParts.before,
+  after: fallbackParts.after,
+  contactEmail: CONTACT_EMAIL,
+};
+---
+
+<div
+  id="calendly-container"
+  class="mt-6"
+  data-calendly-url={CALENDLY_URL}
+  data-fallback={JSON.stringify(fallbackCopy)}
+>
+  <div id="calendly-widget" class="min-h-[630px] w-full" hidden></div>
+  <p id="calendly-fallback" hidden class="text-sm text-ink-700"></p>
+</div>
+
+<script>
+  import { initScheduling } from './schedulingController';
+
+  const container = document.getElementById('calendly-container');
+  const successContainer = document.getElementById('lead-success-container');
+  if (container && successContainer) initScheduling(container, successContainer);
+</script>

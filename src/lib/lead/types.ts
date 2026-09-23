@@ -93,6 +93,9 @@ export interface FormDictionary {
     paragraphs: string[];
   };
   submit: { idle: string; submitting: string };
+  thankYou: { title: string; text: string };
+  /** Shown when Calendly is unavailable; contains one `{contact_email}` placeholder. */
+  calendlyFallback: string;
   /**
    * Keyed by contract field error code (section 8), except `invalid_format`
    * which UX_UI_DIRECTION.md gives distinct copy per field: use
