@@ -26,16 +26,26 @@ export const content: ContentDictionary = {
     ],
   },
   guide: {
-    paragraphs: ['TODO: guide copy (GK-003-guide-section)'],
+    paragraphs: [
+      "You don't have to go through this process alone.",
+      'Gabriela works with people who want to build a clearer, more strategic relationship with their finances, starting with order and moving toward more deliberate investment decisions.',
+    ],
+    photoPlaceholder: "Gabriela's photo",
+    bioPlaceholder: 'Short bio',
+    credentialsPlaceholder: 'Credentials and experience',
   },
   proof: {
-    heading: 'TODO: proof heading (GK-003-guide-section)',
+    heading: 'Trust and credibility',
+    testimonialPlaceholder: 'Client testimonial',
+    credibilityPlaceholder: 'Credibility statement',
   },
   offer: {
-    paragraph: 'TODO: offer copy (GK-003-guide-section)',
+    paragraph:
+      "In an initial call, we'll review your situation at a general level, talk about what you're looking for, and see whether the program makes sense for you.",
   },
   closing: {
-    paragraph: 'TODO: closing CTA copy (GK-003-guide-section)',
+    paragraph:
+      "If this resonates with you, you can take the first step at your own pace. Leave your details and book a conversation to see whether this process is a good fit for you.",
   },
   pendingBadge: {
     label: 'Pending validation',
