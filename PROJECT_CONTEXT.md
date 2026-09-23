@@ -5,7 +5,7 @@
 - Project key: `GK` (branches `GK-<NNN>-<slug>`, see `AGENTS.md`)
 - Repository: https://github.com/Raulc87/gaby-main-page
 - Starter Kit: https://github.com/Raulc87/sdd_starter_kit
-- Status: Ready for Sprint 001 (not started; waiting for go-ahead)
+- Status: Sprint 001 active
 - Product owner / final reviewer: Human project owner
 
 ## Active documentation
@@ -18,17 +18,17 @@
 - Tech stack: `TECH_STACK.md` (v0.2)
 - ADRs: `docs/decisions/` — ADR-001 backend hosting, ADR-002 Google Sheets access, ADR-003 i18n routing
 - Implementation plan: `docs/plans/IMPLEMENTATION_PLAN.md` (v0.3)
-- Active sprint plan: `docs/sprints/SPRINT_001.md` (ready, not started)
+- Active sprint plan: `docs/sprints/SPRINT_001.md` (active; agent prompts in `docs/sprints/SPRINT_001_AGENT_PROMPTS.md`)
 - Readiness checklist: `docs/checklists/SPRINT_READINESS_CHECKLIST.md`
 
 ## Current sprint
 - Sprint: Sprint 001
 - Goal: Build the first end-to-end, bilingual, locally runnable prototype
-- Start: TBD (set at go-ahead)
-- End: TBD
+- Start: 2026-09-23
+- End: 2026-10-01
 - Duration: 7 business days, excluding Saturday and Sunday
 - Deliverable: Local one-page prototype (ES/EN) with lead capture, privacy consent, Google Sheets persistence, inline Calendly handoff, responsive layout, and CI
-- Status: READY — NOT STARTED
+- Status: ACTIVE
 
 ## Agent allocation
 - Implementation Agent 1: UI, content, i18n (language detection + toggle), frontend scaffold
