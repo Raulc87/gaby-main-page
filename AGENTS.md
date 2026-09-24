@@ -113,7 +113,7 @@ Start the subject with the same key: `GK-004: add phone normalization`.
 
 ## Pull requests
 
-Use `.github/pull_request_template.md`. Each implementation agent should:
+Use `.github/pull_request_template.md`, including its **Ownership** section: the owning agent/workstream, the owned paths changed, and any change outside that scope with who approved it. Each implementation agent should:
 
 1. Work on an isolated branch named as above.
 2. Reference the related user stories and acceptance criteria.
