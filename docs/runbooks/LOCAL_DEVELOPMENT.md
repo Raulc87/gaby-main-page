@@ -91,13 +91,16 @@ npm run check     # astro check (type checking)
 npm run test      # Vitest unit tests
 npm run build     # production build
 
-# Backend
-cd api && source .venv/bin/activate && pytest
+# Backend (each command block below is self-contained: run it in its own
+# subshell so `cd api` / the activated venv don't leak into the next block)
+(cd api && source .venv/bin/activate && pytest)
 
 # End-to-end (Playwright), backend in memory mode
-LEADS_STORAGE=memory python api/run_local.py &   # background
+(cd api && source .venv/bin/activate && LEADS_STORAGE=memory python run_local.py) &
 npm run test:e2e
 ```
+
+`npm run test:e2e` currently reports `Error: No tests found` — `tests/e2e/**` doesn't exist yet, it lands with Agent 2's `GK-004-integration-e2e` integration PR. That is expected until then, not a broken setup (see the `e2e` job comment in `.github/workflows/frontend.yml`).
 
 These are the same checks GitHub Actions runs on every pull request and on pushes to `main` (`.github/workflows/backend.yml`, `.github/workflows/frontend.yml`).
 
@@ -107,5 +110,6 @@ These are the same checks GitHub Actions runs on every pull request and on pushe
 |---|---|
 | Frontend shows a submission error immediately | Backend not running, or running on a different port than `127.0.0.1:5000` |
 | `503`/`storage_unavailable` in Google Sheets mode | `GOOGLE_SERVICE_ACCOUNT_FILE` path wrong, key file unreadable, sheet not shared with the service account's email, or wrong `GOOGLE_SHEET_ID`/`GOOGLE_SHEET_TAB` — see `docs/runbooks/GOOGLE_SHEETS_SETUP.md` |
-| `ModuleNotFoundError` running `run_local.py` | Virtual environment not activated, or dependencies not installed (`pip install -r requirements.txt -r requirements-dev.txt`) |
-| `npm ci` reports an unsupported engine warning | Confirm `node --version` is 22.12.0 or newer (`TECH_STACK.md` v0.3) |
+| `ModuleNotFoundError` running `run_local.py` | Virtual environment not activated, or dependencies not installed (`pip install -r requirements.txt -r requirements-dev.txt`); also check you're running `python run_local.py` from inside `api/`, not `python api/run_local.py` after already `cd`-ing into `api/` |
+| `npm ci` reports an `EBADENGINE` warning | Some transitive devDependencies want a Node patch version slightly newer than the documented `22.12.0+` floor (e.g. `22.22.3+`). Harmless and doesn't block install; upgrade Node if you want it gone |
+| Thank-you shows but the Calendly scheduler never appears (mailto fallback shows instead) | Expected if `PUBLIC_CALENDLY_URL` is still the `.env.example` placeholder, or if outbound network access to `assets.calendly.com` is blocked (e.g. a restrictive proxy/firewall) — this is the documented fallback behavior (US-007 AC5), not a bug |
