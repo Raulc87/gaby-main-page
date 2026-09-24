@@ -68,16 +68,34 @@ jobs:
       - name: Start backend (memory storage, no real credentials)
         run: |
           python api/run_local.py &
+          ready=false
           for i in $(seq 1 20); do
             # No -f: any HTTP response (even 422 from an empty body) means
             # the server is up; only a connection failure keeps the loop going.
-            curl -s -o /dev/null http://127.0.0.1:5000/api/save-lead -X POST \
-              -H "Content-Type: application/json" -d '{}' && break
+            if curl -s -o /dev/null http://127.0.0.1:5000/api/save-lead -X POST \
+                -H "Content-Type: application/json" -d '{}'; then
+              ready=true
+              break
+            fi
             sleep 0.5
           done
+          if [ "$ready" != true ]; then
+            echo "Backend did not become ready within 10s" >&2
+            exit 1
+          fi
 
       - name: Run Playwright end-to-end tests
-        run: npm run test:e2e
+        run: |
+          # tests/e2e/** lands with Agent 2's GK-004-integration-e2e. Until
+          # then there are no specs to run, so soft-skip instead of letting
+          # Playwright's "No tests found" report as a check-run failure
+          # (job-level continue-on-error only protects the workflow run's
+          # overall conclusion, not this job's own check-run status).
+          if find tests/e2e -name '*.spec.ts' 2>/dev/null | grep -q .; then
+            npm run test:e2e
+          else
+            echo "No e2e specs yet (lands with GK-004-integration-e2e) — skipping."
+          fi
 
       - name: Upload Playwright report
         if: always()
