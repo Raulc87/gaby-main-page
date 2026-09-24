@@ -52,6 +52,8 @@ Rules:
 - Tests derive from the acceptance criteria and the contract. Run lint, type checks,
   and tests locally before every push.
 - Never commit secrets. Never start work outside your workstream.
+- Never merge, approve, or enable auto-merge on any PR, and never push to main. Only the
+  human owner merges, after approving. When your PR is ready, say so and stop.
 - After opening each PR, stop and tell me the PR link, what is done, and what is next.
 ```
 
