@@ -17,13 +17,19 @@ export const content: ContentDictionary = {
     cta: 'I want to take the first step',
   },
   recognition: {
-    paragraphs: ['TODO: recognition copy (GK-002-roadmap)'],
+    paragraphs: [
+      "A good income doesn't guarantee clarity with money. Without a clear structure, it's easy to keep working harder without feeling that you're really moving forward.",
+      "The good news is that you don't need to become a finance expert overnight. You can start by organizing, understanding, and making better decisions step by step.",
+    ],
   },
   roadmap: {
     steps: [
-      { title: 'TODO', description: 'TODO: roadmap step 1 (GK-002-roadmap)' },
-      { title: 'TODO', description: 'TODO: roadmap step 2 (GK-002-roadmap)' },
-      { title: 'TODO', description: 'TODO: roadmap step 3 (GK-002-roadmap)' },
+      { title: 'Organize', description: 'understand clearly where you are today.' },
+      { title: 'Decide', description: 'prioritize how to use your resources.' },
+      {
+        title: 'Build',
+        description: 'start creating a structure where your money can also work toward your goals.',
+      },
     ],
   },
   guide: {

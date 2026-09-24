@@ -17,13 +17,20 @@ export const content: ContentDictionary = {
     cta: 'Quiero dar el primer paso',
   },
   recognition: {
-    paragraphs: ['TODO: recognition copy (GK-002-roadmap)'],
+    paragraphs: [
+      'Tener buenos ingresos no garantiza sentir claridad con el dinero. Cuando no existe una estructura clara, es fácil trabajar cada vez más sin sentir que realmente avanzas.',
+      'La buena noticia es que no necesitas convertirte en una persona experta en finanzas de la noche a la mañana. Puedes empezar por ordenar, entender y tomar mejores decisiones paso a paso.',
+    ],
   },
   roadmap: {
     steps: [
-      { title: 'TODO', description: 'TODO: roadmap step 1 (GK-002-roadmap)' },
-      { title: 'TODO', description: 'TODO: roadmap step 2 (GK-002-roadmap)' },
-      { title: 'TODO', description: 'TODO: roadmap step 3 (GK-002-roadmap)' },
+      { title: 'Ordena', description: 'entiende con claridad dónde estás hoy.' },
+      { title: 'Decide', description: 'prioriza mejor cómo usar tus recursos.' },
+      {
+        title: 'Construye',
+        description:
+          'empieza a crear una estructura en la que tu dinero también pueda trabajar a favor de tus objetivos.',
+      },
     ],
   },
   guide: {
