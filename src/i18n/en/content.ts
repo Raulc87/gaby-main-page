@@ -11,9 +11,10 @@ export const content: ContentDictionary = {
     languageToggleLabel: 'Change language',
   },
   hero: {
-    headline: 'TODO: hero headline (GK-001-hero)',
-    supportingLine: 'TODO: hero supporting line (GK-001-hero)',
-    cta: 'TODO: hero CTA (GK-001-hero)',
+    headline: "You earn well, but your money isn't giving you peace of mind.",
+    supportingLine:
+      "It's not always about earning more. Sometimes the next step is to better organize what you already have.",
+    cta: 'I want to take the first step',
   },
   recognition: {
     paragraphs: [

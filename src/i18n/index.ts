@@ -26,6 +26,31 @@ export function isLanguage(value: string): value is Language {
   return (LANGUAGES as readonly string[]).includes(value);
 }
 
+export interface DetectLanguageOptions {
+  /** Value read from localStorage[LANGUAGE_STORAGE_KEY], if any. */
+  storedPreference?: string | null;
+  /** navigator.languages (or [navigator.language] as a fallback). */
+  browserLanguages?: readonly string[];
+}
+
+/**
+ * Resolves which language `/` should redirect to (ADR-003): the saved
+ * toggle choice first, otherwise Spanish when the browser's first
+ * preferred language starts with "es" (e.g. "es", "es-CR", "es-MX"),
+ * otherwise English.
+ */
+export function detectLanguage({
+  storedPreference,
+  browserLanguages = [],
+}: DetectLanguageOptions): Language {
+  if (storedPreference && isLanguage(storedPreference)) {
+    return storedPreference;
+  }
+
+  const primary = browserLanguages[0] ?? '';
+  return primary.toLowerCase().startsWith('es') ? 'es' : 'en';
+}
+
 // Shape shared by src/i18n/es/content.ts and src/i18n/en/content.ts.
 // Copy is filled in progressively (GK-001-hero, GK-002-roadmap,
 // GK-003-guide-section); this scaffold only fixes the structure so every

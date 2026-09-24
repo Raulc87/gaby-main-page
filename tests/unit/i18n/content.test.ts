@@ -26,6 +26,21 @@ describe('content dictionaries', () => {
     expect(enContent.roadmap.steps).toHaveLength(3);
   });
 
+  it('uses the approved hero copy from UX_UI_DIRECTION.md section 4 (US-001)', () => {
+    expect(esContent.hero).toEqual({
+      headline: 'Ganas bien, pero tu dinero no te está dando tranquilidad.',
+      supportingLine:
+        'No siempre se trata de generar más. A veces, el siguiente paso es ordenar mejor lo que ya tienes.',
+      cta: 'Quiero dar el primer paso',
+    });
+    expect(enContent.hero).toEqual({
+      headline: "You earn well, but your money isn't giving you peace of mind.",
+      supportingLine:
+        "It's not always about earning more. Sometimes the next step is to better organize what you already have.",
+      cta: 'I want to take the first step',
+    });
+  });
+
   it('uses the approved recognition and roadmap copy from UX_UI_DIRECTION.md section 4 (US-002)', () => {
     expect(esContent.recognition.paragraphs).toEqual([
       'Tener buenos ingresos no garantiza sentir claridad con el dinero. Cuando no existe una estructura clara, es fácil trabajar cada vez más sin sentir que realmente avanzas.',

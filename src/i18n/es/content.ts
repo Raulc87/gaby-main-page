@@ -11,9 +11,10 @@ export const content: ContentDictionary = {
     languageToggleLabel: 'Cambiar idioma',
   },
   hero: {
-    headline: 'TODO: hero headline (GK-001-hero)',
-    supportingLine: 'TODO: hero supporting line (GK-001-hero)',
-    cta: 'TODO: hero CTA (GK-001-hero)',
+    headline: 'Ganas bien, pero tu dinero no te está dando tranquilidad.',
+    supportingLine:
+      'No siempre se trata de generar más. A veces, el siguiente paso es ordenar mejor lo que ya tienes.',
+    cta: 'Quiero dar el primer paso',
   },
   recognition: {
     paragraphs: [
