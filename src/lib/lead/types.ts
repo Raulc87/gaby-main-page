@@ -72,11 +72,17 @@ export interface LeadApiResponseBody {
  * this interface with the screening, consent/privacy-notice, and
  * thank-you/Calendly copy.
  */
+export interface ScreeningOptionCopy {
+  code: ScreeningAnswerCode;
+  label: string;
+}
+
 export interface FormDictionary {
   formTitle: string;
   name: { label: string; hint: string };
   email: { label: string };
   phone: { label: string; hint: string };
+  screening: { prompt: string; options: ScreeningOptionCopy[] };
   submit: { idle: string; submitting: string };
   /**
    * Keyed by contract field error code (section 8), except `invalid_format`
@@ -93,6 +99,7 @@ export interface FormDictionary {
     full_name_required: string;
     invalid_format_email: string;
     invalid_format_phone: string;
+    invalid_option: string;
   };
   /** Generic error for any non-201 result or network failure; contains one `{contact_email}` placeholder. */
   submissionError: string;
