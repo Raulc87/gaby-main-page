@@ -11,31 +11,49 @@ export const content: ContentDictionary = {
     languageToggleLabel: 'Cambiar idioma',
   },
   hero: {
-    headline: 'TODO: hero headline (GK-001-hero)',
-    supportingLine: 'TODO: hero supporting line (GK-001-hero)',
-    cta: 'TODO: hero CTA (GK-001-hero)',
+    headline: 'Ganas bien, pero tu dinero no te está dando tranquilidad.',
+    supportingLine:
+      'No siempre se trata de generar más. A veces, el siguiente paso es ordenar mejor lo que ya tienes.',
+    cta: 'Quiero dar el primer paso',
   },
   recognition: {
-    paragraphs: ['TODO: recognition copy (GK-002-roadmap)'],
+    paragraphs: [
+      'Tener buenos ingresos no garantiza sentir claridad con el dinero. Cuando no existe una estructura clara, es fácil trabajar cada vez más sin sentir que realmente avanzas.',
+      'La buena noticia es que no necesitas convertirte en una persona experta en finanzas de la noche a la mañana. Puedes empezar por ordenar, entender y tomar mejores decisiones paso a paso.',
+    ],
   },
   roadmap: {
     steps: [
-      { title: 'TODO', description: 'TODO: roadmap step 1 (GK-002-roadmap)' },
-      { title: 'TODO', description: 'TODO: roadmap step 2 (GK-002-roadmap)' },
-      { title: 'TODO', description: 'TODO: roadmap step 3 (GK-002-roadmap)' },
+      { title: 'Ordena', description: 'entiende con claridad dónde estás hoy.' },
+      { title: 'Decide', description: 'prioriza mejor cómo usar tus recursos.' },
+      {
+        title: 'Construye',
+        description:
+          'empieza a crear una estructura en la que tu dinero también pueda trabajar a favor de tus objetivos.',
+      },
     ],
   },
   guide: {
-    paragraphs: ['TODO: guide copy (GK-003-guide-section)'],
+    paragraphs: [
+      'No necesitas recorrer este proceso a solas.',
+      'Gabriela acompaña a personas que quieren construir una relación más clara y estratégica con sus finanzas, empezando por el orden y avanzando hacia decisiones de inversión más conscientes.',
+    ],
+    photoPlaceholder: 'Foto de Gabriela',
+    bioPlaceholder: 'Biografía breve',
+    credentialsPlaceholder: 'Credenciales y experiencia',
   },
   proof: {
-    heading: 'TODO: proof heading (GK-003-guide-section)',
+    heading: 'Respaldo y confianza',
+    testimonialPlaceholder: 'Testimonio de una clienta o cliente',
+    credibilityPlaceholder: 'Declaración de credibilidad',
   },
   offer: {
-    paragraph: 'TODO: offer copy (GK-003-guide-section)',
+    paragraph:
+      'En una llamada inicial revisaremos tu situación a un nivel general, conversaremos sobre lo que buscas y veremos si el programa tiene sentido para ti.',
   },
   closing: {
-    paragraph: 'TODO: closing CTA copy (GK-003-guide-section)',
+    paragraph:
+      'Si esto resuena contigo, puedes dar el primer paso con calma. Déjanos tus datos y agenda una conversación para entender si este proceso encaja contigo.',
   },
   pendingBadge: {
     label: 'Pendiente de validación',
