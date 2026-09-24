@@ -35,5 +35,6 @@
 
 - [ ] Only files owned by this workstream were changed, or every exception is listed and approved under Ownership
 - [ ] No unrelated refactors
+- [ ] Not merged by an agent: merging is done only by the human owner after approval
 - [ ] No secrets or credentials committed
 - [ ] Documentation updated if behavior or contracts changed
