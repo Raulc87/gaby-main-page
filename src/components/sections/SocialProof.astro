@@ -1,7 +1,7 @@
 ---
-// Placeholder structure filled in by GK-003-guide-section (US-003).
-// Real testimonials/outcomes are only added once provided by the
-// stakeholder (UX_UI_DIRECTION.md section 4, Section 5).
+// US-003: proof/credibility section. Structural placeholders only — real
+// testimonials/outcomes are added only once provided by the stakeholder
+// (UX_UI_DIRECTION.md section 4, Section 5); never invented here.
 import PendingBadge from './PendingBadge.astro';
 import { SECTION_IDS, type ProofContent } from '../../i18n';
 
@@ -20,10 +20,10 @@ const { content, pendingLabel } = Astro.props;
   </div>
   <div class="mt-6 grid gap-4 sm:grid-cols-2">
     <div class="rounded-lg border border-dashed border-ink-200 p-6 text-sm text-ink-500">
-      Testimonial placeholder
+      {content.testimonialPlaceholder}
     </div>
     <div class="rounded-lg border border-dashed border-ink-200 p-6 text-sm text-ink-500">
-      Credibility statement placeholder
+      {content.credibilityPlaceholder}
     </div>
   </div>
 </section>

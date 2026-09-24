@@ -1,6 +1,8 @@
 ---
-// Copy, photo/bio/credentials placeholders filled in by
-// GK-003-guide-section (US-003).
+// US-003: Gabriela as guide. Copy is approved provisional content
+// (UX_UI_DIRECTION.md section 4); the photo/bio/credentials are separate
+// "space exists but not yet provided" placeholders (US-003 AC2), each
+// marked with the pending-validation badge.
 import PendingBadge from './PendingBadge.astro';
 import { SECTION_IDS, type GuideContent } from '../../i18n';
 
@@ -13,6 +15,20 @@ const { content, pendingLabel } = Astro.props;
 ---
 
 <section id={SECTION_IDS.guide} class="mx-auto max-w-2xl px-4 py-12">
-  <PendingBadge label={pendingLabel} />
-  {content.paragraphs.map((paragraph) => <p class="mt-4 text-base text-ink-700">{paragraph}</p>)}
+  {content.paragraphs.map((paragraph) => <p class="mt-4 text-base text-ink-700 first:mt-0">{paragraph}</p>)}
+
+  <div class="mt-8 grid gap-4 sm:grid-cols-2">
+    <div class="rounded-lg border border-dashed border-ink-200 p-6 text-center">
+      <PendingBadge label={pendingLabel} />
+      <p class="mt-2 text-sm text-ink-500">{content.photoPlaceholder}</p>
+    </div>
+    <div class="rounded-lg border border-dashed border-ink-200 p-6 text-center">
+      <PendingBadge label={pendingLabel} />
+      <p class="mt-2 text-sm text-ink-500">{content.bioPlaceholder}</p>
+    </div>
+    <div class="rounded-lg border border-dashed border-ink-200 p-6 text-center sm:col-span-2">
+      <PendingBadge label={pendingLabel} />
+      <p class="mt-2 text-sm text-ink-500">{content.credentialsPlaceholder}</p>
+    </div>
+  </div>
 </section>
