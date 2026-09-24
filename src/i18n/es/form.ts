@@ -57,6 +57,12 @@ export const form: FormDictionary = {
     idle: 'Enviar y agendar mi llamada',
     submitting: 'Enviando…',
   },
+  thankYou: {
+    title: '¡Gracias por tu información!',
+    text: 'Es posible que te contactemos por correo electrónico o WhatsApp. Si lo deseas, puedes agendar ahora tu llamada inicial:',
+  },
+  calendlyFallback:
+    'No pudimos cargar el calendario. Escríbenos a {contact_email} y coordinamos tu llamada.',
   fieldErrors: {
     required: 'Este campo es obligatorio.',
     too_short: 'Es demasiado corto.',

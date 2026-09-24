@@ -37,4 +37,9 @@ describe('form dictionaries', () => {
   it('defines the same number of privacy notice paragraphs in both languages', () => {
     expect(esForm.privacyNotice.paragraphs).toHaveLength(enForm.privacyNotice.paragraphs.length);
   });
+
+  it('carries the {contact_email} placeholder in the Calendly fallback message', () => {
+    expect(esForm.calendlyFallback).toContain('{contact_email}');
+    expect(enForm.calendlyFallback).toContain('{contact_email}');
+  });
 });

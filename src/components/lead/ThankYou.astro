@@ -1,0 +1,16 @@
+---
+// Shown only after a real 201 (US-007 AC1), replacing the form inside
+// #lead-success-container (see leadFormController.ts `onSuccess`).
+import type { FormDictionary } from '../../lib/lead/types';
+
+interface Props {
+  thankYou: FormDictionary['thankYou'];
+}
+
+const { thankYou } = Astro.props;
+---
+
+<div class="text-center">
+  <h2 class="text-2xl font-semibold text-ink-900">{thankYou.title}</h2>
+  <p class="mt-2 text-ink-700">{thankYou.text}</p>
+</div>
