@@ -34,18 +34,19 @@ const { lang, label } = Astro.props;
   import { LANGUAGE_STORAGE_KEY } from '../../i18n';
 
   // Astro.url.hash is unavailable at build time for a static site (there is
-  // no per-request URL to read), so the current anchor can only be read
-  // here, client-side, once the page has actually loaded in a browser.
-  const currentHash = window.location.hash;
-
+  // no per-request URL to read), so the anchor can only be read client-side.
+  // Read it fresh on each click, not once at load: an in-page anchor link
+  // (e.g. the Hero CTA to #lead-form) updates window.location.hash without
+  // a reload, so a value cached at load time would go stale.
   document
     .querySelectorAll<HTMLAnchorElement>('[data-language-toggle] [data-lang]')
     .forEach((link) => {
-      if (currentHash) {
-        link.href = `${link.getAttribute('href')}${currentHash}`;
-      }
-
       link.addEventListener('click', () => {
+        const currentHash = window.location.hash;
+        if (currentHash) {
+          link.href = `${link.getAttribute('href')}${currentHash}`;
+        }
+
         const lang = link.dataset.lang;
         if (!lang) return;
         try {
