@@ -42,22 +42,29 @@ A demonstrable prototype, running locally, that:
 | US-002 | 3 | Agent 1 | Frontend scaffold | `GK-002-roadmap` | Merged (#9) |
 | US-003 | 2 | Agent 1 | Frontend scaffold | `GK-003-guide-section` | Merged (#10) |
 | US-010 | 5 | Agent 1 | Frontend scaffold | `GK-010-i18n-toggle` | Merged (#4, #6) |
-| US-004 | 5 | Agent 2 | Frontend scaffold, contract | `GK-004-lead-form` | Merged (#11); e2e pending |
+| US-004 | 5 | Agent 2 | Frontend scaffold, contract | `GK-004-lead-form` | Merged (#11, e2e #21) |
 | US-005 | 3 | Agent 2 | Frontend scaffold, contract | `GK-005-pre-screening` | Merged (#12) |
 | US-007 | 3 | Agent 2 | US-004 | `GK-007-calendly` | Merged (#14) |
 | US-011 | 3 | Agent 2 (client) + Agent 3 (server) | Contract | `GK-011-privacy-consent` | Merged (#5, #13) |
 | US-006 | 5 | Agent 3 | Contract | `GK-006-google-sheets` | Merged (#3, #5) |
-| US-012 | 3 | Agent 3 | Scaffolds | `GK-012-local-env-ci` | Merged (#7); e2e job not yet required |
-| US-008 | 5 | Agent 1 (sections) + Agent 2 (form, scheduler) | Sections, form | Within each story; fixes on `GK-008-<slug>` | In progress — final responsive pass |
+| US-012 | 3 | Agent 3 | Scaffolds | `GK-012-local-env-ci` | Merged (#7, #20); e2e job required (#21) |
+| US-008 | 5 | Agent 1 (sections) + Agent 2 (form, scheduler) | Sections, form | Within each story; fixes on `GK-008-<slug>` | Merged (#19, #22 responsive fixes; e2e at 390 px in #21) |
 | US-009 | 3 | Sprint Review | All above | — | Planned — Sprint Review 2026-10-01 |
 
 Total planned points: 43
 
 ### Progress — 2026-09-24 (day 2 of 7)
 
-- All implementation branches except the integration PR are merged.
-- Verified on `main` on 2026-09-24: lint, `astro check`, Vitest, build, and pytest (70 tests) pass. Local smoke test of `POST /api/save-lead` (memory mode) returned 201, 422, and 405 as specified.
-- Remaining: `GK-004-integration-e2e` (Playwright suite; make the CI e2e job required), final US-008 responsive pass, post-merge acceptance audit, local demo with real Google Sheets and Calendly, Sprint Review (US-009).
+Implementation complete. All stories US-001 to US-012 are merged (PRs #3–#14, #19–#22).
+
+Verified on `main` (`a3b9347`) on 2026-09-24:
+- GitHub Actions green: Backend and Frontend workflows, including the now-required e2e job.
+- Local re-run: lint, `astro check` (0 errors), Vitest 70/70, build, pytest 70/70, Playwright 13/13 (desktop Chromium and a 390 px mobile project) against the real Flask backend in memory mode.
+
+Remaining before the Sprint Review:
+1. Human owner: local run with real Google Sheets credentials and the real Calendly URL (merge order step 4; US-006 AC2 with a real sheet).
+2. Review-only agent: final acceptance sign-off on `main` after the fixes.
+3. Sprint Review with Gabriela (US-009), then sprint close-out: review notes, retrospective, Starter Kit lessons.
 
 Not in this sprint: US-013 (spam protection), US-014 (GoDaddy deployment).
 
