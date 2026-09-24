@@ -141,6 +141,17 @@ Recommended enforcement in GitHub: protect `main` (require a pull request before
 
 A review-only agent may inspect PRs but must not implement features, approve PRs, or merge PRs. It posts comment-only reviews.
 
+### Reviewer independence
+
+A reviewer that changes the code it reviews becomes a co-author: it starts defending its own fixes, stops seeing the PR with fresh eyes, and loses impartiality. To keep reviews independent:
+
+- The review-only agent **never changes code or any other file**: no fixes, not even small ones, in the PR under review, on a follow-up branch, or anywhere else in the repository. It never commits, pushes, or opens PRs.
+- It does not post ready-to-apply patches (no GitHub "suggested changes" blocks, no diffs). A finding states the problem, the evidence, the violated spec or acceptance criterion, and the expected outcome. How to fix it is the author's decision.
+- It does not resolve review threads on the author's behalf.
+- It may run the code, tests, and checks locally to gather evidence, without committing anything.
+- Fixes are always made by the owning implementation agent. The reviewer then reviews the new commits as a fresh review.
+- A session that has written code for the project must not review that code. The review-only agent always runs in its own session, separate from every implementation agent.
+
 It should verify:
 
 - spec compliance
