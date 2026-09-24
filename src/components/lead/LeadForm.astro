@@ -1,14 +1,100 @@
 ---
-// Stub created in Phase 0 (GK-010-frontend-scaffold). Owned by
-// Implementation Agent 2 from here on (see SPRINT_001.md file ownership
-// map). Fields, validation, pre-screening, consent, submission, and the
-// thank-you/Calendly hand-off are implemented in GK-004-lead-form,
-// GK-005-pre-screening, GK-011-privacy-consent, and GK-007-calendly.
+// Owned by Implementation Agent 2 (see SPRINT_001.md file ownership map).
+// Built incrementally: GK-004-lead-form (name/email/phone + submission
+// handling), GK-005-pre-screening (screening question), GK-011-privacy-
+// consent (consent checkbox + privacy notice), GK-007-calendly (thank-you +
+// inline Calendly hand-off). Resolves its own language from the URL because
+// pages/{es,en}/index.astro (Agent 1) compose <LeadForm /> with no props.
 import { SECTION_IDS } from '../../i18n';
+import { form as enForm } from '../../i18n/en/form';
+import { form as esForm } from '../../i18n/es/form';
+import { CONTACT_EMAIL } from '../../lib/lead/config';
+import { detectPageLanguage } from '../../lib/lead/language';
+import { splitTemplate } from '../../lib/lead/format';
+
+const lang = detectPageLanguage(Astro.url.pathname);
+const form = lang === 'en' ? enForm : esForm;
+
+const submissionErrorParts = splitTemplate(form.submissionError, 'contact_email');
+
+const scriptCopy = {
+  submit: form.submit,
+  fieldErrors: form.fieldErrors,
+  submissionError: submissionErrorParts,
+  contactEmail: CONTACT_EMAIL,
+};
 ---
 
-<section id={SECTION_IDS.leadForm} class="mx-auto max-w-xl px-4 py-12">
-  <div class="rounded-lg border border-dashed border-ink-200 p-8 text-center text-sm text-ink-500">
-    TODO(Agent 2): lead form (GK-004-lead-form)
+<section id={SECTION_IDS.leadForm} class="mx-auto max-w-xl px-4 py-12" data-copy={JSON.stringify(scriptCopy)}>
+  <div id="lead-form-container">
+    <h2 class="text-2xl font-semibold text-ink-900">{form.formTitle}</h2>
+
+    <form id="lead-form-form" novalidate class="mt-6 space-y-5">
+      <div>
+        <label for="lead-name" class="block text-sm font-medium text-ink-800">{form.name.label}</label>
+        <input
+          id="lead-name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          required
+          aria-required="true"
+          aria-describedby="lead-name-hint lead-name-error"
+          class="mt-1 block w-full min-h-11 rounded-md border border-ink-300 px-3 py-2"
+        />
+        <p id="lead-name-hint" class="mt-1 text-xs text-ink-500">{form.name.hint}</p>
+        <p id="lead-name-error" role="alert" class="mt-1 text-sm text-red-600"></p>
+      </div>
+
+      <div>
+        <label for="lead-email" class="block text-sm font-medium text-ink-800">{form.email.label}</label>
+        <input
+          id="lead-email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          required
+          aria-required="true"
+          aria-describedby="lead-email-error"
+          class="mt-1 block w-full min-h-11 rounded-md border border-ink-300 px-3 py-2"
+        />
+        <p id="lead-email-error" role="alert" class="mt-1 text-sm text-red-600"></p>
+      </div>
+
+      <div>
+        <label for="lead-phone" class="block text-sm font-medium text-ink-800">{form.phone.label}</label>
+        <input
+          id="lead-phone"
+          name="phone"
+          type="tel"
+          autocomplete="tel"
+          required
+          aria-required="true"
+          aria-describedby="lead-phone-hint lead-phone-error"
+          class="mt-1 block w-full min-h-11 rounded-md border border-ink-300 px-3 py-2"
+        />
+        <p id="lead-phone-hint" class="mt-1 text-xs text-ink-500">{form.phone.hint}</p>
+        <p id="lead-phone-error" role="alert" class="mt-1 text-sm text-red-600"></p>
+      </div>
+
+      <p id="lead-submission-error" role="alert" hidden class="text-sm text-red-600"></p>
+
+      <button
+        id="lead-submit"
+        type="submit"
+        class="min-h-11 w-full rounded-md bg-brand-600 px-4 py-2 font-medium text-white disabled:opacity-60"
+      >
+        {form.submit.idle}
+      </button>
+    </form>
   </div>
+
+  <div id="lead-success-container" hidden></div>
 </section>
+
+<script>
+  import { initLeadForm } from './leadFormController';
+
+  const root = document.getElementById('lead-form');
+  if (root) initLeadForm(root);
+</script>
