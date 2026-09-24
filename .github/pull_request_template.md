@@ -2,6 +2,15 @@
 
 <!-- What this PR does, in 1–3 sentences. -->
 
+## Ownership
+
+<!-- Required. Use the agent and workstream names from the active sprint plan's File Ownership Map. -->
+
+- Owner: <!-- e.g. Agent 1 — UI, content, i18n / Human owner (docs) -->
+- Owned paths changed: <!-- list the paths, or "all within owner scope" -->
+- Changes outside owner scope: <!-- "None", or each file + who approved it + why -->
+- Depends on: <!-- other PRs/branches this builds on, or "main only" -->
+
 ## Stories and acceptance criteria
 
 <!-- Branch: <KEY>-<NNN>-<slug> or <KEY>-<TYPE>-<slug>. Title: [<KEY>-<NNN>] ... -->
@@ -24,7 +33,7 @@
 
 ## Checklist
 
-- [ ] Only files owned by this workstream were changed (see the sprint's file ownership map)
+- [ ] Only files owned by this workstream were changed, or every exception is listed and approved under Ownership
 - [ ] No unrelated refactors
 - [ ] No secrets or credentials committed
 - [ ] Documentation updated if behavior or contracts changed
