@@ -16,5 +16,16 @@ export default defineConfig({
         },
       },
     },
+    preview: {
+      // Same proxy for `astro preview`, so the built app also works against
+      // the real backend — used by the Playwright e2e suite's webServer
+      // (tests/e2e/**, playwright.config.ts) and by .github/workflows/frontend.yml.
+      proxy: {
+        '/api': {
+          target: 'http://127.0.0.1:5000',
+          changeOrigin: true,
+        },
+      },
+    },
   },
 });

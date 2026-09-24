@@ -31,15 +31,12 @@ jobs:
       - name: Build
         run: npm run build
 
-  # tests/e2e/** does not exist yet (it lands with Agent 2's integration PR,
-  # GK-004-integration-e2e), so `npm run test:e2e` currently has nothing to
-  # run. This job is intentionally allowed to fail (or no-op) until that PR
-  # lands and wires up the real Playwright suite (LEAD_API_CONTRACT.md
-  # section 10, SPRINT_001.md). Once it does, remove `continue-on-error`
-  # here and make this job required in branch protection (US-012 AC4).
+  # tests/e2e/** (GK-004-integration-e2e): Playwright against the real
+  # Flask backend in LEADS_STORAGE=memory mode (LEAD_API_CONTRACT.md
+  # section 10, SPRINT_001.md). Required — not allowed to fail
+  # (US-012 AC4).
   e2e:
     runs-on: ubuntu-latest
-    continue-on-error: true
     env:
       LEADS_STORAGE: memory
       PRIVACY_NOTICE_VERSION: e2e-ci
@@ -85,17 +82,7 @@ jobs:
           fi
 
       - name: Run Playwright end-to-end tests
-        run: |
-          # tests/e2e/** lands with Agent 2's GK-004-integration-e2e. Until
-          # then there are no specs to run, so soft-skip instead of letting
-          # Playwright's "No tests found" report as a check-run failure
-          # (job-level continue-on-error only protects the workflow run's
-          # overall conclusion, not this job's own check-run status).
-          if find tests/e2e -name '*.spec.ts' 2>/dev/null | grep -q .; then
-            npm run test:e2e
-          else
-            echo "No e2e specs yet (lands with GK-004-integration-e2e) — skipping."
-          fi
+        run: npm run test:e2e
 
       - name: Upload Playwright report
         if: always()
