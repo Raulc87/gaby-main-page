@@ -26,6 +26,31 @@ export function isLanguage(value: string): value is Language {
   return (LANGUAGES as readonly string[]).includes(value);
 }
 
+export interface DetectLanguageOptions {
+  /** Value read from localStorage[LANGUAGE_STORAGE_KEY], if any. */
+  storedPreference?: string | null;
+  /** navigator.languages (or [navigator.language] as a fallback). */
+  browserLanguages?: readonly string[];
+}
+
+/**
+ * Resolves which language `/` should redirect to (ADR-003): the saved
+ * toggle choice first, otherwise Spanish when the browser's first
+ * preferred language starts with "es" (e.g. "es", "es-CR", "es-MX"),
+ * otherwise English.
+ */
+export function detectLanguage({
+  storedPreference,
+  browserLanguages = [],
+}: DetectLanguageOptions): Language {
+  if (storedPreference && isLanguage(storedPreference)) {
+    return storedPreference;
+  }
+
+  const primary = browserLanguages[0] ?? '';
+  return primary.toLowerCase().startsWith('es') ? 'es' : 'en';
+}
+
 /**
  * Single flag controlling every "Pendiente de validación" / "Pending
  * validation" marker (US-009, UX_UI_DIRECTION.md section 5). Set to false
