@@ -122,9 +122,24 @@ Use `.github/pull_request_template.md`, including its **Ownership** section: the
 5. Call out risks, assumptions, and unresolved items.
 6. Avoid unrelated refactors.
 
+## Merging and approval
+
+**Agents never merge pull requests.** Only the human owner merges, and only after the human owner has approved the PR.
+
+This applies to every agent (implementation and review-only). Agents must not:
+
+- merge a PR, or enable auto-merge on it
+- approve a PR (the review-only agent posts comment-only reviews)
+- push or commit directly to `main` or any other protected/base branch
+- close or reopen PRs they do not own, or delete other agents' branches
+
+Agents may keep their **own** PR branch up to date (for example, merge `main` into it and resolve conflicts in files they own), then report to the human owner that the PR is ready. When a PR is ready, the agent says so and stops; merging is the human owner's decision.
+
+Recommended enforcement in GitHub: protect `main` (require a pull request before merging, block force pushes and deletions). If agents act through the human owner's GitHub account, GitHub cannot distinguish them from the owner, so this rule must also be stated in every agent prompt.
+
 ## Review-only agent
 
-A review-only agent may inspect PRs but must not implement features.
+A review-only agent may inspect PRs but must not implement features, approve PRs, or merge PRs. It posts comment-only reviews.
 
 It should verify:
 

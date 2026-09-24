@@ -40,5 +40,9 @@ Run this checklist before starting any sprint. Record the result in the sprint p
 - [ ] Merge order and the integration PR owner are defined.
 - [ ] Conflict-resolution rule is stated.
 
+## 7.1 Merge control
+- [ ] **(blocking)** Every agent prompt states that agents never merge or approve PRs; only the human owner merges after approval (`AGENTS.md`).
+- [ ] `main` is protected in GitHub (pull request required, no force pushes or deletions).
+
 ## 8. Go-ahead
 - [ ] **(blocking)** The human owner has given explicit go-ahead.
