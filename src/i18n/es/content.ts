@@ -34,16 +34,26 @@ export const content: ContentDictionary = {
     ],
   },
   guide: {
-    paragraphs: ['TODO: guide copy (GK-003-guide-section)'],
+    paragraphs: [
+      'No necesitas recorrer este proceso a solas.',
+      'Gabriela acompaña a personas que quieren construir una relación más clara y estratégica con sus finanzas, empezando por el orden y avanzando hacia decisiones de inversión más conscientes.',
+    ],
+    photoPlaceholder: 'Foto de Gabriela',
+    bioPlaceholder: 'Biografía breve',
+    credentialsPlaceholder: 'Credenciales y experiencia',
   },
   proof: {
-    heading: 'TODO: proof heading (GK-003-guide-section)',
+    heading: 'Respaldo y confianza',
+    testimonialPlaceholder: 'Testimonio de una clienta o cliente',
+    credibilityPlaceholder: 'Declaración de credibilidad',
   },
   offer: {
-    paragraph: 'TODO: offer copy (GK-003-guide-section)',
+    paragraph:
+      'En una llamada inicial revisaremos tu situación a un nivel general, conversaremos sobre lo que buscas y veremos si el programa tiene sentido para ti.',
   },
   closing: {
-    paragraph: 'TODO: closing CTA copy (GK-003-guide-section)',
+    paragraph:
+      'Si esto resuena contigo, puedes dar el primer paso con calma. Déjanos tus datos y agenda una conversación para entender si este proceso encaja contigo.',
   },
   pendingBadge: {
     label: 'Pendiente de validación',

@@ -51,6 +51,13 @@ export function detectLanguage({
   return primary.toLowerCase().startsWith('es') ? 'es' : 'en';
 }
 
+/**
+ * Single flag controlling every "Pendiente de validación" / "Pending
+ * validation" marker (US-009, UX_UI_DIRECTION.md section 5). Set to false
+ * once stakeholder content is approved, to hide the markers for production.
+ */
+export const SHOW_PENDING_VALIDATION_BADGES = true;
+
 // Shape shared by src/i18n/es/content.ts and src/i18n/en/content.ts.
 // Copy is filled in progressively (GK-001-hero, GK-002-roadmap,
 // GK-003-guide-section); this scaffold only fixes the structure so every
@@ -85,10 +92,17 @@ export interface RoadmapContent {
 
 export interface GuideContent {
   paragraphs: string[];
+  /** Captions for the photo/bio/credentials placeholder spaces (US-003 AC2). */
+  photoPlaceholder: string;
+  bioPlaceholder: string;
+  credentialsPlaceholder: string;
 }
 
 export interface ProofContent {
   heading: string;
+  /** Captions for the placeholder structure (US-003 AC2); never real testimonials. */
+  testimonialPlaceholder: string;
+  credibilityPlaceholder: string;
 }
 
 export interface OfferContent {
