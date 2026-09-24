@@ -37,6 +37,17 @@ function fieldErrorMessage(copy: LeadFormCopy, field: LeadFormField, code: Field
   return copy.fieldErrors[code] ?? fallback;
 }
 
+/** Opens/closes the privacy notice <dialog> in place (US-011 AC2: no navigation, form data kept). */
+function initPrivacyNoticeDialog(root: HTMLElement): void {
+  const dialog = root.querySelector<HTMLDialogElement>('#privacy-notice-dialog');
+  const trigger = root.querySelector<HTMLButtonElement>('#privacy-notice-trigger');
+  const closeButton = root.querySelector<HTMLButtonElement>('#privacy-notice-close');
+  if (!dialog || !trigger) return;
+
+  trigger.addEventListener('click', () => dialog.showModal());
+  closeButton?.addEventListener('click', () => dialog.close());
+}
+
 export function initLeadForm(root: HTMLElement): void {
   const copy = JSON.parse(root.dataset.copy ?? '{}') as LeadFormCopy;
   const form = root.querySelector<HTMLFormElement>('#lead-form-form');
@@ -51,6 +62,8 @@ export function initLeadForm(root: HTMLElement): void {
   const formEl: HTMLFormElement = form;
   const submitButtonEl: HTMLButtonElement = submitButton;
   const submissionErrorElement: HTMLElement = submissionErrorEl;
+
+  initPrivacyNoticeDialog(root);
 
   function readRawInput(): RawLeadFormInput {
     const nameEl = root.querySelector<HTMLInputElement>('#lead-name');
