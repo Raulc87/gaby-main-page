@@ -14,6 +14,13 @@ const server = await preview({
   root: process.cwd(),
   build: { outDir: 'dist' },
   preview: {
+    // Explicit IPv4 loopback, not the default `localhost`: on some CI
+    // runners `localhost` resolves to `::1` first, so the server would
+    // bind IPv6-only while Playwright's webServer health check hits
+    // `http://127.0.0.1:4321` (playwright.config.ts) — a silent bind
+    // mismatch that manifests as a 60s "waiting for webServer" timeout
+    // with no error from either side.
+    host: '127.0.0.1',
     port: 4321,
     strictPort: true,
     proxy: {

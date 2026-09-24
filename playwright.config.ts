@@ -39,5 +39,11 @@ export default defineConfig({
     command: 'npm run build && node scripts/e2e-preview-server.mjs',
     url: 'http://127.0.0.1:4321',
     reuseExistingServer: !process.env.CI,
+    // The 60s default timeout covers `npm run build` too (part of the same
+    // command); piping output means a future failure actually shows where
+    // the time went, instead of the silent timeout this replaces.
+    timeout: 120_000,
+    stdout: 'pipe',
+    stderr: 'pipe',
   },
 });
