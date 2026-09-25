@@ -14,7 +14,7 @@
 - Integration contracts: `docs/specs/LEAD_API_CONTRACT.md` (v1.0, locked)
 - Feature specs: Not required for the current simple scope
 - Architecture spec: Not required for the current simple scope (covered by ADRs)
-- UX/UI direction: `docs/ux/UX_UI_DIRECTION.md` (v0.2)
+- UX/UI direction: `docs/ux/UX_UI_DIRECTION.md` (v0.3)
 - Tech stack: `TECH_STACK.md` (v0.2)
 - ADRs: `docs/decisions/` — ADR-001 backend hosting, ADR-002 Google Sheets access, ADR-003 i18n routing
 - Implementation plan: `docs/plans/IMPLEMENTATION_PLAN.md` (v0.3)
@@ -50,7 +50,8 @@
 - Sprint 001 runs locally; deployment is US-014, spam protection US-013 (both before public launch)
 
 ## Open questions (non-blocking for Sprint 001)
-- Final brand colors
+- Final brand colors: resolved 2026-09-25 (UX_UI_DIRECTION.md section 2.1, Proposal A)
+- Logo file (SVG or transparent PNG) and final photo of Gabriela
 - Final photography
 - Final credentials/testimonials
 - Google account that owns the lead sheet (project owner or Gabriela)
