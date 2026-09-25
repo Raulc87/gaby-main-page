@@ -299,3 +299,31 @@ so that real visitors can use it.
 3. Credentials are stored outside the web root.
 4. US-013 is done before the page is made public.
 5. A deployment runbook exists in `docs/runbooks/`.
+
+---
+
+## US-015 — Apply the approved visual identity
+- Priority: High
+- Story Points: 5
+- Status: Proposed — Sprint 002 candidate
+- Related Requirements: NFR-001, NFR-003, BR-004
+- Related Spec: `docs/ux/UX_UI_DIRECTION.md` section 2.1 (Proposal A)
+
+**User Story**
+
+As Gabriela,
+I want the page to look like my brand,
+so that visitors see a serious, trustworthy professional before they leave their data.
+
+**Acceptance Criteria**
+1. The color tokens in UX_UI_DIRECTION.md section 2.1 replace the provisional palette in `src/styles/global.css`; no component uses a hex color literal.
+2. Crimson Pro and IBM Plex Sans are loaded from Google Fonts with fallback stacks; Inter is removed.
+3. Every section matches the component descriptions in section 2.1 in both languages, at 360, 390, 768 and 1280 px, with no horizontal scroll.
+4. Gabriela's photo is shown as a round portrait in the hero and guide sections, from an optimized image in `public/` (at least 2× the displayed size), with Spanish and English `alt` text.
+5. The logo file (SVG, or PNG with transparency) replaces the typographic wordmark when provided; until then the Playfair Display wordmark is used.
+6. Text meets WCAG AA contrast; gold is never used as text on white (use `gold-ink`).
+7. Existing unit and e2e tests stay green; e2e selectors are not broken by the restyle.
+
+**Dependencies**
+- Final logo file and photo from Gabriela (the provisional photo is acceptable until then).
+

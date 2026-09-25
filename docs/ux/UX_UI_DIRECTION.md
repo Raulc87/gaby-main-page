@@ -1,4 +1,4 @@
-# UX_UI_DIRECTION — v0.2
+# UX_UI_DIRECTION — v0.3
 
 All copy in this document is **proposed** and pending Gabriela's review (BR-004). It is written in gender-neutral language in both Spanish and English (BR-005): no gendered adjectives or participles referring to the visitor (e.g. avoid "listo/lista", "preparado/preparada"); prefer nouns ("disposición", "una persona"), verbs, and second-person constructions.
 
@@ -16,6 +16,60 @@ It should communicate progress and financial organization without using aggressi
 - Short, scannable text blocks
 - Neutral and inclusive language
 - Avoid excessive visual clutter
+
+## 2.1 Visual Identity — Proposal A "Institucional" (approved 2026-09-25)
+
+Chosen by the human owner from two explorations. Reference mockup (visual reference only, not code): https://claude.ai/artifact/1HSbf43ykt2J6LphBVBH9G
+
+Character: light, corporate, serious. Navy carries weight, gold is a sparing accent, and the half-circle from Gaby's slide deck is the one recurring motif.
+
+### Color tokens
+
+Brand colors sampled from Gaby's existing slide deck. Implement as Tailwind theme tokens in `src/styles/global.css`, replacing the provisional palette; components use tokens, never hex literals.
+
+| Token | Hex | Use |
+|---|---|---|
+| `paper` | `#F6F8FB` | Page background (cool neutral biased toward the brand blue) |
+| `surface` | `#FFFFFF` | Cards, hero copy panel, form |
+| `ink` | `#15243B` | Body text, footer background |
+| `navy` | `#22395A` | Headings, primary buttons, large brand panels |
+| `brand` | `#3C5F8E` | Brand blue from the deck: links, italic emphasis, icons, eyebrows |
+| `gold` | `#F1BE48` | Brand gold from the deck: half-circle motif, eyebrow rules, focus rings. Fill only on light backgrounds; never as text on white |
+| `gold-ink` | `#7A5A0E` | Gold-family text on white (e.g. "PASO 1"), passes WCAG AA |
+| `muted` | `#5A6A80` | Secondary text, hints |
+| `line` | `#D8DFE9` | Borders and dividers |
+
+### Typography
+
+| Role | Face | Weights |
+|---|---|---|
+| Headings, italic emphasis, closing statement | Crimson Pro (Google Fonts) | 600; italic 500 for emphasized words |
+| Body, labels, form, buttons | IBM Plex Sans (Google Fonts) | 400, 500, 600 |
+| Wordmark (only until the real logo file arrives) | Playfair Display | 900 "GK", 400 "GabyKelly" |
+
+- Scale: hero headline 38–60px fluid, section titles 30–42px, body 17–19px, eyebrow labels 12px uppercase with 0.16em tracking.
+- Headings use `text-wrap: balance`; running text at most ~65 characters wide.
+- Replaces the provisional Inter font.
+
+### Components and layout
+
+- **Header:** sticky, light background with a bottom border; wordmark left, `ES | EN` toggle right (active language as a navy fill).
+- **Eyebrow:** 28px gold rule + uppercase `brand` label above each section title.
+- **Hero:** two columns on desktop. Left: white panel with headline (italic `brand` emphasis on the second half), lead text, navy CTA, and a trust row ("Llamada inicial sin costo", "Tus datos protegidos (Ley 8968)"). Right: navy panel with a large gold circle bleeding off the right edge and Gabriela's round portrait (white 8px ring, soft shadow) over it. Stacks on mobile (copy first).
+- **Buttons:** navy fill, white text, 2px radius, min height 52px, arrow icon; hover shifts to `brand` and lifts 2px.
+- **Roadmap:** one bordered row of three cells ("PASO 1–3" in `gold-ink`, line icon, Crimson Pro step name); stacks with horizontal dividers on mobile.
+- **Guide:** round portrait (white ring + thin gold outline) beside the text; pending-validation chips for bio, credentials, and approach.
+- **Proof:** dashed-border placeholder cards with a gold opening quote mark until real testimonials exist.
+- **Offer:** full-width navy band with a gold circle in the bottom-right corner and three check-marked points.
+- **Form:** white card with a 4px navy top border; `paper` input fills; screening options as bordered rows that highlight in `brand` when selected.
+- **Closing:** white band, Crimson Pro italic statement plus the CTA.
+- **Footer:** `ink` background, wordmark with the gold "GabyKelly".
+- Corners: 2px everywhere (sharp, corporate). No glow effects, gradients, or grain.
+
+### Motif rules
+
+- The gold circle or half-circle appears at most once per section, always bleeding off an edge or sitting behind the portrait, never behind body text.
+- Icons are simple line icons (1.6px stroke) in `brand`; no emoji, no 3D illustrations.
 
 ## 3. Language Behavior (FR-012, ADR-003)
 
@@ -182,7 +236,7 @@ In the prototype, every placeholder or provisional block (photo, bio, credential
 ## 6. Imagery
 
 Preferred:
-- Real photography of Gabriela
+- Real photography of Gabriela: displayed as a round portrait (see section 2.1). Provisional source: her Instagram profile picture (352px, too small for production). Final: original photo at least 800×800px, ideally with a plain or softly blurred background, with Gabriela's consent for web use.
 - Calm, real-world financial planning imagery
 - Professional environments
 - People of different genders and ages making deliberate decisions
@@ -206,6 +260,12 @@ Requirements:
 - Calendly usable on mobile
 
 ## 8. Stakeholder Validation
+
+Brand palette and visual tone: approved by the human owner on 2026-09-25 (section 2.1, Proposal A); still to be shown to Gabriela.
+
+Open for decision:
+- Gaby's slide deck uses 3D banknote artwork. Section 6 says to avoid cash imagery; keep that rule for the website?
+- Some slides address employers (staff turnover, KPIs, retention). The current spec targets individuals. Is a corporate audience in scope? If yes, it is a spec change first.
 
 To be validated with Gabriela:
 - final copy (both languages)
