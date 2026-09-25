@@ -55,7 +55,7 @@ Brand colors sampled from Gaby's existing slide deck. Implement as Tailwind them
 
 - **Header:** sticky, light background with a bottom border; wordmark left, `ES | EN` toggle right (active language as a navy fill).
 - **Eyebrow:** 28px gold rule + uppercase `brand` label above each section title.
-- **Hero:** two columns on desktop. Left: white panel with headline (italic `brand` emphasis on the second half), lead text, navy CTA, and a trust row ("Llamada inicial sin costo", "Tus datos protegidos (Ley 8968)"). Right: navy panel with a large gold circle bleeding off the right edge and Gabriela's round portrait (white 8px ring, soft shadow) over it. Stacks on mobile (copy first).
+- **Hero:** two columns on desktop. Left: white panel with headline (italic `brand` emphasis on the second half), lead text, navy CTA, and the trust row from section 4, Section 1 (free initial call per BR-008; data protection per FR-013). Right: navy panel with a large gold circle bleeding off the right edge and Gabriela's round portrait (white 8px ring, soft shadow) over it. Stacks on mobile (copy first).
 - **Buttons:** navy fill, white text, 2px radius, min height 52px, arrow icon; hover shifts to `brand` and lifts 2px.
 - **Roadmap:** one bordered row of three cells ("PASO 1–3" in `gold-ink`, line icon, Crimson Pro step name); stacks with horizontal dividers on mobile.
 - **Guide:** round portrait (white ring + thin gold outline) beside the text; pending-validation chips for bio, credentials, and approach.
@@ -88,6 +88,7 @@ Brand colors sampled from Gaby's existing slide deck. Implement as Tailwind them
 | Headline | Ganas bien, pero tu dinero no te está dando tranquilidad. | You earn well, but your money isn't giving you peace of mind. |
 | Supporting line | No siempre se trata de generar más. A veces, el siguiente paso es ordenar mejor lo que ya tienes. | It's not always about earning more. Sometimes the next step is to better organize what you already have. |
 | CTA (scrolls to `#lead-form`) | Quiero dar el primer paso | I want to take the first step |
+| Trust row (below the CTA) | Llamada inicial sin costo · Tus datos protegidos (Ley 8968) | Free initial call · Your data is protected (Costa Rica Law 8968) |
 
 ### Section 2 — Recognition / Hopeful Problem Framing (`#recognition`)
 
