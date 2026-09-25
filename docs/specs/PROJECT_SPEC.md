@@ -91,6 +91,7 @@ Needs:
 - BR-005: The page must use gender-neutral, inclusive language in both Spanish and English, and must not target only women or only men.
 - BR-006: Privacy consent is required before a lead is stored.
 - BR-007: Code, identifiers, stored codes, and data field names are in English and use `snake_case`. Visitor-facing content is bilingual (Spanish/English).
+- BR-008: The initial call is free of charge (confirmed by the human owner on 2026-09-25). The page may state this; it must not imply the program itself is free.
 
 ## 9. Main Product Flow
 
