@@ -1,11 +1,11 @@
-# SPRINT 002 — PLANNED
+# SPRINT 002 — ACTIVE
 
 ## Metadata
-- Status: PLANNED — waiting for the human owner's go-ahead
+- Status: ACTIVE — go-ahead given by the human owner on 2026-09-28
 - Duration: 7 business days
 - Saturdays and Sundays excluded
-- Start: the first business day after the go-ahead (planned: 2026-09-29, Tuesday)
-- End: the 7th business day from the start — Sprint Review (planned: 2026-10-07, Wednesday; moves with the start)
+- Start: 2026-09-29 (Tuesday)
+- End: 2026-10-07 (Wednesday) — Sprint Review
 - Final reviewer: Human project owner
 
 ## Sprint Goal
@@ -32,7 +32,7 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 | 8 | Domain and SSL: human owner, this week; not needed until US-014's deploy step | Owner set |
 | 9 | Production Google account (Gabriela's): human owner sets it up at deploy; development keeps the owner's sheet | Owner set |
 | 10 | `main` protected in GitHub (checklist 7.1, non-blocking) | To confirm by the human owner |
-| 11 | Final go-ahead from the human owner | Pending |
+| 11 | Final go-ahead from the human owner | Done — 2026-09-28 |
 
 ## Planned Stories
 
@@ -146,6 +146,6 @@ Parallel work is not complete until:
 
 ## Important
 
-Do not start until the human owner gives the go-ahead (entry gate 11).
+Go-ahead given by the human owner on 2026-09-28 (entry gate 11). Agents may start per the merge order above; work starts 2026-09-29.
 
 Agent kickoff prompts and model assignments: `docs/sprints/SPRINT_002_AGENT_PROMPTS.md`.
