@@ -1,38 +1,65 @@
 @import 'tailwindcss';
 
 /*
- * Provisional neutral palette (see UX_UI_DIRECTION.md section 2: calm,
- * clean, professional). Final brand colors are an open question
- * (PROJECT_CONTEXT.md); everything below is a Tailwind theme token so the
- * palette can be swapped later without touching component markup.
+ * Approved brand palette and typography (UX_UI_DIRECTION.md section 2.1,
+ * Proposal A "Institucional", approved by the human owner 2026-09-25).
+ * Tailwind theme tokens only — components must never use hex literals
+ * (US-015 AC1); use the generated utilities (bg-paper, text-ink, bg-navy,
+ * text-brand, bg-gold, text-gold-ink, text-muted, border-line, bg-surface).
  */
 @theme {
-  --color-brand-50: #f4f7f7;
-  --color-brand-100: #e4ecec;
-  --color-brand-200: #c9d8d8;
-  --color-brand-300: #a3bcbd;
-  --color-brand-400: #74999b;
-  --color-brand-500: #4f7c7f;
-  --color-brand-600: #3d6467;
-  --color-brand-700: #335154;
-  --color-brand-800: #2c4345;
-  --color-brand-900: #27393b;
-
-  --color-ink-50: #f7f7f6;
-  --color-ink-100: #ececeb;
-  --color-ink-200: #d7d6d3;
-  --color-ink-300: #b6b4b0;
-  --color-ink-400: #8f8c86;
-  --color-ink-500: #6f6c66;
-  --color-ink-600: #57544f;
-  --color-ink-700: #464440;
-  --color-ink-800: #302f2c;
-  --color-ink-900: #1c1b19;
-
+  --color-paper: #f6f8fb;
   --color-surface: #ffffff;
-  --color-surface-muted: var(--color-brand-50);
+  --color-ink: #15243b;
+  --color-navy: #22395a;
+  --color-brand: #3c5f8e;
+  --color-gold: #f1be48;
+  --color-gold-ink: #7a5a0e;
+  --color-muted: #5a6a80;
+  --color-line: #d8dfe9;
 
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* Body, labels, form, buttons (US-015 AC2). Replaces the provisional Inter font. */
+  --font-sans:
+    'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Headings, italic emphasis, closing statement. */
+  --font-serif: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+  /* Wordmark stand-in, only until the real logo file arrives (US-015 AC5). */
+  --font-wordmark: 'Playfair Display', Georgia, serif;
+
+  /* Sharp, corporate corners: "Corners: 2px everywhere" (section 2.1). */
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+
+  /*
+   * Temporary compatibility aliases for the provisional shade-based scale
+   * this PR replaces (--color-brand-*, --color-ink-*, --color-surface-muted).
+   * Every component that isn't restyled onto the tokens above yet — across
+   * all three agents' files — still uses utilities built on these names
+   * (bg-brand-600, text-ink-900, border-ink-300, and so on). Without this
+   * block, Tailwind emits no color for them and controls like the hero CTA
+   * and the form submit button render as invisible white-on-nothing,
+   * breaking the already-accepted lead flow (AGENTS.md: a change must not
+   * break already-accepted functionality).
+   *
+   * Remove this block once every component that references it has been
+   * restyled onto the tokens above (GK-015-visual-identity,
+   * GK-015-form-style, and any other in-flight branch).
+   */
+  --color-brand-50: #eef2f8;
+  --color-brand-100: #dce6f1;
+  --color-brand-600: var(--color-brand);
+  --color-brand-700: var(--color-navy);
+  --color-ink-100: var(--color-line);
+  --color-ink-200: var(--color-line);
+  --color-ink-300: var(--color-line);
+  --color-ink-500: var(--color-muted);
+  --color-ink-600: var(--color-muted);
+  --color-ink-700: var(--color-muted);
+  --color-ink-800: var(--color-ink);
+  --color-ink-900: var(--color-ink);
+  --color-surface-muted: var(--color-paper);
 }
 
 html {
@@ -40,5 +67,12 @@ html {
 }
 
 body {
-  @apply bg-surface text-ink-800 font-sans antialiased;
+  @apply bg-paper text-ink font-sans antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  text-wrap: balance;
 }
