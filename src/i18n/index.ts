@@ -75,6 +75,8 @@ export interface HeroContent {
   headline: string;
   supportingLine: string;
   cta: string;
+  /** Trust row below the CTA (UX_UI_DIRECTION.md section 4, Section 1; US-015 AC8). */
+  trustRow: string;
 }
 
 export interface RecognitionContent {
@@ -87,6 +89,8 @@ export interface RoadmapStep {
 }
 
 export interface RoadmapContent {
+  /** Step label prefix (e.g. "Paso" / "Step") for the gold-ink "PASO 1–3" markers (section 2.1). */
+  stepLabel: string;
   steps: RoadmapStep[];
 }
 

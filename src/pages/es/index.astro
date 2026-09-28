@@ -18,14 +18,14 @@ const lang = 'es' as const;
 <BaseLayout lang={lang} title={content.meta.title} description={content.hero.supportingLine}>
   <Header lang={lang} content={content.header} />
   <main>
-    <Hero content={content.hero} />
+    <Hero content={content.hero} pendingLabel={content.pendingBadge.label} />
     <Recognition content={content.recognition} />
     <TransformationRoadmap content={content.roadmap} />
     <Guide content={content.guide} pendingLabel={content.pendingBadge.label} />
     <SocialProof content={content.proof} pendingLabel={content.pendingBadge.label} />
     <Offer content={content.offer} />
     <LeadForm />
-    <ClosingCTA content={content.closing} />
+    <ClosingCTA content={content.closing} cta={content.hero.cta} />
   </main>
   <Footer lang={lang} />
 </BaseLayout>

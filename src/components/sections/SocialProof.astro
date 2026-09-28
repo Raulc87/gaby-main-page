@@ -1,7 +1,13 @@
 ---
-// US-003: proof/credibility section. Structural placeholders only — real
-// testimonials/outcomes are added only once provided by the stakeholder
-// (UX_UI_DIRECTION.md section 4, Section 5); never invented here.
+// US-003, US-015 AC3: proof/credibility section. Structural placeholders
+// only — real testimonials/outcomes are added only once provided by the
+// stakeholder (UX_UI_DIRECTION.md section 4, Section 5); never invented
+// here. Dashed-border placeholder cards with a gold opening quote mark,
+// per section 2.1, until real testimonials exist.
+//
+// Text and video testimonial card types driven by content data land in
+// GK-017-testimonial-cards (US-017 AC3/AC4); this PR only restyles the
+// existing placeholder structure.
 import PendingBadge from './PendingBadge.astro';
 import { SECTION_IDS, type ProofContent } from '../../i18n';
 
@@ -13,17 +19,19 @@ interface Props {
 const { content, pendingLabel } = Astro.props;
 ---
 
-<section id={SECTION_IDS.proof} class="mx-auto max-w-3xl px-4 py-12">
+<section id={SECTION_IDS.proof} class="mx-auto max-w-4xl px-4 py-16">
   <div class="flex flex-wrap items-center gap-3">
-    <h2 class="text-xl font-semibold text-ink-900">{content.heading}</h2>
+    <h2 class="text-3xl">{content.heading}</h2>
     <PendingBadge label={pendingLabel} />
   </div>
-  <div class="mt-6 grid gap-4 sm:grid-cols-2">
-    <div class="rounded-lg border border-dashed border-ink-200 p-6 text-sm text-ink-500">
-      {content.testimonialPlaceholder}
+  <div class="mt-8 grid gap-6 sm:grid-cols-2">
+    <div class="rounded-[2px] border border-dashed border-line bg-surface p-6">
+      <span aria-hidden="true" class="font-serif text-4xl leading-none text-gold">&ldquo;</span>
+      <p class="mt-2 text-sm text-muted">{content.testimonialPlaceholder}</p>
     </div>
-    <div class="rounded-lg border border-dashed border-ink-200 p-6 text-sm text-ink-500">
-      {content.credibilityPlaceholder}
+    <div class="rounded-[2px] border border-dashed border-line bg-surface p-6">
+      <span aria-hidden="true" class="font-serif text-4xl leading-none text-gold">&ldquo;</span>
+      <p class="mt-2 text-sm text-muted">{content.credibilityPlaceholder}</p>
     </div>
   </div>
 </section>

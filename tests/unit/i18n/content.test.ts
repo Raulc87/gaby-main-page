@@ -32,13 +32,20 @@ describe('content dictionaries', () => {
       supportingLine:
         'No siempre se trata de generar más. A veces, el siguiente paso es ordenar mejor lo que ya tienes.',
       cta: 'Quiero dar el primer paso',
+      trustRow: 'Llamada inicial sin costo · Tus datos protegidos (Ley 8968)',
     });
     expect(enContent.hero).toEqual({
       headline: "You earn well, but your money isn't giving you peace of mind.",
       supportingLine:
         "It's not always about earning more. Sometimes the next step is to better organize what you already have.",
       cta: 'I want to take the first step',
+      trustRow: 'Free initial call · Your data is protected (Costa Rica Law 8968)',
     });
+  });
+
+  it('shows the hero trust row in both languages (US-015 AC8)', () => {
+    expect(esContent.hero.trustRow).toContain('Ley 8968');
+    expect(enContent.hero.trustRow).toContain('Costa Rica Law 8968');
   });
 
   it('uses the approved recognition and roadmap copy from UX_UI_DIRECTION.md section 4 (US-002)', () => {
