@@ -1,11 +1,11 @@
 # PROJECT_SPEC — Gabriela Kelly Financial Health One-Page
 
 ## Metadata
-- Version: 0.3
-- Status: Approved for Sprint 001 / Stakeholder Content Review Pending
+- Version: 0.4
+- Status: Approved for Sprint 002 / Stakeholder Content Review Pending
 - Product: One-page lead-generation website
 - Stakeholder: Gabriela Kelly
-- Last updated: 2026-09-23 (v0.3: bilingual ES/EN, privacy consent, lead status values, locked lead API contract, local prototype)
+- Last updated: 2026-09-28 (v0.4: spam protection decided (ADR-004), production Google account, go-live in Sprint 002). v0.3 (2026-09-23): bilingual ES/EN, privacy consent, lead status values, locked lead API contract, local prototype.
 
 ## 1. Problem Statement
 
@@ -80,7 +80,7 @@ Needs:
 - NFR-005: Form errors must be understandable, in the visitor's selected language.
 - NFR-006: A failed data save must not be presented as a successful submission.
 - NFR-007: Lead data and credentials must be handled server-side only; no secrets in client code or in Git.
-- NFR-008: Before any public deployment, the lead endpoint must have spam/abuse protection (US-013). Not required for the local Sprint 001 prototype.
+- NFR-008: Before any public deployment, the lead endpoint must have spam/abuse protection (US-013): a honeypot field and a per-IP rate limit (ADR-004, contract v1.1).
 
 ## 8. Business Rules
 
@@ -135,15 +135,15 @@ Personal data:
 - The stack should remain lightweight.
 - The final copy and imagery require stakeholder review.
 - Up to 3 implementation agents may work in parallel.
-- Sprint 001 targets a locally runnable prototype; production deployment is a later story (US-014).
+- Sprint 001 delivered a locally runnable prototype; Sprint 002 deploys it (US-014).
 
 ## 12. Assumptions
 
 - Gabriela has or can provide a Calendly account/link.
-- A Google Sheet can be created for lead storage, owned by the project owner's or Gabriela's Google account (TBD).
+- Production leads are stored in a Google Sheet in Gabriela's Google account (set up by the human owner at deploy); development uses the project owner's sheet (decided 2026-09-28).
 - Real photos/testimonials/credentials may be supplied later.
-- A provisional visual direction is acceptable for the first prototype.
-- The GoDaddy cPanel plan provides "Setup Python App" (to be confirmed before US-014; see ADR-001).
+- The visual identity is approved (UX_UI_DIRECTION.md section 2.1, Proposal A).
+- The GoDaddy cPanel plan provides "Setup Python App"; GoDaddy documents Python up to 3.11 (ADR-001; confirmed in the account during US-014).
 
 ## 13. Risks
 
@@ -174,16 +174,17 @@ Personal data:
 
 ## 16. Open Questions
 
-- Final brand palette
-- Final images
-- Final proof/testimonials
-- Final Gabriela bio/credentials
-- Exact Calendly URL
-- Google account that owns the lead sheet (project owner or Gabriela)
+- Final images (US-017)
+- Final proof/testimonials, possibly including videos; placeholders stay until then (US-017)
+- Final Gabriela bio/credentials (US-017)
+- Exact Calendly URL (go-live gate, US-014)
 - Final contact email (currently `gkelly@poliartcr.com`)
-- Legal review of the privacy notice, including the data-retention period
+- Legal review of the privacy notice, including the data-retention period (US-018)
+- Final domain and SSL (US-014, human owner)
+
+Resolved: brand palette (2026-09-25, UX_UI_DIRECTION.md section 2.1); Google account for the lead sheet (2026-09-28, see Assumptions); CAPTCHA not needed for now (2026-09-28, ADR-004).
 
 ## 17. Approval
 
-Approved for planning, prototyping, and Sprint 001 by the human project owner (v0.3 revisions directed on 2026-09-23).
+Approved for planning, prototyping, and Sprint 001 by the human project owner (v0.3 revisions directed on 2026-09-23). v0.4 revisions directed on 2026-09-28 for Sprint 002.
 Final marketing content remains pending Gabriela's review.

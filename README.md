@@ -4,7 +4,7 @@ First pilot project built with the [Spec-Driven Development Starter Kit](https:/
 
 ## Project status
 
-**Sprint 001 is ACTIVE** (2026-09-23 → 2026-10-01).
+**Sprint 001 is CLOSED** (2026-09-23 → 2026-09-28). **Sprint 002 is PLANNED** (go-live on GoDaddy), waiting for go-ahead.
 
 See `PROJECT_CONTEXT.md` for the document map and current status.
 

@@ -1,11 +1,11 @@
-# SPRINT 001 — ACTIVE
+# SPRINT 001 — CLOSED
 
 ## Metadata
-- Status: ACTIVE
-- Duration: 7 business days
+- Status: CLOSED on 2026-09-28 by the human owner (planned end 2026-10-01)
+- Duration: 7 business days planned; closed after 4
 - Saturdays and Sundays excluded
 - Start: 2026-09-23 (Wednesday)
-- End: 2026-10-01 (Thursday) — Sprint Review
+- Planned end: 2026-10-01 (Thursday) — Sprint Review
 - Final reviewer: Human project owner
 
 ## Sprint Goal
@@ -49,7 +49,7 @@ A demonstrable prototype, running locally, that:
 | US-006 | 5 | Agent 3 | Contract | `GK-006-google-sheets` | Merged (#3, #5) |
 | US-012 | 3 | Agent 3 | Scaffolds | `GK-012-local-env-ci` | Merged (#7, #20); e2e job required (#21) |
 | US-008 | 5 | Agent 1 (sections) + Agent 2 (form, scheduler) | Sections, form | Within each story; fixes on `GK-008-<slug>` | Merged (#19, #22 responsive fixes; e2e at 390 px in #21) |
-| US-009 | 3 | Sprint Review | All above | — | Planned — Sprint Review 2026-10-01 |
+| US-009 | 3 | Sprint Review | All above | — | Carried over — review with Gabriela moves to Sprint 002 (US-017) |
 
 Total planned points: 43
 
@@ -69,6 +69,33 @@ Remaining before the Sprint Review:
 Not in this sprint: US-013 (spam protection), US-014 (GoDaddy deployment).
 
 Foundation branches: `GK-010-frontend-scaffold` (Agent 1), `GK-006-backend-scaffold` (Agent 3). Integration branch: `GK-004-integration-e2e` (Agent 2). Naming rules: `AGENTS.md`.
+
+## Close-out — 2026-09-28
+
+Closed early by the human owner, without the Sprint Review with Gabriela.
+
+### Result
+- Delivered: 40 of 43 points (US-001 to US-008, US-010 to US-012). Sprint goal met: the bilingual prototype runs locally end to end, with CI.
+- Carried over: US-009 (stakeholder review with Gabriela), done in Sprint 002 as part of US-017.
+- Verified by the human owner: local run on Windows and macOS; real Google Sheets mode wrote a row to the development sheet (2026-09-25).
+- Not verified: the real Calendly URL (still a placeholder); moved to the US-014 go-live smoke test.
+- Also done during the sprint: visual identity Proposal A approved (UX_UI_DIRECTION.md section 2.1, US-015); free initial call recorded (BR-008).
+
+### Retrospective
+Went well:
+- Locking the lead contract before parallel work: three agents built against it with no interface conflicts.
+- Phase 0 scaffolds plus the file ownership map kept merge conflicts rare.
+- The review-only agent found real spec deviations; its findings were fixed by the owning agents.
+
+To improve:
+- The rules "agents never merge" and "reviewer independence" were added mid-sprint (AGENTS.md); they are now in every prompt and in the readiness checklist.
+- A temporary file was committed by accident (PR #23) and broke lint; agents should check `git status` before committing.
+- The runbook lagged behind the code (the e2e note in section 7) and lacked operating-system setup help (Windows Python and PowerShell policy, OneDrive locks; macOS Homebrew permissions, port 5000 used by AirPlay Receiver). Fixed in Sprint 002 (chore).
+- Missing brand material (colors, photo) was only discovered at review time; the Starter Kit now has a visual identity process and the `ux-proposals` skill.
+
+### Starter Kit lessons
+- Applied in the kit during the sprint: merge-control and reviewer-independence rules, readiness checklist sections 5.1 and 7.1, `VISUAL_IDENTITY_PROCESS.md`, and the `ux-proposals` skill.
+- To propose: a local-development runbook template with per-OS setup notes and common port conflicts; a rule that production entry points default to real storage, never an in-memory store (found while planning US-016).
 
 ## Parallel Workstreams
 
@@ -156,6 +183,6 @@ Parallel work is not considered complete until:
 
 ## Important
 
-Go-ahead given by the human owner on 2026-09-23. All entry gates are done; agents may start per the merge order above.
+Go-ahead given by the human owner on 2026-09-23. Sprint closed on 2026-09-28; next sprint: `docs/sprints/SPRINT_002.md`.
 
 Agent kickoff prompts and model assignments: `docs/sprints/SPRINT_001_AGENT_PROMPTS.md`.

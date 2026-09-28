@@ -1,8 +1,9 @@
 # LEAD_API_CONTRACT — Save Lead
 
 ## Metadata
-- Version: 1.0
-- Status: Approved — LOCKED for Sprint 001
+- Version: 1.1
+- Status: Approved — LOCKED for Sprint 002
+- Changes in 1.1 (2026-09-28, US-013, ADR-004): honeypot field `website` (sections 3 and 3.1); `429` / `rate_limited` is now emitted (sections 3.2 and 7); rate-limit configuration (section 9).
 - Related spec: `docs/specs/PROJECT_SPEC.md` (FR-006 to FR-010, FR-013, NFR-005, NFR-006)
 - Related stories: US-004, US-005, US-006, US-007, US-011
 - Related ADRs: ADR-001 (backend hosting), ADR-002 (Google Sheets access)
@@ -28,7 +29,7 @@ Any change to this contract must follow the change-management process in `AGENTS
 | Request content type | `application/json` |
 | Response content type | `application/json` |
 | Max request body | 10 KB |
-| Authentication | None (public form). Spam protection is tracked in US-013. |
+| Authentication | None (public form). Spam protection: honeypot field and per-IP rate limit (sections 3.1 and 3.2, ADR-004). |
 | CORS | Not required: frontend and endpoint are served from the same origin. Local development uses a dev-server proxy (see section 9). |
 
 The `/api` prefix is the mount point of the Python application on cPanel (see ADR-001). The application route itself is `/save-lead`.
@@ -55,7 +56,26 @@ The `/api` prefix is the mount point of the Python application on cPanel (see AD
 | `language` | string (enum) | yes | `es` or `en` — the language the visitor was viewing when submitting. | code |
 | `consent` | boolean | yes | Must be JSON `true` (privacy consent checkbox, US-011). | `true` |
 
-Unknown fields are ignored. Fields with the wrong JSON type are validation errors.
+Unknown fields are ignored, except the honeypot field `website` (section 3.1). Fields with the wrong JSON type are validation errors.
+
+### 3.1 Honeypot field (US-013)
+
+| Field | Type | Required | Rule |
+|---|---|---|---|
+| `website` | string | no | Sent by the form from a field that people never see or fill. It must be absent, `null`, or an empty string (after trimming). |
+
+- The frontend always sends `website`, with the value of the hidden field (normally `""`).
+- If `website` holds anything else (any non-empty value, or any non-string value), the request is treated as a bot: the server returns the normal `201` success response and **does not store the lead**. The bot gets no signal that it was detected.
+- The honeypot check runs after the content-type and JSON checks (`415`, `400`) and after the rate limit (section 3.2), and before field validation, so a bot never receives field errors.
+- `website` is never stored and never written to the sheet.
+
+### 3.2 Rate limit (US-013)
+
+- Every `POST /save-lead` request counts against the client IP address as seen by the server (`REMOTE_ADDR`; `X-Forwarded-For` is not trusted).
+- At most `RATE_LIMIT_MAX_REQUESTS` requests per IP within a sliding window of `RATE_LIMIT_WINDOW_SECONDS` (defaults: 5 requests per 600 seconds). Requests above the limit get `429` / `rate_limited` with a `Retry-After` header (seconds until the oldest counted request leaves the window), and nothing is stored.
+- The rate limit is checked first, before any other processing.
+- Counters are kept in memory in each server process (ADR-004); a restart clears them. IP addresses are used only for counting, never logged or stored.
+- `RATE_LIMIT_MAX_REQUESTS=0` disables the limit (automated tests and local development only).
 
 ## 4. `screening_answer` codes
 
@@ -127,7 +147,7 @@ Every response body is JSON with this shape:
 | `413 Payload Too Large` | Body larger than 10 KB | `payload_too_large` | Generic error. |
 | `415 Unsupported Media Type` | `Content-Type` is not `application/json` | `unsupported_media_type` | Generic error. |
 | `422 Unprocessable Entity` | One or more fields fail validation | `validation_error` | Show localized field-level errors. |
-| `429 Too Many Requests` | Reserved for spam protection (US-013); not emitted in Sprint 001 | `rate_limited` | "Please try again later." |
+| `429 Too Many Requests` | Rate limit exceeded (section 3.2); includes a `Retry-After` header | `rate_limited` | Localized "too many attempts" message (`UX_UI_DIRECTION.md` section 4, Section 7), keep form data. Never show success. |
 | `500 Internal Server Error` | Unexpected server error | `internal_error` | Generic error, keep form data, allow retry. |
 | `503 Service Unavailable` | Google Sheets write failed or storage is misconfigured | `storage_unavailable` | Generic error, keep form data, allow retry. Never show success. |
 
@@ -174,6 +194,8 @@ Backend (environment variables; never committed; see `.env.example` once created
 | `GOOGLE_SHEET_ID` | Target spreadsheet ID |
 | `GOOGLE_SHEET_TAB` | Worksheet name (default `leads`) |
 | `PRIVACY_NOTICE_VERSION` | Identifier of the current privacy notice (e.g. `2026-09-draft-1`) |
+| `RATE_LIMIT_MAX_REQUESTS` | Requests allowed per IP per window (default `5`; `0` disables the limit, for tests and local development only) |
+| `RATE_LIMIT_WINDOW_SECONDS` | Length of the rate-limit window in seconds (default `600`) |
 
 Frontend (Astro public build-time variables):
 
@@ -188,5 +210,7 @@ Local development: the Astro dev server proxies `/api/*` to the local Python ser
 ## 10. Test obligations
 
 - Frontend unit tests (Vitest) and backend tests (pytest) must cover every rule in section 3 with at least one valid and one invalid case per field, using the same shared example values.
-- Backend tests must cover every status code in section 7 except `429`, including a storage failure that returns `503` and does not report success.
+- Backend tests must cover every status code in section 7, including a storage failure that returns `503` and does not report success, and `429` with its `Retry-After` header.
+- Backend tests must cover the honeypot (section 3.1): a filled `website` returns `201` and nothing is stored; an empty or absent `website` is processed normally; a bot never receives `422`.
+- Frontend tests must cover the `429` message and that the hidden `website` field is sent.
 - The end-to-end test (Playwright) must cover: landing → form → `201` → success message → Calendly visible; and a failure path where Calendly stays hidden.
