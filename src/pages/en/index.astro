@@ -18,7 +18,11 @@ const lang = 'en' as const;
 <BaseLayout lang={lang} title={content.meta.title} description={content.hero.supportingLine}>
   <Header lang={lang} content={content.header} />
   <main>
-    <Hero content={content.hero} pendingLabel={content.pendingBadge.label} />
+    <Hero
+      content={content.hero}
+      pendingLabel={content.pendingBadge.label}
+      photoAlt={content.guide.photoPlaceholder}
+    />
     <Recognition content={content.recognition} />
     <TransformationRoadmap content={content.roadmap} />
     <Guide content={content.guide} pendingLabel={content.pendingBadge.label} />

@@ -11,9 +11,11 @@ import { SECTION_IDS, type HeroContent } from '../../i18n';
 interface Props {
   content: HeroContent;
   pendingLabel: string;
+  /** Alt text for the portrait (shared with the guide section's photo). */
+  photoAlt: string;
 }
 
-const { content, pendingLabel } = Astro.props;
+const { content, pendingLabel, photoAlt } = Astro.props;
 
 // Split the approved headline at its natural clause boundary (the comma)
 // so the second clause can carry the spec's italic `brand` emphasis,
@@ -45,12 +47,19 @@ const [headlineLead, headlineEmphasis] =
         class="absolute -right-16 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-gold lg:h-96 lg:w-96"
       >
       </div>
-      <div
-        class="relative h-40 w-40 shrink-0 overflow-hidden rounded-full border-8 border-white shadow-lg sm:h-52 sm:w-52 lg:h-64 lg:w-64"
-      >
-        <div class="flex h-full w-full flex-col items-center justify-center gap-2 bg-paper p-4 text-center">
-          <PendingBadge label={pendingLabel} />
+      <div class="relative flex flex-col items-center gap-3">
+        <div
+          class="h-32 w-32 shrink-0 overflow-hidden rounded-full border-8 border-white shadow-lg sm:h-40 sm:w-40 lg:h-44 lg:w-44"
+        >
+          <img
+            src="/gabriela-provisional.jpg"
+            alt={photoAlt}
+            width="352"
+            height="352"
+            class="h-full w-full object-cover"
+          />
         </div>
+        <PendingBadge label={pendingLabel} />
       </div>
     </div>
   </div>

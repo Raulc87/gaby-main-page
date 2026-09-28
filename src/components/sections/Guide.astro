@@ -1,13 +1,15 @@
 ---
 // US-003, US-015 AC3/AC4: Gabriela as guide. Copy is approved provisional
-// content (UX_UI_DIRECTION.md section 4); the photo/bio/credentials are
+// content (UX_UI_DIRECTION.md section 4); the bio/credentials are
 // separate "space exists but not yet provided" placeholders (US-003 AC2),
 // each marked with the pending-validation badge. Round portrait (white
 // ring + thin gold outline) beside the text, per section 2.1.
 //
-// The provisional photo file has not been provided yet (US-015
-// Dependencies): the portrait frame is ready to receive it, showing a
-// placeholder in the meantime.
+// public/gabriela-provisional.jpg is the provisional photo (US-015
+// Dependencies): her 352x352 Instagram profile picture, per
+// UX_UI_DIRECTION.md section 6 ("too small for production"). The final
+// photo (>=800x800) replaces it, and this pending-validation badge is
+// removed, in US-017 (GK-017-final-content).
 import PendingBadge from './PendingBadge.astro';
 import { SECTION_IDS, type GuideContent } from '../../i18n';
 
@@ -21,10 +23,17 @@ const { content, pendingLabel } = Astro.props;
 
 <section id={SECTION_IDS.guide} class="mx-auto max-w-4xl px-4 py-16">
   <div class="grid gap-10 sm:grid-cols-[auto,1fr] sm:items-start">
-    <div class="relative mx-auto h-40 w-40 shrink-0 overflow-hidden rounded-full border-4 border-white shadow-md ring-1 ring-gold sm:mx-0 sm:h-48 sm:w-48">
-      <div class="flex h-full w-full items-center justify-center bg-paper p-3 text-center text-xs text-muted">
-        {content.photoPlaceholder}
+    <div class="mx-auto flex flex-col items-center gap-3 sm:mx-0">
+      <div class="h-40 w-40 shrink-0 overflow-hidden rounded-full border-4 border-white shadow-md ring-1 ring-gold sm:h-44 sm:w-44">
+        <img
+          src="/gabriela-provisional.jpg"
+          alt={content.photoPlaceholder}
+          width="352"
+          height="352"
+          class="h-full w-full object-cover"
+        />
       </div>
+      <PendingBadge label={pendingLabel} />
     </div>
 
     <div>
