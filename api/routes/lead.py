@@ -1,9 +1,18 @@
 """POST /save-lead route per LEAD_API_CONTRACT.md sections 3, 5, 7, and 8.
 
+Check order per the contract: rate limit (3.2) first, then the
+Content-Type/JSON checks (415/400), then the honeypot (3.1), then field
+validation (422). This lets a bot pass the honeypot decoy without ever
+seeing a field error, while still bounding request volume before anything
+else runs. The rate limit itself is enforced in app.py's before_request
+hook (not here), so it also covers a wrong HTTP method, which never
+reaches this view.
+
 Unexpected exceptions are caught here (rather than left to Flask's error
 handler) so the 500 response is deterministic under Flask's TESTING config,
 where unhandled exceptions otherwise propagate instead of being converted.
-Never log the payload or lead row: it may carry personal data.
+Never log the payload, the lead row, the client IP, or the honeypot value:
+they may carry personal data or are excluded from logging by the contract.
 """
 
 from __future__ import annotations
@@ -16,6 +25,22 @@ from time_utils import format_costa_rica_timestamp
 from validation import validate_lead
 
 bp = Blueprint("lead", __name__)
+
+
+def _is_honeypot_triggered(payload: dict) -> bool:
+    """True when `website` (LEAD_API_CONTRACT.md section 3.1) marks a bot.
+
+    Absent, null, or a string empty after trimming means "empty" (not a
+    bot). Any other string, or any non-string/non-null JSON type, is a bot.
+    """
+    if "website" not in payload:
+        return False
+    value = payload["website"]
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return value.strip() != ""
+    return True
 
 
 @bp.route("/save-lead", methods=["POST"])
@@ -37,6 +62,11 @@ def save_lead():
             "invalid_json",
         )
         response.status_code = 400
+        return response
+
+    if _is_honeypot_triggered(payload):
+        response = contract_response(True, "Lead saved.")
+        response.status_code = 201
         return response
 
     try:
