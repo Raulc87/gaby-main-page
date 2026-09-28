@@ -14,6 +14,8 @@ interface LeadFormCopy {
   submit: { idle: string; submitting: string };
   fieldErrors: Partial<Record<string, string>>;
   submissionError: { before: string; after: string };
+  /** `429` / `rate_limited` message (contract section 3.2, US-013 AC4). */
+  rateLimited: { before: string; after: string };
   contactEmail: string;
 }
 
@@ -71,6 +73,7 @@ export function initLeadForm(root: HTMLElement): void {
     const phoneEl = root.querySelector<HTMLInputElement>('#lead-phone');
     const screeningEl = root.querySelector<HTMLInputElement>('input[name="screening_answer"]:checked');
     const consentEl = root.querySelector<HTMLInputElement>('#lead-consent');
+    const websiteEl = root.querySelector<HTMLInputElement>('#lead-website');
 
     return {
       name: nameEl?.value ?? '',
@@ -79,6 +82,7 @@ export function initLeadForm(root: HTMLElement): void {
       screening_answer: screeningEl?.value ?? '',
       language: detectPageLanguage(window.location.pathname),
       consent: consentEl ? consentEl.checked : false,
+      website: websiteEl?.value ?? '',
     };
   }
 
@@ -92,15 +96,25 @@ export function initLeadForm(root: HTMLElement): void {
     submissionErrorElement.replaceChildren();
   }
 
-  function renderSubmissionError(): void {
+  /** Renders a `{before} mailto-link {after}` message into the submission-error banner (data stays in the form; caller never shows success or Calendly). */
+  function renderBannerMessage(parts: { before: string; after: string }): void {
     submissionErrorElement.replaceChildren();
-    submissionErrorElement.append(document.createTextNode(copy.submissionError.before));
+    submissionErrorElement.append(document.createTextNode(parts.before));
     const link = document.createElement('a');
     link.href = `mailto:${copy.contactEmail}`;
     link.textContent = copy.contactEmail;
     submissionErrorElement.append(link);
-    submissionErrorElement.append(document.createTextNode(copy.submissionError.after));
+    submissionErrorElement.append(document.createTextNode(parts.after));
     submissionErrorElement.hidden = false;
+  }
+
+  function renderSubmissionError(): void {
+    renderBannerMessage(copy.submissionError);
+  }
+
+  /** `429` / `rate_limited` (US-013 AC4): its own localized message; form data stays, no success, no Calendly. */
+  function renderRateLimitedError(): void {
+    renderBannerMessage(copy.rateLimited);
   }
 
   /** Applies every field error it has a DOM slot for; returns whether any error had no slot (caller should also show the generic banner). */
@@ -154,6 +168,10 @@ export function initLeadForm(root: HTMLElement): void {
         }
         if (result.kind === 'validation_error') {
           if (applyFieldErrors(result.fieldErrors)) renderSubmissionError();
+          return;
+        }
+        if (result.kind === 'rate_limited') {
+          renderRateLimitedError();
           return;
         }
         renderSubmissionError();

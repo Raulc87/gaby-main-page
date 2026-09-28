@@ -76,4 +76,6 @@ export const form: FormDictionary = {
   },
   submissionError:
     'No pudimos guardar tu información. Por favor, inténtalo de nuevo en unos minutos. Si el problema continúa, escríbenos a {contact_email}.',
+  rateLimited:
+    'Recibimos varios intentos seguidos desde tu conexión. Por favor, espera unos minutos e inténtalo de nuevo. Si lo prefieres, escríbenos a {contact_email}.',
 };

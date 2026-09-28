@@ -20,11 +20,13 @@ const lang = detectPageLanguage(Astro.url.pathname);
 const form = lang === 'en' ? enForm : esForm;
 
 const submissionErrorParts = splitTemplate(form.submissionError, 'contact_email');
+const rateLimitedParts = splitTemplate(form.rateLimited, 'contact_email');
 
 const scriptCopy = {
   submit: form.submit,
   fieldErrors: form.fieldErrors,
   submissionError: submissionErrorParts,
+  rateLimited: rateLimitedParts,
   contactEmail: CONTACT_EMAIL,
 };
 ---
@@ -34,6 +36,17 @@ const scriptCopy = {
     <h2 class="text-2xl font-semibold text-ink-900">{form.formTitle}</h2>
 
     <form id="lead-form-form" novalidate class="mt-6 space-y-5">
+      <!--
+        Honeypot (US-013, LEAD_API_CONTRACT.md section 3.1): moved off-screen
+        rather than `display: none` (a hidden-by-display field is more
+        commonly ignored by simple bots), removed from Tab order, and hidden
+        from assistive tech; no visible label. People never see or fill it;
+        its value is always sent to the server (contract section 3.1).
+      -->
+      <div aria-hidden="true" class="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+        <input id="lead-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
       <div>
         <label for="lead-name" class="block text-sm font-medium text-ink-800">{form.name.label}</label>
         <input

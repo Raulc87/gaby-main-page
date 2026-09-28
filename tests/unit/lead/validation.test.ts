@@ -7,10 +7,20 @@ import {
   validateConsent,
   validateEmail,
   validateLanguage,
+  validateLeadForm,
   validateName,
   validatePhone,
   validateScreeningAnswer,
 } from '../../../src/lib/lead/validation';
+
+const VALID_RAW_INPUT = {
+  name: 'Ana María Pérez Soto',
+  email: 'ana.perez@example.com',
+  phone: '+50684104791',
+  screening_answer: 'needs_investment_info',
+  language: 'es',
+  consent: true,
+};
 
 describe('validateName', () => {
   it('accepts a normalized full name, collapsing internal whitespace', () => {
@@ -176,5 +186,24 @@ describe('validateConsent', () => {
 
   it('rejects false', () => {
     expect(validateConsent(false)).toEqual({ error: 'consent_required' });
+  });
+});
+
+describe('validateLeadForm (honeypot passthrough, contract section 3.1, US-013)', () => {
+  it('forwards a normally-empty website value with no field error', () => {
+    const { fieldErrors, values } = validateLeadForm({ ...VALID_RAW_INPUT, website: '' });
+    expect(fieldErrors.website).toBeUndefined();
+    expect(values.website).toBe('');
+  });
+
+  it('forwards a filled website value as-is, still with no field error (a bot never receives validation errors)', () => {
+    const { fieldErrors, values } = validateLeadForm({ ...VALID_RAW_INPUT, website: 'http://spam.example' });
+    expect(fieldErrors.website).toBeUndefined();
+    expect(values.website).toBe('http://spam.example');
+  });
+
+  it('normalizes a missing/non-string website to an empty string', () => {
+    expect(validateLeadForm({ ...VALID_RAW_INPUT, website: undefined }).values.website).toBe('');
+    expect(validateLeadForm({ ...VALID_RAW_INPUT, website: null }).values.website).toBe('');
   });
 });

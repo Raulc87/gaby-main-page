@@ -4,16 +4,18 @@
 // Per the contract: "Network failure or a non-JSON response is treated by
 // the frontend like 500", and the UX copy defines a single generic
 // submission-error message for "any non-201 result, network failure"
-// (UX_UI_DIRECTION.md section 7) — the only outcome with distinct handling
-// besides success is 422 with field errors. So every other status
-// (400/404/405/413/415/429/500/503, network failure, or a non-JSON body)
-// collapses into `generic_error`.
+// (UX_UI_DIRECTION.md section 7) — the outcomes with distinct handling
+// besides success are 422 with field errors and 429 / rate_limited
+// (US-013 AC4: its own localized message, keep form data, no success, no
+// Calendly). Every other status (400/404/405/413/415/500/503, network
+// failure, or a non-JSON body) collapses into `generic_error`.
 import { LEAD_ENDPOINT } from './config';
 import type { LeadApiResponseBody, LeadFieldErrors, LeadRequestPayload } from './types';
 
 export type SubmitLeadResult =
   | { kind: 'success' }
   | { kind: 'validation_error'; fieldErrors: LeadFieldErrors }
+  | { kind: 'rate_limited' }
   | { kind: 'generic_error' };
 
 function isLeadApiResponseBody(value: unknown): value is LeadApiResponseBody {
@@ -42,6 +44,10 @@ export async function submitLead(
 
   if (response.status === 201) {
     return { kind: 'success' };
+  }
+
+  if (response.status === 429) {
+    return { kind: 'rate_limited' };
   }
 
   let body: unknown;

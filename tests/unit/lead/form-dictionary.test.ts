@@ -17,6 +17,11 @@ describe('form dictionaries', () => {
     expect(enForm.submissionError).toContain('{contact_email}');
   });
 
+  it('carries the {contact_email} placeholder in the rate-limited (429) message', () => {
+    expect(esForm.rateLimited).toContain('{contact_email}');
+    expect(enForm.rateLimited).toContain('{contact_email}');
+  });
+
   it('defines exactly the four contract screening_answer codes, in order, in both languages', () => {
     const esCodes = esForm.screening.options.map((option) => option.code);
     const enCodes = enForm.screening.options.map((option) => option.code);
