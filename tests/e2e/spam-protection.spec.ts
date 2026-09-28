@@ -1,5 +1,6 @@
 // US-013 client-side spam protection (LEAD_API_CONTRACT.md v1.1 sections 3.1
-// and 3.2; UX_UI_DIRECTION.md section 4, Section 7). Two independent things:
+// and 3.2; UX_UI_DIRECTION.md section 4, Section 7). Three independent
+// things:
 //
 // 1. The honeypot field `website` (AC1): verified in Chromium at desktop and
 //    390 px — not visible, not reachable with Tab, empty after load and
@@ -7,20 +8,19 @@
 //    `desktop-chromium` Playwright project by default; the 390 px checks
 //    below use `test.use({ viewport })` to get that width without touching
 //    playwright.config.ts (owned by Agent 1).
-// 2. `429` / `rate_limited` (AC3/AC4), forced via route mocking (the real
-//    backend's rate limiter is Agent 3's GK-013-spam-protection, not yet
-//    merged): the localized "too many attempts" message is shown, the
-//    entered data stays, and neither success nor Calendly appear.
-//
-// Once GK-013-spam-protection (server) is merged, a further e2e test fills
-// the honeypot against the real backend in memory mode and checks that the
-// success path shows while nothing is stored (per SPRINT_002.md).
-import { expect, test } from '@playwright/test';
+// 2. The honeypot decoy against the real backend (AC2, GK-013-spam-protection
+//    merged): a filled `website` still returns 201 and looks identical to a
+//    real submission from the visitor's side.
+// 3. `429` / `rate_limited` (AC3/AC4), forced via route mocking (deliberately
+//    independent of the real rate limiter's timing/window, which pytest
+//    already covers): the localized "too many attempts" message is shown,
+//    the entered data stays, and neither success nor Calendly appear.
+import { expect, test, type Page } from '@playwright/test';
 import { form as enForm } from '../../src/i18n/en/form';
 import { form as esForm } from '../../src/i18n/es/form';
 import { fillLeadForm, gotoLang, SELECTORS, VALID_LEAD } from './support/lead-form';
 
-async function expectHoneypotOffScreen(page: import('@playwright/test').Page): Promise<void> {
+async function expectHoneypotMitigations(page: Page): Promise<void> {
   const honeypot = page.locator(SELECTORS.honeypotInput);
   await expect(honeypot).toHaveCount(1);
 
@@ -45,40 +45,79 @@ async function expectHoneypotOffScreen(page: import('@playwright/test').Page): P
   expect(labelCount).toBe(0);
 }
 
-test.describe('honeypot field (desktop)', () => {
-  test('is off-screen, unlabeled, and carries the required mitigations', async ({ page }) => {
-    await gotoLang(page, 'es');
-    await expectHoneypotOffScreen(page);
+/**
+ * The honeypot `<div>` is the first control inside `<form>` (LeadForm.astro),
+ * immediately before `#lead-name` in DOM order. That makes Shift+Tab from
+ * `#lead-name` the one direct probe of `tabindex="-1"`: without it, that
+ * exact key press would land on the honeypot (verified by hand against this
+ * build with `tabindex` removed). A forward Tab walk from `#lead-name`
+ * cannot reach it regardless of `tabindex` — the honeypot precedes that
+ * field — so it proves nothing about the mitigation on its own; kept here
+ * only as defense-in-depth against a future reordering of the form fields.
+ */
+async function expectHoneypotUnreachableByTab(page: Page): Promise<void> {
+  await page.locator(SELECTORS.nameInput).focus();
+  await page.keyboard.press('Shift+Tab');
+  const shiftTabTargetId = await page.evaluate(() => document.activeElement?.id ?? '');
+  expect(shiftTabTargetId).not.toBe('lead-website');
+
+  await page.locator(SELECTORS.nameInput).focus();
+  const forwardFocusedIds: string[] = [];
+  for (let i = 0; i < 8; i += 1) {
+    await page.keyboard.press('Tab');
+    forwardFocusedIds.push(await page.evaluate(() => document.activeElement?.id ?? ''));
+  }
+  expect(forwardFocusedIds).not.toContain('lead-website');
+}
+
+async function expectHoneypotEmpty(page: Page): Promise<void> {
+  await expect(page.locator(SELECTORS.honeypotInput)).toHaveValue('');
+  await fillLeadForm(page);
+  await expect(page.locator(SELECTORS.honeypotInput)).toHaveValue('');
+}
+
+for (const [description, viewportOptions] of [
+  ['desktop', undefined],
+  ['at 390 px', { viewport: { width: 390, height: 844 } }],
+] as const) {
+  test.describe(`honeypot field (${description})`, () => {
+    if (viewportOptions) test.use(viewportOptions);
+
+    test('is off-screen, unlabeled, and carries the required mitigations', async ({ page }) => {
+      await gotoLang(page, 'es');
+      await expectHoneypotMitigations(page);
+    });
+
+    test('is not reachable with Tab', async ({ page }) => {
+      await gotoLang(page, 'es');
+      await expectHoneypotUnreachableByTab(page);
+    });
+
+    test('is empty after load and stays empty after filling the visible fields', async ({ page }) => {
+      await gotoLang(page, 'es');
+      await expectHoneypotEmpty(page);
+    });
   });
+}
 
-  test('is empty after load and stays empty after filling the visible fields', async ({ page }) => {
+test.describe('honeypot decoy against the real backend (memory mode)', () => {
+  test('a filled website still returns the normal success response, indistinguishable from a real submission', async ({
+    page,
+  }) => {
     await gotoLang(page, 'es');
-    await expect(page.locator(SELECTORS.honeypotInput)).toHaveValue('');
-
     await fillLeadForm(page);
-    await expect(page.locator(SELECTORS.honeypotInput)).toHaveValue('');
-  });
+    // A bot fills every field it can reach in the DOM, ignoring the CSS that
+    // keeps this one off-screen for people (contract section 3.1).
+    await page.locator(SELECTORS.honeypotInput).fill('https://bot.example');
+    await page.locator(SELECTORS.submitButton).click();
 
-  test('is skipped by Tab navigation', async ({ page }) => {
-    await gotoLang(page, 'es');
-    await page.locator(SELECTORS.nameInput).focus();
+    await expect(page.locator(SELECTORS.formContainer)).toBeHidden();
+    await expect(page.locator(SELECTORS.successContainer)).toBeVisible();
+    await expect(page.getByRole('heading', { name: esForm.thankYou.title })).toBeVisible();
 
-    const focusedIds: string[] = [];
-    for (let i = 0; i < 8; i += 1) {
-      await page.keyboard.press('Tab');
-      focusedIds.push(await page.evaluate(() => document.activeElement?.id ?? ''));
-    }
-
-    expect(focusedIds).not.toContain('lead-website');
-  });
-});
-
-test.describe('honeypot field at 390 px', () => {
-  test.use({ viewport: { width: 390, height: 844 } });
-
-  test('is off-screen at 390 px', async ({ page }) => {
-    await gotoLang(page, 'es');
-    await expectHoneypotOffScreen(page);
+    // Nothing is stored for this decoy request (contract section 3.1); that
+    // the server does not persist it is covered by api/tests/test_spam_protection.py
+    // — there is no HTTP-observable way to assert it from here.
   });
 });
 

@@ -61,8 +61,10 @@ export async function submitLead(
   // malformed/non-JSON 429 (e.g. from an intermediary proxy or WAF, not the
   // application) must fall through to `generic_error` per the contract's
   // "a non-JSON response is treated like 500" rule, not be taken at face
-  // value from the status code alone.
-  if (response.status === 429) {
+  // value from the status code alone. Also requiring `error_code ===
+  // 'rate_limited'` (not the status code alone) keeps this from misreading
+  // a 429 in some other shape the contract doesn't define.
+  if (response.status === 429 && body.error_code === 'rate_limited') {
     return { kind: 'rate_limited' };
   }
 

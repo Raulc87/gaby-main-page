@@ -134,6 +134,22 @@ describe('submitLead', () => {
     await expect(submitLead(payload, '/api/save-lead')).resolves.toEqual({ kind: 'generic_error' });
   });
 
+  it('returns generic_error on a well-formed 429 whose error_code is not rate_limited', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        jsonResponse(429, {
+          success: false,
+          message: 'Too many requests.',
+          error_code: 'internal_error',
+          field_errors: null,
+        }),
+      ),
+    );
+
+    await expect(submitLead(payload, '/api/save-lead')).resolves.toEqual({ kind: 'generic_error' });
+  });
+
   it('always sends the website honeypot field in the request body (contract section 3.1)', async () => {
     const fetchMock = vi.fn().mockResolvedValue(
       jsonResponse(201, { success: true, message: 'Lead saved.', error_code: null, field_errors: null }),
