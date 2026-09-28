@@ -40,6 +40,9 @@ jobs:
     env:
       LEADS_STORAGE: memory
       PRIVACY_NOTICE_VERSION: e2e-ci
+      # US-013 / ADR-004: disabled so e2e runs never hit 429 from the
+      # real backend; a 429 e2e test uses route mocking instead.
+      RATE_LIMIT_MAX_REQUESTS: "0"
     steps:
       - uses: actions/checkout@v4
 

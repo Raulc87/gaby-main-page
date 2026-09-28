@@ -13,6 +13,7 @@ from flask import Flask
 
 from config import Config
 from errors import register_error_handlers
+from rate_limit import RateLimiter
 from routes.lead import bp as lead_bp
 from storage import create_storage
 
@@ -26,6 +27,10 @@ def create_app(api_prefix: str = "") -> Flask:
     config = Config()
     app.config["LEAD_STORAGE"] = create_storage(config)
     app.config["PRIVACY_NOTICE_VERSION"] = config.PRIVACY_NOTICE_VERSION
+    app.config["RATE_LIMITER"] = RateLimiter(
+        max_requests=config.RATE_LIMIT_MAX_REQUESTS,
+        window_seconds=config.RATE_LIMIT_WINDOW_SECONDS,
+    )
 
     register_error_handlers(app)
     app.register_blueprint(lead_bp, url_prefix=api_prefix)

@@ -15,3 +15,5 @@ class Config:
         self.GOOGLE_SERVICE_ACCOUNT_FILE = os.environ.get("GOOGLE_SERVICE_ACCOUNT_FILE")
         self.GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID")
         self.GOOGLE_SHEET_TAB = os.environ.get("GOOGLE_SHEET_TAB", "leads")
+        self.RATE_LIMIT_MAX_REQUESTS = int(os.environ.get("RATE_LIMIT_MAX_REQUESTS", "5"))
+        self.RATE_LIMIT_WINDOW_SECONDS = int(os.environ.get("RATE_LIMIT_WINDOW_SECONDS", "600"))

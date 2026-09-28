@@ -11,6 +11,10 @@ jobs:
     defaults:
       run:
         working-directory: api
+    env:
+      # US-013 / ADR-004: disabled so pytest is never affected by the
+      # rate limiter; rate-limit tests install their own RateLimiter.
+      RATE_LIMIT_MAX_REQUESTS: "0"
     steps:
       - uses: actions/checkout@v4
 
