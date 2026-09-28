@@ -31,6 +31,35 @@
   --radius-md: 2px;
   --radius-lg: 2px;
   --radius-xl: 2px;
+
+  /*
+   * Temporary compatibility aliases for the provisional shade-based scale
+   * this PR replaces (--color-brand-*, --color-ink-*, --color-surface-muted).
+   * Every component that isn't restyled onto the tokens above yet — across
+   * all three agents' files — still uses utilities built on these names
+   * (bg-brand-600, text-ink-900, border-ink-300, and so on). Without this
+   * block, Tailwind emits no color for them and controls like the hero CTA
+   * and the form submit button render as invisible white-on-nothing,
+   * breaking the already-accepted lead flow (AGENTS.md: a change must not
+   * break already-accepted functionality).
+   *
+   * Remove this block once every component that references it has been
+   * restyled onto the tokens above (GK-015-visual-identity,
+   * GK-015-form-style, and any other in-flight branch).
+   */
+  --color-brand-50: #eef2f8;
+  --color-brand-100: #dce6f1;
+  --color-brand-600: var(--color-brand);
+  --color-brand-700: var(--color-navy);
+  --color-ink-100: var(--color-line);
+  --color-ink-200: var(--color-line);
+  --color-ink-300: var(--color-line);
+  --color-ink-500: var(--color-muted);
+  --color-ink-600: var(--color-muted);
+  --color-ink-700: var(--color-muted);
+  --color-ink-800: var(--color-ink);
+  --color-ink-900: var(--color-ink);
+  --color-surface-muted: var(--color-paper);
 }
 
 html {
