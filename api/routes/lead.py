@@ -4,7 +4,9 @@ Check order per the contract: rate limit (3.2) first, then the
 Content-Type/JSON checks (415/400), then the honeypot (3.1), then field
 validation (422). This lets a bot pass the honeypot decoy without ever
 seeing a field error, while still bounding request volume before anything
-else runs.
+else runs. The rate limit itself is enforced in app.py's before_request
+hook (not here), so it also covers a wrong HTTP method, which never
+reaches this view.
 
 Unexpected exceptions are caught here (rather than left to Flask's error
 handler) so the 500 response is deterministic under Flask's TESTING config,
@@ -43,14 +45,6 @@ def _is_honeypot_triggered(payload: dict) -> bool:
 
 @bp.route("/save-lead", methods=["POST"])
 def save_lead():
-    limiter = current_app.config["RATE_LIMITER"]
-    allowed, retry_after = limiter.check(request.remote_addr or "")
-    if not allowed:
-        response = contract_response(False, "Too many requests.", "rate_limited")
-        response.status_code = 429
-        response.headers["Retry-After"] = str(retry_after)
-        return response
-
     if (request.mimetype or "").lower() != "application/json":
         response = contract_response(
             False,

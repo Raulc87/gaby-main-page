@@ -82,6 +82,52 @@ def test_limits_are_independent_per_key():
     assert second_allowed is True
 
 
+def test_inactive_key_is_evicted_once_its_window_expires():
+    now = [0.0]
+    limiter = RateLimiter(max_requests=5, window_seconds=600, clock=lambda: now[0])
+
+    limiter.check("1.2.3.4")
+    assert "1.2.3.4" in limiter._requests
+
+    # 1.2.3.4 never comes back; a different client's check must still
+    # sweep it out once its window has passed (LEAD_API_CONTRACT.md
+    # section 3.2: dropped "once they all expire", not only when the
+    # same key is checked again).
+    now[0] = 600.1
+    limiter.check("5.6.7.8")
+
+    assert "1.2.3.4" not in limiter._requests
+    assert "5.6.7.8" in limiter._requests
+
+
+def test_many_inactive_keys_do_not_accumulate_without_bound():
+    now = [0.0]
+    limiter = RateLimiter(max_requests=5, window_seconds=600, clock=lambda: now[0])
+
+    for i in range(1000):
+        limiter.check(f"10.0.{i // 256}.{i % 256}")
+
+    now[0] = 10_000.0  # well past every one of those keys' window
+    limiter.check("192.0.2.1")
+
+    assert list(limiter._requests) == ["192.0.2.1"]
+
+
+def test_partial_expiry_keeps_only_the_still_valid_timestamps():
+    now = [0.0]
+    limiter = RateLimiter(max_requests=2, window_seconds=10, clock=lambda: now[0])
+
+    limiter.check("1.2.3.4")  # t=0, expires at t=10
+    now[0] = 5.0
+    limiter.check("1.2.3.4")  # t=5, expires at t=15
+
+    now[0] = 11.0  # the t=0 request has left the window, t=5 has not
+    allowed, _ = limiter.check("1.2.3.4")  # only one prior timestamp counts
+
+    assert allowed is True
+    assert limiter._requests["1.2.3.4"] == [5.0, 11.0]
+
+
 def test_thread_safe_under_concurrent_access():
     limiter = RateLimiter(max_requests=50, window_seconds=60, clock=lambda: 0.0)
     accepted = []

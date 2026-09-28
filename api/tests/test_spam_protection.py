@@ -139,6 +139,29 @@ def test_rate_limit_does_not_trust_x_forwarded_for(app, client):
     assert response.status_code == 429  # same REMOTE_ADDR, spoofed header ignored
 
 
+def test_wrong_method_counts_toward_the_limit(app, client):
+    _install_limiter(app, max_requests=2, window_seconds=600)
+
+    first = client.get("/api/save-lead")  # 405, but still counted
+    second = client.get("/api/save-lead")  # 405, but still counted
+    assert first.status_code == 405
+    assert second.status_code == 405
+
+    third = client.post("/api/save-lead", json=VALID_PAYLOAD)
+    assert third.status_code == 429
+
+
+def test_wrong_method_is_rejected_with_429_when_already_over_limit(app, client):
+    _install_limiter(app, max_requests=1, window_seconds=600)
+
+    client.post("/api/save-lead", json=VALID_PAYLOAD)
+    response = client.get("/api/save-lead")
+
+    assert response.status_code == 429
+    assert response.get_json()["error_code"] == "rate_limited"
+    assert "Retry-After" in response.headers
+
+
 # --- honeypot (section 3.1) ---------------------------------------------
 
 

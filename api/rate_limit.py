@@ -47,20 +47,37 @@ class RateLimiter:
         if not self.enabled:
             return True, 0
 
-        now = self._clock()
-        cutoff = now - self._window_seconds
-
         with self._lock:
-            timestamps = [t for t in self._requests.get(key, ()) if t > cutoff]
+            # The clock is read inside the lock so concurrent calls append
+            # to a key's list in true chronological order; otherwise two
+            # racing calls could interleave and leave timestamps[0]
+            # pointing at something other than the oldest request.
+            now = self._clock()
+            self._evict_expired(now - self._window_seconds)
 
+            timestamps = self._requests.get(key, [])
             if len(timestamps) >= self._max_requests:
                 retry_after = max(1, math.ceil(timestamps[0] + self._window_seconds - now))
-                if timestamps:
-                    self._requests[key] = timestamps
-                else:
-                    self._requests.pop(key, None)
                 return False, retry_after
 
             timestamps.append(now)
             self._requests[key] = timestamps
             return True, 0
+
+    def _evict_expired(self, cutoff: float) -> None:
+        """Drop every key whose counted requests have all left the window.
+
+        Runs on every check(), for every key, not just the one being
+        checked, so an IP that never returns is not held indefinitely
+        (LEAD_API_CONTRACT.md section 3.2: entries "are dropped once they
+        all expire"). Must be called with `_lock` held.
+        """
+        expired_keys = []
+        for existing_key, timestamps in self._requests.items():
+            remaining = [t for t in timestamps if t > cutoff]
+            if remaining:
+                self._requests[existing_key] = remaining
+            else:
+                expired_keys.append(existing_key)
+        for existing_key in expired_keys:
+            del self._requests[existing_key]
