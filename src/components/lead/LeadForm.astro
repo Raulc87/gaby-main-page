@@ -32,8 +32,8 @@ const scriptCopy = {
 ---
 
 <section id={SECTION_IDS.leadForm} class="mx-auto max-w-xl px-4 py-12" data-copy={JSON.stringify(scriptCopy)}>
-  <div id="lead-form-container">
-    <h2 class="text-2xl font-semibold text-ink-900">{form.formTitle}</h2>
+  <div id="lead-form-container" class="rounded-md border-t-4 border-navy bg-surface p-6 shadow-sm sm:p-8">
+    <h2 class="text-2xl font-semibold text-ink">{form.formTitle}</h2>
 
     <form id="lead-form-form" novalidate class="mt-6 space-y-5">
       <!--
@@ -48,7 +48,7 @@ const scriptCopy = {
       </div>
 
       <div>
-        <label for="lead-name" class="block text-sm font-medium text-ink-800">{form.name.label}</label>
+        <label for="lead-name" class="block text-sm font-medium text-ink">{form.name.label}</label>
         <input
           id="lead-name"
           name="name"
@@ -57,14 +57,14 @@ const scriptCopy = {
           required
           aria-required="true"
           aria-describedby="lead-name-hint lead-name-error"
-          class="mt-1 block w-full min-h-11 rounded-md border border-ink-300 px-3 py-2"
+          class="mt-1 block min-h-11 w-full rounded-md border border-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
         />
-        <p id="lead-name-hint" class="mt-1 text-xs text-ink-500">{form.name.hint}</p>
-        <p id="lead-name-error" role="alert" class="mt-1 text-sm text-red-600"></p>
+        <p id="lead-name-hint" class="mt-1 text-xs text-muted">{form.name.hint}</p>
+        <p id="lead-name-error" role="alert" class="mt-1 text-sm text-red-700"></p>
       </div>
 
       <div>
-        <label for="lead-email" class="block text-sm font-medium text-ink-800">{form.email.label}</label>
+        <label for="lead-email" class="block text-sm font-medium text-ink">{form.email.label}</label>
         <input
           id="lead-email"
           name="email"
@@ -73,13 +73,13 @@ const scriptCopy = {
           required
           aria-required="true"
           aria-describedby="lead-email-error"
-          class="mt-1 block w-full min-h-11 rounded-md border border-ink-300 px-3 py-2"
+          class="mt-1 block min-h-11 w-full rounded-md border border-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
         />
-        <p id="lead-email-error" role="alert" class="mt-1 text-sm text-red-600"></p>
+        <p id="lead-email-error" role="alert" class="mt-1 text-sm text-red-700"></p>
       </div>
 
       <div>
-        <label for="lead-phone" class="block text-sm font-medium text-ink-800">{form.phone.label}</label>
+        <label for="lead-phone" class="block text-sm font-medium text-ink">{form.phone.label}</label>
         <input
           id="lead-phone"
           name="phone"
@@ -88,46 +88,55 @@ const scriptCopy = {
           required
           aria-required="true"
           aria-describedby="lead-phone-hint lead-phone-error"
-          class="mt-1 block w-full min-h-11 rounded-md border border-ink-300 px-3 py-2"
+          class="mt-1 block min-h-11 w-full rounded-md border border-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
         />
-        <p id="lead-phone-hint" class="mt-1 text-xs text-ink-500">{form.phone.hint}</p>
-        <p id="lead-phone-error" role="alert" class="mt-1 text-sm text-red-600"></p>
+        <p id="lead-phone-hint" class="mt-1 text-xs text-muted">{form.phone.hint}</p>
+        <p id="lead-phone-error" role="alert" class="mt-1 text-sm text-red-700"></p>
       </div>
 
       <fieldset id="lead-screening" aria-describedby="lead-screening-error" class="space-y-2">
-        <legend class="block text-sm font-medium text-ink-800">{form.screening.prompt}</legend>
+        <legend class="block text-sm font-medium text-ink">{form.screening.prompt}</legend>
         {
           form.screening.options.map((option, index) => (
-            <label class="flex min-h-11 items-center gap-2 text-sm text-ink-800">
+            <label class="flex min-h-11 items-center gap-3 rounded-md border border-line bg-paper px-4 py-3 text-sm text-ink transition-colors has-[:checked]:border-brand has-[:checked]:bg-brand/5 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold">
               <input
                 type="radio"
                 name="screening_answer"
                 value={option.code}
                 required={index === 0}
-                class="h-4 w-4 shrink-0"
+                class="h-4 w-4 shrink-0 accent-brand"
               />
               {option.label}
             </label>
           ))
         }
-        <p id="lead-screening-error" role="alert" class="mt-1 text-sm text-red-600"></p>
+        <p id="lead-screening-error" role="alert" class="mt-1 text-sm text-red-700"></p>
       </fieldset>
 
       <ConsentField consent={form.consent} />
 
-      <p id="lead-submission-error" role="alert" hidden class="text-sm text-red-600"></p>
+      <p id="lead-submission-error" role="alert" hidden class="text-sm text-red-700"></p>
 
       <button
         id="lead-submit"
         type="submit"
-        class="min-h-11 w-full rounded-md bg-brand-600 px-4 py-2 font-medium text-white disabled:opacity-60"
+        class="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-md bg-navy px-6 py-3 font-medium text-white transition hover:-translate-y-0.5 hover:bg-brand disabled:pointer-events-none disabled:opacity-60 disabled:hover:translate-y-0"
       >
-        {form.submit.idle}
+        <span data-submit-label>{form.submit.idle}</span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          class="h-4 w-4 shrink-0 stroke-current transition-transform group-hover:translate-x-0.5"
+          fill="none"
+          stroke-width="1.6"
+        >
+          <path d="M4 10h12M11 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
       </button>
     </form>
   </div>
 
-  <div id="lead-success-container" hidden>
+  <div id="lead-success-container" class="rounded-md border-t-4 border-navy bg-surface p-6 shadow-sm sm:p-8" hidden>
     <ThankYou thankYou={form.thankYou} />
     <Scheduling calendlyFallback={form.calendlyFallback} />
   </div>
