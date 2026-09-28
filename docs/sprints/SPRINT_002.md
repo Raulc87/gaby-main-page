@@ -4,8 +4,8 @@
 - Status: PLANNED — waiting for the human owner's go-ahead
 - Duration: 7 business days
 - Saturdays and Sundays excluded
-- Start: 2026-09-29 (Tuesday), or the first business day after the go-ahead
-- End: 2026-10-07 (Wednesday) — Sprint Review
+- Start: the first business day after the go-ahead (planned: 2026-09-29, Tuesday)
+- End: the 7th business day from the start — Sprint Review (planned: 2026-10-07, Wednesday; moves with the start)
 - Final reviewer: Human project owner
 
 ## Sprint Goal
@@ -14,7 +14,7 @@ Make the site ready for public launch on GoDaddy: the approved visual identity, 
 
 ## Required Deliverable
 
-The site running on GoDaddy cPanel (static site at the root, Python app at `/api`, HTTPS), storing leads in the production sheet in Gabriela's Google account, and passing the post-deploy smoke test. It is announced publicly only after the go-live gate below.
+The site running on GoDaddy cPanel (static site at the root, Python app at `/api`, HTTPS), storing leads in the production sheet in Gabriela's Google account, and passing the post-deploy smoke test. Until the go-live gate below passes, the whole site (including `/api`) stays password-protected, so it is not publicly reachable and cannot collect real leads.
 
 ## Entry Gates
 
@@ -47,6 +47,7 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 | US-017 (proof cards: text and video) | 3 | Agent 1 | `GK-015-visual-identity` | `GK-017-testimonial-cards` | Planned |
 | US-017 (Gabriela's content) | — | Agent 1 | Content by 2026-10-02, recorded in the UX doc | `GK-017-final-content` | Planned |
 | US-018 | 2 | Agent 2 | Legal text by 2026-10-02, recorded in the UX doc | `GK-018-privacy-notice` | Planned |
+| US-018 (version in `api/.env.example` and `DEPLOYMENT.md`) | — | Agent 3 | Same as above | `GK-018-privacy-version` | Planned |
 | US-014 (runbook) | 3 | Agent 3 | US-013, US-016 | `GK-014-deployment-runbook` | Planned |
 | US-014 (deploy and smoke test) | — | Human owner | Runbook, domain, SSL, production sheet | — | Planned |
 | Runbook refresh (chore) | — | Agent 3 | — | `GK-CHORE-runbook-refresh` | Planned |
@@ -57,7 +58,7 @@ The chore fixes `docs/runbooks/LOCAL_DEVELOPMENT.md`: the outdated section 7 not
 
 ## Go-live Gate
 
-The site is announced publicly only when all of these are true:
+The password protection is removed (the site goes public) and the site is announced only when all of these are true:
 1. US-013, US-016 and US-018 are merged.
 2. US-017 content is approved by Gabriela and merged; the human owner has decided which pending-validation markers, if any, remain (the proof placeholders stay for now).
 3. The final Calendly URL and contact email are set in the production build.
@@ -105,8 +106,8 @@ Locked: `docs/specs/LEAD_API_CONTRACT.md` v1.1. No parallel work may change it; 
 1. `GK-015-theme-tokens` (Agent 1), `GK-013-spam-protection` (Agent 3) and `GK-013-honeypot-client` (Agent 2), in any order.
 2. `GK-015-visual-identity` (Agent 1) and `GK-015-form-style` (Agent 2), after the tokens; `GK-016-storage-logging` and `GK-CHORE-runbook-refresh` (Agent 3).
 3. `GK-017-testimonial-cards` (Agent 1); `GK-014-deployment-runbook` (Agent 3), after US-013 and US-016.
-4. Content: the human owner's `GK-DOCS-...` PR with Gabriela's copy and the privacy text, then `GK-017-final-content` (Agent 1) and `GK-018-privacy-notice` (Agent 2).
-5. Human owner: deploy with the runbook, smoke test, go-live gate.
+4. Content: the human owner's `GK-DOCS-...` PR with Gabriela's copy and the privacy text, then `GK-017-final-content` (Agent 1), `GK-018-privacy-notice` (Agent 2) and `GK-018-privacy-version` (Agent 3).
+5. Human owner: deploy with the runbook behind password protection, smoke test, then the go-live gate.
 
 ## Conflict Resolution
 
@@ -138,7 +139,7 @@ Parallel work is not complete until:
 
 ## Risks
 
-- Gabriela's content or the legal text arrives after 2026-10-02: US-017 content and US-018 move to Sprint 003 and go-live waits; everything else (look, spam protection, logging, deployment) still ships and can be deployed without announcing the site.
+- Gabriela's content or the legal text arrives after 2026-10-02: US-017 content and US-018 move to Sprint 003 and go-live waits; everything else (look, spam protection, logging, deployment) still ships and can be deployed behind password protection.
 - Domain or SSL not ready: the runbook is still written and reviewed; the deploy step waits.
 - Shared-hosting limits (Passenger processes, Python version): ADR-001 fallback (Cloud Run) stays available.
 - The restyle can break e2e selectors: Agent 1 keeps IDs, anchors, `data-testid` attributes and roles; the required e2e CI job runs on every PR, and if a selector must change, Agent 1 asks Agent 2 to update `tests/e2e/**`.

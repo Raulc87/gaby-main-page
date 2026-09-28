@@ -25,10 +25,10 @@
 ## Current sprint
 - Sprint: Sprint 002
 - Goal: Make the site ready for public launch on GoDaddy (visual identity, final content and privacy notice, spam protection, storage-failure logging, deployment)
-- Start: 2026-09-29 (or the first business day after the go-ahead)
-- End: 2026-10-07
+- Start: the first business day after the go-ahead (planned 2026-09-29)
+- End: the 7th business day from the start (planned 2026-10-07)
 - Duration: 7 business days, excluding Saturday and Sunday
-- Deliverable: Site deployed on GoDaddy over HTTPS, passing the smoke test; public announcement after the go-live gate in the sprint plan
+- Deliverable: Site deployed on GoDaddy over HTTPS, password-protected and passing the smoke test; made public only after the go-live gate in the sprint plan
 - Status: PLANNED — waiting for go-ahead
 
 ## Agent allocation

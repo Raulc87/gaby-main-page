@@ -276,11 +276,11 @@ I want the public form protected against automated submissions,
 so that the lead sheet stays clean and the endpoint cannot be abused.
 
 **Acceptance Criteria**
-1. The form contains a hidden honeypot field `website` that people never see, reach with the keyboard, or hear with a screen reader, and that browsers do not autofill; its value is always sent.
+1. The form contains a hidden honeypot field `website` with these mitigations against people or browsers filling it: moved off-screen (not `display: none`), `tabindex="-1"`, `autocomplete="off"`, `aria-hidden="true"` on its wrapper, no visible label, and a name and `type="text"` that do not match common autofill types. Its value is always sent. Verified with Playwright in Chromium (desktop and 390 px): not visible, not reachable with Tab, empty after load and after filling the visible fields. The remaining risk (an extension filling it and a real lead being dropped) is accepted in ADR-004.
 2. A request with a filled `website` returns the normal `201` success response and stores nothing (contract section 3.1).
 3. Requests are rate-limited per IP as in contract section 3.2; excess requests receive `429` / `rate_limited` with a `Retry-After` header, and nothing is stored.
 4. On `429` the form keeps the entered data and shows the localized "too many attempts" message from `UX_UI_DIRECTION.md` (both languages); no success and no Calendly.
-5. Neither the IP address nor the honeypot value is logged or stored.
+5. The honeypot value is never logged or stored. IP addresses exist only in the limiter's in-memory state and are dropped when their requests leave the window (contract section 3.2); they are never logged or written anywhere.
 6. `.env.example` files document `RATE_LIMIT_MAX_REQUESTS` and `RATE_LIMIT_WINDOW_SECONDS`; CI and e2e run with the limit disabled or high enough not to interfere.
 7. Done already in planning: CAPTCHA evaluated in ADR-004 (not needed for now); contract updated to v1.1.
 
@@ -304,7 +304,7 @@ so that real visitors can use it.
 3. The site is served only over HTTPS on the final domain (HTTP redirects to HTTPS).
 4. Production uses the Google Sheet and service account in Gabriela's Google account (set up by the human owner at deploy time); development and CI keep using the owner's development sheet or memory mode.
 5. A post-deploy smoke test in the runbook passes on the live site: both languages load, a test lead lands in the production sheet with the right columns, the thank-you and the real Calendly appear, a filled honeypot stores nothing, and the test row is then deleted.
-6. Go-live gate: the page is made public only after US-013, US-016, and US-018 are done and the US-017 content is approved.
+6. Until the go-live gate in `SPRINT_002.md` passes, the whole site, including `/api`, is password-protected (cPanel Directory Privacy), so it cannot collect real leads under a draft notice; the runbook checks that `/` and `POST /api/save-lead` return `401` without credentials. Going live means removing the protection, only after US-013, US-016, and US-018 are done and the US-017 content is approved.
 
 ---
 

@@ -62,19 +62,20 @@ Unknown fields are ignored, except the honeypot field `website` (section 3.1). F
 
 | Field | Type | Required | Rule |
 |---|---|---|---|
-| `website` | string | no | Sent by the form from a field that people never see or fill. It must be absent, `null`, or an empty string (after trimming). |
+| `website` | string | no | Sent by the form from a field that people never see or fill. Absent, `null`, and a string that is empty after trimming all mean "empty" and the request is processed normally. |
 
 - The frontend always sends `website`, with the value of the hidden field (normally `""`).
-- If `website` holds anything else (any non-empty value, or any non-string value), the request is treated as a bot: the server returns the normal `201` success response and **does not store the lead**. The bot gets no signal that it was detected.
+- If `website` is a string that is non-empty after trimming, or any JSON type other than string or `null` (number, boolean, object, array), the request is treated as a bot: the server returns the normal `201` success response and **does not store the lead**. The bot gets no signal that it was detected. This decoy `201` is the only `201` that does not mean a stored lead (section 7).
 - The honeypot check runs after the content-type and JSON checks (`415`, `400`) and after the rate limit (section 3.2), and before field validation, so a bot never receives field errors.
 - `website` is never stored and never written to the sheet.
 
 ### 3.2 Rate limit (US-013)
 
-- Every `POST /save-lead` request counts against the client IP address as seen by the server (`REMOTE_ADDR`; `X-Forwarded-For` is not trusted).
-- At most `RATE_LIMIT_MAX_REQUESTS` requests per IP within a sliding window of `RATE_LIMIT_WINDOW_SECONDS` (defaults: 5 requests per 600 seconds). Requests above the limit get `429` / `rate_limited` with a `Retry-After` header (seconds until the oldest counted request leaves the window), and nothing is stored.
+- Requests are counted per client IP address as seen by the server (`REMOTE_ADDR`; `X-Forwarded-For` is not trusted).
+- At most `RATE_LIMIT_MAX_REQUESTS` accepted requests per IP within a sliding window of `RATE_LIMIT_WINDOW_SECONDS` (defaults: 5 requests per 600 seconds). Every request that passes the limit counts, whatever its later outcome (`201`, `4xx`, `5xx`). Requests rejected with `429` do **not** count, so a client that waits `Retry-After` seconds can always make its next request.
+- A rejected request gets `429` / `rate_limited` with a `Retry-After` header: the whole number of seconds (rounded up, at least 1) until the oldest counted request leaves the window. Nothing is stored.
 - The rate limit is checked first, before any other processing.
-- Counters are kept in memory in each server process (ADR-004); a restart clears them. IP addresses are used only for counting, never logged or stored.
+- Limiter state is kept only in the memory of each server process (ADR-004): an IP address and the times of its counted requests are held while at least one of those requests is inside the window, and are dropped once they all expire (and on restart). IP addresses are never written to logs, files, the sheet, or any other storage, and are used for nothing but this count.
 - `RATE_LIMIT_MAX_REQUESTS=0` disables the limit (automated tests and local development only).
 
 ## 4. `screening_answer` codes
@@ -140,7 +141,7 @@ Every response body is JSON with this shape:
 
 | HTTP | When | `error_code` | Frontend behavior |
 |---|---|---|---|
-| `201 Created` | Row appended to Google Sheets | `null` | Show success message, then inline Calendly (US-007). |
+| `201 Created` | Row appended to Google Sheets; or a honeypot decoy (section 3.1), where nothing is stored | `null` | Show success message, then inline Calendly (US-007). |
 | `400 Bad Request` | Body is not valid JSON or not a JSON object | `invalid_json` | Generic error, keep form data, allow retry. |
 | `404 Not Found` | Unknown path | `not_found` | Generic error. |
 | `405 Method Not Allowed` | Method other than `POST` (response includes `Allow: POST`) | `method_not_allowed` | Generic error. |
@@ -153,7 +154,7 @@ Every response body is JSON with this shape:
 
 Network failure or a non-JSON response is treated by the frontend like `500`.
 
-Only `201` means the lead was saved. Any other outcome must not show success and must not show Calendly (NFR-006, BR-001).
+Only `201` means the lead was saved, with one deliberate exception: the honeypot decoy (section 3.1), which only a bot filling the hidden field receives. Tests must not assume every `201` stored a row. Any other outcome must not show success and must not show Calendly (NFR-006, BR-001).
 
 ## 8. Field error codes
 
@@ -211,6 +212,7 @@ Local development: the Astro dev server proxies `/api/*` to the local Python ser
 
 - Frontend unit tests (Vitest) and backend tests (pytest) must cover every rule in section 3 with at least one valid and one invalid case per field, using the same shared example values.
 - Backend tests must cover every status code in section 7, including a storage failure that returns `503` and does not report success, and `429` with its `Retry-After` header.
-- Backend tests must cover the honeypot (section 3.1): a filled `website` returns `201` and nothing is stored; an empty or absent `website` is processed normally; a bot never receives `422`.
+- Backend tests must cover the honeypot (section 3.1): a filled or non-string `website` returns `201` and nothing is stored; an absent, `null`, empty, or whitespace-only `website` is processed normally; a bot never receives `422`.
+- Backend tests must cover the rate limit (section 3.2) with an injected clock: the request over the limit gets `429` and is not counted; a retry after `Retry-After` seconds is accepted; limiter entries are dropped after the window.
 - Frontend tests must cover the `429` message and that the hidden `website` field is sent.
 - The end-to-end test (Playwright) must cover: landing → form → `201` → success message → Calendly visible; and a failure path where Calendly stays hidden.

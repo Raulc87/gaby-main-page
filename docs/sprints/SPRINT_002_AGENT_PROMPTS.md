@@ -120,8 +120,9 @@ Order of work:
 Stop after step 2 and wait. When I tell you "content is ready":
 3. GK-018-privacy-notice — US-018: apply the reviewed notice text (ES and EN) exactly as
    recorded in UX_UI_DIRECTION.md, remove the DRAFT marker, show the new version identifier,
-   and make the processors list match what the site uses. Ask Agent 3 (through me) to update
-   PRIVACY_NOTICE_VERSION in api/.env.example.
+   and make the processors list match what the site uses. Agent 3 updates PRIVACY_NOTICE_VERSION
+   in api/.env.example and docs/runbooks/DEPLOYMENT.md on GK-018-privacy-version; use the
+   same identifier.
 ```
 
 ## Agent 3 — Spam protection, logging, deployment runbook (Sonnet 5)
@@ -158,10 +159,16 @@ Order of work:
 4. GK-014-deployment-runbook — US-014 AC1, AC5 and US-016 AC7: docs/runbooks/DEPLOYMENT.md for
    the human owner (cPanel Setup Python App mounted at /api, Python version to pick and record
    in ADR-001 via me, requirements install, every environment variable, key file outside the
-   web root, static build upload, HTTPS redirect, where the Passenger log is, updating,
-   rollback, and the smoke test). Leave the domain as a placeholder; I will fill it in.
+   web root, static build upload, HTTPS redirect, password protection of the whole site
+   including /api until go-live (cPanel Directory Privacy) with a check that / and
+   POST /api/save-lead return 401 without credentials, removing it at go-live, where the
+   Passenger log is, updating, rollback, and the smoke test). Leave the domain as a placeholder; I will fill it in.
    If the static site needs a server config file (e.g. .htaccess for the HTTPS redirect),
    propose it and ask me who owns it before adding it.
+
+Stop after step 4 and wait. When I tell you "content is ready":
+5. GK-018-privacy-version — US-018 AC3: set the new PRIVACY_NOTICE_VERSION identifier recorded
+   in UX_UI_DIRECTION.md in api/.env.example and docs/runbooks/DEPLOYMENT.md.
 ```
 
 ## Review-only agent (Opus 5.5)

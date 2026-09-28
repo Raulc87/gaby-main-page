@@ -177,7 +177,7 @@ Avoid guaranteed results.
 | Submit button | Enviar y agendar mi llamada | Send and book my call |
 | Submitting state | Enviando… | Sending… |
 
-Honeypot (US-013, contract section 3.1): the form also contains a field named `website` that is not part of the visible form. It is moved off-screen (not `display: none`), has `tabindex="-1"`, `autocomplete="off"`, and `aria-hidden="true"` on its wrapper, and has no visible label. People never see or fill it.
+Honeypot (US-013, contract section 3.1): the form also contains a field named `website` that is not part of the visible form. It is moved off-screen (not `display: none`), is a `type="text"` input, has `tabindex="-1"`, `autocomplete="off"`, and `aria-hidden="true"` on its wrapper, and has no visible label. People never see or fill it.
 
 Field error messages (keyed by the contract's field error codes):
 

@@ -50,7 +50,7 @@ It meets NFR-008 with no friction, no vendor, and no infrastructure. The per-pro
 ## Implementation Impact
 - Backend: honeypot check and in-memory sliding-window limiter in the Flask app; `RATE_LIMIT_MAX_REQUESTS` and `RATE_LIMIT_WINDOW_SECONDS` configuration.
 - Frontend: hidden `website` field sent with every submission; localized `429` message.
-- Neither the IP address nor the honeypot value is logged or stored.
+- The honeypot value is never logged or stored. IP addresses live only in the limiter's in-memory state for the length of the window and are never logged or written anywhere.
 
 ## Validation
 After go-live, the human owner checks the lead sheet weekly during the first month.
