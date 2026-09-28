@@ -1,9 +1,10 @@
 // Client handling of every relevant outcome in LEAD_API_CONTRACT.md section
-// 7: 201, 422 (field errors), every other status code, and network failure.
-// Per the contract, "network failure or a non-JSON response is treated by
-// the frontend like 500" and the UX copy defines one generic message for any
-// non-201/non-422 outcome, so this suite asserts the collapsed
-// `generic_error` kind for all of them.
+// 7: 201, 422 (field errors), 429 (rate_limited, US-013 AC3/AC4), every
+// other status code, and network failure. Per the contract, "network
+// failure or a non-JSON response is treated by the frontend like 500" and
+// the UX copy defines one generic message for any non-201/non-422/non-429
+// outcome, so this suite asserts the collapsed `generic_error` kind for all
+// of them.
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { submitLead } from '../../../src/lib/lead/api';
 import type { LeadRequestPayload } from '../../../src/lib/lead/types';
@@ -15,6 +16,7 @@ const payload: LeadRequestPayload = {
   screening_answer: 'needs_investment_info',
   language: 'es',
   consent: true,
+  website: '',
 };
 
 function jsonResponse(status: number, body: unknown): Response {
@@ -105,5 +107,59 @@ describe('submitLead', () => {
     );
 
     await expect(submitLead(payload, '/api/save-lead')).resolves.toEqual({ kind: 'generic_error' });
+  });
+
+  it('returns rate_limited on 429 (US-013 AC3/AC4)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        jsonResponse(429, {
+          success: false,
+          message: 'Too many requests.',
+          error_code: 'rate_limited',
+          field_errors: null,
+        }),
+      ),
+    );
+
+    await expect(submitLead(payload, '/api/save-lead')).resolves.toEqual({ kind: 'rate_limited' });
+  });
+
+  it('returns generic_error on a non-JSON 429 (e.g. an upstream proxy/WAF page, not the application)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(new Response('<html>Too Many Requests</html>', { status: 429 })),
+    );
+
+    await expect(submitLead(payload, '/api/save-lead')).resolves.toEqual({ kind: 'generic_error' });
+  });
+
+  it('returns generic_error on a well-formed 429 whose error_code is not rate_limited', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        jsonResponse(429, {
+          success: false,
+          message: 'Too many requests.',
+          error_code: 'internal_error',
+          field_errors: null,
+        }),
+      ),
+    );
+
+    await expect(submitLead(payload, '/api/save-lead')).resolves.toEqual({ kind: 'generic_error' });
+  });
+
+  it('always sends the website honeypot field in the request body (contract section 3.1)', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      jsonResponse(201, { success: true, message: 'Lead saved.', error_code: null, field_errors: null }),
+    );
+    vi.stubGlobal('fetch', fetchMock);
+
+    await submitLead(payload, '/api/save-lead');
+
+    const [, requestInit] = fetchMock.mock.calls[0] as [string, RequestInit];
+    const sentBody = JSON.parse(requestInit.body as string);
+    expect(sentBody).toHaveProperty('website', '');
   });
 });

@@ -158,6 +158,8 @@ export interface RawLeadFormInput {
   screening_answer: unknown;
   language: unknown;
   consent: unknown;
+  /** Honeypot field (contract section 3.1); forwarded as-is, never validated. */
+  website: unknown;
 }
 
 export interface LeadFormValidationResult {
@@ -193,6 +195,10 @@ export function validateLeadForm(input: RawLeadFormInput): LeadFormValidationRes
   const consent = validateConsent(input.consent);
   if (consent.error) fieldErrors.consent = consent.error;
   else values.consent = consent.value;
+
+  // Honeypot (contract section 3.1): forwarded as-is, never a validation
+  // error, so a bot never receives field errors for it (US-013 AC1).
+  values.website = typeof input.website === 'string' ? input.website : '';
 
   return { fieldErrors, values };
 }

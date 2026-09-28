@@ -26,6 +26,12 @@ export interface LeadRequestPayload {
   screening_answer: ScreeningAnswerCode;
   language: Language;
   consent: true;
+  /**
+   * Honeypot field (contract section 3.1, US-013). Always sent, normally
+   * `""`; the client never validates or rejects it, it only forwards the
+   * hidden field's value as-is.
+   */
+  website: string;
 }
 
 /** Field names that can carry a validation error (contract section 8). */
@@ -116,4 +122,9 @@ export interface FormDictionary {
   };
   /** Generic error for any non-201 result or network failure; contains one `{contact_email}` placeholder. */
   submissionError: string;
+  /**
+   * `429` / `rate_limited` (contract section 3.2, US-013): "too many
+   * attempts" message; contains one `{contact_email}` placeholder.
+   */
+  rateLimited: string;
 }

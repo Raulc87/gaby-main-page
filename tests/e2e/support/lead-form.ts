@@ -31,6 +31,7 @@ export const SELECTORS = {
   screeningError: '#lead-screening-error',
   consentCheckbox: '#lead-consent',
   consentError: '#lead-consent-error',
+  honeypotInput: '#lead-website',
   submitButton: '#lead-submit',
   submissionError: '#lead-submission-error',
   formContainer: '#lead-form-container',
