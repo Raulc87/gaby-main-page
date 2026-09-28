@@ -1,13 +1,13 @@
 # IMPLEMENTATION_PLAN — Gabriela Kelly Pilot
 
 ## Metadata
-- Version: 0.3
-- Status: Approved for Sprint 001
-- Related spec: `docs/specs/PROJECT_SPEC.md` (v0.3)
+- Version: 0.4
+- Status: Approved for Sprint 002 (sections 1–16 describe Sprint 001; section 17 adds Sprint 002)
+- Related spec: `docs/specs/PROJECT_SPEC.md` (v0.4)
 - Related stories: `docs/specs/USER_STORIES.md`
-- Integration contract: `docs/specs/LEAD_API_CONTRACT.md` (v1.0, locked)
+- Integration contract: `docs/specs/LEAD_API_CONTRACT.md` (v1.1, locked)
 - Tech stack: `TECH_STACK.md` (v0.2)
-- ADRs: ADR-001, ADR-002, ADR-003
+- ADRs: ADR-001, ADR-002, ADR-003, ADR-004
 
 ## 1. Purpose
 
@@ -43,12 +43,17 @@ Not in scope for Sprint 001: spam protection (US-013), production deployment (US
 | NFR-004 | US-012 | Agent 3 |
 | FR-011, NFR-001 | US-008 | Agent 1 (sections) + Agent 2 (form, scheduler) |
 | BR-004 | US-009 | Sprint Review |
-| NFR-008 | US-013 | Backlog |
-| Constraints | US-014 | Backlog |
+| BR-004 (review with Gabriela) | US-009 | Carried over into US-017 (Sprint 002) |
+| NFR-008 | US-013 | Sprint 002: Agent 3 (server) + Agent 2 (client) |
+| Constraints, ADR-001 | US-014 | Sprint 002: Agent 3 (runbook) + human owner (deploy) |
+| NFR-001, NFR-003, BR-004 | US-015 | Sprint 002: Agent 1 (tokens, sections) + Agent 2 (form styles) |
+| NFR-006, NFR-007 | US-016 | Sprint 002: Agent 3 |
+| FR-003, FR-005, BR-004 | US-017 | Sprint 002: Agent 1 |
+| FR-013, BR-006 | US-018 | Sprint 002: Agent 2 |
 
 ## 4. Current State
 
-No implementation yet. Documentation, contract, and ADRs are approved.
+2026-09-28: Sprint 001 closed. The bilingual prototype runs locally end to end with CI (see `SPRINT_001.md` close-out). Sprint 002 planned for go-live (section 17).
 
 ## 5. Target State
 
@@ -185,3 +190,15 @@ Shared contract: `LEAD_API_CONTRACT.md` (locked). Shared frontend conventions: s
 - Review-only agent has reviewed relevant PRs.
 - Human reviewer has approved.
 - Prototype is ready for Gabriela review.
+
+## 17. Sprint 002 — Go-live
+
+Scope, ownership, merge order and the go-live gate: `docs/sprints/SPRINT_002.md`. Summary:
+
+1. Visual identity (US-015): Tailwind `@theme` tokens and fonts first, then sections (Agent 1) and form styles (Agent 2).
+2. Spam protection (US-013, contract v1.1, ADR-004): rate limit, then honeypot, before field validation (Agent 3); hidden `website` field and `429` message (Agent 2).
+3. Storage-failure logging and a production default of `google_sheets` (US-016, Agent 3).
+4. Content (US-017, US-018): the human owner records Gabriela's approved copy and the reviewed privacy text in `UX_UI_DIRECTION.md` first; Agents 1 and 2 apply them. The proof section supports text and video testimonials; placeholders stay until real ones exist.
+5. Deployment (US-014): Agent 3 writes `docs/runbooks/DEPLOYMENT.md`; the human owner deploys to GoDaddy cPanel with Gabriela's production sheet, runs the smoke test, and applies the go-live gate.
+
+Testing additions: pytest for `429` (with an injected clock), the honeypot, and log content (no personal data); Vitest for the `429` message and the `website` field; Playwright for the restyled page at 390 px and desktop, `429` (mocked), and the honeypot against the real backend in memory mode.

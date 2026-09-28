@@ -1,4 +1,6 @@
-# UX_UI_DIRECTION — v0.3
+# UX_UI_DIRECTION — v0.4
+
+v0.4 (2026-09-28): rate-limit message and honeypot field (section 4, Section 7, US-013); video testimonials in the proof section (Section 5, US-017).
 
 All copy in this document is **proposed** and pending Gabriela's review (BR-004). It is written in gender-neutral language in both Spanish and English (BR-005): no gendered adjectives or participles referring to the visitor (e.g. avoid "listo/lista", "preparado/preparada"); prefer nouns ("disposición", "una persona"), verbs, and second-person constructions.
 
@@ -142,6 +144,8 @@ Placeholder structure (marked "pending validation"):
 - credibility statements
 - client stories
 
+Testimonial formats (US-017): text cards and video cards. Placeholders stay until real, approved testimonials are supplied (human owner, 2026-09-28). A video card shows a poster image with a play button and loads the video (and anything from its host) only when the visitor presses play; it has captions or a short text summary in the page language. The video host (self-hosted or YouTube/Vimeo) is decided before the first video is added.
+
 ### Section 6 — Initial Call Offer (`#offer`)
 
 **Español**
@@ -173,6 +177,8 @@ Avoid guaranteed results.
 | Submit button | Enviar y agendar mi llamada | Send and book my call |
 | Submitting state | Enviando… | Sending… |
 
+Honeypot (US-013, contract section 3.1): the form also contains a field named `website` that is not part of the visible form. It is moved off-screen (not `display: none`), is a `type="text"` input, has `tabindex="-1"`, `autocomplete="off"`, and `aria-hidden="true"` on its wrapper, and has no visible label. People never see or fill it.
+
 Field error messages (keyed by the contract's field error codes):
 
 | Code | Español | English |
@@ -192,6 +198,12 @@ Submission error (any non-`201` result, network failure):
 | Español | English |
 |---|---|
 | No pudimos guardar tu información. Por favor, inténtalo de nuevo en unos minutos. Si el problema continúa, escríbenos a {contact_email}. | We couldn't save your information. Please try again in a few minutes. If the problem continues, email us at {contact_email}. |
+
+Too many attempts (`429` / `rate_limited`, US-013; proposed copy):
+
+| Español | English |
+|---|---|
+| Recibimos varios intentos seguidos desde tu conexión. Por favor, espera unos minutos e inténtalo de nuevo. Si lo prefieres, escríbenos a {contact_email}. | We received several attempts in a row from your connection. Please wait a few minutes and try again. If you prefer, email us at {contact_email}. |
 
 ### Section 8 — Thank You + Calendly (`#lead-form`, after `201`)
 

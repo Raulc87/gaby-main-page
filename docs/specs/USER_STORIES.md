@@ -180,7 +180,7 @@ so that I can complete the flow without friction.
 ## US-009 — Stakeholder content review
 - Priority: High
 - Story Points: 3
-- Status: Ready (verified at Sprint Review)
+- Status: Carried over — Sprint 001 closed on 2026-09-28 without the review with Gabriela; the review happens in Sprint 002 as part of US-017
 - Related Requirements: BR-004
 
 **User Story**
@@ -264,8 +264,10 @@ so that I can demo it to Gabriela and trust that merges do not break it.
 ## US-013 — Spam protection for the lead endpoint
 - Priority: High
 - Story Points: 3
-- Status: Backlog — required before public deployment (not in Sprint 001)
+- Status: Ready — Sprint 002 (required before public deployment)
 - Related Requirements: NFR-008
+- Related Spec: `LEAD_API_CONTRACT.md` v1.1 sections 3.1, 3.2, 7, 9
+- Related ADR: ADR-004
 
 **User Story**
 
@@ -274,18 +276,21 @@ I want the public form protected against automated submissions,
 so that the lead sheet stays clean and the endpoint cannot be abused.
 
 **Acceptance Criteria**
-1. A hidden honeypot field silently discards bot submissions.
-2. Requests are rate-limited per IP; excess requests receive `429` / `rate_limited`.
-3. The need for a CAPTCHA (e.g. Cloudflare Turnstile or reCAPTCHA) is evaluated and recorded in an ADR.
-4. The contract is updated (new version) before implementation.
+1. The form contains a hidden honeypot field `website` with these mitigations against people or browsers filling it: moved off-screen (not `display: none`), `tabindex="-1"`, `autocomplete="off"`, `aria-hidden="true"` on its wrapper, no visible label, and a name and `type="text"` that do not match common autofill types. Its value is always sent. Verified with Playwright in Chromium (desktop and 390 px): not visible, not reachable with Tab, empty after load and after filling the visible fields. The remaining risk (an extension filling it and a real lead being dropped) is accepted in ADR-004.
+2. A request with a filled `website` returns the normal `201` success response and stores nothing (contract section 3.1).
+3. Requests are rate-limited per IP as in contract section 3.2; excess requests receive `429` / `rate_limited` with a `Retry-After` header, and nothing is stored.
+4. On `429` the form keeps the entered data and shows the localized "too many attempts" message from `UX_UI_DIRECTION.md` (both languages); no success and no Calendly.
+5. The honeypot value is never logged or stored. IP addresses exist only in the limiter's in-memory state and are dropped when their requests leave the window (contract section 3.2); they are never logged or written anywhere.
+6. `.env.example` files document `RATE_LIMIT_MAX_REQUESTS` and `RATE_LIMIT_WINDOW_SECONDS`; CI and e2e run with the limit disabled or high enough not to interfere.
+7. Done already in planning: CAPTCHA evaluated in ADR-004 (not needed for now); contract updated to v1.1.
 
 ---
 
 ## US-014 — Deploy to GoDaddy cPanel
 - Priority: High
 - Story Points: 3
-- Status: Backlog (not in Sprint 001)
-- Related ADR: ADR-001
+- Status: Ready — Sprint 002 (domain and SSL being set up by the human owner; details added to the runbook when known)
+- Related ADR: ADR-001, ADR-002
 
 **User Story**
 
@@ -294,19 +299,20 @@ I want the site published on my GoDaddy hosting,
 so that real visitors can use it.
 
 **Acceptance Criteria**
-1. The Python runtime available in "Setup Python App" is confirmed and recorded in ADR-001.
-2. The static build is served from the site root and the Python app at `/api` on the same domain.
-3. Credentials are stored outside the web root.
-4. US-013 is done before the page is made public.
-5. A deployment runbook exists in `docs/runbooks/`.
+1. `docs/runbooks/DEPLOYMENT.md` explains, step by step for the human owner: building the static site with production `PUBLIC_*` values; uploading it to the site root; creating the Python app in cPanel "Setup Python App" mounted at `/api`; installing `api/requirements.txt`; setting every backend variable from contract section 9; placing the service-account key outside the web root; restarting the app; updating an existing deployment; and rolling back to the previous version.
+2. The Python version used in the account is confirmed and recorded in ADR-001.
+3. The site is served only over HTTPS on the final domain (HTTP redirects to HTTPS).
+4. Production uses the Google Sheet and service account in Gabriela's Google account (set up by the human owner at deploy time); development and CI keep using the owner's development sheet or memory mode.
+5. A post-deploy smoke test in the runbook passes on the live site: both languages load, a test lead lands in the production sheet with the right columns, the thank-you and the real Calendly appear, a filled honeypot stores nothing, and the test row is then deleted.
+6. Until the go-live gate in `SPRINT_002.md` passes, the whole site, including `/api`, is password-protected (cPanel Directory Privacy), so it cannot collect real leads under a draft notice; the runbook checks that `/` and `POST /api/save-lead` return `401` without credentials. Going live means removing the protection, only after US-013, US-016, and US-018 are done and the US-017 content is approved.
 
 ---
 
 ## US-015 — Apply the approved visual identity
 - Priority: High
 - Story Points: 5
-- Status: Proposed — Sprint 002 candidate
-- Related Requirements: NFR-001, NFR-003, BR-004
+- Status: Ready — Sprint 002
+- Related Requirements: NFR-001, NFR-003, BR-004, BR-008
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` section 2.1 (Proposal A)
 
 **User Story**
@@ -324,6 +330,83 @@ so that visitors see a serious, trustworthy professional before they leave their
 6. Text meets WCAG AA contrast; gold is never used as text on white (use `gold-ink`).
 7. Existing unit and e2e tests stay green; e2e selectors are not broken by the restyle.
 
-**Dependencies**
-- Final logo file and photo from Gabriela (the provisional photo is acceptable until then).
+8. The hero trust row from `UX_UI_DIRECTION.md` section 4, Section 1 is shown in both languages.
 
+**Dependencies**
+- Photo file: the provisional photo (the one used in the Proposal A mockup) is supplied by the human owner at the start of the sprint; the final photo and logo file come through US-017.
+
+---
+
+## US-016 — Diagnose storage failures in production
+- Priority: High
+- Story Points: 2
+- Status: Ready — Sprint 002 (required before public deployment)
+- Related Requirements: NFR-006, NFR-007
+- Related Spec: `LEAD_API_CONTRACT.md` sections 7 and 9
+
+**User Story**
+
+As the project owner,
+I want the server to record why a lead could not be saved,
+so that I can fix a production problem quickly instead of losing leads silently.
+
+**Acceptance Criteria**
+1. Every `503` / `storage_unavailable` writes one ERROR log line to the server log (stderr, which Passenger writes to the app log in cPanel) with the underlying cause: exception class, and for Google API errors the HTTP status (e.g. `PermissionError`, `APIError 403`, `SpreadsheetNotFound`, `FileNotFoundError`).
+2. Every `500` / `internal_error` writes an ERROR log line with the exception class and traceback.
+3. Log lines never contain submitted data, the request body, the IP address, the service-account key or its contents.
+4. At startup the app logs, at INFO, which storage is active and, for `google_sheets`, whether the key file exists and is readable, and whether the sheet ID and tab are set (values of secrets are never printed; the sheet tab name may be).
+5. The production entry point (`api/passenger_wsgi.py`) uses `google_sheets` when `LEADS_STORAGE` is unset, as contract section 9 states, so a missing setting cannot silently keep leads in memory; `memory` must be set explicitly and logs a WARNING at startup.
+6. pytest covers each log case above, including a check that a submitted name, email and phone never appear in the captured logs.
+7. `docs/runbooks/DEPLOYMENT.md` (US-014) says where to find the log in cPanel and lists the common causes per logged error.
+
+---
+
+## US-017 — Final content from Gabriela
+- Priority: High
+- Story Points: 3
+- Status: Ready — Sprint 002 (content depends on Gabriela; see dependencies)
+- Related Requirements: FR-003, FR-005, BR-003, BR-004, BR-005, BR-008
+- Related Spec: `docs/ux/UX_UI_DIRECTION.md` sections 4, 5, 6
+
+**User Story**
+
+As Gabriela,
+I want the page to show my approved words, photo, bio and credentials,
+so that visitors meet the real me before they leave their data.
+
+**Acceptance Criteria**
+1. Gabriela reviews the running prototype (this completes US-009); her approved copy for every section, in Spanish and English, is recorded in `UX_UI_DIRECTION.md` first (spec before code) and then applied. Copy still follows BR-003, BR-005 and BR-008.
+2. Final photo (at least 800×800 px, with Gabriela's consent for web use), short bio, credentials and approach replace the placeholders in the guide section, and their pending-validation markers are removed.
+3. The proof section supports two card types, text testimonials and video testimonials, and shows the approved placeholders until real, approved testimonials are supplied. Placeholders stay for now (human owner, 2026-09-28).
+4. Video testimonials, when supplied, load nothing from a third party until the visitor presses play (a poster image with a play button), have captions or a text summary in the page language, and do not cause horizontal scroll at 360 px. Where videos are hosted (self-hosted file or YouTube/Vimeo) is decided with the human owner before they are added; a third-party host is added to the privacy notice (US-018).
+5. The open brand questions in `UX_UI_DIRECTION.md` section 8 (cash imagery, employer audience) are answered and recorded.
+6. Every remaining pending-validation marker is listed in the PR; before go-live the human owner decides per marker whether it ships or the flag is turned off.
+7. Existing unit and e2e tests stay green.
+
+**Dependencies**
+- Content from Gabriela (copy review, photo, bio, credentials, logo file), collected by the human owner by 2026-10-02.
+
+---
+
+## US-018 — Final privacy notice
+- Priority: High
+- Story Points: 2
+- Status: Ready — Sprint 002 (text depends on legal review; see dependencies)
+- Related Requirements: FR-013, BR-006
+- Related Spec: `docs/ux/UX_UI_DIRECTION.md` section 4, Privacy Notice
+
+**User Story**
+
+As the business owner,
+I want a final, reviewed privacy notice,
+so that the public form complies with Costa Rica's Ley N.° 8968.
+
+**Acceptance Criteria**
+1. The reviewed notice text (Spanish and English), including the confirmed responsible party, contact email and the data-retention period, is recorded in `UX_UI_DIRECTION.md` first and then applied.
+2. The DRAFT marker is removed from the notice in both languages.
+3. `PRIVACY_NOTICE_VERSION` gets a new, non-draft identifier (e.g. `2026-10-v1`) in `api/.env.example`, the deployment runbook, and the notice itself, so stored rows record which version was accepted.
+4. The processors list matches what the site really uses at go-live (Google, Calendly, and any video host added by US-017).
+5. The notice still opens in a dialog without losing form data, in both languages; existing tests stay green.
+
+**Dependencies**
+- Reviewed text and retention period, provided by the human owner by 2026-10-02.

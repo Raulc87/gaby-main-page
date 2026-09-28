@@ -1,7 +1,7 @@
 # ADR-001 — Python endpoint on GoDaddy cPanel, same origin
 
-- Status: Accepted (runtime confirmation pending before US-014)
-- Date: 2026-09-23
+- Status: Accepted (Python 3.11 documented by GoDaddy; confirm in the account during US-014)
+- Date: 2026-09-23 (updated 2026-09-28)
 - Decision owner: Human project owner
 - Related specs: `PROJECT_SPEC.md` (Constraints), `TECH_STACK.md`, `LEAD_API_CONTRACT.md`
 
@@ -11,7 +11,7 @@ Where and how does the lead endpoint run, given that the static frontend is host
 ## Context
 The frontend is a static Astro build hosted on GoDaddy cPanel. The endpoint must keep Google credentials server-side and be simple to operate.
 
-GoDaddy's Linux cPanel hosting offers "Setup Python App" (CloudLinux Python Selector with Phusion Passenger) under *Software*, which creates a virtualenv per app and can mount it at a URL path of the domain. Available Python versions depend on the plan and server; community reports show Python 3.x versions up to 3.10/3.11 on GoDaddy. This could not be verified against GoDaddy's official pages from the planning environment, so it must be confirmed in the actual cPanel account.
+GoDaddy's Linux cPanel hosting offers "Setup Python App" (CloudLinux Python Selector with Phusion Passenger) under *Software*, which creates a virtualenv per app and can mount it at a URL path of the domain. Available Python versions depend on the plan and server; community reports show Python 3.x versions up to 3.10/3.11 on GoDaddy. Update 2026-09-28: GoDaddy's official help page "Which components does my hosting support?" (https://www.godaddy.com/help/which-components-does-my-hosting-support-5614, checked 2026-09-25) lists Python through the Python Selector on cPanel hosting, versions 2.7 up to 3.11. The exact versions offered still depend on the plan and server, so the account itself is checked during US-014.
 
 ## Decision Drivers
 - Same hosting account as the frontend, no extra vendor
@@ -56,7 +56,8 @@ Keeps one host and one origin and matches the approved stack. Option B is the fa
 - Local dev: Astro dev server proxies `/api` to Flask.
 
 ## Validation
-Before US-014: in cPanel → Software → Setup Python App, confirm the feature exists and record the highest available Python version here.
+- 2026-09-25: GoDaddy documentation confirms the Python Selector with versions up to 3.11 (see Context).
+- During US-014: in cPanel → Software → Setup Python App, confirm the feature exists in this account, select Python 3.11 (or the highest 3.9+ available), and record the version used here.
 
 ## Review Trigger
 Plan lacks Python support, or Passenger limits cause failures.
