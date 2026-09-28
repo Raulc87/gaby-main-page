@@ -1,14 +1,12 @@
 ---
-// US-003, US-015 AC3: proof/credibility section. Structural placeholders
-// only — real testimonials/outcomes are added only once provided by the
-// stakeholder (UX_UI_DIRECTION.md section 4, Section 5); never invented
-// here. Dashed-border placeholder cards with a gold opening quote mark,
-// per section 2.1, until real testimonials exist.
-//
-// Text and video testimonial card types driven by content data land in
-// GK-017-testimonial-cards (US-017 AC3/AC4); this PR only restyles the
-// existing placeholder structure.
+// US-003, US-015 AC3, US-017 AC3/AC4: proof/credibility section.
+// Structural placeholders only — real testimonials/outcomes are added only
+// once provided by the stakeholder (UX_UI_DIRECTION.md section 4, Section
+// 5); never invented here. Text and video testimonial cards are driven by
+// content.cards (TestimonialCard.astro); the credibility statement is a
+// separate, non-testimonial placeholder.
 import PendingBadge from './PendingBadge.astro';
+import TestimonialCard from './TestimonialCard.astro';
 import { SECTION_IDS, type ProofContent } from '../../i18n';
 
 interface Props {
@@ -25,12 +23,11 @@ const { content, pendingLabel } = Astro.props;
     <PendingBadge label={pendingLabel} />
   </div>
   <div class="mt-8 grid gap-6 sm:grid-cols-2">
-    <div class="rounded-[2px] border border-dashed border-line bg-surface p-6">
-      <span aria-hidden="true" class="font-serif text-4xl leading-none text-gold">&ldquo;</span>
-      <p class="mt-2 text-sm text-muted">{content.testimonialPlaceholder}</p>
-    </div>
-    <div class="rounded-[2px] border border-dashed border-line bg-surface p-6">
-      <span aria-hidden="true" class="font-serif text-4xl leading-none text-gold">&ldquo;</span>
+    {content.cards.map((card) => <TestimonialCard card={card} pendingLabel={pendingLabel} />)}
+    <div class="rounded-[2px] border border-dashed border-line bg-surface p-6 sm:col-span-2">
+      <span aria-hidden="true" class="font-serif text-4xl leading-none text-gold">
+        &ldquo;
+      </span>
       <p class="mt-2 text-sm text-muted">{content.credibilityPlaceholder}</p>
     </div>
   </div>

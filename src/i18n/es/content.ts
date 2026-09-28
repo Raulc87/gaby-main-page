@@ -46,7 +46,10 @@ export const content: ContentDictionary = {
   },
   proof: {
     heading: 'Respaldo y confianza',
-    testimonialPlaceholder: 'Testimonio de una clienta o cliente',
+    cards: [
+      { kind: 'text', placeholder: 'Testimonio de una clienta o cliente' },
+      { kind: 'video', placeholder: 'Testimonio de una clienta o cliente' },
+    ],
     credibilityPlaceholder: 'Declaración de credibilidad',
   },
   offer: {

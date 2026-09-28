@@ -1,0 +1,56 @@
+---
+// US-017 AC3/AC4: a single testimonial card, text or video. Renders only
+// the approved placeholder for now — no real testimonial is added here.
+//
+// The video variant shows a poster placeholder with a play button and its
+// caption/summary (AC4); it loads nothing from a third party (there is no
+// script, iframe, or video element here at all), since no real video is
+// supplied yet. The play control is decorative (not a live, non-functional
+// button) until GK-017-final-content wires an actual source.
+import PendingBadge from './PendingBadge.astro';
+import type { TestimonialCardContent } from '../../i18n';
+
+interface Props {
+  card: TestimonialCardContent;
+  pendingLabel: string;
+}
+
+const { card, pendingLabel } = Astro.props;
+---
+
+{
+  card.kind === 'text' && (
+    <div class="rounded-[2px] border border-dashed border-line bg-surface p-6">
+      <span aria-hidden="true" class="font-serif text-4xl leading-none text-gold">
+        &ldquo;
+      </span>
+      <p class="mt-2 text-sm text-muted">{card.placeholder}</p>
+      <div class="mt-4">
+        <PendingBadge label={pendingLabel} />
+      </div>
+    </div>
+  )
+}
+
+{
+  card.kind === 'video' && (
+    <div class="overflow-hidden rounded-[2px] border border-dashed border-line bg-surface">
+      <div class="relative flex aspect-video items-center justify-center bg-line">
+        <span
+          aria-hidden="true"
+          class="flex h-14 w-14 items-center justify-center rounded-full bg-surface/90 shadow"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-6 w-6 text-navy">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </span>
+      </div>
+      <div class="p-6">
+        <p class="text-sm text-muted">{card.placeholder}</p>
+        <div class="mt-4">
+          <PendingBadge label={pendingLabel} />
+        </div>
+      </div>
+    </div>
+  )
+}

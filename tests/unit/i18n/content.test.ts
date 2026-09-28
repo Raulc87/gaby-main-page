@@ -106,16 +106,24 @@ describe('content dictionaries', () => {
     expect(esContent.guide.photoPlaceholder).not.toBe(enContent.guide.photoPlaceholder);
     expect(esContent.guide.bioPlaceholder).not.toBe(enContent.guide.bioPlaceholder);
     expect(esContent.guide.credentialsPlaceholder).not.toBe(enContent.guide.credentialsPlaceholder);
-    expect(esContent.proof.testimonialPlaceholder).not.toBe(enContent.proof.testimonialPlaceholder);
     expect(esContent.proof.credibilityPlaceholder).not.toBe(enContent.proof.credibilityPlaceholder);
+    esContent.proof.cards.forEach((card, index) => {
+      expect(card.placeholder).not.toBe(enContent.proof.cards[index]?.placeholder);
+    });
   });
 
   it('never invents a testimonial or a quantified outcome in the proof placeholders (BR-003, UX_UI_DIRECTION.md section 5)', () => {
     const forbidden = /\d|garantiz|guarantee/i;
-    expect(esContent.proof.testimonialPlaceholder).not.toMatch(forbidden);
     expect(esContent.proof.credibilityPlaceholder).not.toMatch(forbidden);
-    expect(enContent.proof.testimonialPlaceholder).not.toMatch(forbidden);
     expect(enContent.proof.credibilityPlaceholder).not.toMatch(forbidden);
+    [...esContent.proof.cards, ...enContent.proof.cards].forEach((card) => {
+      expect(card.placeholder).not.toMatch(forbidden);
+    });
+  });
+
+  it('supports text and video testimonial cards, still showing only placeholders (US-017 AC3)', () => {
+    expect(esContent.proof.cards.map((card) => card.kind).sort()).toEqual(['text', 'video']);
+    expect(enContent.proof.cards.map((card) => card.kind).sort()).toEqual(['text', 'video']);
   });
 
   it('exposes a single flag controlling every pending-validation badge (US-009)', () => {
