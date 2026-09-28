@@ -25,12 +25,17 @@ const [headlineLead, headlineEmphasis] =
   commaIndex >= 0
     ? [content.headline.slice(0, commaIndex + 1), content.headline.slice(commaIndex + 1).trim()]
     : [content.headline, ''];
+
+// Fluid 38-60px per section 2.1 ("hero headline 38-60px fluid"), scaling
+// linearly between the 360px and 1280px viewports this project tests at
+// (USER_STORIES.md common widths / UX_UI_DIRECTION.md section 7), instead
+// of stepping abruptly at each Tailwind breakpoint.
 ---
 
 <section id={SECTION_IDS.hero} class="overflow-hidden bg-paper">
   <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
     <div class="rounded-[2px] bg-surface p-8 shadow-sm sm:p-10">
-      <h1 class="text-4xl leading-tight sm:text-5xl lg:text-6xl">
+      <h1 class="text-[clamp(2.375rem,1.84rem+2.39vw,3.75rem)] leading-tight">
         {headlineLead}{' '}
         {headlineEmphasis && <em class="italic text-brand">{headlineEmphasis}</em>}
       </h1>

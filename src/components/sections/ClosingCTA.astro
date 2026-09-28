@@ -14,9 +14,11 @@ interface Props {
 const { content, cta } = Astro.props;
 ---
 
-<section id={SECTION_IDS.closing} class="mx-auto max-w-2xl px-4 py-20 text-center">
-  <p class="text-2xl italic text-ink sm:text-3xl">{content.paragraph}</p>
-  <div class="mt-8 flex justify-center">
-    <CtaButton href={`#${SECTION_IDS.leadForm}`} label={cta} />
+<section id={SECTION_IDS.closing} class="bg-surface py-20 text-center">
+  <div class="mx-auto max-w-2xl px-4">
+    <p class="font-serif text-2xl italic text-ink sm:text-3xl">{content.paragraph}</p>
+    <div class="mt-8 flex justify-center">
+      <CtaButton href={`#${SECTION_IDS.leadForm}`} label={cta} />
+    </div>
   </div>
 </section>
