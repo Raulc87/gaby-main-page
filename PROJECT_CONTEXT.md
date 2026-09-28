@@ -5,7 +5,7 @@
 - Project key: `GK` (branches `GK-<NNN>-<slug>`, see `AGENTS.md`)
 - Repository: https://github.com/Raulc87/gaby-main-page
 - Starter Kit: https://github.com/Raulc87/sdd_starter_kit
-- Status: Sprint 001 closed (2026-09-28); Sprint 002 planned, waiting for go-ahead
+- Status: Sprint 002 active (go-ahead 2026-09-28); Sprint 001 closed 2026-09-28
 - Product owner / final reviewer: Human project owner
 
 ## Active documentation
@@ -18,18 +18,18 @@
 - Tech stack: `TECH_STACK.md` (v0.2)
 - ADRs: `docs/decisions/` — ADR-001 backend hosting, ADR-002 Google Sheets access, ADR-003 i18n routing, ADR-004 spam protection
 - Implementation plan: `docs/plans/IMPLEMENTATION_PLAN.md` (v0.4)
-- Active sprint plan: `docs/sprints/SPRINT_002.md` (planned; agent prompts in `docs/sprints/SPRINT_002_AGENT_PROMPTS.md`)
+- Active sprint plan: `docs/sprints/SPRINT_002.md` (active; agent prompts in `docs/sprints/SPRINT_002_AGENT_PROMPTS.md`)
 - Previous sprint: `docs/sprints/SPRINT_001.md` (closed 2026-09-28, with close-out and retrospective)
 - Readiness checklist: `docs/checklists/SPRINT_READINESS_CHECKLIST.md`
 
 ## Current sprint
 - Sprint: Sprint 002
 - Goal: Make the site ready for public launch on GoDaddy (visual identity, final content and privacy notice, spam protection, storage-failure logging, deployment)
-- Start: the first business day after the go-ahead (planned 2026-09-29)
-- End: the 7th business day from the start (planned 2026-10-07)
+- Start: 2026-09-29
+- End: 2026-10-07
 - Duration: 7 business days, excluding Saturday and Sunday
 - Deliverable: Site deployed on GoDaddy over HTTPS, password-protected and passing the smoke test; made public only after the go-live gate in the sprint plan
-- Status: PLANNED — waiting for go-ahead
+- Status: ACTIVE
 
 ## Agent allocation
 - Implementation Agent 1: visual identity (tokens, fonts, sections), final content, testimonial cards

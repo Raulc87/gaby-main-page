@@ -1,6 +1,6 @@
 # SPRINT 002 — Agent Kickoff Prompts
 
-One Claude Code session per agent, each on the `Raulc87/gaby-main-page` repository. Start them only after the go-ahead (SPRINT_002.md, entry gate 11).
+One Claude Code session per agent, each on the `Raulc87/gaby-main-page` repository. Go-ahead given on 2026-09-28 (SPRINT_002.md, entry gate 11).
 
 ## Models
 
