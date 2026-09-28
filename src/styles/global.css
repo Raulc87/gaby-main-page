@@ -1,38 +1,36 @@
 @import 'tailwindcss';
 
 /*
- * Provisional neutral palette (see UX_UI_DIRECTION.md section 2: calm,
- * clean, professional). Final brand colors are an open question
- * (PROJECT_CONTEXT.md); everything below is a Tailwind theme token so the
- * palette can be swapped later without touching component markup.
+ * Approved brand palette and typography (UX_UI_DIRECTION.md section 2.1,
+ * Proposal A "Institucional", approved by the human owner 2026-09-25).
+ * Tailwind theme tokens only — components must never use hex literals
+ * (US-015 AC1); use the generated utilities (bg-paper, text-ink, bg-navy,
+ * text-brand, bg-gold, text-gold-ink, text-muted, border-line, bg-surface).
  */
 @theme {
-  --color-brand-50: #f4f7f7;
-  --color-brand-100: #e4ecec;
-  --color-brand-200: #c9d8d8;
-  --color-brand-300: #a3bcbd;
-  --color-brand-400: #74999b;
-  --color-brand-500: #4f7c7f;
-  --color-brand-600: #3d6467;
-  --color-brand-700: #335154;
-  --color-brand-800: #2c4345;
-  --color-brand-900: #27393b;
-
-  --color-ink-50: #f7f7f6;
-  --color-ink-100: #ececeb;
-  --color-ink-200: #d7d6d3;
-  --color-ink-300: #b6b4b0;
-  --color-ink-400: #8f8c86;
-  --color-ink-500: #6f6c66;
-  --color-ink-600: #57544f;
-  --color-ink-700: #464440;
-  --color-ink-800: #302f2c;
-  --color-ink-900: #1c1b19;
-
+  --color-paper: #f6f8fb;
   --color-surface: #ffffff;
-  --color-surface-muted: var(--color-brand-50);
+  --color-ink: #15243b;
+  --color-navy: #22395a;
+  --color-brand: #3c5f8e;
+  --color-gold: #f1be48;
+  --color-gold-ink: #7a5a0e;
+  --color-muted: #5a6a80;
+  --color-line: #d8dfe9;
 
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* Body, labels, form, buttons (US-015 AC2). Replaces the provisional Inter font. */
+  --font-sans:
+    'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Headings, italic emphasis, closing statement. */
+  --font-serif: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+  /* Wordmark stand-in, only until the real logo file arrives (US-015 AC5). */
+  --font-wordmark: 'Playfair Display', Georgia, serif;
+
+  /* Sharp, corporate corners: "Corners: 2px everywhere" (section 2.1). */
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
 }
 
 html {
@@ -40,5 +38,12 @@ html {
 }
 
 body {
-  @apply bg-surface text-ink-800 font-sans antialiased;
+  @apply bg-paper text-ink font-sans antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  text-wrap: balance;
 }

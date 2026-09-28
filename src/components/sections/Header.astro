@@ -10,13 +10,14 @@ interface Props {
 const { lang, content } = Astro.props;
 ---
 
-<header class="sticky top-0 z-50 w-full border-b border-ink-100 bg-surface/95 backdrop-blur">
+<header class="sticky top-0 z-50 w-full border-b border-line bg-surface/95 backdrop-blur">
   <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
     <a
       href={`/${lang}/#${SECTION_IDS.hero}`}
-      class="flex min-h-11 items-center text-sm font-semibold text-ink-800"
+      class="flex min-h-11 items-center gap-1 font-wordmark text-ink"
     >
-      Gabriela Kelly
+      <span class="text-xl font-black">GK</span>
+      <span class="text-lg font-normal">GabyKelly</span>
     </a>
     <LanguageToggle lang={lang} label={content.languageToggleLabel} />
   </div>

@@ -1,0 +1,26 @@
+---
+// Footer (UX_UI_DIRECTION.md section 2.1): `ink` background, wordmark stand-in
+// with the gold "GabyKelly", used until the real logo file arrives (US-015 AC5).
+import type { Language } from '../../i18n';
+import { SECTION_IDS } from '../../i18n';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-ink py-10">
+  <div class="mx-auto flex max-w-5xl flex-col items-center gap-2 px-4 text-center">
+    <a
+      href={`/${lang}/#${SECTION_IDS.hero}`}
+      class="flex items-center gap-1 font-wordmark text-paper"
+    >
+      <span class="text-xl font-black">GK</span>
+      <span class="text-lg font-normal text-gold">GabyKelly</span>
+    </a>
+    <p class="text-sm text-paper/70">&copy; {year} Gabriela Kelly</p>
+  </div>
+</footer>
