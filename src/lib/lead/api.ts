@@ -46,10 +46,6 @@ export async function submitLead(
     return { kind: 'success' };
   }
 
-  if (response.status === 429) {
-    return { kind: 'rate_limited' };
-  }
-
   let body: unknown;
   try {
     body = await response.json();
@@ -59,6 +55,15 @@ export async function submitLead(
 
   if (!isLeadApiResponseBody(body)) {
     return { kind: 'generic_error' };
+  }
+
+  // Checked only once the body is confirmed to be well-formed JSON: a
+  // malformed/non-JSON 429 (e.g. from an intermediary proxy or WAF, not the
+  // application) must fall through to `generic_error` per the contract's
+  // "a non-JSON response is treated like 500" rule, not be taken at face
+  // value from the status code alone.
+  if (response.status === 429) {
+    return { kind: 'rate_limited' };
   }
 
   if (response.status === 422 && body.field_errors) {

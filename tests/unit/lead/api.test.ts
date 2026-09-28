@@ -125,6 +125,15 @@ describe('submitLead', () => {
     await expect(submitLead(payload, '/api/save-lead')).resolves.toEqual({ kind: 'rate_limited' });
   });
 
+  it('returns generic_error on a non-JSON 429 (e.g. an upstream proxy/WAF page, not the application)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(new Response('<html>Too Many Requests</html>', { status: 429 })),
+    );
+
+    await expect(submitLead(payload, '/api/save-lead')).resolves.toEqual({ kind: 'generic_error' });
+  });
+
   it('always sends the website honeypot field in the request body (contract section 3.1)', async () => {
     const fetchMock = vi.fn().mockResolvedValue(
       jsonResponse(201, { success: true, message: 'Lead saved.', error_code: null, field_errors: null }),
