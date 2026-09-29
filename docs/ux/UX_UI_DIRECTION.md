@@ -1,5 +1,6 @@
-# UX_UI_DIRECTION — v0.4
+# UX_UI_DIRECTION — v0.5
 
+v0.5 (2026-09-29): resolved open items from the US-015/US-017 review (human owner) — `gold-ink`, not `gold`, for the proof cards' quote mark (section 2.1); the eyebrow treatment is Roadmap-only for now (section 2.1); confirmed the English roadmap label "Step" (section 4, Section 3); the guide's "Approach" placeholder chip label (section 4, Section 4); the offer band's three points, proposed placeholder content pending Gabriela's review (section 4, Section 6); a distinct video-testimonial placeholder caption (section 4, Section 5).
 v0.4 (2026-09-28): rate-limit message and honeypot field (section 4, Section 7, US-013); video testimonials in the proof section (Section 5, US-017).
 
 All copy in this document is **proposed** and pending Gabriela's review (BR-004). It is written in gender-neutral language in both Spanish and English (BR-005): no gendered adjectives or participles referring to the visitor (e.g. avoid "listo/lista", "preparado/preparada"); prefer nouns ("disposición", "una persona"), verbs, and second-person constructions.
@@ -56,12 +57,12 @@ Brand colors sampled from Gaby's existing slide deck. Implement as Tailwind them
 ### Components and layout
 
 - **Header:** sticky, light background with a bottom border; wordmark left, `ES | EN` toggle right (active language as a navy fill).
-- **Eyebrow:** 28px gold rule + uppercase `brand` label above each section title.
+- **Eyebrow:** 28px gold rule + uppercase `brand` label. Applied only to the Roadmap's step markers ("PASO 1–3" / "STEP 1–3", in `gold-ink` — see Roadmap below) for now; no other section carries a top-of-section eyebrow (human owner decision, 2026-09-29).
 - **Hero:** two columns on desktop. Left: white panel with headline (italic `brand` emphasis on the second half), lead text, navy CTA, and the trust row from section 4, Section 1 (free initial call per BR-008; data protection per FR-013). Right: navy panel with a large gold circle bleeding off the right edge and Gabriela's round portrait (white 8px ring, soft shadow) over it. Stacks on mobile (copy first).
 - **Buttons:** navy fill, white text, 2px radius, min height 52px, arrow icon; hover shifts to `brand` and lifts 2px.
-- **Roadmap:** one bordered row of three cells ("PASO 1–3" in `gold-ink`, line icon, Crimson Pro step name); stacks with horizontal dividers on mobile.
+- **Roadmap:** one bordered row of three cells ("PASO 1–3" in Spanish / "STEP 1–3" in English, both in `gold-ink`, line icon, Crimson Pro step name); stacks with horizontal dividers on mobile.
 - **Guide:** round portrait (white ring + thin gold outline) beside the text; pending-validation chips for bio, credentials, and approach.
-- **Proof:** dashed-border placeholder cards with a gold opening quote mark until real testimonials exist.
+- **Proof:** dashed-border placeholder cards with a `gold-ink` opening quote mark (not `gold`, to stay off the "never as text on white" rule) until real testimonials exist.
 - **Offer:** full-width navy band with a gold circle in the bottom-right corner and three check-marked points.
 - **Form:** white card with a 4px navy top border; `paper` input fills; screening options as bordered rows that highlight in `brand` when selected.
 - **Closing:** white band, Crimson Pro italic statement plus the CTA.
@@ -114,6 +115,8 @@ Brand colors sampled from Gaby's existing slide deck. Implement as Tailwind them
 | 2 | **Decide** — prioriza mejor cómo usar tus recursos. | **Decide** — prioritize how to use your resources. |
 | 3 | **Construye** — empieza a crear una estructura en la que tu dinero también pueda trabajar a favor de tus objetivos. | **Build** — start creating a structure where your money can also work toward your goals. |
 
+Step-number label (section 2.1): "Paso" in Spanish, "Step" in English (confirmed, human owner, 2026-09-29).
+
 ### Section 4 — Gabriela as Guide (`#guide`)
 
 **Español**
@@ -134,6 +137,8 @@ Placeholders (marked "pending validation"):
 - Relevant credentials
 - Experience / approach
 
+Chip labels (ES / EN): "Biografía breve" / "Short bio"; "Credenciales y experiencia" / "Credentials and experience"; "Enfoque" / "Approach" (confirmed, human owner, 2026-09-29).
+
 ### Section 5 — Proof / Social Validation (`#proof`)
 
 Use real proof only when provided. Never invent testimonials or outcomes.
@@ -144,7 +149,9 @@ Placeholder structure (marked "pending validation"):
 - credibility statements
 - client stories
 
-Testimonial formats (US-017): text cards and video cards. Placeholders stay until real, approved testimonials are supplied (human owner, 2026-09-28). A video card shows a poster image with a play button and loads the video (and anything from its host) only when the visitor presses play; it has captions or a short text summary in the page language. The video host (self-hosted or YouTube/Vimeo) is decided before the first video is added.
+Testimonial formats (US-017): text cards and video cards. Placeholders stay until real, approved testimonials are supplied (human owner, 2026-09-28). A video card shows a poster image with a play button and loads the video (and anything from its host) only when the visitor presses play; it has captions or a short text summary in the page language. The video host (self-hosted or YouTube/Vimeo) is decided before the first video is added — until that decision, the video card stays a placeholder with a decorative (non-functional) play icon, which the human owner has confirmed is fine to ship as-is (2026-09-29); when a third-party host is chosen, add it to the privacy notice's processors list (US-018).
+
+Placeholder captions (ES / EN, confirmed human owner, 2026-09-29): text card — "Testimonio de una clienta o cliente" / "Client testimonial"; video card — "Testimonio en video de una clienta o cliente" / "Video testimonial from a client".
 
 ### Section 6 — Initial Call Offer (`#offer`)
 
@@ -157,6 +164,14 @@ Testimonial formats (US-017): text cards and video cards. Placeholders stay unti
 > In an initial call, we'll review your situation at a general level, talk about what you're looking for, and see whether the program makes sense for you.
 
 Avoid guaranteed results.
+
+Three check-marked points (section 2.1). Draft/suggested placeholder content the human owner asked for, to be refined once Gabriela reviews it (2026-09-29) — not yet validated with her, same as the rest of this document's copy (BR-004):
+
+| Español | English |
+|---|---|
+| Revisamos tu situación financiera actual, sin juicios. | We review your current financial situation, without judgment. |
+| Conversamos sobre tus metas y lo que buscas lograr. | We talk about your goals and what you're looking to achieve. |
+| Vemos juntos si el programa es el siguiente paso adecuado para ti. | We see together whether the program is the right next step for you. |
 
 ### Section 7 — Lead Form (`#lead-form`)
 
