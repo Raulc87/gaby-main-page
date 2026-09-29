@@ -132,6 +132,45 @@ def test_internal_error_does_not_log_a_pii_bearing_exception_message(app, client
     assert VALID_PAYLOAD["phone"] not in caplog.text
 
 
+# --- exceptions raised outside the route (AC2, AC3) ----------------------
+
+
+class _RaisingRateLimiter:
+    """Stands in for a rate limiter whose check() has a bug, e.g. a
+    dict-lookup KeyError keyed by the client's IP.
+    """
+
+    def __init__(self, exc: Exception) -> None:
+        self._exc = exc
+
+    def check(self, key: str):
+        raise self._exc
+
+
+def test_exception_raised_before_the_route_still_logs_safely(app, client, caplog):
+    """Regression: a bug outside save_lead()'s own try/except (e.g. in
+    app.py's before_request rate-limit hook) used to fall through to
+    Flask's default exception handler, which logs the exception's raw
+    message (str(exc)) and could leak submitted data or the client's IP.
+    The app-level errors.py:handle_unexpected_error catch-all now covers
+    every route the same safe way.
+    """
+    caplog.set_level(logging.ERROR)
+    app.config["RATE_LIMITER"] = _RaisingRateLimiter(
+        KeyError(f"no entry for {VALID_PAYLOAD['email']}")
+    )
+
+    response = client.post("/api/save-lead", json=VALID_PAYLOAD)
+
+    assert response.status_code == 500
+    body = response.get_json()
+    assert body["success"] is False
+    assert body["error_code"] == "internal_error"
+    assert "KeyError" in caplog.text
+    assert "Traceback (most recent call last)" in caplog.text
+    assert VALID_PAYLOAD["email"] not in caplog.text
+
+
 # --- no personal data in logs (AC3, AC6) ---------------------------------
 
 
