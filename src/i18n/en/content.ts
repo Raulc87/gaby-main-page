@@ -42,6 +42,7 @@ export const content: ContentDictionary = {
     photoPlaceholder: "Gabriela's photo",
     bioPlaceholder: 'Short bio',
     credentialsPlaceholder: 'Credentials and experience',
+    approachPlaceholder: 'Approach',
   },
   proof: {
     heading: 'Trust and credibility',
@@ -54,6 +55,11 @@ export const content: ContentDictionary = {
   offer: {
     paragraph:
       "In an initial call, we'll review your situation at a general level, talk about what you're looking for, and see whether the program makes sense for you.",
+    points: [
+      'We review your current financial situation, without judgment.',
+      "We talk about your goals and what you're looking to achieve.",
+      'We see together whether the program is the right next step for you.',
+    ],
   },
   closing: {
     paragraph:

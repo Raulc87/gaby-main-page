@@ -96,10 +96,11 @@ export interface RoadmapContent {
 
 export interface GuideContent {
   paragraphs: string[];
-  /** Captions for the photo/bio/credentials placeholder spaces (US-003 AC2). */
+  /** Captions for the photo/bio/credentials/approach placeholder spaces (US-003 AC2). */
   photoPlaceholder: string;
   bioPlaceholder: string;
   credentialsPlaceholder: string;
+  approachPlaceholder: string;
 }
 
 export type TestimonialCardKind = 'text' | 'video';
@@ -125,6 +126,8 @@ export interface ProofContent {
 
 export interface OfferContent {
   paragraph: string;
+  /** Three check-marked points (section 2.1); suggested/draft, pending Gabriela's review. */
+  points: string[];
 }
 
 export interface ClosingContent {

@@ -94,6 +94,9 @@ describe('content dictionaries', () => {
       "In an initial call, we'll review your situation at a general level, talk about what you're looking for, and see whether the program makes sense for you.",
     );
 
+    expect(esContent.offer.points).toHaveLength(3);
+    expect(enContent.offer.points).toHaveLength(3);
+
     expect(esContent.closing.paragraph).toBe(
       'Si esto resuena contigo, puedes dar el primer paso con calma. Déjanos tus datos y agenda una conversación para entender si este proceso encaja contigo.',
     );
@@ -106,6 +109,7 @@ describe('content dictionaries', () => {
     expect(esContent.guide.photoPlaceholder).not.toBe(enContent.guide.photoPlaceholder);
     expect(esContent.guide.bioPlaceholder).not.toBe(enContent.guide.bioPlaceholder);
     expect(esContent.guide.credentialsPlaceholder).not.toBe(enContent.guide.credentialsPlaceholder);
+    expect(esContent.guide.approachPlaceholder).not.toBe(enContent.guide.approachPlaceholder);
     expect(esContent.proof.credibilityPlaceholder).not.toBe(enContent.proof.credibilityPlaceholder);
     esContent.proof.cards.forEach((card, index) => {
       expect(card.placeholder).not.toBe(enContent.proof.cards[index]?.placeholder);
@@ -124,6 +128,41 @@ describe('content dictionaries', () => {
   it('supports text and video testimonial cards, still showing only placeholders (US-017 AC3)', () => {
     expect(esContent.proof.cards.map((card) => card.kind).sort()).toEqual(['text', 'video']);
     expect(enContent.proof.cards.map((card) => card.kind).sort()).toEqual(['text', 'video']);
+  });
+
+  it('gives the guide an approach chip label distinct per language (US-015)', () => {
+    expect(esContent.guide.approachPlaceholder).toBe('Enfoque');
+    expect(enContent.guide.approachPlaceholder).toBe('Approach');
+  });
+
+  it('avoids guaranteed outcomes in the offer band points (BR-003, UX_UI_DIRECTION.md section 4, Section 6)', () => {
+    const forbidden = /\d|garantiz|guarantee/i;
+    esContent.offer.points.forEach((point, index) => {
+      expect(point).not.toMatch(forbidden);
+      expect(point).not.toBe(enContent.offer.points[index]);
+    });
+    enContent.offer.points.forEach((point) => {
+      expect(point).not.toMatch(forbidden);
+    });
+  });
+
+  it('avoids the generic masculine in Spanish visitor-facing copy (BR-005)', () => {
+    // Regression guard for the exact class of mistake UX_UI_DIRECTION.md's
+    // intro already warns about ("listo/lista", "preparado/preparada") plus
+    // "juntos/juntas", found in the offer's three points (v0.6 fix). Not a
+    // full grammar checker — just the specific forms already seen.
+    const genderedWords = /\b(listo|lista|preparado|preparada|juntos|juntas)\b/i;
+    const spanishStrings = [
+      ...esContent.recognition.paragraphs,
+      ...esContent.guide.paragraphs,
+      esContent.offer.paragraph,
+      ...esContent.offer.points,
+      esContent.closing.paragraph,
+      ...esContent.roadmap.steps.map((step) => step.description),
+    ];
+    spanishStrings.forEach((text) => {
+      expect(text).not.toMatch(genderedWords);
+    });
   });
 
   it('exposes a single flag controlling every pending-validation badge (US-009)', () => {
