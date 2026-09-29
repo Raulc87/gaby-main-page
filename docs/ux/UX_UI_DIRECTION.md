@@ -68,7 +68,7 @@ Brand colors sampled from Gaby's existing slide deck. Implement as Tailwind them
 - **Guide:** round portrait (white ring + thin gold outline) beside the text; pending-validation chips for bio, credentials, and approach.
 - **Proof:** dashed-border placeholder cards with a `gold-ink` opening quote mark (not `gold`, to stay off the "never as text on white" rule) until real testimonials exist.
 - **Offer:** full-width navy band with a gold circle in the bottom-right corner and three check-marked points.
-- **Form:** white card with a 4px navy top border; `paper` input fills with a 1px `field-line` border; screening options as `field-line` bordered rows that highlight in `brand` when selected. Field and submission error text uses Tailwind's `red-700` (`#B91C1C`, 6.1:1 on `paper`); no brand error token (human owner, 2026-09-29).
+- **Form:** white card with a 4px navy top border; `paper` input fills with a 1px `field-line` border; screening options as `field-line` bordered rows that highlight in `brand` when selected. Field and submission error text uses the `red-700` utility of the pinned Tailwind 4 (`oklch(50.5% 0.213 27.518)`, about `#C10007`; 6.0:1 on `paper`, 6.4:1 on `surface`); no brand error token (human owner, 2026-09-29).
 - **Closing:** white band, Crimson Pro italic statement plus the CTA.
 - **Footer:** `ink` background, wordmark with the gold "GabyKelly".
 - Corners: 2px everywhere (sharp, corporate). No glow effects, gradients, or grain.
