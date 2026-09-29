@@ -9,6 +9,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from flask import Flask, request
 
 from config import Config
@@ -22,6 +24,14 @@ MAX_REQUEST_BODY_BYTES = 10 * 1024  # LEAD_API_CONTRACT.md section 2
 
 
 def create_app(api_prefix: str = "") -> Flask:
+    # US-016: makes INFO (startup) and WARNING (memory storage) records
+    # actually reach stderr, which Passenger writes to the app log in
+    # cPanel, not just ERROR (which Python's handler of last resort would
+    # already show). A no-op if a handler is already configured on the
+    # root logger (e.g. under pytest), which is fine: tests capture with
+    # caplog.set_level() instead.
+    logging.basicConfig(level=logging.INFO)
+
     app = Flask(__name__)
     app.config["MAX_CONTENT_LENGTH"] = MAX_REQUEST_BODY_BYTES
 
