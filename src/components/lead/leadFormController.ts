@@ -137,7 +137,13 @@ export function initLeadForm(root: HTMLElement): void {
 
   function setPending(pending: boolean): void {
     submitButtonEl.disabled = pending;
-    submitButtonEl.textContent = pending ? copy.submit.submitting : copy.submit.idle;
+    // Targets the label span rather than the button's own textContent so it
+    // doesn't wipe out the button's arrow icon (UX_UI_DIRECTION.md section
+    // 2.1, "Buttons").
+    const label = submitButtonEl.querySelector<HTMLElement>('[data-submit-label]');
+    const text = pending ? copy.submit.submitting : copy.submit.idle;
+    if (label) label.textContent = text;
+    else submitButtonEl.textContent = text;
   }
 
   function onSuccess(payload: LeadRequestPayload): void {
