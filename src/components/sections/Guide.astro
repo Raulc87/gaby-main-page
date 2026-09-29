@@ -48,6 +48,10 @@ const { content, pendingLabel } = Astro.props;
           <PendingBadge label={pendingLabel} />
           <span class="text-sm text-muted">{content.credentialsPlaceholder}</span>
         </li>
+        <li class="flex items-center gap-2">
+          <PendingBadge label={pendingLabel} />
+          <span class="text-sm text-muted">{content.approachPlaceholder}</span>
+        </li>
       </ul>
     </div>
   </div>
