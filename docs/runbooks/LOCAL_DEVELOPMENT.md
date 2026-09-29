@@ -21,7 +21,7 @@ npm ci
 # Backend (in a virtual environment)
 cd api
 python3 -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
+source .venv/bin/activate   # Windows: see section 9 for the Git Bash equivalent
 pip install -r requirements.txt -r requirements-dev.txt
 cd ..
 ```
@@ -120,7 +120,9 @@ These are the same checks GitHub Actions runs on every pull request and on pushe
 ### Windows
 
 - **Installing Python:** `winget install Python.Python.3.11` (from PowerShell or Command Prompt) installs Python 3.11 and adds it to `PATH` for new terminals. Confirm with `python --version` in a fresh terminal; if it still resolves to a different version (or the Microsoft Store stub), check `py --list` and use the `py -3.11` launcher, or reorder `PATH`.
-- **Which shell to run this runbook in:** sections 2, 3, 4 and 7 use POSIX shell syntax (`source`, `cp`, `( cd ... && ... )` subshells, inline `VAR=value`, a trailing `&` to background a process) that neither `cmd.exe` nor Windows PowerShell understands. Run this runbook's commands in **Git Bash** (installed together with [Git for Windows](https://git-scm.com/download/win), so if you can `git clone` you already have it) — every command block works there as written, with one difference: activate the virtual environment with `source .venv/Scripts/activate` (`Scripts`, not `bin` — the venv layout Python uses on Windows even under Git Bash).
+- **Which shell to run this runbook in:** sections 2, 3, 4 and 7 use POSIX shell syntax (`source`, `cp`, `( cd ... && ... )` subshells, inline `VAR=value`, a trailing `&` to background a process) that neither `cmd.exe` nor Windows PowerShell understands. Run this runbook's commands in **Git Bash** (installed together with [Git for Windows](https://git-scm.com/download/win), so if you can `git clone` you already have it), with two differences from the commands as written elsewhere in this file:
+  - Activate the virtual environment with `source .venv/Scripts/activate` (`Scripts`, not `bin` — the venv layout Python uses on Windows even under Git Bash).
+  - Create it with `py -3.11 -m venv .venv` instead of section 2's `python3 -m venv .venv`: the `winget` install above provides `python.exe` and the `py` launcher, not a `python3` command, and `python3` on a default Windows setup resolves to the Microsoft Store's App Execution Alias, which errors out instead of creating a venv. After activating, verify with `python --version` — it should print `3.11.x`.
 - **PowerShell execution policy blocking npm:** only relevant if you run `npm`/`npx` directly in PowerShell instead of Git Bash (for example from an editor's integrated terminal). `npm` and `npx` run through generated `.ps1` shims, and PowerShell's default execution policy of `Restricted` blocks them with a message about running scripts being disabled — the same policy also blocks the venv's own `Activate.ps1`. Fix for the current user only (doesn't need admin rights): `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
 - **OneDrive file locks:** if the repository is cloned inside a folder OneDrive syncs (the default `Documents` or `Desktop` on a managed/work PC), OneDrive can hold a lock on a file it's mid-upload, causing intermittent `EPERM`/`EBUSY` errors during `npm ci`, Python venv creation, or `npx playwright install` (browser binaries are large and slow to sync). Symptoms include installs that fail once and succeed on retry. Preferred fix: clone the repository outside any OneDrive-synced folder (e.g. `C:\dev\gaby-main-page`). If that isn't possible, right-click the repository folder in Explorer and choose "Always keep on this device" to stop on-demand eviction, or pause OneDrive syncing while running installs.
 
@@ -132,7 +134,7 @@ These are the same checks GitHub Actions runs on every pull request and on pushe
   ```
   Open a new terminal (or `source ~/.zshrc`) and confirm with `node --version`.
 
-  Don't rely on the same trick for Python: `python3` on `PATH` can still resolve to the system interpreter or a different Homebrew Python, since a keg-only formula's unversioned `python3`/`pip` shims live under its `libexec/bin`, not its `bin`. Instead, create the virtual environment directly with the versioned interpreter, which Homebrew always places in the formula's own `bin`, and verify **inside the activated venv** rather than on the ambient `PATH` — replace section 2's venv creation with:
+  Don't rely on the same trick for Python: `python3` on `PATH` can still resolve to the system interpreter or a different Homebrew Python, since Homebrew's versioned Python formulas put their unversioned `python3`/`pip` shims under the formula's `libexec/bin`, not its `bin`. Instead, create the virtual environment directly with the versioned interpreter, which Homebrew always places in the formula's own `bin`, and verify **inside the activated venv** rather than on the ambient `PATH` — replace section 2's venv creation with:
   ```bash
   cd api
   "$(brew --prefix python@3.11)/bin/python3.11" -m venv .venv
