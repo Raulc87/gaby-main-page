@@ -170,7 +170,7 @@ The human reviewer remains the final approver.
 A repository may also run an automated reviewer on every pull request, for example the Codex GitHub integration. Treat it as an additional, independent reviewer:
 
 - Every finding gets a visible outcome. The PR's author (the owning agent, or the human owner for docs PRs) checks it against the current head and the specs, then either pushes a fix or replies on the thread explaining why no change is needed (for example: already fixed, reviewed an older commit, or contradicts an approved spec). No finding is left without an answer.
-- Give feedback on each finding when the tool asks for it (e.g. 👍 useful and correct, 👎 wrong or not useful), and name the fixing commit in the reply. This tunes the reviewer for the project.
+- Give feedback on each finding when the tool asks for it (e.g. 👍 useful and correct, 👎 wrong or not useful). This tunes the reviewer for the project. When a fix was pushed, name its commit in the reply; otherwise the reply states the reason instead.
 - It does not outrank the specs. A finding that needs a requirement or contract change goes through change management (spec first), and the human owner decides.
 - It does not replace the review-only agent or the human owner's approval. Its comments are never an approval.
 - The review-only agent may triage its findings (valid, obsolete, invalid) in its own review, but under reviewer independence it never fixes them.
