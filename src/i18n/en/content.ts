@@ -47,7 +47,7 @@ export const content: ContentDictionary = {
     heading: 'Trust and credibility',
     cards: [
       { kind: 'text', placeholder: 'Client testimonial' },
-      { kind: 'video', placeholder: 'Client testimonial' },
+      { kind: 'video', placeholder: 'Video testimonial from a client' },
     ],
     credibilityPlaceholder: 'Credibility statement',
   },

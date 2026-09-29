@@ -48,7 +48,7 @@ export const content: ContentDictionary = {
     heading: 'Respaldo y confianza',
     cards: [
       { kind: 'text', placeholder: 'Testimonio de una clienta o cliente' },
-      { kind: 'video', placeholder: 'Testimonio de una clienta o cliente' },
+      { kind: 'video', placeholder: 'Testimonio en video de una clienta o cliente' },
     ],
     credibilityPlaceholder: 'Declaración de credibilidad',
   },
