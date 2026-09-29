@@ -32,13 +32,20 @@ describe('content dictionaries', () => {
       supportingLine:
         'No siempre se trata de generar más. A veces, el siguiente paso es ordenar mejor lo que ya tienes.',
       cta: 'Quiero dar el primer paso',
+      trustRow: 'Llamada inicial sin costo · Tus datos protegidos (Ley 8968)',
     });
     expect(enContent.hero).toEqual({
       headline: "You earn well, but your money isn't giving you peace of mind.",
       supportingLine:
         "It's not always about earning more. Sometimes the next step is to better organize what you already have.",
       cta: 'I want to take the first step',
+      trustRow: 'Free initial call · Your data is protected (Costa Rica Law 8968)',
     });
+  });
+
+  it('shows the hero trust row in both languages (US-015 AC8)', () => {
+    expect(esContent.hero.trustRow).toContain('Ley 8968');
+    expect(enContent.hero.trustRow).toContain('Costa Rica Law 8968');
   });
 
   it('uses the approved recognition and roadmap copy from UX_UI_DIRECTION.md section 4 (US-002)', () => {
@@ -99,16 +106,24 @@ describe('content dictionaries', () => {
     expect(esContent.guide.photoPlaceholder).not.toBe(enContent.guide.photoPlaceholder);
     expect(esContent.guide.bioPlaceholder).not.toBe(enContent.guide.bioPlaceholder);
     expect(esContent.guide.credentialsPlaceholder).not.toBe(enContent.guide.credentialsPlaceholder);
-    expect(esContent.proof.testimonialPlaceholder).not.toBe(enContent.proof.testimonialPlaceholder);
     expect(esContent.proof.credibilityPlaceholder).not.toBe(enContent.proof.credibilityPlaceholder);
+    esContent.proof.cards.forEach((card, index) => {
+      expect(card.placeholder).not.toBe(enContent.proof.cards[index]?.placeholder);
+    });
   });
 
   it('never invents a testimonial or a quantified outcome in the proof placeholders (BR-003, UX_UI_DIRECTION.md section 5)', () => {
     const forbidden = /\d|garantiz|guarantee/i;
-    expect(esContent.proof.testimonialPlaceholder).not.toMatch(forbidden);
     expect(esContent.proof.credibilityPlaceholder).not.toMatch(forbidden);
-    expect(enContent.proof.testimonialPlaceholder).not.toMatch(forbidden);
     expect(enContent.proof.credibilityPlaceholder).not.toMatch(forbidden);
+    [...esContent.proof.cards, ...enContent.proof.cards].forEach((card) => {
+      expect(card.placeholder).not.toMatch(forbidden);
+    });
+  });
+
+  it('supports text and video testimonial cards, still showing only placeholders (US-017 AC3)', () => {
+    expect(esContent.proof.cards.map((card) => card.kind).sort()).toEqual(['text', 'video']);
+    expect(enContent.proof.cards.map((card) => card.kind).sort()).toEqual(['text', 'video']);
   });
 
   it('exposes a single flag controlling every pending-validation badge (US-009)', () => {

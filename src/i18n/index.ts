@@ -75,6 +75,8 @@ export interface HeroContent {
   headline: string;
   supportingLine: string;
   cta: string;
+  /** Trust row below the CTA (UX_UI_DIRECTION.md section 4, Section 1; US-015 AC8). */
+  trustRow: string;
 }
 
 export interface RecognitionContent {
@@ -87,6 +89,8 @@ export interface RoadmapStep {
 }
 
 export interface RoadmapContent {
+  /** Step label prefix (e.g. "Paso" / "Step") for the gold-ink "PASO 1–3" markers (section 2.1). */
+  stepLabel: string;
   steps: RoadmapStep[];
 }
 
@@ -98,10 +102,24 @@ export interface GuideContent {
   credentialsPlaceholder: string;
 }
 
+export type TestimonialCardKind = 'text' | 'video';
+
+/**
+ * A testimonial card slot (US-017 AC3/AC4): text and video are the two
+ * supported kinds. `placeholder` is the caption/summary shown until a real,
+ * approved testimonial is supplied — for a video card this doubles as the
+ * caption/summary required by AC4. Never a real testimonial (BR-003).
+ */
+export interface TestimonialCardContent {
+  kind: TestimonialCardKind;
+  placeholder: string;
+}
+
 export interface ProofContent {
   heading: string;
-  /** Captions for the placeholder structure (US-003 AC2); never real testimonials. */
-  testimonialPlaceholder: string;
+  /** Text and video testimonial card placeholders (US-017 AC3). */
+  cards: TestimonialCardContent[];
+  /** Caption for the credibility-statement placeholder (US-003 AC2). */
   credibilityPlaceholder: string;
 }
 

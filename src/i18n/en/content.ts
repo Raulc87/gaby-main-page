@@ -15,6 +15,7 @@ export const content: ContentDictionary = {
     supportingLine:
       "It's not always about earning more. Sometimes the next step is to better organize what you already have.",
     cta: 'I want to take the first step',
+    trustRow: 'Free initial call · Your data is protected (Costa Rica Law 8968)',
   },
   recognition: {
     paragraphs: [
@@ -23,6 +24,7 @@ export const content: ContentDictionary = {
     ],
   },
   roadmap: {
+    stepLabel: 'Step',
     steps: [
       { title: 'Organize', description: 'understand clearly where you are today.' },
       { title: 'Decide', description: 'prioritize how to use your resources.' },
@@ -43,7 +45,10 @@ export const content: ContentDictionary = {
   },
   proof: {
     heading: 'Trust and credibility',
-    testimonialPlaceholder: 'Client testimonial',
+    cards: [
+      { kind: 'text', placeholder: 'Client testimonial' },
+      { kind: 'video', placeholder: 'Video testimonial from a client' },
+    ],
     credibilityPlaceholder: 'Credibility statement',
   },
   offer: {

@@ -1,21 +1,71 @@
 ---
-// Copy filled in by GK-001-hero (US-001).
+// Hero (US-001, US-015 AC3/AC8): two-column layout per
+// UX_UI_DIRECTION.md section 2.1. Left: white panel with headline (italic
+// `brand` emphasis on the second clause), supporting line, CTA and trust
+// row. Right: navy panel with a gold circle bleeding off the edge and
+// Gabriela's round portrait over it. Stacks on mobile, copy first.
+import CtaButton from './CtaButton.astro';
+import PendingBadge from './PendingBadge.astro';
 import { SECTION_IDS, type HeroContent } from '../../i18n';
 
 interface Props {
   content: HeroContent;
+  pendingLabel: string;
+  /** Alt text for the portrait (shared with the guide section's photo). */
+  photoAlt: string;
 }
 
-const { content } = Astro.props;
+const { content, pendingLabel, photoAlt } = Astro.props;
+
+// Split the approved headline at its natural clause boundary (the comma)
+// so the second clause can carry the spec's italic `brand` emphasis,
+// without altering the approved wording itself.
+const commaIndex = content.headline.indexOf(',');
+const [headlineLead, headlineEmphasis] =
+  commaIndex >= 0
+    ? [content.headline.slice(0, commaIndex + 1), content.headline.slice(commaIndex + 1).trim()]
+    : [content.headline, ''];
+
+// Fluid 38-60px per section 2.1 ("hero headline 38-60px fluid"), scaling
+// linearly between the 360px and 1280px viewports this project tests at
+// (USER_STORIES.md common widths / UX_UI_DIRECTION.md section 7), instead
+// of stepping abruptly at each Tailwind breakpoint.
 ---
 
-<section id={SECTION_IDS.hero} class="mx-auto max-w-3xl px-4 py-16 text-center">
-  <h1 class="text-3xl font-semibold text-ink-900 sm:text-4xl">{content.headline}</h1>
-  <p class="mt-4 text-lg text-ink-600">{content.supportingLine}</p>
-  <a
-    href={`#${SECTION_IDS.leadForm}`}
-    class="mt-8 inline-flex min-h-11 items-center justify-center rounded-md bg-brand-600 px-6 py-3 text-base font-medium text-white hover:bg-brand-700"
-  >
-    {content.cta}
-  </a>
+<section id={SECTION_IDS.hero} class="overflow-hidden bg-paper">
+  <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
+    <div class="rounded-[2px] bg-surface p-8 shadow-sm sm:p-10">
+      <h1 class="text-[clamp(2.375rem,1.84rem+2.39vw,3.75rem)] leading-tight">
+        {headlineLead}{' '}
+        {headlineEmphasis && <em class="italic text-brand">{headlineEmphasis}</em>}
+      </h1>
+      <p class="mt-4 max-w-[65ch] text-lg text-muted">{content.supportingLine}</p>
+      <div class="mt-8">
+        <CtaButton href={`#${SECTION_IDS.leadForm}`} label={content.cta} />
+      </div>
+      <p class="mt-4 text-sm text-muted">{content.trustRow}</p>
+    </div>
+
+    <div class="relative flex justify-center overflow-hidden rounded-[2px] bg-navy p-10 lg:justify-end lg:p-14">
+      <div
+        aria-hidden="true"
+        class="absolute -right-16 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-gold lg:h-96 lg:w-96"
+      >
+      </div>
+      <div class="relative flex flex-col items-center gap-3">
+        <div
+          class="h-32 w-32 shrink-0 overflow-hidden rounded-full border-8 border-white shadow-lg sm:h-40 sm:w-40 lg:h-44 lg:w-44"
+        >
+          <img
+            src="/gabriela-provisional.jpg"
+            alt={photoAlt}
+            width="352"
+            height="352"
+            class="h-full w-full object-cover"
+          />
+        </div>
+        <PendingBadge label={pendingLabel} />
+      </div>
+    </div>
+  </div>
 </section>

@@ -1,0 +1,56 @@
+---
+// US-017 AC3/AC4: a single testimonial card, text or video. Renders only
+// the approved placeholder for now — no real testimonial is added here.
+// The section-level pending badge (SocialProof.astro, next to the heading)
+// already covers every card; no per-card badge, to avoid repeating it once
+// per card (previously 3 identical badges in one small section).
+//
+// The video variant shows a poster placeholder with a play button and its
+// caption/summary (AC4). It contains no script, iframe, or video element at
+// all, so nothing loads from a third party — true today because there is no
+// real video, not yet a tested "defer until press" behavior. The play icon
+// is decorative (aria-hidden, unfocusable, no role): real playback needs a
+// video source and the host decision (self-hosted/YouTube/Vimeo) that
+// UX_UI_DIRECTION.md section 5 explicitly defers to when a video is
+// actually supplied — building it now would mean guessing the embed shape.
+// TestimonialCardContent gains the fields a real video needs (poster,
+// source, host) at that point.
+import type { TestimonialCardContent } from '../../i18n';
+
+interface Props {
+  card: TestimonialCardContent;
+}
+
+const { card } = Astro.props;
+---
+
+{
+  card.kind === 'text' && (
+    <div class="rounded-[2px] border border-dashed border-line bg-surface p-6">
+      <span aria-hidden="true" class="font-serif text-4xl leading-none text-gold-ink">
+        &ldquo;
+      </span>
+      <p class="mt-2 text-sm text-muted">{card.placeholder}</p>
+    </div>
+  )
+}
+
+{
+  card.kind === 'video' && (
+    <div class="overflow-hidden rounded-[2px] border border-dashed border-line bg-surface">
+      <div class="relative flex aspect-video items-center justify-center bg-line">
+        <span
+          aria-hidden="true"
+          class="flex h-14 w-14 items-center justify-center rounded-full bg-surface/90 shadow"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-6 w-6 text-navy">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </span>
+      </div>
+      <div class="p-6">
+        <p class="text-sm text-muted">{card.placeholder}</p>
+      </div>
+    </div>
+  )
+}
