@@ -15,6 +15,14 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
 
 <div>
   <label class="flex min-h-11 items-start gap-2 text-sm text-ink">
+    <!--
+      `outline`, not `border` (US-015 AC6, field-line 3:1 boundary):
+      Chromium's native, appearance:auto checkbox widget ignores author
+      `border-width`/`border-color` for this element (computed border stays
+      0px/none regardless), but does honor `outline`, which paints
+      independently of the widget's own theming. `-outline-offset-1` keeps
+      it flush with the box instead of floating outside it.
+    -->
     <input
       id="lead-consent"
       name="consent"
@@ -22,7 +30,7 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
       required
       aria-required="true"
       aria-describedby="lead-consent-error"
-      class="mt-0.5 h-4 w-4 shrink-0 accent-brand"
+      class="mt-0.5 h-4 w-4 shrink-0 rounded-sm outline-1 -outline-offset-1 outline-field-line accent-brand"
     />
     <span>
       {before}

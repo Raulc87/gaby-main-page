@@ -57,7 +57,7 @@ const scriptCopy = {
           required
           aria-required="true"
           aria-describedby="lead-name-hint lead-name-error"
-          class="mt-1 block min-h-11 w-full rounded-md border border-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
+          class="mt-1 block min-h-11 w-full rounded-md border border-field-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
         />
         <p id="lead-name-hint" class="mt-1 text-xs text-muted">{form.name.hint}</p>
         <p id="lead-name-error" role="alert" class="mt-1 text-sm text-red-700"></p>
@@ -73,7 +73,7 @@ const scriptCopy = {
           required
           aria-required="true"
           aria-describedby="lead-email-error"
-          class="mt-1 block min-h-11 w-full rounded-md border border-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
+          class="mt-1 block min-h-11 w-full rounded-md border border-field-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
         />
         <p id="lead-email-error" role="alert" class="mt-1 text-sm text-red-700"></p>
       </div>
@@ -88,7 +88,7 @@ const scriptCopy = {
           required
           aria-required="true"
           aria-describedby="lead-phone-hint lead-phone-error"
-          class="mt-1 block min-h-11 w-full rounded-md border border-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
+          class="mt-1 block min-h-11 w-full rounded-md border border-field-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
         />
         <p id="lead-phone-hint" class="mt-1 text-xs text-muted">{form.phone.hint}</p>
         <p id="lead-phone-error" role="alert" class="mt-1 text-sm text-red-700"></p>
@@ -98,7 +98,7 @@ const scriptCopy = {
         <legend class="block text-sm font-medium text-ink">{form.screening.prompt}</legend>
         {
           form.screening.options.map((option, index) => (
-            <label class="flex min-h-11 items-center gap-3 rounded-md border border-line bg-paper px-4 py-3 text-sm text-ink transition-colors has-[:checked]:border-brand has-[:checked]:bg-brand/5 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold">
+            <label class="flex min-h-11 items-center gap-3 rounded-md border border-field-line bg-paper px-4 py-3 text-sm text-ink transition-colors has-[:checked]:border-brand has-[:checked]:bg-brand/5 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold">
               <input
                 type="radio"
                 name="screening_answer"
