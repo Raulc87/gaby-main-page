@@ -1,5 +1,6 @@
-# UX_UI_DIRECTION — v0.5
+# UX_UI_DIRECTION — v0.6
 
+v0.6 (2026-09-29): review fix on v0.5 — the offer band's third point used "Vemos juntos" (masculine plural), violating BR-005; reworded gender-neutral (section 4, Section 6). Also recorded that check-mark icons on navy/dark panels use `gold`, not `brand`, for contrast (section 2.1 motif rules).
 v0.5 (2026-09-29): resolved open items from the US-015/US-017 review (human owner) — `gold-ink`, not `gold`, for the proof cards' quote mark (section 2.1); the eyebrow treatment is Roadmap-only for now (section 2.1); confirmed the English roadmap label "Step" (section 4, Section 3); the guide's "Approach" placeholder chip label (section 4, Section 4); the offer band's three points, proposed placeholder content pending Gabriela's review (section 4, Section 6); a distinct video-testimonial placeholder caption (section 4, Section 5).
 v0.4 (2026-09-28): rate-limit message and honeypot field (section 4, Section 7, US-013); video testimonials in the proof section (Section 5, US-017).
 
@@ -72,7 +73,7 @@ Brand colors sampled from Gaby's existing slide deck. Implement as Tailwind them
 ### Motif rules
 
 - The gold circle or half-circle appears at most once per section, always bleeding off an edge or sitting behind the portrait, never behind body text.
-- Icons are simple line icons (1.6px stroke) in `brand`; no emoji, no 3D illustrations.
+- Icons are simple line icons (1.6px stroke) in `brand` on light backgrounds; on navy or other dark panels, use `gold` instead — `brand` on `navy` is 1.79:1, `gold` on `navy` is 6.77:1 (e.g. the offer band's check-marks). No emoji, no 3D illustrations.
 
 ## 3. Language Behavior (FR-012, ADR-003)
 
@@ -171,7 +172,7 @@ Three check-marked points (section 2.1). Draft/suggested placeholder content the
 |---|---|
 | Revisamos tu situación financiera actual, sin juicios. | We review your current financial situation, without judgment. |
 | Conversamos sobre tus metas y lo que buscas lograr. | We talk about your goals and what you're looking to achieve. |
-| Vemos juntos si el programa es el siguiente paso adecuado para ti. | We see together whether the program is the right next step for you. |
+| Vemos en conjunto si el programa es el siguiente paso adecuado para ti. | We see together whether the program is the right next step for you. |
 
 ### Section 7 — Lead Form (`#lead-form`)
 
