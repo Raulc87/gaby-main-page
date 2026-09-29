@@ -39,7 +39,7 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 | Story | Points | Owner | Dependencies | Branch | Status |
 |---|---:|---|---|---|---|
 | US-015 (tokens, fonts, header, footer) | — | Agent 1 | — | `GK-015-theme-tokens` | Merged (#29) |
-| US-015 (sections, hero trust row) | 5 | Agent 1 | `GK-015-theme-tokens`; provisional photo | `GK-015-visual-identity` | Merged (#32); follow-up `GK-015-fix-offer-guide-tokens` open (#36) |
+| US-015 (sections, hero trust row) | 5 | Agent 1 | `GK-015-theme-tokens`; provisional photo | `GK-015-visual-identity` | Merged (#32; follow-ups #36, #37) |
 | US-015 (form, thank-you, dialog styles) | — | Agent 2 | `GK-015-theme-tokens` | `GK-015-form-style` | Merged (#34); follow-up `GK-015-fix-field-outline` (field-line borders) |
 | US-013 (server) | 3 | Agent 3 | Contract v1.1 | `GK-013-spam-protection` | Merged (#30) |
 | US-013 (client) | — | Agent 2 | Contract v1.1 | `GK-013-honeypot-client` | Merged (#31) |
@@ -54,8 +54,8 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 
 ### Progress — 2026-09-29 (day 1 of 7)
 
-- Merged: #29–#35. US-013 is done (server and client). US-015 is done except #36 and the field-outline follow-up. US-017's proof cards are done.
-- Verified on `main` (`e5be125`): lint, `astro check` (0 errors), Vitest 81/81, build, pytest 109/109, Playwright 22/22 against the real backend in memory mode.
+- Merged: #29–#37. US-013 is done (server and client). US-015 is done except the field-outline follow-up (`field-line` token, then `GK-015-fix-field-outline`). US-017's proof cards are done.
+- Verified on `main` (`e5be125`; #36 and #37 merged after with green CI): lint, `astro check` (0 errors), Vitest 81/81, build, pytest 109/109, Playwright 22/22 against the real backend in memory mode.
 - Not started: Agent 3's US-016, runbook refresh, and deployment runbook.
 - Waiting on content (2026-10-02): US-017 final content, US-018.
 
