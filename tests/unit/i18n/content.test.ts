@@ -146,6 +146,25 @@ describe('content dictionaries', () => {
     });
   });
 
+  it('avoids the generic masculine in Spanish visitor-facing copy (BR-005)', () => {
+    // Regression guard for the exact class of mistake UX_UI_DIRECTION.md's
+    // intro already warns about ("listo/lista", "preparado/preparada") plus
+    // "juntos/juntas", found in the offer's three points (v0.6 fix). Not a
+    // full grammar checker — just the specific forms already seen.
+    const genderedWords = /\b(listo|lista|preparado|preparada|juntos|juntas)\b/i;
+    const spanishStrings = [
+      ...esContent.recognition.paragraphs,
+      ...esContent.guide.paragraphs,
+      esContent.offer.paragraph,
+      ...esContent.offer.points,
+      esContent.closing.paragraph,
+      ...esContent.roadmap.steps.map((step) => step.description),
+    ];
+    spanishStrings.forEach((text) => {
+      expect(text).not.toMatch(genderedWords);
+    });
+  });
+
   it('exposes a single flag controlling every pending-validation badge (US-009)', () => {
     expect(typeof SHOW_PENDING_VALIDATION_BADGES).toBe('boolean');
   });

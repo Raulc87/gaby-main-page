@@ -59,7 +59,7 @@ export const content: ContentDictionary = {
     points: [
       'Revisamos tu situación financiera actual, sin juicios.',
       'Conversamos sobre tus metas y lo que buscas lograr.',
-      'Vemos juntos si el programa es el siguiente paso adecuado para ti.',
+      'Vemos en conjunto si el programa es el siguiente paso adecuado para ti.',
     ],
   },
   closing: {
