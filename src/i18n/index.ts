@@ -102,10 +102,24 @@ export interface GuideContent {
   credentialsPlaceholder: string;
 }
 
+export type TestimonialCardKind = 'text' | 'video';
+
+/**
+ * A testimonial card slot (US-017 AC3/AC4): text and video are the two
+ * supported kinds. `placeholder` is the caption/summary shown until a real,
+ * approved testimonial is supplied — for a video card this doubles as the
+ * caption/summary required by AC4. Never a real testimonial (BR-003).
+ */
+export interface TestimonialCardContent {
+  kind: TestimonialCardKind;
+  placeholder: string;
+}
+
 export interface ProofContent {
   heading: string;
-  /** Captions for the placeholder structure (US-003 AC2); never real testimonials. */
-  testimonialPlaceholder: string;
+  /** Text and video testimonial card placeholders (US-017 AC3). */
+  cards: TestimonialCardContent[];
+  /** Caption for the credibility-statement placeholder (US-003 AC2). */
   credibilityPlaceholder: string;
 }
 
