@@ -20,6 +20,8 @@ neither includes the request data.
 
 from __future__ import annotations
 
+import traceback
+
 from flask import Blueprint, current_app, request
 
 from responses import contract_response
@@ -57,6 +59,16 @@ def _describe_storage_error_cause(exc: StorageError) -> str:
     if status is not None:
         return f"{type(cause).__name__} {status}"
     return type(cause).__name__
+
+
+def _format_traceback_without_message(exc: BaseException) -> str:
+    """The traceback's stack frames and the exception's class, but never
+    its message (US-016 AC2 requires the traceback; AC3 forbids submitted
+    data in the log, and `str(exc)` on an unwrapped exception could
+    otherwise repeat it, e.g. a bug that raises ValueError(lead["email"])).
+    """
+    frames = "".join(traceback.format_tb(exc.__traceback__))
+    return f"Traceback (most recent call last):\n{frames}{type(exc).__name__}"
 
 
 @bp.route("/save-lead", methods=["POST"])
@@ -120,9 +132,9 @@ def save_lead():
         return response
     except Exception as exc:  # noqa: BLE001 - never leak internals; contract requires a generic 500
         current_app.logger.error(
-            "POST /save-lead failed: internal_error (%s)",
+            "POST /save-lead failed: internal_error (%s)\n%s",
             type(exc).__name__,
-            exc_info=True,
+            _format_traceback_without_message(exc),
         )
         response = contract_response(
             False, "An unexpected error occurred.", "internal_error"

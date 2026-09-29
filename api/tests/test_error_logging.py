@@ -107,6 +107,29 @@ def test_internal_error_logs_exception_class_and_traceback(app, client, caplog):
     assert "internal_error" in caplog.text
     assert "RuntimeError" in caplog.text
     assert "Traceback (most recent call last)" in caplog.text
+    # The exception's own message is never logged, even when it is
+    # harmless: only its class and the traceback's stack frames are.
+    assert "unexpected failure" not in caplog.text
+
+
+def test_internal_error_does_not_log_a_pii_bearing_exception_message(app, client, caplog):
+    """Regression: an unwrapped exception whose message happens to repeat
+    request data (e.g. a future bug raising ValueError(lead["email"]))
+    must not leak it through the 500 traceback (US-016 AC2/AC3).
+    """
+    caplog.set_level(logging.ERROR)
+    exc = ValueError(
+        f"could not serialise row for {VALID_PAYLOAD['email']} / {VALID_PAYLOAD['phone']}"
+    )
+    app.config["LEAD_STORAGE"] = _FailingStorage(exc)
+
+    response = client.post("/api/save-lead", json=VALID_PAYLOAD)
+
+    assert response.status_code == 500
+    assert "ValueError" in caplog.text
+    assert "Traceback (most recent call last)" in caplog.text
+    assert VALID_PAYLOAD["email"] not in caplog.text
+    assert VALID_PAYLOAD["phone"] not in caplog.text
 
 
 # --- no personal data in logs (AC3, AC6) ---------------------------------
@@ -119,6 +142,10 @@ def test_logs_never_contain_submitted_personal_data(app, client, caplog):
     client.post("/api/save-lead", json=VALID_PAYLOAD)
 
     app.config["LEAD_STORAGE"] = _FailingStorage(RuntimeError("unexpected"))
+    client.post("/api/save-lead", json=VALID_PAYLOAD)
+
+    pii_message = f"bad row: {VALID_PAYLOAD['name']} <{VALID_PAYLOAD['email']}>"
+    app.config["LEAD_STORAGE"] = _FailingStorage(ValueError(pii_message))
     client.post("/api/save-lead", json=VALID_PAYLOAD)
 
     log_output = caplog.text
