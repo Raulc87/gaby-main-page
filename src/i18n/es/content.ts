@@ -43,6 +43,7 @@ export const content: ContentDictionary = {
     photoPlaceholder: 'Foto de Gabriela',
     bioPlaceholder: 'Biografía breve',
     credentialsPlaceholder: 'Credenciales y experiencia',
+    approachPlaceholder: 'Enfoque',
   },
   proof: {
     heading: 'Respaldo y confianza',
@@ -55,6 +56,11 @@ export const content: ContentDictionary = {
   offer: {
     paragraph:
       'En una llamada inicial revisaremos tu situación a un nivel general, conversaremos sobre lo que buscas y veremos si el programa tiene sentido para ti.',
+    points: [
+      'Revisamos tu situación financiera actual, sin juicios.',
+      'Conversamos sobre tus metas y lo que buscas lograr.',
+      'Vemos juntos si el programa es el siguiente paso adecuado para ti.',
+    ],
   },
   closing: {
     paragraph:
