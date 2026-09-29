@@ -1,4 +1,6 @@
-# UX_UI_DIRECTION — v0.6
+# UX_UI_DIRECTION — v0.7
+
+v0.7 (2026-09-29): decisions from the review of #34 (human owner) — `field-line` token for form control borders, which must reach 3:1 (section 2.1); field errors use Tailwind `red-700`, no brand token (section 2.1).
 
 v0.6 (2026-09-29): review fix on v0.5 — the offer band's third point used "Vemos juntos" (masculine plural), violating BR-005; reworded gender-neutral (section 4, Section 6). Also recorded that check-mark icons on navy/dark panels use `gold`, not `brand`, for contrast (section 2.1 motif rules).
 v0.5 (2026-09-29): resolved open items from the US-015/US-017 review (human owner) — `gold-ink`, not `gold`, for the proof cards' quote mark (section 2.1); the eyebrow treatment is Roadmap-only for now (section 2.1); confirmed the English roadmap label "Step" (section 4, Section 3); the guide's "Approach" placeholder chip label (section 4, Section 4); the offer band's three points, proposed placeholder content pending Gabriela's review (section 4, Section 6); a distinct video-testimonial placeholder caption (section 4, Section 5).
@@ -41,7 +43,8 @@ Brand colors sampled from Gaby's existing slide deck. Implement as Tailwind them
 | `gold` | `#F1BE48` | Brand gold from the deck: half-circle motif, eyebrow rules, focus rings. Fill only on light backgrounds; never as text on white |
 | `gold-ink` | `#7A5A0E` | Gold-family text on white (e.g. "PASO 1"), passes WCAG AA |
 | `muted` | `#5A6A80` | Secondary text, hints |
-| `line` | `#D8DFE9` | Borders and dividers |
+| `line` | `#D8DFE9` | Decorative borders and dividers only (1.3:1, not enough for a control boundary) |
+| `field-line` | `#7D8BA0` | Derived from `muted`. Borders of form controls: text inputs, screening option rows, the consent checkbox. 3.25:1 on `paper`, 3.46:1 on `surface` (WCAG 1.4.11 needs 3:1) |
 
 ### Typography
 
@@ -65,7 +68,7 @@ Brand colors sampled from Gaby's existing slide deck. Implement as Tailwind them
 - **Guide:** round portrait (white ring + thin gold outline) beside the text; pending-validation chips for bio, credentials, and approach.
 - **Proof:** dashed-border placeholder cards with a `gold-ink` opening quote mark (not `gold`, to stay off the "never as text on white" rule) until real testimonials exist.
 - **Offer:** full-width navy band with a gold circle in the bottom-right corner and three check-marked points.
-- **Form:** white card with a 4px navy top border; `paper` input fills; screening options as bordered rows that highlight in `brand` when selected.
+- **Form:** white card with a 4px navy top border; `paper` input fills with a 1px `field-line` border; screening options as `field-line` bordered rows that highlight in `brand` when selected. Field and submission error text uses Tailwind's `red-700` (`#B91C1C`, 6.1:1 on `paper`); no brand error token (human owner, 2026-09-29).
 - **Closing:** white band, Crimson Pro italic statement plus the CTA.
 - **Footer:** `ink` background, wordmark with the gold "GabyKelly".
 - Corners: 2px everywhere (sharp, corporate). No glow effects, gradients, or grain.

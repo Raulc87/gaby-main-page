@@ -14,7 +14,7 @@
 - Integration contracts: `docs/specs/LEAD_API_CONTRACT.md` (v1.1, locked for Sprint 002)
 - Feature specs: Not required for the current simple scope
 - Architecture spec: Not required for the current simple scope (covered by ADRs)
-- UX/UI direction: `docs/ux/UX_UI_DIRECTION.md` (v0.6)
+- UX/UI direction: `docs/ux/UX_UI_DIRECTION.md` (v0.7)
 - Tech stack: `TECH_STACK.md` (v0.2)
 - ADRs: `docs/decisions/` — ADR-001 backend hosting, ADR-002 Google Sheets access, ADR-003 i18n routing, ADR-004 spam protection
 - Implementation plan: `docs/plans/IMPLEMENTATION_PLAN.md` (v0.4)

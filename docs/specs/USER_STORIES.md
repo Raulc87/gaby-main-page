@@ -327,7 +327,7 @@ so that visitors see a serious, trustworthy professional before they leave their
 3. Every section matches the component descriptions in section 2.1 in both languages, at 360, 390, 768 and 1280 px, with no horizontal scroll.
 4. Gabriela's photo is shown as a round portrait in the hero and guide sections, from an optimized image in `public/` (at least 2× the displayed size), with Spanish and English `alt` text.
 5. The logo file (SVG, or PNG with transparency) replaces the typographic wordmark when provided; until then the Playfair Display wordmark is used.
-6. Text meets WCAG AA contrast; gold is never used as text on white (use `gold-ink`).
+6. Text meets WCAG AA contrast; form control boundaries reach 3:1 (`field-line`); gold is never used as text on white (use `gold-ink`).
 7. Existing unit and e2e tests stay green; e2e selectors are not broken by the restyle.
 
 8. The hero trust row from `UX_UI_DIRECTION.md` section 4, Section 1 is shown in both languages.

@@ -38,19 +38,30 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 
 | Story | Points | Owner | Dependencies | Branch | Status |
 |---|---:|---|---|---|---|
-| US-015 (tokens, fonts, header, footer) | — | Agent 1 | — | `GK-015-theme-tokens` | Planned |
-| US-015 (sections, hero trust row) | 5 | Agent 1 | `GK-015-theme-tokens`; provisional photo | `GK-015-visual-identity` | Planned |
-| US-015 (form, thank-you, dialog styles) | — | Agent 2 | `GK-015-theme-tokens` | `GK-015-form-style` | Planned |
-| US-013 (server) | 3 | Agent 3 | Contract v1.1 | `GK-013-spam-protection` | Planned |
-| US-013 (client) | — | Agent 2 | Contract v1.1 | `GK-013-honeypot-client` | Planned |
-| US-016 | 2 | Agent 3 | — | `GK-016-storage-logging` | Planned |
-| US-017 (proof cards: text and video) | 3 | Agent 1 | `GK-015-visual-identity` | `GK-017-testimonial-cards` | Planned |
+| US-015 (tokens, fonts, header, footer) | — | Agent 1 | — | `GK-015-theme-tokens` | Merged (#29) |
+| US-015 (sections, hero trust row) | 5 | Agent 1 | `GK-015-theme-tokens`; provisional photo | `GK-015-visual-identity` | Merged (#32); follow-up `GK-015-fix-offer-guide-tokens` open (#36) |
+| US-015 (form, thank-you, dialog styles) | — | Agent 2 | `GK-015-theme-tokens` | `GK-015-form-style` | Merged (#34); follow-up `GK-015-fix-field-outline` (field-line borders) |
+| US-013 (server) | 3 | Agent 3 | Contract v1.1 | `GK-013-spam-protection` | Merged (#30) |
+| US-013 (client) | — | Agent 2 | Contract v1.1 | `GK-013-honeypot-client` | Merged (#31) |
+| US-016 | 2 | Agent 3 | — | `GK-016-storage-logging` | Not started |
+| US-017 (proof cards: text and video) | 3 | Agent 1 | `GK-015-visual-identity` | `GK-017-testimonial-cards` | Merged (#33) |
 | US-017 (Gabriela's content) | — | Agent 1 | Content by 2026-10-02, recorded in the UX doc | `GK-017-final-content` | Planned |
 | US-018 | 2 | Agent 2 | Legal text by 2026-10-02, recorded in the UX doc | `GK-018-privacy-notice` | Planned |
 | US-018 (version in `api/.env.example` and `DEPLOYMENT.md`) | — | Agent 3 | Same as above | `GK-018-privacy-version` | Planned |
-| US-014 (runbook) | 3 | Agent 3 | US-013, US-016 | `GK-014-deployment-runbook` | Planned |
+| US-014 (runbook) | 3 | Agent 3 | US-013, US-016 | `GK-014-deployment-runbook` | Not started |
 | US-014 (deploy and smoke test) | — | Human owner | Runbook, domain, SSL, production sheet | — | Planned |
-| Runbook refresh (chore) | — | Agent 3 | — | `GK-CHORE-runbook-refresh` | Planned |
+| Runbook refresh (chore) | — | Agent 3 | — | `GK-CHORE-runbook-refresh` | Not started |
+
+### Progress — 2026-09-29 (day 1 of 7)
+
+- Merged: #29–#35. US-013 is done (server and client). US-015 is done except #36 and the field-outline follow-up. US-017's proof cards are done.
+- Verified on `main` (`e5be125`): lint, `astro check` (0 errors), Vitest 81/81, build, pytest 109/109, Playwright 22/22 against the real backend in memory mode.
+- Not started: Agent 3's US-016, runbook refresh, and deployment runbook.
+- Waiting on content (2026-10-02): US-017 final content, US-018.
+
+### Follow-ups for Sprint 003 (human owner, 2026-09-29)
+
+- Agent 1: move the `h1`/`h2`/`h3` colour rule in `src/styles/global.css` into `@layer base`, and remove the temporary alias block added in #29 (`--color-brand-*`, `--color-ink-*`, `--color-surface-muted`), which nothing uses any more.
 
 Total planned points: 18. US-009 (carried over from Sprint 001) is completed inside US-017 and not counted twice.
 
