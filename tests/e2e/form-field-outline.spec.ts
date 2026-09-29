@@ -10,6 +10,7 @@ import { fillLeadForm, gotoLang, screeningOption, SELECTORS, VALID_LEAD } from '
 
 const FIELD_LINE_RGB = 'rgb(125, 139, 160)';
 const BRAND_RGB = 'rgb(60, 95, 142)';
+const GOLD_RGB = 'rgb(241, 190, 72)';
 
 async function borderColorOf(page: import('@playwright/test').Page, selector: string): Promise<string> {
   return page.$eval(selector, (el) => getComputedStyle(el).borderColor);
@@ -66,6 +67,38 @@ test.describe('form control borders use field-line (US-015 AC6)', () => {
     if (labelBox) {
       expect(labelBox.height).toBeGreaterThanOrEqual(44);
     }
+  });
+
+  test('the consent checkbox shows a distinct gold focus outline, not just its unfocused field-line boundary', async ({
+    page,
+  }) => {
+    await gotoLang(page, 'es');
+
+    // Tab from the name field, through email/phone/screening, to consent —
+    // the browser must treat this as keyboard focus (:focus-visible), not
+    // just DOM focus.
+    await page.locator(SELECTORS.nameInput).focus();
+    for (let i = 0; i < 6; i += 1) {
+      await page.keyboard.press('Tab');
+      const focusedId = await page.evaluate(() => document.activeElement?.id ?? '');
+      if (focusedId === 'lead-consent') break;
+    }
+    await expect(page.locator(SELECTORS.consentCheckbox)).toBeFocused();
+
+    const focusedOutline = await page.$eval(SELECTORS.consentCheckbox, (el) => {
+      const cs = getComputedStyle(el);
+      return { color: cs.outlineColor, width: cs.outlineWidth };
+    });
+    // Distinct from the unfocused field-line boundary (US-015 AC6): the
+    // gold-focus-ring direction already used on the inputs and screening
+    // rows, not an unconditional outline that silently swallows the
+    // browser's native focus indicator.
+    expect(focusedOutline.color).toBe(GOLD_RGB);
+    expect(focusedOutline.width).toBe('2px');
+
+    await page.keyboard.press('Tab');
+    const unfocusedOutline = await page.$eval(SELECTORS.consentCheckbox, (el) => getComputedStyle(el).outlineColor);
+    expect(unfocusedOutline).toBe(FIELD_LINE_RGB);
   });
 
   test('field-line borders are visible at 390 px too', async ({ page }) => {

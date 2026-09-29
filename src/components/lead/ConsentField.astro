@@ -22,6 +22,14 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
       0px/none regardless), but does honor `outline`, which paints
       independently of the widget's own theming. `-outline-offset-1` keeps
       it flush with the box instead of floating outside it.
+
+      Because the unfocused state already claims the element's one
+      `outline`, an unconditional field-line outline silently replaces the
+      browser's native focus indicator, leaving a keyboard-focused checkbox
+      looking identical to an unfocused one. `focus-visible:` overrides the
+      width/offset/color to a thicker gold ring on focus, matching the
+      gold-focus-ring direction already used on the inputs and screening
+      rows.
     -->
     <input
       id="lead-consent"
@@ -30,7 +38,7 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
       required
       aria-required="true"
       aria-describedby="lead-consent-error"
-      class="mt-0.5 h-4 w-4 shrink-0 rounded-sm outline-1 -outline-offset-1 outline-field-line accent-brand"
+      class="mt-0.5 h-4 w-4 shrink-0 rounded-sm outline-1 -outline-offset-1 outline-field-line accent-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
     />
     <span>
       {before}
