@@ -45,7 +45,7 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 | US-015 (`field-line` borders on form controls, AC6) | — | Agent 2 | `GK-015-fix-field-line-token` merged | `GK-015-fix-field-outline` | Not started |
 | US-013 (server) | 3 | Agent 3 | Contract v1.1 | `GK-013-spam-protection` | Merged (#30) |
 | US-013 (client) | — | Agent 2 | Contract v1.1 | `GK-013-honeypot-client` | Merged (#31) |
-| US-016 | 2 | Agent 3 | — | `GK-016-storage-logging` | Not started |
+| US-016 | 2 | Agent 3 | — | `GK-016-storage-logging` | Merged (#40); AC7 comes with `GK-014-deployment-runbook` |
 | US-017 (proof cards: text and video) | 3 | Agent 1 | `GK-015-visual-identity` | `GK-017-testimonial-cards` | Merged (#33) |
 | US-017 (Gabriela's content) | — | Agent 1 | Content by 2026-10-02, recorded in the UX doc | `GK-017-final-content` | Planned |
 | US-018 | 2 | Agent 2 | Legal text by 2026-10-02, recorded in the UX doc | `GK-018-privacy-notice` | Planned |
@@ -56,9 +56,9 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 
 ### Progress — 2026-09-29 (day 1 of 7)
 
-- Merged: #29–#37. US-013 is done (server and client). US-015 is not done yet: Agent 1 adds the `field-line` token and removes the provisional alias block (AC1), then Agent 2 applies `field-line` to the form controls (AC6). US-017's proof cards are done.
-- Verified on `main` (`e5be125`; #36 and #37 merged after with green CI): lint, `astro check` (0 errors), Vitest 81/81, build, pytest 109/109, Playwright 22/22 against the real backend in memory mode.
-- Not started: Agent 3's US-016, runbook refresh, and deployment runbook.
+- Merged: #29–#37, #39, #40. US-013 is done (server and client). US-016 is done except AC7 (log location and causes in `DEPLOYMENT.md`, part of `GK-014-deployment-runbook`). US-015 is not done yet: Agent 1 adds the `field-line` token and removes the provisional alias block (AC1), then Agent 2 applies `field-line` to the form controls (AC6). US-017's proof cards are done.
+- Verified on `main` (`e5be125`; #36 and #37 merged after with green CI): lint, `astro check` (0 errors), Vitest 81/81, build, pytest 109/109, Playwright 22/22 against the real backend in memory mode. After #40: pytest 124/124.
+- Not started: Agent 3's runbook refresh and deployment runbook (with US-016 AC7).
 - Waiting on content (2026-10-02): US-017 final content, US-018.
 
 ### Follow-ups for Sprint 003 (human owner, 2026-09-29)

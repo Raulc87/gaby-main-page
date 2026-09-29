@@ -340,7 +340,7 @@ so that visitors see a serious, trustworthy professional before they leave their
 ## US-016 — Diagnose storage failures in production
 - Priority: High
 - Story Points: 2
-- Status: Ready — Sprint 002 (required before public deployment)
+- Status: In progress — Sprint 002 (required before public deployment). AC1–AC6 merged in #40; AC7 comes with the deployment runbook (US-014).
 - Related Requirements: NFR-006, NFR-007
 - Related Spec: `LEAD_API_CONTRACT.md` sections 7 and 9
 
