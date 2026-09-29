@@ -15,6 +15,7 @@ export const content: ContentDictionary = {
     supportingLine:
       'No siempre se trata de generar más. A veces, el siguiente paso es ordenar mejor lo que ya tienes.',
     cta: 'Quiero dar el primer paso',
+    trustRow: 'Llamada inicial sin costo · Tus datos protegidos (Ley 8968)',
   },
   recognition: {
     paragraphs: [
@@ -23,6 +24,7 @@ export const content: ContentDictionary = {
     ],
   },
   roadmap: {
+    stepLabel: 'Paso',
     steps: [
       { title: 'Ordena', description: 'entiende con claridad dónde estás hoy.' },
       { title: 'Decide', description: 'prioriza mejor cómo usar tus recursos.' },

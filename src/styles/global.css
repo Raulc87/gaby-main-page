@@ -70,9 +70,11 @@ body {
   @apply bg-paper text-ink font-sans antialiased;
 }
 
+/* Headings: navy per the token table (section 2.1, "navy: … headings"). */
 h1,
 h2,
 h3 {
   font-family: var(--font-serif);
+  color: var(--color-navy);
   text-wrap: balance;
 }

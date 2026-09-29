@@ -1,8 +1,15 @@
 ---
-// US-003: Gabriela as guide. Copy is approved provisional content
-// (UX_UI_DIRECTION.md section 4); the photo/bio/credentials are separate
-// "space exists but not yet provided" placeholders (US-003 AC2), each
-// marked with the pending-validation badge.
+// US-003, US-015 AC3/AC4: Gabriela as guide. Copy is approved provisional
+// content (UX_UI_DIRECTION.md section 4); the bio/credentials are
+// separate "space exists but not yet provided" placeholders (US-003 AC2),
+// each marked with the pending-validation badge. Round portrait (white
+// ring + thin gold outline) beside the text, per section 2.1.
+//
+// public/gabriela-provisional.jpg is the provisional photo (US-015
+// Dependencies): her 352x352 Instagram profile picture, per
+// UX_UI_DIRECTION.md section 6 ("too small for production"). The final
+// photo (>=800x800) replaces it, and this pending-validation badge is
+// removed, in US-017 (GK-017-final-content).
 import PendingBadge from './PendingBadge.astro';
 import { SECTION_IDS, type GuideContent } from '../../i18n';
 
@@ -14,21 +21,34 @@ interface Props {
 const { content, pendingLabel } = Astro.props;
 ---
 
-<section id={SECTION_IDS.guide} class="mx-auto max-w-2xl px-4 py-12">
-  {content.paragraphs.map((paragraph) => <p class="mt-4 text-base text-ink-700 first:mt-0">{paragraph}</p>)}
+<section id={SECTION_IDS.guide} class="mx-auto max-w-4xl px-4 py-16">
+  <div class="grid gap-10 sm:grid-cols-[auto_1fr] sm:items-start">
+    <div class="mx-auto flex flex-col items-center gap-3 sm:mx-0">
+      <div class="h-40 w-40 shrink-0 overflow-hidden rounded-full border-4 border-white shadow-md ring-1 ring-gold sm:h-44 sm:w-44">
+        <img
+          src="/gabriela-provisional.jpg"
+          alt={content.photoPlaceholder}
+          width="352"
+          height="352"
+          class="h-full w-full object-cover"
+        />
+      </div>
+      <PendingBadge label={pendingLabel} />
+    </div>
 
-  <div class="mt-8 grid gap-4 sm:grid-cols-2">
-    <div class="rounded-lg border border-dashed border-ink-200 p-6 text-center">
-      <PendingBadge label={pendingLabel} />
-      <p class="mt-2 text-sm text-ink-500">{content.photoPlaceholder}</p>
-    </div>
-    <div class="rounded-lg border border-dashed border-ink-200 p-6 text-center">
-      <PendingBadge label={pendingLabel} />
-      <p class="mt-2 text-sm text-ink-500">{content.bioPlaceholder}</p>
-    </div>
-    <div class="rounded-lg border border-dashed border-ink-200 p-6 text-center sm:col-span-2">
-      <PendingBadge label={pendingLabel} />
-      <p class="mt-2 text-sm text-ink-500">{content.credentialsPlaceholder}</p>
+    <div>
+      {content.paragraphs.map((paragraph) => <p class="mt-4 max-w-[65ch] text-lg text-ink first:mt-0">{paragraph}</p>)}
+
+      <ul class="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+        <li class="flex items-center gap-2">
+          <PendingBadge label={pendingLabel} />
+          <span class="text-sm text-muted">{content.bioPlaceholder}</span>
+        </li>
+        <li class="flex items-center gap-2">
+          <PendingBadge label={pendingLabel} />
+          <span class="text-sm text-muted">{content.credentialsPlaceholder}</span>
+        </li>
+      </ul>
     </div>
   </div>
 </section>
