@@ -13,12 +13,16 @@ handler) so the 500 response is deterministic under Flask's TESTING config,
 where unhandled exceptions otherwise propagate instead of being converted.
 Never log the payload, the lead row, the client IP, or the honeypot value:
 they may carry personal data or are excluded from logging by the contract.
+US-016: a storage failure logs an ERROR with the underlying cause, an
+unexpected error logs an ERROR with the exception class and traceback;
+neither includes the request data.
 """
 
 from __future__ import annotations
 
 from flask import Blueprint, current_app, request
 
+from logging_utils import format_traceback_without_message
 from responses import contract_response
 from storage.base import StorageError
 from time_utils import format_costa_rica_timestamp
@@ -41,6 +45,19 @@ def _is_honeypot_triggered(payload: dict) -> bool:
     if isinstance(value, str):
         return value.strip() != ""
     return True
+
+
+def _describe_storage_error_cause(exc: StorageError) -> str:
+    """Exception class (and HTTP status for a Google API error) behind a
+    StorageError (US-016 AC1), e.g. "PermissionError", "APIError 403",
+    "SpreadsheetNotFound", "FileNotFoundError". Never includes the
+    exception's message, which could otherwise repeat request data.
+    """
+    cause = exc.__cause__ or exc
+    status = getattr(getattr(cause, "response", None), "status_code", None)
+    if status is not None:
+        return f"{type(cause).__name__} {status}"
+    return type(cause).__name__
 
 
 @bp.route("/save-lead", methods=["POST"])
@@ -92,13 +109,22 @@ def save_lead():
 
         storage = current_app.config["LEAD_STORAGE"]
         storage.save(lead_row)
-    except StorageError:
+    except StorageError as exc:
+        current_app.logger.error(
+            "POST /save-lead failed: storage_unavailable (cause=%s)",
+            _describe_storage_error_cause(exc),
+        )
         response = contract_response(
             False, "Failed to save lead.", "storage_unavailable"
         )
         response.status_code = 503
         return response
-    except Exception:  # noqa: BLE001 - never leak internals; contract requires a generic 500
+    except Exception as exc:  # noqa: BLE001 - never leak internals; contract requires a generic 500
+        current_app.logger.error(
+            "POST /save-lead failed: internal_error (%s)\n%s",
+            type(exc).__name__,
+            format_traceback_without_message(exc),
+        )
         response = contract_response(
             False, "An unexpected error occurred.", "internal_error"
         )
