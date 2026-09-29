@@ -1,21 +1,27 @@
 ---
 // US-017 AC3/AC4: a single testimonial card, text or video. Renders only
 // the approved placeholder for now — no real testimonial is added here.
+// The section-level pending badge (SocialProof.astro, next to the heading)
+// already covers every card; no per-card badge, to avoid repeating it once
+// per card (previously 3 identical badges in one small section).
 //
 // The video variant shows a poster placeholder with a play button and its
-// caption/summary (AC4); it loads nothing from a third party (there is no
-// script, iframe, or video element here at all), since no real video is
-// supplied yet. The play control is decorative (not a live, non-functional
-// button) until GK-017-final-content wires an actual source.
-import PendingBadge from './PendingBadge.astro';
+// caption/summary (AC4). It contains no script, iframe, or video element at
+// all, so nothing loads from a third party — true today because there is no
+// real video, not yet a tested "defer until press" behavior. The play icon
+// is decorative (aria-hidden, unfocusable, no role): real playback needs a
+// video source and the host decision (self-hosted/YouTube/Vimeo) that
+// UX_UI_DIRECTION.md section 5 explicitly defers to when a video is
+// actually supplied — building it now would mean guessing the embed shape.
+// TestimonialCardContent gains the fields a real video needs (poster,
+// source, host) at that point.
 import type { TestimonialCardContent } from '../../i18n';
 
 interface Props {
   card: TestimonialCardContent;
-  pendingLabel: string;
 }
 
-const { card, pendingLabel } = Astro.props;
+const { card } = Astro.props;
 ---
 
 {
@@ -25,9 +31,6 @@ const { card, pendingLabel } = Astro.props;
         &ldquo;
       </span>
       <p class="mt-2 text-sm text-muted">{card.placeholder}</p>
-      <div class="mt-4">
-        <PendingBadge label={pendingLabel} />
-      </div>
     </div>
   )
 }
@@ -47,9 +50,6 @@ const { card, pendingLabel } = Astro.props;
       </div>
       <div class="p-6">
         <p class="text-sm text-muted">{card.placeholder}</p>
-        <div class="mt-4">
-          <PendingBadge label={pendingLabel} />
-        </div>
       </div>
     </div>
   )

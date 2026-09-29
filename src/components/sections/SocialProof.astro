@@ -23,7 +23,7 @@ const { content, pendingLabel } = Astro.props;
     <PendingBadge label={pendingLabel} />
   </div>
   <div class="mt-8 grid gap-6 sm:grid-cols-2">
-    {content.cards.map((card) => <TestimonialCard card={card} pendingLabel={pendingLabel} />)}
+    {content.cards.map((card) => <TestimonialCard card={card} />)}
     <div class="rounded-[2px] border border-dashed border-line bg-surface p-6 sm:col-span-2">
       <span aria-hidden="true" class="font-serif text-4xl leading-none text-gold">
         &ldquo;
