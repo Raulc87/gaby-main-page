@@ -264,7 +264,7 @@ so that I can demo it to Gabriela and trust that merges do not break it.
 ## US-013 — Spam protection for the lead endpoint
 - Priority: High
 - Story Points: 3
-- Status: Ready — Sprint 002 (required before public deployment)
+- Status: Done — Sprint 002 (server #30, client #31; merged 2026-09-28)
 - Related Requirements: NFR-008
 - Related Spec: `LEAD_API_CONTRACT.md` v1.1 sections 3.1, 3.2, 7, 9
 - Related ADR: ADR-004
@@ -327,7 +327,7 @@ so that visitors see a serious, trustworthy professional before they leave their
 3. Every section matches the component descriptions in section 2.1 in both languages, at 360, 390, 768 and 1280 px, with no horizontal scroll.
 4. Gabriela's photo is shown as a round portrait in the hero and guide sections, from an optimized image in `public/` (at least 2× the displayed size), with Spanish and English `alt` text.
 5. The logo file (SVG, or PNG with transparency) replaces the typographic wordmark when provided; until then the Playfair Display wordmark is used.
-6. Text meets WCAG AA contrast; gold is never used as text on white (use `gold-ink`).
+6. Text meets WCAG AA contrast; form control boundaries reach 3:1 (`field-line`); gold is never used as text on white (use `gold-ink`).
 7. Existing unit and e2e tests stay green; e2e selectors are not broken by the restyle.
 
 8. The hero trust row from `UX_UI_DIRECTION.md` section 4, Section 1 is shown in both languages.
@@ -340,7 +340,7 @@ so that visitors see a serious, trustworthy professional before they leave their
 ## US-016 — Diagnose storage failures in production
 - Priority: High
 - Story Points: 2
-- Status: Ready — Sprint 002 (required before public deployment)
+- Status: In progress — Sprint 002 (required before public deployment). AC1–AC6 merged in #40; AC7 comes with the deployment runbook (US-014).
 - Related Requirements: NFR-006, NFR-007
 - Related Spec: `LEAD_API_CONTRACT.md` sections 7 and 9
 
