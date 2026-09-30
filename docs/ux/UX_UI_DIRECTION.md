@@ -1,4 +1,6 @@
-# UX_UI_DIRECTION — v0.7
+# UX_UI_DIRECTION — v0.8
+
+v0.8 (2026-09-30): honeypot redesigned after browser autofill filled it during the human owner's local test and a real lead was dropped (section 4, Section 7; US-013 reopened).
 
 v0.7 (2026-09-29): decisions from the review of #34 (human owner) — `field-line` token for form control borders, which must reach 3:1 (section 2.1); field errors use Tailwind `red-700`, no brand token (section 2.1).
 
@@ -196,7 +198,13 @@ Three check-marked points (section 2.1). Draft/suggested placeholder content the
 | Submit button | Enviar y agendar mi llamada | Send and book my call |
 | Submitting state | Enviando… | Sending… |
 
-Honeypot (US-013, contract section 3.1): the form also contains a field named `website` that is not part of the visible form. It is moved off-screen (not `display: none`), is a `type="text"` input, has `tabindex="-1"`, `autocomplete="off"`, and `aria-hidden="true"` on its wrapper, and has no visible label. People never see or fill it.
+Honeypot (US-013, contract section 3.1). Browser autofill and password managers ignore `autocomplete="off"` and fill hidden fields they recognize; on 2026-09-30 this filled the old field (`name="website"` inside the lead form) and a real lead was silently dropped. The honeypot therefore:
+- is a `type="text"` input inside **its own separate `<form>` element, outside the lead form** (autofill fills one form at a time, so filling the lead form never reaches it), and that form cannot be submitted on its own;
+- has a DOM `id` and `name` that autofill heuristics do not recognize: no words such as website, url, homepage, company, name, email, phone, tel, address, or city (e.g. `id="lead-hp" name="hp_field"`), and no label, placeholder, or `title`;
+- carries `autocomplete="off"` plus the password-manager opt-outs `data-1p-ignore`, `data-lpignore="true"`, `data-bwignore="true"`, and `data-form-type="other"`;
+- stays off-screen (not `display: none`), with `tabindex="-1"` and `aria-hidden="true"` on its wrapper.
+
+On submit, the lead form's script reads that input's value and sends it as the JSON field `website`; the contract (section 3.1) is unchanged. People never see or fill it.
 
 Field error messages (keyed by the contract's field error codes):
 
