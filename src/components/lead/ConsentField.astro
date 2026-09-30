@@ -15,6 +15,28 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
 
 <div>
   <label class="flex min-h-11 items-start gap-2 text-sm text-ink">
+    <!--
+      `outline`, not `border` (US-015 AC6, field-line 3:1 boundary):
+      Chromium's native, appearance:auto checkbox widget ignores author
+      `border-width`/`border-color` for this element (computed border stays
+      0px/none regardless), but does honor `outline`, which paints
+      independently of the widget's own theming. `-outline-offset-1` keeps
+      it flush with the box instead of floating outside it.
+
+      Because the unfocused state already claims the element's one
+      `outline`, an unconditional field-line outline silently replaces the
+      browser's native focus indicator, leaving a keyboard-focused checkbox
+      looking identical to an unfocused one. `focus-visible:` swaps it to a
+      `brand` outline — not `gold`: on its own, gold is only ~1.7:1 against
+      white/paper, well under the 3:1 WCAG 1.4.11 non-text contrast a focus
+      indicator needs, whereas `brand` reaches 6.1–6.5:1 (human owner
+      review on #43). No paired `gold` ring here, unlike the inputs: the
+      outline and a same-position `ring` (box-shadow) paint in the same
+      1–3px band and outlines paint above box-shadows, so a `gold` ring
+      tried here was fully hidden behind the `brand` outline — confirmed
+      by pixel-sampling the rendered page (human owner review on #43) —
+      and would have been dead weight.
+    -->
     <input
       id="lead-consent"
       name="consent"
@@ -22,7 +44,7 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
       required
       aria-required="true"
       aria-describedby="lead-consent-error"
-      class="mt-0.5 h-4 w-4 shrink-0 accent-brand"
+      class="mt-0.5 h-4 w-4 shrink-0 rounded-sm outline-1 -outline-offset-1 outline-field-line accent-brand focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand"
     />
     <span>
       {before}
