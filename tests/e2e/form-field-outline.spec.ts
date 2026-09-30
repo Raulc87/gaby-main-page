@@ -69,7 +69,7 @@ test.describe('form control borders use field-line (US-015 AC6)', () => {
     }
   });
 
-  test('the consent checkbox shows a distinct gold focus outline, not just its unfocused field-line boundary', async ({
+  test('the consent checkbox shows a distinct, 3:1+ contrast focus outline, not just its unfocused field-line boundary', async ({
     page,
   }) => {
     await gotoLang(page, 'es');
@@ -87,14 +87,18 @@ test.describe('form control borders use field-line (US-015 AC6)', () => {
 
     const focusedOutline = await page.$eval(SELECTORS.consentCheckbox, (el) => {
       const cs = getComputedStyle(el);
-      return { color: cs.outlineColor, width: cs.outlineWidth };
+      return { color: cs.outlineColor, width: cs.outlineWidth, boxShadow: cs.boxShadow };
     });
-    // Distinct from the unfocused field-line boundary (US-015 AC6): the
-    // gold-focus-ring direction already used on the inputs and screening
-    // rows, not an unconditional outline that silently swallows the
-    // browser's native focus indicator.
-    expect(focusedOutline.color).toBe(GOLD_RGB);
+    // WCAG 1.4.11: a focus indicator needs 3:1 against its background. A
+    // plain `gold` outline (previously used here) is only ~1.7:1 on white —
+    // caught by the human owner's review on #43 — so the contrast-carrying
+    // change is `brand` (6.1–6.5:1), mirroring the inputs' own
+    // `focus:border-brand`. `gold` stays only as a paired decorative
+    // accent, via a separate `ring` (box-shadow) layer, so it can't
+    // silently become the sole indicator again.
+    expect(focusedOutline.color).toBe(BRAND_RGB);
     expect(focusedOutline.width).toBe('2px');
+    expect(focusedOutline.boxShadow).toContain(GOLD_RGB);
 
     await page.keyboard.press('Tab');
     const unfocusedOutline = await page.$eval(SELECTORS.consentCheckbox, (el) => getComputedStyle(el).outlineColor);

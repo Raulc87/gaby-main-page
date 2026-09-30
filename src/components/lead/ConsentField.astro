@@ -26,10 +26,15 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
       Because the unfocused state already claims the element's one
       `outline`, an unconditional field-line outline silently replaces the
       browser's native focus indicator, leaving a keyboard-focused checkbox
-      looking identical to an unfocused one. `focus-visible:` overrides the
-      width/offset/color to a thicker gold ring on focus, matching the
-      gold-focus-ring direction already used on the inputs and screening
-      rows.
+      looking identical to an unfocused one. `focus-visible:` swaps it to a
+      `brand` outline — not `gold`: on its own, gold is only ~1.7:1 against
+      white/paper, well under the 3:1 WCAG 1.4.11 non-text contrast a focus
+      indicator needs, whereas `brand` reaches 6.1–6.5:1 (human owner
+      review on #43). This mirrors the inputs' own pattern, where the
+      contrast-carrying change is `focus:border-brand` and the `gold` ring
+      is only a paired decorative accent, added here as a `ring` (a
+      separate box-shadow layer, so it doesn't fight the contrast-bearing
+      `outline`).
     -->
     <input
       id="lead-consent"
@@ -38,7 +43,7 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
       required
       aria-required="true"
       aria-describedby="lead-consent-error"
-      class="mt-0.5 h-4 w-4 shrink-0 rounded-sm outline-1 -outline-offset-1 outline-field-line accent-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+      class="mt-0.5 h-4 w-4 shrink-0 rounded-sm outline-1 -outline-offset-1 outline-field-line accent-brand focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-1"
     />
     <span>
       {before}
