@@ -10,7 +10,6 @@ import { fillLeadForm, gotoLang, screeningOption, SELECTORS, VALID_LEAD } from '
 
 const FIELD_LINE_RGB = 'rgb(125, 139, 160)';
 const BRAND_RGB = 'rgb(60, 95, 142)';
-const GOLD_RGB = 'rgb(241, 190, 72)';
 
 async function borderColorOf(page: import('@playwright/test').Page, selector: string): Promise<string> {
   return page.$eval(selector, (el) => getComputedStyle(el).borderColor);
@@ -39,18 +38,24 @@ test.describe('form control borders use field-line (US-015 AC6)', () => {
   test('an unselected screening option row uses field-line; the selected row uses brand', async ({ page }) => {
     await gotoLang(page, 'es');
 
-    const unselectedRow = `${screeningOption('exploring')} >> xpath=ancestor::label`;
-    await expect.poll(() => borderColorOf(page, unselectedRow)).toBe(FIELD_LINE_RGB);
+    const otherRow = `${screeningOption('exploring')} >> xpath=ancestor::label`;
+    const targetRow = `${screeningOption(VALID_LEAD.screeningCode)} >> xpath=ancestor::label`;
+    await expect.poll(() => borderColorOf(page, otherRow)).toBe(FIELD_LINE_RGB);
+    await expect.poll(() => borderColorOf(page, targetRow)).toBe(FIELD_LINE_RGB);
 
-    await page.locator(screeningOption(VALID_LEAD.screeningCode)).check();
-    const selectedRow = `${screeningOption(VALID_LEAD.screeningCode)} >> xpath=ancestor::label`;
+    // Select "exploring" first so the next check exercises a real
+    // selection change, not just a first-time selection.
+    await page.locator(screeningOption('exploring')).check();
     // The row's `transition-colors` class animates the border between
     // field-line and brand; poll past the transition instead of racing it.
-    await expect.poll(() => borderColorOf(page, selectedRow)).toBe(BRAND_RGB);
+    await expect.poll(() => borderColorOf(page, otherRow)).toBe(BRAND_RGB);
+
+    await page.locator(screeningOption(VALID_LEAD.screeningCode)).check();
+    await expect.poll(() => borderColorOf(page, targetRow)).toBe(BRAND_RGB);
 
     // The row that lost selection goes back to field-line, not the
     // decorative (and under-contrast) `line` token.
-    await expect.poll(() => borderColorOf(page, unselectedRow)).toBe(FIELD_LINE_RGB);
+    await expect.poll(() => borderColorOf(page, otherRow)).toBe(FIELD_LINE_RGB);
   });
 
   test('the consent checkbox uses a field-line outline without shrinking its 44 px touch target', async ({
@@ -87,18 +92,19 @@ test.describe('form control borders use field-line (US-015 AC6)', () => {
 
     const focusedOutline = await page.$eval(SELECTORS.consentCheckbox, (el) => {
       const cs = getComputedStyle(el);
-      return { color: cs.outlineColor, width: cs.outlineWidth, boxShadow: cs.boxShadow };
+      return { color: cs.outlineColor, width: cs.outlineWidth };
     });
     // WCAG 1.4.11: a focus indicator needs 3:1 against its background. A
     // plain `gold` outline (previously used here) is only ~1.7:1 on white —
-    // caught by the human owner's review on #43 — so the contrast-carrying
-    // change is `brand` (6.1–6.5:1), mirroring the inputs' own
-    // `focus:border-brand`. `gold` stays only as a paired decorative
-    // accent, via a separate `ring` (box-shadow) layer, so it can't
-    // silently become the sole indicator again.
+    // caught by the human owner's review on #43 — so the focus indicator is
+    // `brand` (6.1–6.5:1), mirroring the inputs' own `focus:border-brand`.
+    // A paired `gold` ring (box-shadow) was tried and dropped: it painted
+    // in the same 1–3px band as the outline, and outlines paint above
+    // box-shadows, so every gold pixel was hidden underneath the brand
+    // band (pixel-sampled, not just computed style — also caught by
+    // review on #43).
     expect(focusedOutline.color).toBe(BRAND_RGB);
     expect(focusedOutline.width).toBe('2px');
-    expect(focusedOutline.boxShadow).toContain(GOLD_RGB);
 
     await page.keyboard.press('Tab');
     const unfocusedOutline = await page.$eval(SELECTORS.consentCheckbox, (el) => getComputedStyle(el).outlineColor);
