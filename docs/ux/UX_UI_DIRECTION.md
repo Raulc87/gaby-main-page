@@ -199,7 +199,7 @@ Three check-marked points (section 2.1). Draft/suggested placeholder content the
 | Submitting state | Enviando… | Sending… |
 
 Honeypot (US-013, contract section 3.1). Browser autofill and password managers ignore `autocomplete="off"` and fill hidden fields they recognize; on 2026-09-30 this filled the old field (`name="website"` inside the lead form) and a real lead was silently dropped. The honeypot therefore:
-- is a `type="text"` input inside **its own separate `<form>` element, outside the lead form** (autofill fills one form at a time, so filling the lead form never reaches it), and that form cannot be submitted on its own;
+- is a `type="text"` input inside **its own separate `<form>` element, outside the lead form** (autofill fills one form at a time, so filling the lead form never reaches it); that form has no submit button, and its `submit` event is always prevented (pressing Enter in it must not reload the page);
 - has a DOM `id` and `name` that autofill heuristics do not recognize: no words such as website, url, homepage, company, name, email, phone, tel, address, or city (e.g. `id="lead-hp" name="hp_field"`), and no label, placeholder, or `title`;
 - carries `autocomplete="off"` plus the password-manager opt-outs `data-1p-ignore`, `data-lpignore="true"`, `data-bwignore="true"`, and `data-form-type="other"`;
 - stays off-screen (not `display: none`), with `tabindex="-1"` and `aria-hidden="true"` on its wrapper.

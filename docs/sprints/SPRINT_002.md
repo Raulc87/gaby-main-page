@@ -46,13 +46,13 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 | US-013 (server) | 3 | Agent 3 | Contract v1.1 | `GK-013-spam-protection` | Merged (#30) |
 | US-013 (client) | — | Agent 2 | Contract v1.1 | `GK-013-honeypot-client` | Merged (#31) |
 | US-013 AC1 (honeypot autofill fix, go-live blocker) | — | Agent 2 | UX v0.8 | `GK-013-fix-honeypot-autofill` | Not started |
-| US-013 AC8 (log each honeypot decoy) | — | Agent 3 | — | `GK-013-honeypot-log` | Not started |
+| US-013 AC8 (log each honeypot decoy; add the line to the log table in `DEPLOYMENT.md` section 7) | — | Agent 3 | `GK-014-deployment-runbook` (#44) | `GK-013-honeypot-log` | Not started |
 | US-016 | 2 | Agent 3 | — | `GK-016-storage-logging` | Merged (#40); AC7 comes with `GK-014-deployment-runbook` |
 | US-017 (proof cards: text and video) | 3 | Agent 1 | `GK-015-visual-identity` | `GK-017-testimonial-cards` | Merged (#33) |
 | US-017 (Gabriela's content) | — | Agent 1 | Content by 2026-10-02, recorded in the UX doc | `GK-017-final-content` | Planned |
 | US-018 | 2 | Agent 2 | Legal text by 2026-10-02, recorded in the UX doc | `GK-018-privacy-notice` | Planned |
 | US-018 (version in `api/.env.example` and `DEPLOYMENT.md`) | — | Agent 3 | Same as above | `GK-018-privacy-version` | Planned |
-| US-014 (runbook) | 3 | Agent 3 | US-013, US-016 | `GK-014-deployment-runbook` | Not started |
+| US-014 (runbook) | 3 | Agent 3 | US-013, US-016 | `GK-014-deployment-runbook` | In review (#44) |
 | US-014 (deploy and smoke test) | — | Human owner | Runbook, domain, SSL, production sheet | — | Planned |
 | Runbook refresh (chore) | — | Agent 3 | — | `GK-CHORE-runbook-refresh` | Merged (#41) |
 
@@ -68,7 +68,7 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 - Merged: #41 (runbook refresh), #42 and #43 (`field-line`). US-015 is done.
 - Verified on `main` (`2927b18`): lint, `astro check`, Vitest 84/84, build, pytest 124/124, Playwright 27/27 against the real backend in memory mode.
 - Found by the human owner in a local run with Google Sheets: browser autofill filled the honeypot, so the page showed success and the lead was not stored. US-013 reopened (AC1 redesign, AC8 logging); a go-live blocker.
-- Not started: `GK-014-deployment-runbook` (Agent 3, with US-016 AC7).
+- In review: `GK-014-deployment-runbook` (#44, with US-016 AC7).
 
 ### Follow-ups for Sprint 003 (human owner, 2026-09-29)
 
