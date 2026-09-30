@@ -206,6 +206,8 @@ Honeypot (US-013, contract section 3.1). Browser autofill and password managers 
 
 On submit, the lead form's script reads that input's value and sends it as the JSON field `website`; the contract (section 3.1) is unchanged. People never see or fill it.
 
+Autofill stays a supported way to fill the form. The visible fields keep their autofill hints (`autocomplete="name"`, `"email"`, `"tel"`) and stay inside the lead form, so a browser or password manager can fill them in one step. The fix isolates the honeypot from autofill; it never disables autofill for the visible fields.
+
 Field error messages (keyed by the contract's field error codes):
 
 | Code | Español | English |
