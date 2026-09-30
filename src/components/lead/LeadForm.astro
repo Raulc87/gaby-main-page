@@ -32,21 +32,43 @@ const scriptCopy = {
 ---
 
 <section id={SECTION_IDS.leadForm} class="mx-auto max-w-xl px-4 py-12" data-copy={JSON.stringify(scriptCopy)}>
+  <!--
+    Honeypot (US-013 AC1, UX_UI_DIRECTION.md v0.8 section 4 Section 7): its
+    own <form>, entirely outside #lead-form-form. Browser autofill and
+    password managers fill one form at a time; on 2026-09-30 the honeypot
+    lived inside the lead form and autofill silently filled it too,
+    dropping a real lead. `id`/`name` avoid autofill-recognized words
+    (website, url, company, name, email, phone, tel, address, city), and
+    the value is always sent to the server as `website` (contract section
+    3.1, unchanged) — leadFormController.ts reads it from here. Off-screen
+    (not `display: none`), `tabindex="-1"`, `aria-hidden="true"` on the
+    form itself (which doubles as the wrapper), no label/placeholder/title.
+    This form has no submit button, and leadFormController.ts always
+    prevents its `submit` event, so pressing Enter inside it cannot reload
+    the page.
+  -->
+  <form
+    id="lead-hp-form"
+    aria-hidden="true"
+    class="absolute -left-[9999px] top-auto h-px w-px overflow-hidden"
+  >
+    <input
+      id="lead-hp"
+      name="hp_field"
+      type="text"
+      tabindex="-1"
+      autocomplete="off"
+      data-1p-ignore
+      data-lpignore="true"
+      data-bwignore="true"
+      data-form-type="other"
+    />
+  </form>
+
   <div id="lead-form-container" class="rounded-md border-t-4 border-navy bg-surface p-6 shadow-sm sm:p-8">
     <h2 class="text-2xl font-semibold text-navy">{form.formTitle}</h2>
 
     <form id="lead-form-form" novalidate class="mt-6 space-y-5">
-      <!--
-        Honeypot (US-013, LEAD_API_CONTRACT.md section 3.1): moved off-screen
-        rather than `display: none` (a hidden-by-display field is more
-        commonly ignored by simple bots), removed from Tab order, and hidden
-        from assistive tech; no visible label. People never see or fill it;
-        its value is always sent to the server (contract section 3.1).
-      -->
-      <div aria-hidden="true" class="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
-        <input id="lead-website" name="website" type="text" tabindex="-1" autocomplete="off" />
-      </div>
-
       <div>
         <label for="lead-name" class="block text-sm font-medium text-ink">{form.name.label}</label>
         <input

@@ -1,17 +1,23 @@
 // US-013 client-side spam protection (LEAD_API_CONTRACT.md v1.1 sections 3.1
-// and 3.2; UX_UI_DIRECTION.md section 4, Section 7). Three independent
+// and 3.2; UX_UI_DIRECTION.md v0.8 section 4, Section 7). Four independent
 // things:
 //
-// 1. The honeypot field `website` (AC1): verified in Chromium at desktop and
-//    390 px — not visible, not reachable with Tab, empty after load and
-//    after filling the visible fields. This spec runs under the
+// 1. The honeypot input `#lead-hp` (AC1): verified in Chromium at desktop and
+//    390 px — not a descendant of #lead-form-form, not visible, not
+//    reachable with Tab, empty after load and after filling the visible
+//    fields (including a simulated autofill of the whole lead form), and
+//    its own form's submit is always prevented. This spec runs under the
 //    `desktop-chromium` Playwright project by default; the 390 px checks
 //    below use `test.use({ viewport })` to get that width without touching
 //    playwright.config.ts (owned by Agent 1).
-// 2. The honeypot decoy against the real backend (AC2, GK-013-spam-protection
-//    merged): a filled `website` still returns 201 and looks identical to a
-//    real submission from the visitor's side.
-// 3. `429` / `rate_limited` (AC3/AC4), forced via route mocking (deliberately
+// 2. The honeypot's value still reaches the server as `website` on the
+//    outgoing request, and autofill keeps working for the visible fields
+//    (AC1) — both reopened after browser autofill filled the old
+//    in-lead-form honeypot on 2026-09-30 and silently dropped a real lead.
+// 3. The honeypot decoy against the real backend (AC2): a filled `website`
+//    still returns 201 and looks identical to a real submission from the
+//    visitor's side.
+// 4. `429` / `rate_limited` (AC3/AC4), forced via route mocking (deliberately
 //    independent of the real rate limiter's timing/window, which pytest
 //    already covers): the localized "too many attempts" message is shown,
 //    the entered data stays, and neither success nor Calendly appear.
@@ -24,8 +30,15 @@ async function expectHoneypotMitigations(page: Page): Promise<void> {
   const honeypot = page.locator(SELECTORS.honeypotInput);
   await expect(honeypot).toHaveCount(1);
 
-  // Off-screen, not `display: none` (US-013 AC1): still in the layout, but
-  // its box sits fully outside the viewport's left edge.
+  // Lives in its own <form>, entirely outside #lead-form-form (US-013 AC1):
+  // browser autofill fills one form at a time, so filling the lead form
+  // never reaches it.
+  await expect(page.locator(SELECTORS.leadForm).locator(SELECTORS.honeypotInput)).toHaveCount(0);
+  await expect(page.locator(SELECTORS.honeypotForm).locator(SELECTORS.honeypotInput)).toHaveCount(1);
+  await expect(page.locator(SELECTORS.honeypotForm)).toHaveAttribute('aria-hidden', 'true');
+
+  // Off-screen, not `display: none`: still in the layout, but its box sits
+  // fully outside the viewport's left edge.
   const box = await honeypot.boundingBox();
   expect(box).not.toBeNull();
   if (box) {
@@ -33,33 +46,53 @@ async function expectHoneypotMitigations(page: Page): Promise<void> {
   }
 
   await expect(honeypot).toHaveAttribute('type', 'text');
-  await expect(honeypot).toHaveAttribute('name', 'website');
+  // `id`/`name` avoid autofill-recognized words (website, url, company,
+  // name, email, phone, tel, address, city) — the old `website` name was
+  // exactly what let autofill find and fill it.
+  await expect(honeypot).toHaveAttribute('id', 'lead-hp');
+  await expect(honeypot).toHaveAttribute('name', 'hp_field');
   await expect(honeypot).toHaveAttribute('tabindex', '-1');
   await expect(honeypot).toHaveAttribute('autocomplete', 'off');
+  // Password-manager opt-outs.
+  await expect(honeypot).toHaveAttribute('data-1p-ignore');
+  await expect(honeypot).toHaveAttribute('data-lpignore', 'true');
+  await expect(honeypot).toHaveAttribute('data-bwignore', 'true');
+  await expect(honeypot).toHaveAttribute('data-form-type', 'other');
 
-  const wrapper = page.locator('[aria-hidden="true"]', { has: honeypot });
-  await expect(wrapper).toHaveCount(1);
-
-  // No visible label: no <label> should be associated with it.
+  // No visible label, placeholder, or title.
   const labelCount = await page.locator(`label[for="${await honeypot.getAttribute('id')}"]`).count();
   expect(labelCount).toBe(0);
+  expect(await honeypot.getAttribute('placeholder')).toBeNull();
+  expect(await honeypot.getAttribute('title')).toBeNull();
 }
 
 /**
- * The honeypot `<div>` is the first control inside `<form>` (LeadForm.astro),
- * immediately before `#lead-name` in DOM order. That makes Shift+Tab from
- * `#lead-name` the one direct probe of `tabindex="-1"`: without it, that
- * exact key press would land on the honeypot (verified by hand against this
- * build with `tabindex` removed). A forward Tab walk from `#lead-name`
- * cannot reach it regardless of `tabindex` — the honeypot precedes that
- * field — so it proves nothing about the mitigation on its own; kept here
- * only as defense-in-depth against a future reordering of the form fields.
+ * The honeypot's `<form>` has no submit button, but pressing Enter inside
+ * its input still fires a `submit` event; leadFormController.ts must always
+ * prevent it so that can never reload the page.
+ */
+async function expectHoneypotFormSubmitIsPrevented(page: Page): Promise<void> {
+  const prevented = await page.evaluate((formSelector) => {
+    const form = document.querySelector(formSelector);
+    if (!form) return null;
+    const event = new Event('submit', { cancelable: true, bubbles: true });
+    form.dispatchEvent(event);
+    return event.defaultPrevented;
+  }, SELECTORS.honeypotForm);
+  expect(prevented).toBe(true);
+}
+
+/**
+ * Shift+Tab from #lead-name is the one direct probe of `tabindex="-1"`:
+ * `#lead-hp` comes before `#lead-name` in DOM order with no focusable
+ * element between them, so it's the only element Shift+Tab could land on
+ * if the honeypot were reachable.
  */
 async function expectHoneypotUnreachableByTab(page: Page): Promise<void> {
   await page.locator(SELECTORS.nameInput).focus();
   await page.keyboard.press('Shift+Tab');
   const shiftTabTargetId = await page.evaluate(() => document.activeElement?.id ?? '');
-  expect(shiftTabTargetId).not.toBe('lead-website');
+  expect(shiftTabTargetId).not.toBe('lead-hp');
 
   await page.locator(SELECTORS.nameInput).focus();
   const forwardFocusedIds: string[] = [];
@@ -67,13 +100,37 @@ async function expectHoneypotUnreachableByTab(page: Page): Promise<void> {
     await page.keyboard.press('Tab');
     forwardFocusedIds.push(await page.evaluate(() => document.activeElement?.id ?? ''));
   }
-  expect(forwardFocusedIds).not.toContain('lead-website');
+  expect(forwardFocusedIds).not.toContain('lead-hp');
 }
 
 async function expectHoneypotEmpty(page: Page): Promise<void> {
   await expect(page.locator(SELECTORS.honeypotInput)).toHaveValue('');
   await fillLeadForm(page);
   await expect(page.locator(SELECTORS.honeypotInput)).toHaveValue('');
+}
+
+/**
+ * Mimics a browser/password-manager autofill pass over the lead form: sets a
+ * value (or checked state) on every input it contains and fires the events
+ * autofill dispatches, without ever touching anything outside that form.
+ * This is exactly the scenario that dropped a real lead on 2026-09-30, back
+ * when the honeypot lived inside #lead-form-form.
+ */
+async function simulateAutofillInsideLeadForm(page: Page): Promise<void> {
+  await page.evaluate((formSelector) => {
+    const form = document.querySelector(formSelector);
+    if (!form) return;
+    form.querySelectorAll('input').forEach((el) => {
+      const input = el as HTMLInputElement;
+      if (input.type === 'checkbox' || input.type === 'radio') {
+        input.checked = true;
+      } else {
+        input.value = 'AUTOFILLED';
+      }
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  }, SELECTORS.leadForm);
 }
 
 for (const [description, viewportOptions] of [
@@ -83,7 +140,9 @@ for (const [description, viewportOptions] of [
   test.describe(`honeypot field (${description})`, () => {
     if (viewportOptions) test.use(viewportOptions);
 
-    test('is off-screen, unlabeled, and carries the required mitigations', async ({ page }) => {
+    test('is off-screen, outside the lead form, unlabeled, and carries the required mitigations', async ({
+      page,
+    }) => {
       await gotoLang(page, 'es');
       await expectHoneypotMitigations(page);
     });
@@ -97,8 +156,60 @@ for (const [description, viewportOptions] of [
       await gotoLang(page, 'es');
       await expectHoneypotEmpty(page);
     });
+
+    test("a simulated autofill of every field inside the lead form leaves it untouched (US-013 AC1, regression)", async ({
+      page,
+    }) => {
+      await gotoLang(page, 'es');
+      await simulateAutofillInsideLeadForm(page);
+      await expect(page.locator(SELECTORS.honeypotInput)).toHaveValue('');
+    });
+
+    test("its own form's submit is always prevented", async ({ page }) => {
+      await gotoLang(page, 'es');
+      await expectHoneypotFormSubmitIsPrevented(page);
+    });
   });
 }
+
+test.describe('autofill keeps working for the visible fields (US-013 AC1)', () => {
+  test('name, email and phone keep their autocomplete hints', async ({ page }) => {
+    await gotoLang(page, 'es');
+
+    await expect(page.locator(SELECTORS.nameInput)).toHaveAttribute('autocomplete', 'name');
+    await expect(page.locator(SELECTORS.emailInput)).toHaveAttribute('autocomplete', 'email');
+    await expect(page.locator(SELECTORS.phoneInput)).toHaveAttribute('autocomplete', 'tel');
+  });
+});
+
+test.describe('the honeypot value reaches the server as `website` (US-013 AC1, real backend)', () => {
+  test('filling the honeypot directly puts that value on the outgoing request body', async ({ page }) => {
+    await gotoLang(page, 'es');
+    await fillLeadForm(page);
+    await page.locator(SELECTORS.honeypotInput).fill('http://bot.example');
+
+    const [request] = await Promise.all([
+      page.waitForRequest((req) => req.url().includes('/api/save-lead') && req.method() === 'POST'),
+      page.locator(SELECTORS.submitButton).click(),
+    ]);
+
+    const body = request.postDataJSON() as { website?: string };
+    expect(body.website).toBe('http://bot.example');
+  });
+
+  test('a real visitor (honeypot left empty) sends an empty `website`', async ({ page }) => {
+    await gotoLang(page, 'es');
+    await fillLeadForm(page);
+
+    const [request] = await Promise.all([
+      page.waitForRequest((req) => req.url().includes('/api/save-lead') && req.method() === 'POST'),
+      page.locator(SELECTORS.submitButton).click(),
+    ]);
+
+    const body = request.postDataJSON() as { website?: string };
+    expect(body.website).toBe('');
+  });
+});
 
 test.describe('honeypot decoy against the real backend (memory mode)', () => {
   test('a filled website still returns the normal success response, indistinguishable from a real submission', async ({
