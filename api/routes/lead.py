@@ -15,7 +15,9 @@ Never log the payload, the lead row, the client IP, or the honeypot value:
 they may carry personal data or are excluded from logging by the contract.
 US-016: a storage failure logs an ERROR with the underlying cause, an
 unexpected error logs an ERROR with the exception class and traceback;
-neither includes the request data.
+neither includes the request data. US-013 AC8: a honeypot decoy logs one
+INFO line, with no request data, so false positives (e.g. autofill) are
+visible in production without ever logging what was filled in.
 """
 
 from __future__ import annotations
@@ -82,6 +84,7 @@ def save_lead():
         return response
 
     if _is_honeypot_triggered(payload):
+        current_app.logger.info("honeypot triggered; lead discarded")
         response = contract_response(True, "Lead saved.")
         response.status_code = 201
         return response

@@ -290,6 +290,19 @@ this account, so this runbook is precise for next time.
 **What the startup line looks like** (also the section 6 check): one `INFO` line naming the
 active storage, and for `memory` an additional `WARNING` — see section 6.
 
+**What a honeypot decoy looks like (US-013 AC8):** one line, timestamped, reading exactly
+`INFO:app:honeypot triggered; lead discarded`, with no request data — no name, email, phone,
+the honeypot's `website` value in the request, or the visitor's IP. It fires every time that
+value arrives non-empty (or the wrong JSON type), which is normally a bot, but ADR-004 records
+that a real visitor's browser or password manager once filled it despite the mitigations,
+silently dropping a real lead. A burst of these close together is spam protection working as
+intended — nothing to do. A handful spread through the day is worth a weekly check either way:
+**a decoy writes no row, so the sheet has no gap to find** — instead, compare Calendly's booked
+calls against the sheet. A visitor who reached Calendly got a `201` from this endpoint (contract
+section 7), so a booking with **no matching row** in the sheet around the same time means a real
+lead was silently dropped here. If that happens, apply ADR-004's review trigger (propose
+removing the honeypot through a spec change).
+
 **Common causes per logged `ERROR`:**
 
 | Log shows | Likely cause | Fix |
@@ -309,8 +322,9 @@ active storage, and for `memory` an additional `WARNING` — see section 6.
 | Startup line says `Lead storage active: memory` (with a `WARNING`) | `LEADS_STORAGE` is explicitly set to `memory` in cPanel, overriding the production default | Remove that variable or set it to `google_sheets`, then restart |
 
 No log line ever contains the submitted name, email, phone, or the visitor's IP address (see
-`api/logging_utils.py` and pytest coverage in `api/tests/test_error_logging.py`) — if you see
-any of those in the log, that's a bug in the app, not this runbook.
+`api/logging_utils.py` and pytest coverage in `api/tests/test_error_logging.py` and
+`api/tests/test_spam_protection.py`) — if you see any of those in the log, that's a bug in the
+app, not this runbook.
 
 One thing outside the app's own logging that this doesn't control: cPanel/Apache's own access
 log for the domain records every visitor's IP for every request, same as any web server. That

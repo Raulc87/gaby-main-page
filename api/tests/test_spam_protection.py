@@ -8,6 +8,7 @@ the rate-limit tests below install their own RateLimiter.
 from __future__ import annotations
 
 import json
+import logging
 
 import pytest
 
@@ -237,3 +238,70 @@ def test_honeypot_checked_after_content_type_and_json_checks(client, storage):
     assert invalid_json.status_code == 400
 
     assert storage.leads == []
+
+
+# --- honeypot logging (US-013 AC8) ---------------------------------------
+
+
+def _honeypot_log_records(caplog):
+    return [r for r in caplog.records if "honeypot triggered" in r.getMessage()]
+
+
+def test_honeypot_decoy_logs_one_info_line(client, caplog):
+    caplog.set_level(logging.INFO)
+    payload = dict(VALID_PAYLOAD)
+    payload["website"] = "https://spambot.example"
+
+    response = client.post("/api/save-lead", json=payload)
+
+    assert response.status_code == 201
+    records = _honeypot_log_records(caplog)
+    assert len(records) == 1
+    assert records[0].levelno == logging.INFO
+    assert records[0].getMessage() == "honeypot triggered; lead discarded"
+
+
+def test_honeypot_decoy_logs_exactly_one_line_per_request(client, caplog):
+    caplog.set_level(logging.INFO)
+    payload = dict(VALID_PAYLOAD)
+    payload["website"] = "https://spambot.example"
+
+    client.post("/api/save-lead", json=payload)
+    client.post("/api/save-lead", json=payload)
+
+    assert len(_honeypot_log_records(caplog)) == 2
+
+
+def test_honeypot_log_line_not_emitted_for_a_normal_lead(client, caplog):
+    caplog.set_level(logging.INFO)
+
+    response = client.post("/api/save-lead", json=VALID_PAYLOAD)
+
+    assert response.status_code == 201
+    assert _honeypot_log_records(caplog) == []
+
+
+@pytest.mark.parametrize("value", [None, "", "   "])
+def test_honeypot_log_line_not_emitted_when_honeypot_is_empty(client, caplog, value):
+    caplog.set_level(logging.INFO)
+    payload = dict(VALID_PAYLOAD)
+    payload["website"] = value
+
+    response = client.post("/api/save-lead", json=payload)
+
+    assert response.status_code == 201
+    assert _honeypot_log_records(caplog) == []
+
+
+def test_honeypot_decoy_log_contains_no_submitted_data(client, caplog):
+    caplog.set_level(logging.INFO)
+    payload = dict(VALID_PAYLOAD)
+    payload["website"] = "https://spambot.example/very-identifiable-tracking-id"
+
+    client.post("/api/save-lead", json=payload)
+
+    log_output = caplog.text
+    assert VALID_PAYLOAD["name"] not in log_output
+    assert VALID_PAYLOAD["email"] not in log_output
+    assert VALID_PAYLOAD["phone"] not in log_output
+    assert payload["website"] not in log_output
