@@ -2,7 +2,7 @@
 // and 3.2; UX_UI_DIRECTION.md v0.8 section 4, Section 7). Four independent
 // things:
 //
-// 1. The honeypot field `website` (AC1): verified in Chromium at desktop and
+// 1. The honeypot input `#lead-hp` (AC1): verified in Chromium at desktop and
 //    390 px — not a descendant of #lead-form-form, not visible, not
 //    reachable with Tab, empty after load and after filling the visible
 //    fields (including a simulated autofill of the whole lead form), and
@@ -82,6 +82,12 @@ async function expectHoneypotFormSubmitIsPrevented(page: Page): Promise<void> {
   expect(prevented).toBe(true);
 }
 
+/**
+ * Shift+Tab from #lead-name is the one direct probe of `tabindex="-1"`:
+ * `#lead-hp` comes before `#lead-name` in DOM order with no focusable
+ * element between them, so it's the only element Shift+Tab could land on
+ * if the honeypot were reachable.
+ */
 async function expectHoneypotUnreachableByTab(page: Page): Promise<void> {
   await page.locator(SELECTORS.nameInput).focus();
   await page.keyboard.press('Shift+Tab');
