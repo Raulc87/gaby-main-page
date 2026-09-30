@@ -80,14 +80,28 @@ both and either could bypass the redirect independently of the other:
 curl -s -o /dev/null -w "%{http_code}\n" http://<your-domain>/
 curl -s -o /dev/null -w "%{http_code}\n" -X POST http://<your-domain>/api/save-lead
 ```
-Both must print `301` (or `308`), and `https://<your-domain>/` must load without a certificate
-warning. (The second check will only make sense once section 5 creates the app; for now it
-will fail to connect or 404, which is fine — re-run it after section 5, before section 6.) If
-you're using the `.htaccess` fallback rather than the cPanel toggle, re-running it after
-section 5 matters for the same reason as section 3's `/api` warning: if Passenger's routing for
-the mounted app bypasses the document root's directory-level rules, this redirect might not
-reach `/api` either, even though it works for `/`. A vhost-level toggle, if your cPanel offers
-one, doesn't have this risk — another reason to prefer it.
+With the cPanel toggle, both must print `301` (or `308`), and `https://<your-domain>/` must
+load without a certificate warning — right now, before section 3 adds anything else. (The
+second check will only make sense once section 5 creates the app; for now it will fail to
+connect or 404, which is fine.)
+
+**If you're using the `.htaccess` fallback instead, the expected result changes once section 3
+turns password protection on** — re-run both checks again after section 3, and expect `401`,
+not `301`: Apache evaluates Directory Privacy's Basic Auth *before* this rule ever runs (as
+noted above), so an unauthenticated plain-`http://` request gets challenged for credentials
+first. That `401` is actually the correct outcome here — it proves no plain-HTTP request can
+reach the app content without a cleartext-credential exchange happening first, which is exactly
+what section 3's warning is about. Re-run the `/api` variant again after section 5 for the same
+reason as section 3's warning: if Passenger's routing for the mounted app bypasses the document
+root's directory-level rules, neither the auth challenge nor this redirect rule may reach
+`/api`, which the `401`/`301` outcome alone won't tell you — section 5 has the dedicated check
+for that. A vhost-level toggle, if your cPanel offers one, has neither risk — another reason to
+prefer it.
+
+**After go-live (section 3's protection is removed):** re-run both of this section's checks one
+more time. With either mechanism, both must now print `301`/`308` — this is the point where
+US-014 AC3 ("HTTP redirects to HTTPS") is actually being verified on the live, public site, not
+merely on a still-password-protected one. Section 10's checklist references this.
 
 ## 3. Password-protect the whole site until go-live (US-014 AC6)
 
@@ -118,16 +132,23 @@ real production sheet in section 6 until it passes.
 
 **Removing it at go-live:** cPanel → *Files* → *Directory Privacy* → the same directory →
 uncheck **Password protect this directory** → save. Re-run this section's check and section
-5's `/api` check; both should now return something other than `401`.
+5's `/api` check; both should now return something other than `401`. Also re-run section 2's
+two HTTPS checks now — with protection gone, both must print `301`/`308` (see section 2's
+"After go-live" note).
 
 For every authenticated command later in this runbook, avoid putting the password directly in
-a command (it would sit in shell history, and briefly in process listings other users on a
-shared machine could see). Set it once per terminal session instead:
+a command — typed literally, it would sit in shell history indefinitely. Set it once per
+terminal session instead, with a form that works in both bash and zsh (zsh's `read -p` means
+something different — "read from the coprocess" — and errors out; this doesn't):
 ```bash
-read -s -p "Directory Privacy password: " DP_PASS; echo
+printf 'Directory Privacy password: '; read -rs DP_PASS; echo
 ```
 Then use `-u "<privacy_user>:$DP_PASS"` in place of a literal `-u user:password` in every
-`curl` command below that needs it.
+`curl` command below that needs it. This keeps it out of shell history; it's a smaller
+improvement against a process listing (`ps`) on a shared machine, since curl still briefly has
+the expanded value in its own argument list when it starts, before it can scrub it — most
+systems' `curl` does that quickly, but if this machine is shared and that residual window
+matters to you, use a `curl` config file (`-K`) with the credentials instead of `-u`.
 
 ## 4. Build the static frontend with production values
 
@@ -168,10 +189,14 @@ both load. Don't worry yet that the lead form doesn't save anything — that nee
 2. **Python version:** pick **3.11** if offered; otherwise the highest 3.9+ version available.
    The backend is *written* to be compatible with 3.9+, but only 3.11 is actually exercised by
    CI (`.github/workflows/backend.yml` pins `3.11`) — if this account only offers an older
-   version, run `pytest` once against it manually (via the Terminal app, inside the virtualenv
-   step 7 creates) before relying on it for production. **Record the exact version this
-   account offers in `ADR-001`'s Validation section** (`docs/decisions/ADR-001_BACKEND_HOSTING.md`)
-   — that section is explicitly waiting on it.
+   version, run `pytest` once against it **locally** first (not on the server — `tests/`,
+   `pytest.ini` and `requirements-dev.txt` are deliberately not uploaded in step 8 below, so the
+   app's own virtualenv can't run them). `docs/runbooks/LOCAL_DEVELOPMENT.md` section 9 shows
+   `uv venv --python <version>` for exactly this — create a venv pinned to the older version,
+   install `requirements.txt` and `requirements-dev.txt` into it, and run `pytest` there before
+   relying on that version in production. **Record the exact version this account offers in
+   `ADR-001`'s Validation section** (`docs/decisions/ADR-001_BACKEND_HOSTING.md`) — that section
+   is explicitly waiting on it.
 3. **Application root:** a folder **outside** the document root from section 4 — for example
    `gaby-api` (sibling to `public_html`, i.e. `/home/<cpanel_user>/gaby-api`), not
    `public_html/api`. Keeping the backend's source and virtualenv out of the publicly served
@@ -270,11 +295,10 @@ active storage, and for `memory` an additional `WARNING` — see section 6.
 | Log shows | Likely cause | Fix |
 |---|---|---|
 | `storage_unavailable (cause=FileNotFoundError)` | `GOOGLE_SERVICE_ACCOUNT_FILE` points to a path that doesn't exist | Check the path was typed correctly and the file was actually uploaded there |
-| `storage_unavailable (cause=PermissionError)` | Either (a) the key file exists but the app's process can't read it, **or** (b) the service account can't access the spreadsheet: `gspread`'s `open_by_key()` converts an HTTP 403 from an unshared/inaccessible sheet into this same built-in `PermissionError`, not `APIError` | For (a), check the file's permissions are `600`; for (b), re-check the sheet is shared with the service account's email as Editor (`GOOGLE_SHEETS_SETUP.md` step 4.4) — don't assume it's the file just because the exception name matches a filesystem error |
-| `storage_unavailable (cause=SpreadsheetNotFound)` | `GOOGLE_SHEET_ID` is wrong, or the sheet was deleted | Re-copy the ID from the sheet's URL (`docs/runbooks/GOOGLE_SHEETS_SETUP.md` step 4.5) |
+| `storage_unavailable (cause=PermissionError)` | `gspread` 6.x's `open_by_key()` converts **any** HTTP 403 into this same built-in `PermissionError`, not `APIError` — so it covers three different causes: (a) the key file exists but the app's process can't read it, (b) the sheet isn't shared with the service account at all, **or** (c) the Google Sheets API isn't enabled on the service account's project | For (a), check the file's permissions are `600`. For (b), share the sheet with the service account's email (`GOOGLE_SHEETS_SETUP.md` step 4.4). For (c), enable the Sheets API (`GOOGLE_SHEETS_SETUP.md` steps 1–2). Don't assume it's the file just because the exception name matches a filesystem error — it's the single most common wrapper for sheet-access problems too |
+| `storage_unavailable (cause=SpreadsheetNotFound)` | `GOOGLE_SHEET_ID` is wrong, or the sheet was deleted — `open_by_key()` converts a 404 into this, not `APIError 404` | Re-copy the ID from the sheet's URL (`docs/runbooks/GOOGLE_SHEETS_SETUP.md` step 4.5) |
 | `storage_unavailable (cause=WorksheetNotFound)` | `GOOGLE_SHEET_TAB` doesn't match an actual tab name in the sheet | Confirm the tab is named exactly `leads` (or whatever `GOOGLE_SHEET_TAB` is set to) |
-| `storage_unavailable (cause=APIError 403)` | The Google Sheets API isn't enabled on the service account's project | Re-check `docs/runbooks/GOOGLE_SHEETS_SETUP.md` steps 1–2 |
-| `storage_unavailable (cause=APIError 404)` | The sheet ID doesn't exist (typo, or it was deleted/moved) | Re-copy the sheet ID |
+| `storage_unavailable (cause=APIError 403)` | Unlike the `PermissionError` cases above, this one happens **after** the sheet already opened successfully: the sheet is shared with the service account, but only as Viewer or Commenter, so appending a row is refused | Re-share the sheet with the service account's email as **Editor**, not Viewer/Commenter (`GOOGLE_SHEETS_SETUP.md` step 4.4) |
 | `storage_unavailable (cause=RefreshError)` | The service account's key was revoked or deleted, or the server's clock is significantly wrong | Rotate the key (`GOOGLE_SHEETS_SETUP.md` section 7) if it was revoked; otherwise check the account's system time |
 | `storage_unavailable (cause=<something else>)` | An unanticipated Google API or network failure | The exception class in the log names it; search it together with "gspread" for the specific cause |
 | `internal_error (<ExceptionClass>)` followed by a traceback | An application bug, not a configuration problem | The traceback's file and line point at the bug; this needs a code fix, not an environment variable |
@@ -302,39 +326,62 @@ Run this while the site is still password-protected (section 3) — every reques
    in a browser (it will prompt for the Directory Privacy username/password first).
 2. **The rate limit works — do this before anything else touches `/api/save-lead`,** so the
    count starts clean: click **Restart** on the app's detail page (this clears the in-memory
-   limiter — ADR-004), then immediately run:
+   limiter — ADR-004), then run up to 20 requests, stopping at the first `429`:
    ```bash
-   for i in 1 2 3 4 5 6; do
-     curl -u "<privacy_user>:$DP_PASS" -s -o /dev/null -w "request $i: %{http_code}\n" \
-       https://<your-domain>/api/save-lead -X POST -H "Content-Type: application/json" -d '{}'
+   for i in $(seq 1 20); do
+     code=$(curl -u "<privacy_user>:$DP_PASS" -s -o /dev/null -w "%{http_code}" \
+       https://<your-domain>/api/save-lead -X POST -H "Content-Type: application/json" -d '{}')
+     echo "request $i: $code"
+     if [ "$code" = "429" ]; then break; fi
    done
    ```
-   Verified locally against the memory-mode backend, as the very first traffic after a
-   restart, with the production default (5 requests / 600 seconds): requests 1–5 each
-   returned `422` (empty body — invalid, but still counted toward the limit), and request 6
-   returned `429`. If anything earlier already hit `/api/save-lead` on this same connection
-   since the restart, the `429` will appear sooner than request 6 — that's expected, not a
-   failure, since every counted request (whatever its outcome) counts toward the limit
-   (contract section 3.2); what matters is that a `429` appears at all, with a `Retry-After`
-   header:
+   Verified locally against the memory-mode backend, as the very first traffic after a restart,
+   with the production default (5 requests / 600 seconds) **and a single Passenger process**:
+   requests 1–5 each returned `422` (empty body — invalid, but still counted toward the limit),
+   and request 6 returned `429`. ADR-004 accepts that the limiter's counters are kept **per
+   Passenger process**, not shared across however many processes serve this app — so if this
+   account runs more than one, the loop's requests can land on different processes and the
+   `429` can appear later than request 6 (as late as `5 × (number of processes) + 1`). That's an
+   accepted trade-off (ADR-004), not a failure: let the loop run up to 20 and take whichever
+   request first returns `429`. If **no** `429` appears within 20, stop and note how many
+   Passenger processes cPanel's Setup Python App shows for this application (its resource
+   settings) — that's useful to know, but still not a failure of the limiter itself.
+
+   Whichever request number it was, confirm it carried a `Retry-After` header:
    ```bash
    curl -u "<privacy_user>:$DP_PASS" -s -D - -o /dev/null \
      https://<your-domain>/api/save-lead -X POST -H "Content-Type: application/json" -d '{}' \
      | grep -E "HTTP|Retry-After"
    ```
-3. **Click Restart again** to clear the limiter before the rest of this smoke test, so your own
-   testing doesn't block the checks below (or a real visitor, if one arrives while you're
-   testing).
-4. **A valid test lead saves correctly:** submit the form once through the browser with
+3. **If step 2 found a `429`, before clearing the limiter, confirm a second network isn't
+   sharing the first one's limit.** At this point network A's address is at or over the cap — if
+   every visitor actually shared one apparent address at this host (a front-door proxy or CDN
+   collapsing everyone to one `REMOTE_ADDR`), this is the moment that would show up. From a
+   different connection — a phone on mobile data with Wi-Fi off, or a different location
+   entirely — load `https://<your-domain>/es/` or `/en/` in a browser (it will prompt for the
+   Directory Privacy credentials on that device) and submit the lead form once with throwaway
+   data. It must **not** show the rate-limited error message. (A `curl` from a second device
+   works too, with the same `-u "<privacy_user>:$DP_PASS"` pattern from section 3, run on that
+   device's own terminal — not the placeholder password typed inline.)
+
+   If the second network *does* get rate-limited, network A and B are arriving at this host as
+   the same address, which contract section 3.2 would then be rate-limiting as a single visitor
+   for everyone combined (section 3.2 counts per `REMOTE_ADDR` and deliberately does not trust
+   `X-Forwarded-For`). If that happens, stop before go-live; fixing it would need a contract
+   change (section 3.2), not a runbook change. If this submission used real-looking data, delete
+   it from the sheet along with step 5's row.
+4. **Click Restart** to clear the limiter before the rest of this smoke test, so steps 2 and 3
+   don't block the checks below (or a real visitor, if one arrives while you're testing).
+5. **A valid test lead saves correctly:** submit the form once through the browser with
    clearly fake, identifiable data (e.g. name "Test Delete Me", a real email you control so you
    can also verify the thank-you flow). Confirm a new row appears in the **production** sheet
    (not a dev sheet) with all nine columns from `LEAD_API_CONTRACT.md` section 6,
    `status = started`.
-5. **Thank-you and the real Calendly appear:** after that submission, confirm the thank-you
+6. **Thank-you and the real Calendly appear:** after that submission, confirm the thank-you
    message shows and the real Calendly scheduler loads inline (not the `mailto:` fallback —
    if it shows the fallback, `PUBLIC_CALENDLY_URL` wasn't set before the build in section 4,
    and you'll need to rebuild and re-upload).
-6. **A filled honeypot stores nothing:**
+7. **A filled honeypot stores nothing:**
    ```bash
    curl -u "<privacy_user>:$DP_PASS" -i https://<your-domain>/api/save-lead \
      -X POST -H "Content-Type: application/json" \
@@ -345,19 +392,9 @@ Run this while the site is still password-protected (section 3) — every reques
    `"success": true`, `"error_code": null`. Then confirm by sheet row count that this one added
    **no** new row — the decoy response gives no signal to a bot, so the response alone can't
    prove nothing was stored.
-7. **A second network sees its own limit, not a shared one:** from a different connection —
-   for example a phone on mobile data with Wi-Fi off, or a different location entirely — submit
-   one normal request (through the browser, or the same `curl` shape as step 2, with that
-   network's own credentials entry). It must **not** come back `429`. If it does, every visitor
-   is very likely sharing one apparent IP address at this host (a front-door proxy or CDN
-   collapsing everyone to one `REMOTE_ADDR`), which would mean the whole site accepts only 5
-   submissions per 10 minutes, total, for every visitor combined — contract section 3.2 counts
-   per `REMOTE_ADDR` and deliberately does not trust `X-Forwarded-For`. If this happens, stop
-   before go-live; fixing it would need a contract change (section 3.2), not a runbook change.
-8. **Delete the test rows:** remove every row this smoke test added to the production sheet
-   (steps 4 and 7) before real visitors can see them — they're confirmed to arrive at all, not
-   data to keep. Step 2's requests never stored anything (an empty body always fails
-   validation), so there's nothing to delete from that step.
+8. **Delete the test rows:** remove every row this smoke test added to the production sheet —
+   step 5's, and step 3's too if it wasn't rate-limited (a submission that gets `429` stores
+   nothing) — before real visitors can see them.
 
 **Check:** all of the above behaved as described. If any didn't, fix the specific cause
 (section 7's table covers storage failures) and re-run the smoke test from the top — a partial
@@ -400,5 +437,6 @@ Mirrors the go-live gate in `docs/sprints/SPRINT_002.md` — all of these, not s
 - [ ] The final Calendly URL and contact email are set in the production build (section 4) —
   not placeholders.
 - [ ] This runbook's smoke test (section 8) passes on the live HTTPS domain.
-- [ ] Only once every item above is checked: remove the password protection (section 3) and
-  announce the site.
+- [ ] Only once every item above is checked: remove the password protection (section 3), then
+  re-run section 2's two HTTPS checks — both must now print `301`/`308` on the live, public
+  site — before announcing it.
