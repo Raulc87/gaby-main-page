@@ -50,6 +50,17 @@ function initPrivacyNoticeDialog(root: HTMLElement): void {
   closeButton?.addEventListener('click', () => dialog.close());
 }
 
+/**
+ * The honeypot (US-013 AC1) lives in its own <form>, outside #lead-form-form,
+ * so browser autofill never reaches it. That form has no submit button, but
+ * pressing Enter inside its input still fires a `submit` event, which must
+ * never be allowed to actually submit (it would reload the page).
+ */
+function preventHoneypotFormSubmit(root: HTMLElement): void {
+  const honeypotForm = root.querySelector<HTMLFormElement>('#lead-hp-form');
+  honeypotForm?.addEventListener('submit', (event) => event.preventDefault());
+}
+
 export function initLeadForm(root: HTMLElement): void {
   const copy = JSON.parse(root.dataset.copy ?? '{}') as LeadFormCopy;
   const form = root.querySelector<HTMLFormElement>('#lead-form-form');
@@ -66,6 +77,7 @@ export function initLeadForm(root: HTMLElement): void {
   const submissionErrorElement: HTMLElement = submissionErrorEl;
 
   initPrivacyNoticeDialog(root);
+  preventHoneypotFormSubmit(root);
 
   function readRawInput(): RawLeadFormInput {
     const nameEl = root.querySelector<HTMLInputElement>('#lead-name');
@@ -73,7 +85,8 @@ export function initLeadForm(root: HTMLElement): void {
     const phoneEl = root.querySelector<HTMLInputElement>('#lead-phone');
     const screeningEl = root.querySelector<HTMLInputElement>('input[name="screening_answer"]:checked');
     const consentEl = root.querySelector<HTMLInputElement>('#lead-consent');
-    const websiteEl = root.querySelector<HTMLInputElement>('#lead-website');
+    // Lives outside #lead-form-form (US-013 AC1) — see LeadForm.astro.
+    const websiteEl = root.querySelector<HTMLInputElement>('#lead-hp');
 
     return {
       name: nameEl?.value ?? '',
