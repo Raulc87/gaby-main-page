@@ -264,7 +264,7 @@ so that I can demo it to Gabriela and trust that merges do not break it.
 ## US-013 — Spam protection for the lead endpoint
 - Priority: High
 - Story Points: 3
-- Status: Done — Sprint 002 (server #30, client #31; merged 2026-09-28)
+- Status: In progress — reopened 2026-09-30: browser autofill filled the honeypot during the human owner's local test and the lead was silently dropped. Server #30 and client #31 are merged; the fix is AC1 (redesigned field) and AC8 (logging).
 - Related Requirements: NFR-008
 - Related Spec: `LEAD_API_CONTRACT.md` v1.1 sections 3.1, 3.2, 7, 9
 - Related ADR: ADR-004
@@ -276,13 +276,14 @@ I want the public form protected against automated submissions,
 so that the lead sheet stays clean and the endpoint cannot be abused.
 
 **Acceptance Criteria**
-1. The form contains a hidden honeypot field `website` with these mitigations against people or browsers filling it: moved off-screen (not `display: none`), `tabindex="-1"`, `autocomplete="off"`, `aria-hidden="true"` on its wrapper, no visible label, and a name and `type="text"` that do not match common autofill types. Its value is always sent. Verified with Playwright in Chromium (desktop and 390 px): not visible, not reachable with Tab, empty after load and after filling the visible fields. The remaining risk (an extension filling it and a real lead being dropped) is accepted in ADR-004.
+1. The honeypot input follows `UX_UI_DIRECTION.md` section 4, Section 7 (v0.8): in its own `<form>` outside the lead form, a DOM `id`/`name` with no autofill meaning, `autocomplete="off"` plus the password-manager opt-out attributes, off-screen, `tabindex="-1"`, `aria-hidden` wrapper, no label. Its value is always sent as `website`. Verified with Playwright in Chromium (desktop and 390 px): the input is not inside `#lead-form-form`; not visible; not reachable with Tab; empty after load and after filling the visible fields; and a simulated autofill of the lead form (filling every field the lead form contains) leaves it empty. The value still reaches the server: Playwright fills the honeypot input directly, submits the lead form, and asserts the outgoing request body carries that value as `website` (e.g. with `page.waitForRequest`); Vitest covers the controller reading the input from outside the lead form. Autofill keeps working for visitors: the name, email and phone inputs keep `autocomplete="name"`, `"email"` and `"tel"` inside the lead form, and nothing disables autofill on them. Manually verified by the human owner with their own browser's autofill: the visible fields are filled, the honeypot stays empty, and the lead lands in the sheet.
 2. A request with a filled `website` returns the normal `201` success response and stores nothing (contract section 3.1).
 3. Requests are rate-limited per IP as in contract section 3.2; excess requests receive `429` / `rate_limited` with a `Retry-After` header, and nothing is stored.
 4. On `429` the form keeps the entered data and shows the localized "too many attempts" message from `UX_UI_DIRECTION.md` (both languages); no success and no Calendly.
 5. The honeypot value is never logged or stored. IP addresses exist only in the limiter's in-memory state and are dropped when their requests leave the window (contract section 3.2); they are never logged or written anywhere.
 6. `.env.example` files document `RATE_LIMIT_MAX_REQUESTS` and `RATE_LIMIT_WINDOW_SECONDS`; CI and e2e run with the limit disabled or high enough not to interfere.
 7. Done already in planning: CAPTCHA evaluated in ADR-004 (not needed for now); contract updated to v1.1.
+8. Each honeypot decoy writes one INFO log line (e.g. "honeypot triggered; lead discarded") with no request data, IP, or field value, so false positives can be spotted in production. pytest covers it, including that no submitted value appears in the log.
 
 ---
 
@@ -311,7 +312,7 @@ so that real visitors can use it.
 ## US-015 — Apply the approved visual identity
 - Priority: High
 - Story Points: 5
-- Status: Ready — Sprint 002
+- Status: Done — Sprint 002 (#29, #32, #34, #36, #42, #43)
 - Related Requirements: NFR-001, NFR-003, BR-004, BR-008
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` section 2.1 (Proposal A)
 

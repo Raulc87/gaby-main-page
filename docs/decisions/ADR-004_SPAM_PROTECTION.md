@@ -46,6 +46,7 @@ It meets NFR-008 with no friction, no vendor, and no infrastructure. The per-pro
 - No change to the visitor experience or the privacy notice's list of processors.
 ### Negative / Trade-offs
 - Targeted or distributed bots are not stopped.
+- Since the 2026-09-30 redesign the honeypot sits in its own form, outside the lead form. Bots that fill only the lead form's own controls (its `elements`) no longer reach it; the rate limit and the weekly sheet check cover them. Accepted by the human owner: losing a real lead is worse than some extra spam, and Option B (Turnstile) is ready if spam appears.
 
 ## Implementation Impact
 - Backend: honeypot check and in-memory sliding-window limiter in the Flask app; `RATE_LIMIT_MAX_REQUESTS` and `RATE_LIMIT_WINDOW_SECONDS` configuration.
@@ -53,7 +54,11 @@ It meets NFR-008 with no friction, no vendor, and no infrastructure. The per-pro
 - The honeypot value is never logged or stored. IP addresses live only in the limiter's in-memory state for the length of the window and are never logged or written anywhere.
 
 ## Validation
-After go-live, the human owner checks the lead sheet weekly during the first month.
+After go-live, the human owner checks the lead sheet weekly during the first month, and checks the app log for "honeypot triggered" lines (US-013 AC8).
+
+2026-09-30: the accepted autofill risk happened in the human owner's own local test (browser autofill filled the hidden field and the lead was dropped). Browser, version, and any password manager or extension involved: to be recorded here by the human owner, so the manual check in US-013 AC1 is repeated with the same client. The honeypot is kept, with stronger mitigations: its own separate form, a name without autofill meaning, password-manager opt-out attributes, and an INFO log per decoy (`UX_UI_DIRECTION.md` v0.8, US-013 AC1 and AC8).
 
 ## Review Trigger
 More than 5 junk rows in a week, or any flood that reaches the Google Sheets quota: add Option B (Turnstile) through a new contract version and a privacy-notice update.
+
+Any confirmed real lead lost to the honeypot after the 2026-09-30 fix: propose removing the honeypot through a spec change first (`PROJECT_SPEC.md` NFR-008, contract v1.2 section 3.1, US-013), then rely on the rate limit (plus Option B if spam appears).
