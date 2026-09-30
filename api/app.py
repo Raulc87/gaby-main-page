@@ -29,8 +29,12 @@ def create_app(api_prefix: str = "") -> Flask:
     # cPanel, not just ERROR (which Python's handler of last resort would
     # already show). A no-op if a handler is already configured on the
     # root logger (e.g. under pytest), which is fine: tests capture with
-    # caplog.set_level() instead.
-    logging.basicConfig(level=logging.INFO)
+    # caplog.set_level() instead. The timestamp (US-013 AC8) lets the
+    # human owner tell a bot-like burst of honeypot lines apart from a
+    # handful spread out with real-looking timing; caplog's own formatter
+    # is unaffected by this format string, so existing substring-based
+    # log assertions still pass regardless.
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s:%(name)s:%(message)s")
 
     app = Flask(__name__)
     app.config["MAX_CONTENT_LENGTH"] = MAX_REQUEST_BODY_BYTES
