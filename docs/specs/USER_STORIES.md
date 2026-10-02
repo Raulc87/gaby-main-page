@@ -264,7 +264,7 @@ so that I can demo it to Gabriela and trust that merges do not break it.
 ## US-013 — Spam protection for the lead endpoint
 - Priority: High
 - Story Points: 3
-- Status: In progress — Sprint 002, implementation complete (#30, #31; reopened 2026-09-30 after browser autofill filled the honeypot, fixed in #47 and #46). Closes when the human owner records in ADR-004 the browser, version and password manager of the incident, and confirms the retest used that same client (AC1). Retest on macOS passed on 2026-09-30.
+- Status: Done — Sprint 002 (#30, #31; reopened 2026-09-30 after browser autofill filled the honeypot, fixed in #47 and #46). AC1 manual check confirmed by the human owner on 2026-10-02 with the same browser setup as the incident, using real data in the development sheet: autofill fills the visible fields, the honeypot stays empty, and the lead is stored.
 - Related Requirements: NFR-008
 - Related Spec: `LEAD_API_CONTRACT.md` v1.1 sections 3.1, 3.2, 7, 9
 - Related ADR: ADR-004

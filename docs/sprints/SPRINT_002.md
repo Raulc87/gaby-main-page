@@ -45,7 +45,7 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 | US-015 (`field-line` borders on form controls, AC6) | — | Agent 2 | `GK-015-fix-field-line-token` merged | `GK-015-fix-field-outline` | Merged (#43) |
 | US-013 (server) | 3 | Agent 3 | Contract v1.1 | `GK-013-spam-protection` | Merged (#30) |
 | US-013 (client) | — | Agent 2 | Contract v1.1 | `GK-013-honeypot-client` | Merged (#31) |
-| US-013 AC1 (honeypot autofill fix, go-live blocker) | — | Agent 2 | UX v0.8 | `GK-013-fix-honeypot-autofill` | Merged (#47); macOS retest passed 2026-09-30; incident client still to be recorded in ADR-004 |
+| US-013 AC1 (honeypot autofill fix, go-live blocker) | — | Agent 2 | UX v0.8 | `GK-013-fix-honeypot-autofill` | Merged (#47); retest with the incident's browser setup confirmed by the human owner, 2026-10-02 |
 | US-013 AC8 (log each honeypot decoy; add the line to the log table in `DEPLOYMENT.md` section 7) | — | Agent 3 | `GK-014-deployment-runbook` (#44) | `GK-013-honeypot-log` | Merged (#46) |
 | US-016 | 2 | Agent 3 | — | `GK-016-storage-logging` | Merged (#40); AC7 in #44 |
 | US-017 (proof cards: text and video) | 3 | Agent 1 | `GK-015-visual-identity` | `GK-017-testimonial-cards` | Merged (#33) |
@@ -72,10 +72,10 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 
 ### Progress — 2026-09-30 (day 2 of 7, end of day)
 
-- Merged: #44 (deployment runbook, with US-016 AC7), #45 (honeypot spec), #46 (honeypot log), #47 (honeypot autofill fix). US-014's runbook and US-016 are done. US-013's implementation is complete; it closes once the incident's browser, version and password manager are recorded in ADR-004 and match the retest.
+- Merged: #44 (deployment runbook, with US-016 AC7), #45 (honeypot spec), #46 (honeypot log), #47 (honeypot autofill fix). US-013 (owner's retest confirmed 2026-10-02), US-014's runbook, and US-016 are done.
 - Verified on `main` (`c3a5b0e`): lint, `astro check`, Vitest 87/87, build, pytest 131/131, Playwright 34/34 against a fresh backend in memory mode; the backend logged "honeypot triggered; lead discarded" once per decoy test.
 - Verified by the human owner on macOS with Google Sheets: browser autofill fills the visible fields, the honeypot stays empty, and the lead lands in the sheet (US-013 AC1).
-- No development work is open. Remaining, all waiting on inputs: US-013 closure (incident client record), US-014 AC2 (cPanel Python version, actionable now), US-014 AC3–AC6 (domain, SSL, production sheet, then the go-live gate), US-017 final content (review meeting with Gabriela), US-018 (legal text).
+- No development work is open. Remaining, all waiting on inputs: US-014 AC2 (cPanel Python version, actionable now), US-014 AC3–AC6 (domain, SSL, production sheet, then the go-live gate), US-017 final content (review meeting with Gabriela on 2026-10-02), US-018 (legal text).
 
 ### Follow-ups for Sprint 003 (human owner, 2026-09-29)
 
