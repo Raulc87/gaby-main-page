@@ -264,7 +264,7 @@ so that I can demo it to Gabriela and trust that merges do not break it.
 ## US-013 — Spam protection for the lead endpoint
 - Priority: High
 - Story Points: 3
-- Status: Done — Sprint 002 (#30, #31; reopened 2026-09-30 after browser autofill filled the honeypot, fixed in #47 and #46; autofill verified manually by the human owner on macOS, 2026-09-30)
+- Status: In progress — Sprint 002, implementation complete (#30, #31; reopened 2026-09-30 after browser autofill filled the honeypot, fixed in #47 and #46). Closes when the human owner records in ADR-004 the browser, version and password manager of the incident, and confirms the retest used that same client (AC1). Retest on macOS passed on 2026-09-30.
 - Related Requirements: NFR-008
 - Related Spec: `LEAD_API_CONTRACT.md` v1.1 sections 3.1, 3.2, 7, 9
 - Related ADR: ADR-004
@@ -290,7 +290,13 @@ so that the lead sheet stays clean and the endpoint cannot be abused.
 ## US-014 — Deploy to GoDaddy cPanel
 - Priority: High
 - Story Points: 3
-- Status: In progress — Sprint 002. Runbook merged (#44, AC1); the deploy, smoke test and go-live (AC2–AC6) wait on the domain, SSL, and the production sheet in Gabriela's account
+- Status: In progress — Sprint 002. Per criterion:
+  - AC1 runbook: done (#44).
+  - AC2 Python version in cPanel: actionable now (human owner checks "Setup Python App" and records the version in ADR-001).
+  - AC3 HTTPS: waits on the domain and SSL.
+  - AC4 production sheet: waits on Gabriela's Google account, sheet and service account.
+  - AC5 smoke test: waits on AC3 and AC4.
+  - AC6 go-live: waits on AC5, US-018 done, US-017 content approved, and the go-live gate in `SPRINT_002.md`.
 - Related ADR: ADR-001, ADR-002
 
 **User Story**
