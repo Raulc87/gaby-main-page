@@ -264,7 +264,7 @@ so that I can demo it to Gabriela and trust that merges do not break it.
 ## US-013 — Spam protection for the lead endpoint
 - Priority: High
 - Story Points: 3
-- Status: In progress — reopened 2026-09-30: browser autofill filled the honeypot during the human owner's local test and the lead was silently dropped. Server #30 and client #31 are merged; the fix is AC1 (redesigned field) and AC8 (logging).
+- Status: Done — Sprint 002 (#30, #31; reopened 2026-09-30 after browser autofill filled the honeypot, fixed in #47 and #46). AC1 manual check confirmed by the human owner on 2026-10-02 with the same browser setup as the incident, using real data in the development sheet: autofill fills the visible fields, the honeypot stays empty, and the lead is stored.
 - Related Requirements: NFR-008
 - Related Spec: `LEAD_API_CONTRACT.md` v1.1 sections 3.1, 3.2, 7, 9
 - Related ADR: ADR-004
@@ -290,7 +290,13 @@ so that the lead sheet stays clean and the endpoint cannot be abused.
 ## US-014 — Deploy to GoDaddy cPanel
 - Priority: High
 - Story Points: 3
-- Status: Ready — Sprint 002 (domain and SSL being set up by the human owner; details added to the runbook when known)
+- Status: In progress — Sprint 002. Per criterion:
+  - AC1 runbook: done (#44).
+  - AC2 Python version in cPanel: actionable now (human owner checks "Setup Python App" and records the version in ADR-001).
+  - AC3 HTTPS: waits on the domain and SSL.
+  - AC4 production sheet: waits on Gabriela's Google account, sheet and service account.
+  - AC5 smoke test: waits on AC3 and AC4.
+  - AC6 go-live: waits on AC5, US-018 done, US-017 content approved, and the go-live gate in `SPRINT_002.md`.
 - Related ADR: ADR-001, ADR-002
 
 **User Story**
@@ -341,7 +347,7 @@ so that visitors see a serious, trustworthy professional before they leave their
 ## US-016 — Diagnose storage failures in production
 - Priority: High
 - Story Points: 2
-- Status: In progress — Sprint 002 (required before public deployment). AC1–AC6 merged in #40; AC7 comes with the deployment runbook (US-014).
+- Status: Done — Sprint 002 (AC1–AC6 in #40, AC7 in #44)
 - Related Requirements: NFR-006, NFR-007
 - Related Spec: `LEAD_API_CONTRACT.md` sections 7 and 9
 
@@ -365,7 +371,7 @@ so that I can fix a production problem quickly instead of losing leads silently.
 ## US-017 — Final content from Gabriela
 - Priority: High
 - Story Points: 3
-- Status: Ready — Sprint 002 (content depends on Gabriela; see dependencies)
+- Status: In progress — Sprint 002. Proof cards merged (#33); final content waits on the review meeting with Gabriela
 - Related Requirements: FR-003, FR-005, BR-003, BR-004, BR-005, BR-008
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` sections 4, 5, 6
 
