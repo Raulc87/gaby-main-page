@@ -77,6 +77,13 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 - Verified by the human owner on macOS with Google Sheets: browser autofill fills the visible fields, the honeypot stays empty, and the lead lands in the sheet (US-013 AC1).
 - No development work is open. Remaining, all waiting on inputs: US-014 AC2 (cPanel Python version, actionable now), US-014 AC3–AC6 (domain, SSL, production sheet, then the go-live gate), US-017 final content (review meeting with Gabriela on 2026-10-02), US-018 (legal text).
 
+### Starter Kit sync — 2026-10-13
+
+- `AGENTS.md` now requires a branching and release ADR before a sprint that deploys, and `docs/runbooks/RELEASE.md` by the first production release, written before the sprint or as a story ordered before the deploy (release) story. This sprint started before that rule existed.
+- **Owner exception (human owner, 2026-10-13):** Sprint 002 deploys and goes live without the branching and release ADR and without `RELEASE.md`. `DEPLOYMENT.md` (#44) covers the deploy, the smoke test (section 8), updates and rollback (section 9) for this first release.
+- The exception covers Sprint 002 only. The next sprint that deploys (Sprint 003, or whichever sprint takes over the deploy or the go-live if they move) must meet the rule: the ADR (ADR-005, the next free number) before it starts, and `RELEASE.md` before it starts or as a story ordered before its release story. Its readiness check verifies this.
+- The production smoke test (US-014 AC5) stays as specified: production smoke-test submissions are the rule's named exception to "never production data".
+
 ### Follow-ups for Sprint 003 (human owner, 2026-09-29)
 
 - Agent 1: move the `h1`/`h2`/`h3` colour rule in `src/styles/global.css` into `@layer base`.
@@ -123,7 +130,7 @@ An agent edits only files it owns. If it needs a change in another agent's file,
 | `src/components/lead/**`, `src/lib/lead/**`, `src/i18n/{es,en}/form.ts`, `tests/e2e/**` | Agent 2 |
 | `tests/unit/**` | The owner of the code under test |
 | `api/**`, `.github/workflows/**`, `.env.example`, `docs/runbooks/**` | Agent 3 |
-| `docs/specs/**`, `docs/ux/**`, `docs/plans/**`, `docs/sprints/**`, `docs/decisions/**`, `AGENTS.md`, `PROJECT_CONTEXT.md`, `README.md` | Human owner (agents propose changes via PR per change management) |
+| `docs/specs/**`, `docs/ux/**`, `docs/plans/**`, `docs/sprints/**`, `docs/decisions/**`, `docs/process/**`, `docs/checklists/**`, `AGENTS.md`, `PROJECT_CONTEXT.md`, `README.md` | Human owner (agents propose changes via PR per change management) |
 
 Content changes (US-017, US-018) follow change management: the human owner records the approved text in `UX_UI_DIRECTION.md` first (a `GK-DOCS-...` PR), then the agent applies it.
 
