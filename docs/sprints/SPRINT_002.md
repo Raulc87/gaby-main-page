@@ -53,7 +53,9 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 | US-018 | 2 | Agent 2 | Legal text by 2026-10-02, recorded in the UX doc | `GK-018-privacy-notice` | Waiting on content |
 | US-018 (version in `api/.env.example` and `DEPLOYMENT.md`) | — | Agent 3 | Same as above | `GK-018-privacy-version` | Waiting on content |
 | US-014 (runbook) | 3 | Agent 3 | US-013, US-016 | `GK-014-deployment-runbook` | Merged (#44) |
-| US-014 (deploy and smoke test) | — | Human owner | Runbook (#44), domain, SSL, production sheet | — | Waiting on domain, SSL and production sheet |
+| Branching and release ADR (ADR-005) | — | Human owner (docs) | — | `GK-DOCS-branching-release-adr` | Not started; before the deploy |
+| Release runbook (`docs/runbooks/RELEASE.md`) | — | Agent 3 | ADR-005 merged | `GK-CHORE-release-runbook` | Not started; before the deploy |
+| US-014 (deploy and smoke test) | — | Human owner | Runbook (#44), ADR-005, `RELEASE.md`, domain, SSL, production sheet | — | Waiting on domain, SSL and production sheet |
 | Runbook refresh (chore) | — | Agent 3 | — | `GK-CHORE-runbook-refresh` | Merged (#41) |
 
 ### Progress — 2026-09-29 (day 1 of 7)
@@ -76,6 +78,10 @@ Readiness checklist run on 2026-09-28 (`docs/checklists/SPRINT_READINESS_CHECKLI
 - Verified on `main` (`c3a5b0e`): lint, `astro check`, Vitest 87/87, build, pytest 131/131, Playwright 34/34 against a fresh backend in memory mode; the backend logged "honeypot triggered; lead discarded" once per decoy test.
 - Verified by the human owner on macOS with Google Sheets: browser autofill fills the visible fields, the honeypot stays empty, and the lead lands in the sheet (US-013 AC1).
 - No development work is open. Remaining, all waiting on inputs: US-014 AC2 (cPanel Python version, actionable now), US-014 AC3–AC6 (domain, SSL, production sheet, then the go-live gate), US-017 final content (review meeting with Gabriela on 2026-10-02), US-018 (legal text).
+
+### Starter Kit sync — 2026-10-13
+
+- `AGENTS.md` now requires a branching and release ADR before a sprint that deploys, and `docs/runbooks/RELEASE.md` by the first production release, written before the sprint or as a story ordered before the deploy (release) story. This sprint started before the rule, and its deploy has not happened yet, so both are added above as items ordered before US-014's deploy step. ADR-005 is the next free number. The production smoke test (US-014 AC5) stays as specified: it is the rule's named exception to "never production data".
 
 ### Follow-ups for Sprint 003 (human owner, 2026-09-29)
 
@@ -123,7 +129,7 @@ An agent edits only files it owns. If it needs a change in another agent's file,
 | `src/components/lead/**`, `src/lib/lead/**`, `src/i18n/{es,en}/form.ts`, `tests/e2e/**` | Agent 2 |
 | `tests/unit/**` | The owner of the code under test |
 | `api/**`, `.github/workflows/**`, `.env.example`, `docs/runbooks/**` | Agent 3 |
-| `docs/specs/**`, `docs/ux/**`, `docs/plans/**`, `docs/sprints/**`, `docs/decisions/**`, `AGENTS.md`, `PROJECT_CONTEXT.md`, `README.md` | Human owner (agents propose changes via PR per change management) |
+| `docs/specs/**`, `docs/ux/**`, `docs/plans/**`, `docs/sprints/**`, `docs/decisions/**`, `docs/process/**`, `docs/checklists/**`, `AGENTS.md`, `PROJECT_CONTEXT.md`, `README.md` | Human owner (agents propose changes via PR per change management) |
 
 Content changes (US-017, US-018) follow change management: the human owner records the approved text in `UX_UI_DIRECTION.md` first (a `GK-DOCS-...` PR), then the agent applies it.
 
@@ -137,7 +143,8 @@ Locked: `docs/specs/LEAD_API_CONTRACT.md` v1.1. No parallel work may change it; 
 2. `GK-015-visual-identity` (Agent 1) and `GK-015-form-style` (Agent 2), after the tokens; `GK-016-storage-logging` and `GK-CHORE-runbook-refresh` (Agent 3).
 3. `GK-017-testimonial-cards` (Agent 1); `GK-014-deployment-runbook` (Agent 3), after US-013 and US-016.
 4. Content: the human owner's `GK-DOCS-...` PR with Gabriela's copy and the privacy text, then `GK-017-final-content` (Agent 1), `GK-018-privacy-notice` (Agent 2) and `GK-018-privacy-version` (Agent 3).
-5. Human owner: deploy with the runbook behind password protection, smoke test, then the go-live gate.
+5. Before the deploy: the branching and release ADR (ADR-005, human owner's `GK-DOCS-...` PR), then `GK-CHORE-release-runbook` (Agent 3). Required by `AGENTS.md` → Document map, Runbooks (synced from the Starter Kit on 2026-10-13, after this sprint started).
+6. Human owner: deploy with the runbooks behind password protection, smoke test, then the go-live gate.
 
 ## Conflict Resolution
 

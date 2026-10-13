@@ -16,7 +16,7 @@
 - Architecture spec: Not required for the current simple scope (covered by ADRs)
 - UX/UI direction: `docs/ux/UX_UI_DIRECTION.md` (v0.8)
 - Content (visitor-facing copy): `docs/ux/UX_UI_DIRECTION.md` section 4. This project predates the kit's `docs/ux/CONTENT.md`; that section is its only copy source (`AGENTS.md` → Before implementing, step 5). Moving it to `CONTENT.md` is optional and would be its own docs PR.
-- Runbooks: `docs/runbooks/` (`LOCAL_DEVELOPMENT.md`, `DEPLOYMENT.md`, `GOOGLE_SHEETS_SETUP.md`)
+- Runbooks: `docs/runbooks/` (`LOCAL_DEVELOPMENT.md`, `DEPLOYMENT.md`, `GOOGLE_SHEETS_SETUP.md`; `RELEASE.md` planned before the deploy, Sprint 002), written per `docs/process/RUNBOOK_STYLE.md` (the existing ones predate it; restyling them is an optional Agent 3 chore)
 - Tech stack: `TECH_STACK.md` (v0.2)
 - ADRs: `docs/decisions/` — ADR-001 backend hosting, ADR-002 Google Sheets access, ADR-003 i18n routing, ADR-004 spam protection
 - Implementation plan: `docs/plans/IMPLEMENTATION_PLAN.md` (v0.4)
