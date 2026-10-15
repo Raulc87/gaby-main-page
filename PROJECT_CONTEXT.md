@@ -1,16 +1,16 @@
 # Project Context
 
 ## Project
-- Name: Gabriela Kelly — Financial Health One-Page Pilot
+- Name: Gaby Kelly — website (phase 1: financial health one-page pilot; phase 2: brand redesign and multipage site)
 - Project key: `GK` (branches `GK-<NNN>-<slug>`, see `AGENTS.md`)
 - Repository: https://github.com/Raulc87/gaby-main-page
 - Starter Kit: https://github.com/Raulc87/sdd_starter_kit
-- Status: Sprint 002 active (go-ahead 2026-09-28); Sprint 001 closed 2026-09-28
+- Status: Phase 2 specification in review (Gaby's brief, 2026-10-15). Sprint 002 active (go-ahead 2026-09-28); its development work is done, the production deploy (US-014) is on hold until the domain and hosting are known. Sprint 001 closed 2026-09-28
 - Product owner / final reviewer: Human project owner
 
 ## Active documentation
-- Project spec: `docs/specs/PROJECT_SPEC.md` (v0.4)
-- User stories: `docs/specs/USER_STORIES.md`
+- Project spec: `docs/specs/PROJECT_SPEC.md` (v0.5, phase 2; source: Gaby's visual brief, https://claude.ai/artifact/LeuEgX7HC2otdkLEhcJM5j)
+- User stories: `docs/specs/USER_STORIES.md` (phase 2: US-019 to US-027)
 - Integration contracts: `docs/specs/LEAD_API_CONTRACT.md` (v1.1, locked for Sprint 002)
 - Feature specs: Not required for the current simple scope
 - Architecture spec: Not required for the current simple scope (covered by ADRs)
