@@ -5,16 +5,19 @@ Backlog source until Jira is available.
 Common references:
 - Spec: `docs/specs/PROJECT_SPEC.md`
 - Lead API contract: `docs/specs/LEAD_API_CONTRACT.md`
-- Copy (ES/EN): `docs/ux/UX_UI_DIRECTION.md`
+- Copy (ES/EN): `docs/ux/UX_UI_DIRECTION.md` section 4 (phase 1, one page); from phase 2, `docs/ux/CONTENT.md`
+- Phase 2 source: Gaby's visual brief (2026-10-15), recorded in `PROJECT_SPEC.md` v0.5
 
-"Common mobile widths" in any acceptance criterion means viewports of 360 px, 390 px, and 768 px wide. "Both languages" means the Spanish (`/es/`) and English (`/en/`) versions of the page.
+"Common mobile widths" in any acceptance criterion means viewports of 360 px, 390 px, and 768 px wide. "Both languages" means the Spanish (`/es/...`) and English (`/en/...`) versions of a page.
+
+**Phase 2 (2026-10-15).** US-019 to US-027 turn the one-page site into a multipage site with the official brand (`PROJECT_SPEC.md` v0.5). Where they conflict with an earlier story's acceptance criteria (one page, CTA scrolling to the form, Proposal A look, Calendly for every answer), the phase 2 story wins; each affected story says so in its status.
 
 ---
 
 ## US-001 — Communicate the value proposition
 - Priority: High
 - Story Points: 3
-- Status: Ready
+- Status: Ready; phase 2: the Home hero is redefined by US-021 (concept, VIP button to the VIP page, link to the resources)
 - Related Requirements: FR-001, BR-005, FR-012
 
 **User Story**
@@ -34,7 +37,7 @@ so that I can decide whether the page is relevant to me.
 ## US-002 — Understand the transformation approach
 - Priority: High
 - Story Points: 3
-- Status: Ready
+- Status: Ready; phase 2: the recognition section and the roadmap become the Home sections of US-021 (corporate ladder, opportunity, Método Polaris)
 - Related Requirements: FR-002, FR-004
 
 **User Story**
@@ -54,7 +57,7 @@ so that I can visualize a practical way forward.
 ## US-003 — Understand Gabriela's role as guide
 - Priority: High
 - Story Points: 2
-- Status: Ready
+- Status: Ready; phase 2: superseded by US-022 (My story page) and the testimonials section of US-021
 - Related Requirements: FR-003, FR-005
 
 **User Story**
@@ -138,7 +141,7 @@ so that I can review and follow up without a complex CRM.
 ## US-007 — Schedule through Calendly
 - Priority: Critical
 - Story Points: 3
-- Status: Ready
+- Status: Ready; phase 2: AC1 applies only to the qualified screening answers (US-023 AC4); the other answers get the not-ready screen (US-023 AC5)
 - Related Requirements: FR-010, FR-014, FR-015, BR-001
 
 **User Story**
@@ -159,7 +162,7 @@ so that I can continue the process immediately.
 ## US-008 — Mobile-friendly experience
 - Priority: High
 - Story Points: 5
-- Status: Ready
+- Status: Ready; phase 2: applies to every page; US-020 adds the mobile navigation
 - Related Requirements: FR-011, NFR-001
 
 **User Story**
@@ -180,7 +183,7 @@ so that I can complete the flow without friction.
 ## US-009 — Stakeholder content review
 - Priority: High
 - Story Points: 3
-- Status: Carried over — Sprint 001 closed on 2026-09-28 without the review with Gabriela; the review happens in Sprint 002 as part of US-017
+- Status: Done 2026-10-15 — Gaby reviewed the prototype and proposals A and B and answered with her visual brief (phase 2). Carried over from Sprint 001 into Sprint 002 as part of US-017.
 - Related Requirements: BR-004
 
 **User Story**
@@ -199,7 +202,7 @@ so that I can refine the proposed copy, imagery, proof, and positioning without 
 ## US-010 — Bilingual page (Spanish / English)
 - Priority: Critical
 - Story Points: 5
-- Status: Ready
+- Status: Ready; phase 2: applies to every page; the toggle switches to the same page in the other language (US-020 AC4)
 - Related Requirements: FR-012, BR-005, BR-007
 - Related ADR: ADR-003
 
@@ -297,6 +300,7 @@ so that the lead sheet stays clean and the endpoint cannot be abused.
   - AC4 production sheet: waits on Gabriela's Google account, sheet and service account.
   - AC5 smoke test: waits on AC3 and AC4.
   - AC6 go-live: waits on AC5, US-018 done, US-017 content approved, and the go-live gate in `SPRINT_002.md`.
+- Phase 2 (2026-10-15): **on hold** until Gaby's production domain and its hosting capabilities are known (human owner). The runbook (AC1) stays; AC2–AC6 wait. The GitHub Pages preview (US-027) is not this story
 - Related ADR: ADR-001, ADR-002
 
 **User Story**
@@ -318,7 +322,7 @@ so that real visitors can use it.
 ## US-015 — Apply the approved visual identity
 - Priority: High
 - Story Points: 5
-- Status: Done — Sprint 002 (#29, #32, #34, #36, #42, #43)
+- Status: Done — Sprint 002 (#29, #32, #34, #36, #42, #43); phase 2: the Proposal A look is replaced by the official brand (US-019)
 - Related Requirements: NFR-001, NFR-003, BR-004, BR-008
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` section 2.1 (Proposal A)
 
@@ -372,6 +376,7 @@ so that I can fix a production problem quickly instead of losing leads silently.
 - Priority: High
 - Story Points: 3
 - Status: In progress — Sprint 002. Proof cards merged (#33); final content waits on the review meeting with Gabriela
+- Phase 2 (2026-10-15): the copy now comes from Gaby's brief and is applied by US-021 to US-024. This story keeps what arrives later: session photos, authorized testimonials (text and video), bio and credentials, media logos once authorized, and the final names of the resources and the Método Polaris steps
 - Related Requirements: FR-003, FR-005, BR-003, BR-004, BR-005, BR-008
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` sections 4, 5, 6
 
@@ -398,7 +403,7 @@ so that visitors meet the real me before they leave their data.
 ## US-018 — Final privacy notice
 - Priority: High
 - Story Points: 2
-- Status: Ready — Sprint 002 (text depends on legal review; see dependencies)
+- Status: Ready — Sprint 002 (text depends on legal review; see dependencies); phase 2: the notice also gets its own page, linked from the footer (FR-017); the consent links keep opening it in a dialog (AC5)
 - Related Requirements: FR-013, BR-006
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` section 4, Privacy Notice
 
@@ -417,3 +422,240 @@ so that the public form complies with Costa Rica's Ley N.° 8968.
 
 **Dependencies**
 - Reviewed text and retention period, provided by the human owner by 2026-10-02.
+
+---
+
+## US-019 — Official brand skin
+- Priority: Critical
+- Story Points: 5
+- Status: Proposed — phase 2a
+- Related Requirements: FR-019, NFR-003, BR-005, BR-010
+- Related Spec: `UX_UI_DIRECTION.md` (brand section, phase 2)
+
+**User Story**
+
+As Gaby,
+I want the site in my official brand,
+so that visitors see the same Gaby Kelly they know from my other channels.
+
+**Acceptance Criteria**
+1. The six brand colors (Azul Patrimonio `#3C5F8D`, Marfil `#F5F1EA`, Arena `#D8C5B1`, Oro Suave `#D6B04D`, Terracota `#C98368`, Carbón `#2B2B2B`) are design tokens and replace the Proposal A tokens; no component uses a hex color literal.
+2. Playfair Display (headings H1–H2, editorial phrases, italic emphasis) and Manrope (body, buttons, forms, navigation, labels; body 17–18 px on desktop) replace Crimson Pro and IBM Plex Sans, with fallback stacks.
+3. The large yellow circles are replaced by the polar-star line motif with thin arcs in Oro Suave or Arena, as `UX_UI_DIRECTION.md` describes.
+4. Buttons: a gold VIP style (Carbón text on Oro Suave) for in-page VIP calls to action, at most one visible per viewport (BR-010); an outlined style for the header VIP link; a blue style (Azul Patrimonio) for free actions; text links in Azul Patrimonio.
+5. Text meets WCAG AA contrast with the pairs allowed in `UX_UI_DIRECTION.md`. Never used for text on Marfil: Oro Suave (1.83:1), Terracota (2.69:1), Arena (1.49:1). Terracota and Arena are never backgrounds for small text unless the pair is listed as allowed.
+6. Existing unit and e2e tests stay green, adjusted only where they assert the old look.
+7. Form control boundaries reach 3:1 against their background (WCAG 1.4.11, as US-015 AC6); `UX_UI_DIRECTION.md` names the border token (Arena on Marfil, 1.49:1, does not qualify).
+
+**Dependencies**
+- `UX_UI_DIRECTION.md` v1.0 (brand section) merged.
+
+---
+
+## US-020 — Multipage site and navigation
+- Priority: Critical
+- Story Points: 5
+- Status: Proposed — phase 2a
+- Related Requirements: FR-017, FR-018, FR-020, FR-012, FR-011
+- Related ADR: ADR-003 (updated for multiple pages)
+
+**User Story**
+
+As a visitor,
+I want to move between the site's pages easily, in my language,
+so that I can find the story, the resources or the VIP path without getting lost.
+
+**Acceptance Criteria**
+1. The pages in FR-017 exist in both languages at the paths in `UX_UI_DIRECTION.md` (phase 2 site map); the Blog page is not linked until US-026.
+2. The header shows the brand name, the navigation, the language toggle and the outlined VIP link on every page; the current page is indicated in the navigation.
+3. At common mobile widths the navigation collapses into a menu button that opens and closes with mouse, touch and keyboard (Escape closes it, focus is managed); the VIP link stays visible.
+4. The language toggle switches to the same page (and section) in the other language and remembers the choice (ADR-003).
+5. The footer on every page shows the brand name, the concept line, the legal disclaimer (FR-028), the privacy notice link (to the privacy notice page), and the Ley 8968 note; no Terms link until a Terms page exists.
+6. `/` keeps the language detection of ADR-003 and sends the visitor to the Home in their language.
+7. Every page has a unique `<title>` and meta description in its language.
+
+**Dependencies**
+- `UX_UI_DIRECTION.md` v1.0 (site map with paths, header, footer) and ADR-003 update merged; footer copy in `CONTENT.md`.
+
+---
+
+## US-021 — Home for corporate professionals
+- Priority: Critical
+- Story Points: 8
+- Status: Proposed — phase 2a
+- Related Requirements: FR-001, FR-002, FR-004, FR-005, FR-021, FR-022, BR-003, BR-005, BR-009, BR-011
+- Related Spec: `CONTENT.md` (Home), `UX_UI_DIRECTION.md` (Home layout)
+
+**User Story**
+
+As a corporate professional,
+I want the Home to describe my situation and show me a way forward,
+so that I decide whether to start free or apply to work with Gaby.
+
+**Acceptance Criteria**
+1. Sections, in order, with the copy from `CONTENT.md`: hero (concept eyebrow, headline, supporting text, VIP button, "start free with the resources" link, trust line); the corporate ladder; the opportunity (six benefit cards); the Método Polaris (three steps); free-resources teaser (three cards, link to the library); My story teaser (media names, link to My story); testimonials; VIP band (link to the VIP page).
+2. The hero's VIP button and the VIP band are gold; no viewport shows two gold buttons (the header link is outlined, BR-010).
+3. Placeholders (resource names, testimonials, photos) are visibly marked as pending and follow BR-011.
+4. Copy is gender-neutral (BR-005) and makes no guaranteed outcomes (BR-003).
+5. The layout matches `UX_UI_DIRECTION.md` at 360, 390, 768 and 1280 px with no horizontal scroll.
+
+**Dependencies**
+- `CONTENT.md` (Home copy, Spanish verbatim from the brief, English provisional) and `UX_UI_DIRECTION.md` v1.0 (Home layout) merged; US-019 and US-020.
+
+---
+
+## US-022 — My story page
+- Priority: High
+- Story Points: 3
+- Status: Proposed — phase 2a
+- Related Requirements: FR-003, FR-029, BR-011
+
+**User Story**
+
+As a visitor,
+I want to read Gaby's story,
+so that I understand why she can guide me.
+
+**Acceptance Criteria**
+1. The page shows Gaby's story with the copy from `CONTENT.md`, in both languages.
+2. Media mentions (Canal 13, Radio Azul, Radio Fides, talks) are shown as names only, in a layout that can take logos later without redesign.
+3. Microsoft and Oracle are shown with their logos as prior experience, from files committed with their source noted in the PR; Intel is named without a logo until confirmed.
+4. Spaces for session photos, bio and credentials are visibly marked as pending (US-017).
+5. The page ends with a VIP band and a link to the resources.
+
+**Dependencies**
+- `CONTENT.md` (My story) and `UX_UI_DIRECTION.md` v1.0 merged; the Microsoft and Oracle logo files (human owner); US-019 and US-020.
+
+---
+
+## US-023 — VIP mentorship page and screening-based routing
+- Priority: Critical
+- Story Points: 5
+- Status: Proposed — phase 2a
+- Related Requirements: FR-006 to FR-010, FR-014, FR-015, FR-026, BR-001, BR-002, BR-006, BR-008
+- Related Spec: `LEAD_API_CONTRACT.md` (unchanged), `CONTENT.md` (VIP)
+
+**User Story**
+
+As Gaby,
+I want one VIP page where people apply, and only those ready to invest reach my calendar,
+so that my calls go to qualified applicants and everyone else still gets something useful.
+
+**Acceptance Criteria**
+1. The VIP page shows the steps (apply, video, call), the video module with a visible placeholder (FR-026), and the application form.
+2. The form keeps the fields, validation, honeypot, consent and error handling of US-004, US-005, US-011 and US-013, restyled per US-019: fields on Marfil with the border token from `UX_UI_DIRECTION.md` (at least 3:1, US-019 AC7) and an Azul Patrimonio focus; screening options as large cards at least 44 px high; the gold submit button (the only gold button in its viewport); the line "Llamada inicial sin costo · Tus datos protegidos (Ley 8968)" below it.
+3. The request to `POST /api/save-lead` is unchanged (`LEAD_API_CONTRACT.md` v1.1).
+4. After `201` with `ready_to_invest` or `needs_investment_info`: thank-you and the inline Calendly with name and email pre-filled, as in US-007 (including the fallback).
+5. After `201` with `no_capacity_now` or `exploring`: a warm thank-you screen without Calendly, offering the featured free mini-course (shown as pending until its file exists, US-024 AC4; after US-025, requested by email); Calendly is not loaded.
+6. Unit tests cover the routing for all four codes; e2e covers one qualified and one not-ready answer in both languages.
+
+**Dependencies**
+- `CONTENT.md` (VIP page, thank-you screens) and `UX_UI_DIRECTION.md` v1.0 merged; US-019 and US-020.
+
+---
+
+## US-024 — Free resource library
+- Priority: High
+- Story Points: 5
+- Status: Proposed — phase 2a
+- Related Requirements: FR-023, FR-024, BR-011
+
+**User Story**
+
+As a visitor,
+I want a library of free resources I can filter by topic,
+so that I can start improving my finances today, at no cost.
+
+**Acceptance Criteria**
+1. The page shows a featured mini-course, topic filters (All, Getting out of debt, Wallets and budget, Investing, Mindset and money) and resource cards (type, access, title, topic, call to action).
+2. Filters work without reloading the page and are usable with the keyboard; without JavaScript all resources are shown.
+3. Resources are defined in one typed data file (title, description, type, topic, access, file or link per language), so adding a resource does not touch components.
+4. A free-download resource links to its file only when the real file has been delivered and committed (or hosted at a confirmed URL); until then its card shows as pending (BR-011) with no link. Email-delivered resources show "coming soon" and collect no data until US-025.
+5. Placeholder names are visibly marked as pending (BR-011).
+6. The page ends with a VIP band.
+
+**Dependencies**
+- `CONTENT.md` (library copy and the resource list) and `UX_UI_DIRECTION.md` v1.0 merged; resource files from Gaby for any card that links; US-019 and US-020.
+
+---
+
+## US-025 — Resource delivery by email (phase 2b)
+- Priority: High
+- Story Points: 5
+- Status: Proposed — phase 2b; needs a contract and an ADR (sending mechanism) before implementation
+- Related Requirements: FR-025, FR-013, NFR-007, NFR-008, NG-006
+
+**User Story**
+
+As a visitor,
+I want to receive a free resource in my inbox,
+so that I can keep it and use it later.
+
+**Acceptance Criteria**
+1. The request form asks for email and privacy consent; the endpoint has the honeypot and rate limit of NFR-008.
+2. Each request is stored (email, language, resource, consent, timestamp, privacy notice version) in its own tab or sheet.
+3. The resource is sent from Gaby's Google account; the email states why it was sent and how to opt out; opt-outs are recorded.
+4. Success is shown only after the request is stored and the email is accepted for sending; failures show a clear error.
+5. A real-delivery test passes before release: the email arrives in the inbox (not spam) of an external Gmail and an external Outlook account, opened in those recipient accounts, with the link or attachment working; the sending account shows no bounce.
+6. The privacy notice covers resource requests before this goes live (US-018).
+
+---
+
+## US-026 — Blog (phase 2b)
+- Priority: Medium
+- Story Points: 3
+- Status: Proposed — phase 2b
+- Related Requirements: FR-027
+
+**User Story**
+
+As Gaby,
+I want to publish articles on my site,
+so that visitors find useful content and get to know my approach.
+
+**Acceptance Criteria**
+1. Posts are Markdown files in the repository with title, date, language, summary and optional cover.
+2. The blog list page exists in both languages and lists the posts of its language; each post has a page in each language it was written in; posts link to the resources and the VIP page.
+3. The navigation shows Blog only when at least one post exists.
+4. The language toggle on a post leads to its translation when there is one, and to the blog list of the other language otherwise (FR-027).
+
+---
+
+## US-027 — Preview on GitHub Pages
+- Priority: High
+- Story Points: 3
+- Status: Proposed — phase 2a
+- Related Requirements: FR-030
+- Related ADR: ADR-005 (branching, preview and release)
+
+**User Story**
+
+As the project owner,
+I want every merged change published to a preview,
+so that Gaby can follow progress without a production deployment.
+
+**Acceptance Criteria**
+1. A workflow builds the site in preview mode and publishes it to GitHub Pages on every push to `main`, under the repository path; links, assets and the language detection work there.
+2. Preview mode adds `noindex` to every page and a visible "Preview" marker in both languages.
+3. In preview mode, forms do not call any endpoint and load no third-party service: after client-side validation they show the next screen as a demonstration, including the US-023 routing, with a note that nothing was sent; the scheduler step shows a static stand-in, never the real Calendly, whatever is configured.
+4. The production build is unchanged by preview mode (no marker, no `noindex`, real endpoint).
+5. `docs/runbooks/RELEASE.md` explains how to find the preview and what it does not do.
+
+---
+
+## US-028 — Método Polaris page (phase 2b)
+- Priority: Medium
+- Story Points: 3
+- Status: Proposed — phase 2b; waits on the official Método Polaris steps (Gaby)
+- Related Requirements: FR-017, FR-018, BR-009
+
+**User Story**
+
+As a visitor,
+I want a page that explains the Método Polaris in full,
+so that I understand how Gaby works before applying.
+
+**Acceptance Criteria**
+1. A Método Polaris page exists in both languages at the path in `UX_UI_DIRECTION.md`, with the official steps from `CONTENT.md`.
+2. The header navigation item and the Home section's link lead to the page; the Home keeps a short summary.
+3. The page ends with a VIP band; existing tests stay green and e2e covers the navigation in both languages.

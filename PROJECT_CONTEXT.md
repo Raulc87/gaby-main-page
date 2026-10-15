@@ -1,21 +1,22 @@
 # Project Context
 
 ## Project
-- Name: Gabriela Kelly — Financial Health One-Page Pilot
+- Name: Gaby Kelly — website (phase 1: financial health one-page pilot; phase 2: brand redesign and multipage site)
 - Project key: `GK` (branches `GK-<NNN>-<slug>`, see `AGENTS.md`)
 - Repository: https://github.com/Raulc87/gaby-main-page
 - Starter Kit: https://github.com/Raulc87/sdd_starter_kit
-- Status: Sprint 002 active (go-ahead 2026-09-28); Sprint 001 closed 2026-09-28
+- Status: Phase 2 specification in review (Gaby's brief, 2026-10-15). Sprint 002 active (go-ahead 2026-09-28); its development work is done, the production deploy (US-014) is on hold until the domain and hosting are known. Sprint 001 closed 2026-09-28
 - Product owner / final reviewer: Human project owner
 
 ## Active documentation
-- Project spec: `docs/specs/PROJECT_SPEC.md` (v0.4)
-- User stories: `docs/specs/USER_STORIES.md`
+- Project spec: `docs/specs/PROJECT_SPEC.md` (v0.5, phase 2; source: Gaby's visual brief, https://claude.ai/artifact/LeuEgX7HC2otdkLEhcJM5j)
+- User stories: `docs/specs/USER_STORIES.md` (phase 2: US-019 to US-028)
+- Phase 2 brief (text export): `docs/ux/BRIEF_2026-10-15.md`
 - Integration contracts: `docs/specs/LEAD_API_CONTRACT.md` (v1.1, locked for Sprint 002)
 - Feature specs: Not required for the current simple scope
 - Architecture spec: Not required for the current simple scope (covered by ADRs)
 - UX/UI direction: `docs/ux/UX_UI_DIRECTION.md` (v0.8)
-- Content (visitor-facing copy): `docs/ux/UX_UI_DIRECTION.md` section 4. This project predates the kit's `docs/ux/CONTENT.md`; that section is its only copy source (`AGENTS.md` → Before implementing, step 5). Moving it to `CONTENT.md` is optional and would be its own docs PR.
+- Content (visitor-facing copy): phase 1 (the current one-page site): `docs/ux/UX_UI_DIRECTION.md` section 4. Phase 2: `docs/ux/CONTENT.md`, pending (next docs PR); phase 2 stories are not Ready until it is merged (`AGENTS.md` → Before implementing, step 5).
 - Runbooks: `docs/runbooks/` (`LOCAL_DEVELOPMENT.md`, `DEPLOYMENT.md`, `GOOGLE_SHEETS_SETUP.md`; `RELEASE.md` due by the next sprint that deploys, per the Sprint 002 owner exception), written per `docs/process/RUNBOOK_STYLE.md` (the existing ones predate it; restyling them is an optional Agent 3 chore)
 - Tech stack: `TECH_STACK.md` (v0.2)
 - ADRs: `docs/decisions/` — ADR-001 backend hosting, ADR-002 Google Sheets access, ADR-003 i18n routing, ADR-004 spam protection
