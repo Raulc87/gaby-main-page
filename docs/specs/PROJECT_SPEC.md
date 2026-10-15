@@ -129,7 +129,7 @@ Needs:
 - BR-006: Privacy consent is required before personal data is stored.
 - BR-007: Code, identifiers, stored codes, and data field names are in English and use `snake_case`. Visitor-facing content is bilingual (Spanish/English).
 - BR-008: The initial call is free of charge. The site may state this; it must not imply the mentorship is free.
-- BR-009: The brand name on the site is "Gaby Kelly". The method is called "Método Polaris" (English: "Polaris Method") for now; a later name change is its own story.
+- BR-009: The brand name on the site is "Gaby Kelly". The method is called "Método Polaris" (English: "Polaris Method") for now; a later name change is its own story. The VIP mentorship programme's official name is "Wealth Mastery" (both languages, e.g. "Mentoría VIP · Wealth Mastery").
 - BR-010: Gold is reserved for in-page VIP calls to action: at most one gold button visible in any viewport ("screen" means the viewport). The header VIP link is never gold.
 - BR-011: Testimonials, media logos, photos and quantified claims are shown only when real and authorized; until then they are visibly marked placeholders. Nothing is invented.
 
@@ -218,9 +218,8 @@ Out of scope:
 
 ## 16. Open Questions
 
-- Production domain and hosting capabilities (human owner; US-014 on hold). The brief's header says "gabykelly.com"; until it is confirmed as the domain, no copy presents it as the site's address.
+- Production domain and hosting capabilities (human owner; US-014 on hold). The brief's header says "gabykelly.com", but the domain may be that one or another (human owner, 2026-10-15); until it is decided, no copy presents a domain as the site's address.
 - Official Método Polaris steps and final name (Gaby)
-- Whether "Wealth Mastery" (brief, VIP band: "Mentoría VIP · Wealth Mastery") is the official programme name (Gaby); until confirmed, `CONTENT.md` keeps it as written and marks it provisional
 - Names and files of the free resources and the featured mini-course (Gaby)
 - Terms page: whether one is needed and its text (Gaby, legal review)
 - Session photos (Gaby), testimonials with authorization (Gaby), bio and credentials (Gaby)
@@ -230,7 +229,7 @@ Out of scope:
 - Exact Calendly URL; final contact email (currently `gkelly@poliartcr.com`)
 - Legal review of the privacy notice, including retention (US-018); it must also cover resource requests before phase 2b goes live
 
-Resolved: brand palette, typography and motif (Gaby's brief, 2026-10-15; replaces Proposal A of 2026-09-25); brand name "Gaby Kelly" and "Método Polaris" (Gaby, 2026-10-15); media named without logos, Microsoft and Oracle logos allowed (Gaby, 2026-10-15); disclaimer accepted as written (2026-10-15); bilingual ES/EN kept (human owner, 2026-10-15); preview on GitHub Pages (human owner, 2026-10-15); Google account for the lead sheet (2026-09-28); CAPTCHA not needed for now (ADR-004).
+Resolved: brand palette, typography and motif (Gaby's brief, 2026-10-15; replaces Proposal A of 2026-09-25); brand name "Gaby Kelly" and "Método Polaris" (Gaby, 2026-10-15); "Wealth Mastery" is the official VIP programme name (human owner, 2026-10-15); media named without logos, Microsoft and Oracle logos allowed (Gaby, 2026-10-15); disclaimer accepted as written (2026-10-15); bilingual ES/EN kept (human owner, 2026-10-15); preview on GitHub Pages (human owner, 2026-10-15); Google account for the lead sheet (2026-09-28); CAPTCHA not needed for now (ADR-004).
 
 ## 17. Approval
 
