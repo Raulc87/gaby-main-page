@@ -403,7 +403,7 @@ so that visitors meet the real me before they leave their data.
 ## US-018 — Final privacy notice
 - Priority: High
 - Story Points: 2
-- Status: Ready — Sprint 002 (text depends on legal review; see dependencies)
+- Status: Ready — Sprint 002 (text depends on legal review; see dependencies); phase 2: the notice also gets its own page, linked from the footer (FR-017); the consent links keep opening it in a dialog (AC5)
 - Related Requirements: FR-013, BR-006
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` section 4, Privacy Notice
 
@@ -442,9 +442,13 @@ so that visitors see the same Gaby Kelly they know from my other channels.
 1. The six brand colors (Azul Patrimonio `#3C5F8D`, Marfil `#F5F1EA`, Arena `#D8C5B1`, Oro Suave `#D6B04D`, Terracota `#C98368`, Carbón `#2B2B2B`) are design tokens and replace the Proposal A tokens; no component uses a hex color literal.
 2. Playfair Display (headings H1–H2, editorial phrases, italic emphasis) and Manrope (body, buttons, forms, navigation, labels; body 17–18 px on desktop) replace Crimson Pro and IBM Plex Sans, with fallback stacks.
 3. The large yellow circles are replaced by the polar-star line motif with thin arcs in Oro Suave or Arena, as `UX_UI_DIRECTION.md` describes.
-4. Buttons: one gold VIP style (Carbón text on Oro Suave) used at most once per screen; a blue style (Azul Patrimonio) for free actions; text links in Azul Patrimonio.
-5. Text meets WCAG AA contrast with the pairs allowed in `UX_UI_DIRECTION.md`; gold is never text on Marfil; Terracota and Arena are never backgrounds for small text unless the pair is listed as allowed.
+4. Buttons: a gold VIP style (Carbón text on Oro Suave) for in-page VIP calls to action, at most one visible per viewport (BR-010); an outlined style for the header VIP link; a blue style (Azul Patrimonio) for free actions; text links in Azul Patrimonio.
+5. Text meets WCAG AA contrast with the pairs allowed in `UX_UI_DIRECTION.md`. Never used for text on Marfil: Oro Suave (1.83:1), Terracota (2.69:1), Arena (1.49:1). Terracota and Arena are never backgrounds for small text unless the pair is listed as allowed.
 6. Existing unit and e2e tests stay green, adjusted only where they assert the old look.
+7. Form control boundaries reach 3:1 against their background (WCAG 1.4.11, as US-015 AC6); `UX_UI_DIRECTION.md` names the border token (Arena on Marfil, 1.49:1, does not qualify).
+
+**Dependencies**
+- `UX_UI_DIRECTION.md` v1.0 (brand section) merged.
 
 ---
 
@@ -463,12 +467,15 @@ so that I can find the story, the resources or the VIP path without getting lost
 
 **Acceptance Criteria**
 1. The pages in FR-017 exist in both languages at the paths in `UX_UI_DIRECTION.md` (phase 2 site map); the Blog page is not linked until US-026.
-2. The header shows the brand name, the navigation, the language toggle and the VIP button on every page; the current page is indicated in the navigation.
-3. At common mobile widths the navigation collapses into a menu button that opens and closes with mouse, touch and keyboard (Escape closes it, focus is managed); the VIP button stays visible.
+2. The header shows the brand name, the navigation, the language toggle and the outlined VIP link on every page; the current page is indicated in the navigation.
+3. At common mobile widths the navigation collapses into a menu button that opens and closes with mouse, touch and keyboard (Escape closes it, focus is managed); the VIP link stays visible.
 4. The language toggle switches to the same page (and section) in the other language and remembers the choice (ADR-003).
-5. The footer on every page shows the brand name, the concept line, the legal disclaimer (FR-028), the privacy notice and terms links, and the Ley 8968 note.
+5. The footer on every page shows the brand name, the concept line, the legal disclaimer (FR-028), the privacy notice link (to the privacy notice page), and the Ley 8968 note; no Terms link until a Terms page exists.
 6. `/` keeps the language detection of ADR-003 and sends the visitor to the Home in their language.
 7. Every page has a unique `<title>` and meta description in its language.
+
+**Dependencies**
+- `UX_UI_DIRECTION.md` v1.0 (site map with paths, header, footer) and ADR-003 update merged; footer copy in `CONTENT.md`.
 
 ---
 
@@ -487,10 +494,13 @@ so that I decide whether to start free or apply to work with Gaby.
 
 **Acceptance Criteria**
 1. Sections, in order, with the copy from `CONTENT.md`: hero (concept eyebrow, headline, supporting text, VIP button, "start free with the resources" link, trust line); the corporate ladder; the opportunity (six benefit cards); the Método Polaris (three steps); free-resources teaser (three cards, link to the library); My story teaser (media names, link to My story); testimonials; VIP band (link to the VIP page).
-2. The hero's VIP button and the VIP band are the only gold buttons on their screens.
+2. The hero's VIP button and the VIP band are gold; no viewport shows two gold buttons (the header link is outlined, BR-010).
 3. Placeholders (resource names, testimonials, photos) are visibly marked as pending and follow BR-011.
 4. Copy is gender-neutral (BR-005) and makes no guaranteed outcomes (BR-003).
 5. The layout matches `UX_UI_DIRECTION.md` at 360, 390, 768 and 1280 px with no horizontal scroll.
+
+**Dependencies**
+- `CONTENT.md` (Home copy, Spanish verbatim from the brief, English provisional) and `UX_UI_DIRECTION.md` v1.0 (Home layout) merged; US-019 and US-020.
 
 ---
 
@@ -513,6 +523,9 @@ so that I understand why she can guide me.
 4. Spaces for session photos, bio and credentials are visibly marked as pending (US-017).
 5. The page ends with a VIP band and a link to the resources.
 
+**Dependencies**
+- `CONTENT.md` (My story) and `UX_UI_DIRECTION.md` v1.0 merged; the Microsoft and Oracle logo files (human owner); US-019 and US-020.
+
 ---
 
 ## US-023 — VIP mentorship page and screening-based routing
@@ -530,11 +543,14 @@ so that my calls go to qualified applicants and everyone else still gets somethi
 
 **Acceptance Criteria**
 1. The VIP page shows the steps (apply, video, call), the video module with a visible placeholder (FR-026), and the application form.
-2. The form keeps the fields, validation, honeypot, consent and error handling of US-004, US-005, US-011 and US-013, restyled per US-019: fields on Marfil with an Arena border and Azul Patrimonio focus; screening options as large cards at least 44 px high; the gold submit button; the line "Llamada inicial sin costo · Tus datos protegidos (Ley 8968)" below it.
+2. The form keeps the fields, validation, honeypot, consent and error handling of US-004, US-005, US-011 and US-013, restyled per US-019: fields on Marfil with the border token from `UX_UI_DIRECTION.md` (at least 3:1, US-019 AC7) and an Azul Patrimonio focus; screening options as large cards at least 44 px high; the gold submit button (the only gold button in its viewport); the line "Llamada inicial sin costo · Tus datos protegidos (Ley 8968)" below it.
 3. The request to `POST /api/save-lead` is unchanged (`LEAD_API_CONTRACT.md` v1.1).
 4. After `201` with `ready_to_invest` or `needs_investment_info`: thank-you and the inline Calendly with name and email pre-filled, as in US-007 (including the fallback).
-5. After `201` with `no_capacity_now` or `exploring`: a warm thank-you screen without Calendly, offering the featured free mini-course (and, after US-025, the subscription); Calendly is not loaded.
+5. After `201` with `no_capacity_now` or `exploring`: a warm thank-you screen without Calendly, offering the featured free mini-course (shown as pending until its file exists, US-024 AC4; after US-025, requested by email); Calendly is not loaded.
 6. Unit tests cover the routing for all four codes; e2e covers one qualified and one not-ready answer in both languages.
+
+**Dependencies**
+- `CONTENT.md` (VIP page, thank-you screens) and `UX_UI_DIRECTION.md` v1.0 merged; US-019 and US-020.
 
 ---
 
@@ -554,9 +570,12 @@ so that I can start improving my finances today, at no cost.
 1. The page shows a featured mini-course, topic filters (All, Getting out of debt, Wallets and budget, Investing, Mindset and money) and resource cards (type, access, title, topic, call to action).
 2. Filters work without reloading the page and are usable with the keyboard; without JavaScript all resources are shown.
 3. Resources are defined in one typed data file (title, description, type, topic, access, file or link per language), so adding a resource does not touch components.
-4. Free-download resources link to their file; email-delivered resources show "coming soon" and collect no data until US-025.
+4. A free-download resource links to its file only when the real file has been delivered and committed (or hosted at a confirmed URL); until then its card shows as pending (BR-011) with no link. Email-delivered resources show "coming soon" and collect no data until US-025.
 5. Placeholder names are visibly marked as pending (BR-011).
 6. The page ends with a VIP band.
+
+**Dependencies**
+- `CONTENT.md` (library copy and the resource list) and `UX_UI_DIRECTION.md` v1.0 merged; resource files from Gaby for any card that links; US-019 and US-020.
 
 ---
 
@@ -577,7 +596,7 @@ so that I can keep it and use it later.
 2. Each request is stored (email, language, resource, consent, timestamp, privacy notice version) in its own tab or sheet.
 3. The resource is sent from Gaby's Google account; the email states why it was sent and how to opt out; opt-outs are recorded.
 4. Success is shown only after the request is stored and the email is accepted for sending; failures show a clear error.
-5. A real-delivery test to an external Gmail and an Outlook inbox passes before release, checked in the sending account (not only "sent").
+5. A real-delivery test passes before release: the email arrives in the inbox (not spam) of an external Gmail and an external Outlook account, opened in those recipient accounts, with the link or attachment working; the sending account shows no bounce.
 6. The privacy notice covers resource requests before this goes live (US-018).
 
 ---
@@ -596,8 +615,9 @@ so that visitors find useful content and get to know my approach.
 
 **Acceptance Criteria**
 1. Posts are Markdown files in the repository with title, date, language, summary and optional cover.
-2. The blog has a list page and a page per post in each language that has posts; posts link to the resources and the VIP page.
+2. The blog list page exists in both languages and lists the posts of its language; each post has a page in each language it was written in; posts link to the resources and the VIP page.
 3. The navigation shows Blog only when at least one post exists.
+4. The language toggle on a post leads to its translation when there is one, and to the blog list of the other language otherwise (FR-027).
 
 ---
 
@@ -617,6 +637,25 @@ so that Gaby can follow progress without a production deployment.
 **Acceptance Criteria**
 1. A workflow builds the site in preview mode and publishes it to GitHub Pages on every push to `main`, under the repository path; links, assets and the language detection work there.
 2. Preview mode adds `noindex` to every page and a visible "Preview" marker in both languages.
-3. In preview mode, forms do not call any endpoint: after client-side validation they show the next screen as a demonstration, including the US-023 routing, with a note that nothing was sent; no external scheduler is loaded unless a Calendly URL is configured for the preview.
+3. In preview mode, forms do not call any endpoint and load no third-party service: after client-side validation they show the next screen as a demonstration, including the US-023 routing, with a note that nothing was sent; the scheduler step shows a static stand-in, never the real Calendly, whatever is configured.
 4. The production build is unchanged by preview mode (no marker, no `noindex`, real endpoint).
 5. `docs/runbooks/RELEASE.md` explains how to find the preview and what it does not do.
+
+---
+
+## US-028 — Método Polaris page (phase 2b)
+- Priority: Medium
+- Story Points: 3
+- Status: Proposed — phase 2b; waits on the official Método Polaris steps (Gaby)
+- Related Requirements: FR-017, FR-018, BR-009
+
+**User Story**
+
+As a visitor,
+I want a page that explains the Método Polaris in full,
+so that I understand how Gaby works before applying.
+
+**Acceptance Criteria**
+1. A Método Polaris page exists in both languages at the path in `UX_UI_DIRECTION.md`, with the official steps from `CONTENT.md`.
+2. The header navigation item and the Home section's link lead to the page; the Home keeps a short summary.
+3. The page ends with a VIP band; existing tests stay green and e2e covers the navigation in both languages.

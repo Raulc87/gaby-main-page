@@ -7,7 +7,7 @@
 - Stakeholder: Gabriela Kelly ("Gaby Kelly")
 - Last updated: 2026-10-15 (v0.5: phase 2 from Gabriela's visual brief of 2026-10-15 — new audience and concept, official brand, multipage site, free resource library, one VIP path with screening-based routing, GitHub Pages preview; production deployment on hold). v0.4 (2026-09-28): spam protection (ADR-004), production Google account. v0.3 (2026-09-23): bilingual ES/EN, privacy consent, lead status values, locked lead API contract, local prototype.
 
-Phase 2 source: Gabriela's visual brief "Brief visual — sitio Gaby Kelly" (five boards: brief and palette, home, resource library, VIP flow, mobile hero), https://claude.ai/artifact/LeuEgX7HC2otdkLEhcJM5j, received 2026-10-15. The brief is a reference; this spec, `UX_UI_DIRECTION.md` and `CONTENT.md` are the sources agents implement from.
+Phase 2 source: Gabriela's visual brief "Brief visual — sitio Gaby Kelly" (five boards: brief and palette, home, resource library, VIP flow, mobile hero), https://claude.ai/artifact/LeuEgX7HC2otdkLEhcJM5j, received 2026-10-15. A text export of the five boards is kept in `docs/ux/BRIEF_2026-10-15.md`. The brief is a reference; this spec, `UX_UI_DIRECTION.md` and `CONTENT.md` are the sources agents implement from.
 
 ## 1. Problem Statement
 
@@ -62,10 +62,10 @@ Needs:
 ## 6. Functional Requirements
 
 ### Site and navigation
-- FR-017: The site has these pages, each in Spanish and English: Home; My story (Mi historia); Free resources (Recursos gratis); VIP mentorship (Mentoría VIP: application, then scheduling); Blog (phase 2b, see section 15); Privacy notice. The Método Polaris is a Home section for now; it becomes its own page when its official steps arrive.
-- FR-018: A header on every page shows the brand name, the navigation (My story, Método Polaris, Free resources, Blog when it exists, language toggle) and one VIP button. On mobile the navigation collapses into a menu; the VIP button stays reachable.
-- FR-019: One premium path. The VIP button ("Trabaja directamente con Gaby · VIP" or its short form) is the only gold button on any screen, and every VIP call to action leads to the VIP mentorship page. Free actions (resources, story, downloads) use the secondary (blue) style.
-- FR-020: A footer on every page shows the brand name and concept, the legal disclaimer (FR-028), links to the privacy notice and terms, and the Ley 8968 data-protection note.
+- FR-017: The site has these pages, each in Spanish and English: Home; My story (Mi historia); Free resources (Recursos gratis); VIP mentorship (Mentoría VIP: application, then scheduling); Blog (phase 2b, see section 15); Privacy notice (a page linked from the footer; the consent links keep opening it in a dialog, US-018). The Método Polaris is a Home section for now; it becomes its own page when its official steps arrive (US-028). A Terms page is added only when its text exists (section 16).
+- FR-018: A header on every page shows the brand name, the navigation (My story, Método Polaris, Free resources, Blog when it exists, language toggle) and one VIP link styled as an outlined (secondary) button, as in the brief's Home board. On mobile the navigation collapses into a menu; the VIP link stays reachable.
+- FR-019: One premium path. Every VIP call to action leads to the VIP mentorship page. Gold is used only for in-page VIP calls to action (the Home hero button, VIP bands, the VIP application's submit button), never for the header link, and at most one gold button is visible in any viewport (BR-010). Free actions (resources, story, downloads) use the blue style.
+- FR-020: A footer on every page shows the brand name and concept, the legal disclaimer (FR-028), a link to the privacy notice, and the Ley 8968 data-protection note. A Terms link is added when the Terms page exists.
 
 ### Home
 - FR-001: The Home communicates the concept and value proposition above the fold, with the VIP button and a link to start free with the resources.
@@ -81,7 +81,7 @@ Needs:
 
 ### Free resources
 - FR-023: The resource library page lists free resources as cards (type, access, title, topic, call to action), can be filtered by topic, and features one mini-course.
-- FR-024: A resource is either a free download (direct link to a file, no data collected) or delivered by email. Until email delivery exists (FR-025), email-delivered resources are shown as "coming soon" and collect nothing.
+- FR-024: A resource is either a free download (direct link to a file, no data collected) or delivered by email. Only resources whose real file or content has been delivered are linked; the others are shown as pending (BR-011) without a link. Until email delivery exists (FR-025), email-delivered resources are shown as "coming soon" and collect nothing.
 - FR-025 (phase 2b): For an email-delivered resource, the visitor enters an email address and accepts the privacy notice; the site stores the request and sends the resource by email from Gaby's account. Each email states why it was sent and how to opt out of further emails.
 
 ### VIP mentorship (application and scheduling)
@@ -92,21 +92,21 @@ Needs:
 - FR-026: The VIP page has a module for a short video from Gaby explaining the mentorship; until the video arrives, the module shows a visible placeholder.
 - FR-010: After a successful save, the next step depends on the screening answer:
   - `ready_to_invest` or `needs_investment_info`: thank-you message and the Calendly scheduler embedded inline (as before).
-  - `no_capacity_now` or `exploring`: a warm thank-you screen without the scheduler, offering the featured free mini-course and (from phase 2b) the email subscription.
+  - `no_capacity_now` or `exploring`: a warm thank-you screen without the scheduler, offering the featured free mini-course (from phase 2b, requested by email through FR-025).
   In both cases the application is stored with its screening answer.
 - FR-014: Every thank-you states that Gaby's team may reach out by email or WhatsApp.
 - FR-015: If the Calendly scheduler cannot be displayed, the page offers a fallback `mailto:` link to the business contact email.
 - FR-016: Each stored lead carries a follow-up status. New leads start as `started`; allowed values are `started`, `contacted`, `booked`, `not_interested_yet`, `dropped`.
 
 ### Blog (phase 2b)
-- FR-027: Blog posts are written as files in the repository (Markdown) and published with the site; the blog has a list page and a page per post, in the language of each post. The navigation shows Blog only once at least one post exists.
+- FR-027: Blog posts are written as files in the repository (Markdown) and published with the site. The blog list page exists in both languages and lists the posts of its language. A post exists in the languages it was written in; the language toggle on a post leads to its translation when there is one, and to the blog list of the other language otherwise. The navigation shows Blog only once at least one post exists.
 
 ### Cross-cutting
 - FR-011: The site works correctly on mobile devices.
 - FR-012: All visitor-facing content is available in Spanish and English. The initial language is Spanish when the browser's preferred language is Spanish (any `es` variant) and English otherwise. A language toggle in the header switches to the same page in the other language.
 - FR-013: Any form that stores personal data requires explicit acceptance of the privacy notice before submission (Costa Rica, Ley N.° 8968).
 - FR-028: The footer shows the legal disclaimer: Gaby Kelly is an investor and mentor, not a financial advisor; the content is educational and not an investment recommendation. Its text is assumed reviewed (human owner, 2026-10-15) and changes through a docs PR if legal review asks for it.
-- FR-030: A preview of the site is published on GitHub Pages so Gaby can review progress. The preview is not indexed by search engines, shows a visible "preview" marker, and its forms do not store or send anything: they show the next screen as a demonstration (including the FR-010 routing) and say so.
+- FR-030: A preview of the site is published on GitHub Pages so Gaby can review progress. The preview is not indexed by search engines, shows a visible "preview" marker, and its forms do not store or send anything, to the site or to any third party: they show the next screen as a demonstration (including the FR-010 routing, with a static stand-in for the scheduler) and say so.
 
 ## 7. Non-Functional Requirements
 
@@ -130,7 +130,7 @@ Needs:
 - BR-007: Code, identifiers, stored codes, and data field names are in English and use `snake_case`. Visitor-facing content is bilingual (Spanish/English).
 - BR-008: The initial call is free of charge. The site may state this; it must not imply the mentorship is free.
 - BR-009: The brand name on the site is "Gaby Kelly". The method is called "Método Polaris" (English: "Polaris Method") for now; a later name change is its own story.
-- BR-010: Gold is reserved for the VIP path: one gold button per screen at most.
+- BR-010: Gold is reserved for in-page VIP calls to action: at most one gold button visible in any viewport ("screen" means the viewport). The header VIP link is never gold.
 - BR-011: Testimonials, media logos, photos and quantified claims are shown only when real and authorized; until then they are visibly marked placeholders. Nothing is invented.
 
 ## 9. Main Product Flows
@@ -145,7 +145,7 @@ Needs:
 2. Visitor submits full name, email, phone, screening answer, and accepts the privacy notice.
 3. The application is stored.
 4. Qualified answer: thank-you and the inline Calendly scheduler (or the email fallback); visitor books a call.
-5. Not-ready answer: warm thank-you with the free mini-course (and, from phase 2b, the subscription).
+5. Not-ready answer: warm thank-you with the free mini-course (from phase 2b, requested by email).
 
 ## 10. Data and Integrations
 
@@ -153,7 +153,7 @@ VIP applications (exact contract: `docs/specs/LEAD_API_CONTRACT.md`, unchanged b
 - `name`, `email`, `phone` (international format), `screening_answer` (code), `language`, `consent`
 - `submitted_at`, `privacy_notice_version` (server-generated); `status` (server sets `started`)
 
-Resource requests (phase 2b; contract to be written before implementation): email, language, resource identifier, consent, server-generated timestamp and privacy notice version.
+Resource requests (phase 2b; contract to be written before implementation): email, language, resource identifier, consent, server-generated timestamp and privacy notice version. They are not a subscription: the site sends only the requested resource (NG-006).
 
 Integrations:
 - Google Sheets for storage (ADR-002); resource requests go to their own tab or sheet.
@@ -203,7 +203,7 @@ Personal data:
 
 Phase 2a (next sprint): brand skin, site structure and navigation, Home with the new copy, My story, VIP page with routing and video placeholder, resource library (free downloads; email resources marked "coming soon"), footer with disclaimer, mobile, GitHub Pages preview.
 
-Phase 2b (later sprint): email delivery of resources and subscription consent (FR-025), Blog (FR-027), the video, and the content that arrives later (photos, testimonials, resource names, official Método Polaris steps, bio and credentials).
+Phase 2b (later sprint): email delivery of resources (FR-025), Blog (FR-027), the Método Polaris page (US-028), the video, and the content that arrives later (photos, testimonials, resource names and files, official Método Polaris steps, bio and credentials).
 
 Out of scope:
 - Online payment
@@ -221,6 +221,7 @@ Out of scope:
 - Production domain and hosting capabilities (human owner; US-014 on hold)
 - Official Método Polaris steps and final name (Gaby)
 - Names and files of the free resources and the featured mini-course (Gaby)
+- Terms page: whether one is needed and its text (Gaby, legal review)
 - Session photos (Gaby), testimonials with authorization (Gaby), bio and credentials (Gaby)
 - The VIP explainer video and where it is hosted (Gaby, human owner)
 - Permission to show media logos (Canal 13, Radio Azul, Radio Fides); Intel logo (only Microsoft and Oracle are confirmed)
