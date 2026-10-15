@@ -1,7 +1,7 @@
-# SPRINT 002 — ACTIVE
+# SPRINT 002 — CLOSED
 
 ## Metadata
-- Status: ACTIVE — go-ahead given by the human owner on 2026-09-28
+- Status: CLOSED on 2026-10-16 (go-ahead 2026-09-28); see Close-out
 - Duration: 7 business days
 - Saturdays and Sundays excluded
 - Start: 2026-09-29 (Tuesday)
@@ -186,3 +186,23 @@ Parallel work is not complete until:
 Go-ahead given by the human owner on 2026-09-28 (entry gate 11). Agents may start per the merge order above; work starts 2026-09-29.
 
 Agent kickoff prompts and model assignments: `docs/sprints/SPRINT_002_AGENT_PROMPTS.md`.
+
+## Close-out (2026-10-16)
+
+Closed by the Sprint 003 planning PR, after Gaby's brief (2026-10-15) started phase 2 (`PROJECT_SPEC.md` v0.5).
+
+**Done:** US-013 (spam protection, server and client, with the autofill fix), US-015 (visual identity, Proposal A — replaced by the official brand in phase 2, US-019), US-016 (storage-failure logging), US-014 AC1 (deployment runbook), the runbook refresh chore, US-009 (Gaby reviewed the prototype and answered with her brief). CI green on `main`.
+
+**Not done, and where it goes:**
+- US-014 AC2–AC6 (deploy, smoke test, go-live): **on hold** until the production domain and hosting are known (human owner); backlog.
+- US-017 (final content): the copy now comes from the brief (applied by US-021 to US-024 in Sprint 003); what arrives later (photos, testimonials, bio and credentials, media logos, resource names, Método Polaris steps) stays in US-017, backlog.
+- US-018 (final privacy notice): waits on the legal text; backlog. The notice must be final before any public launch.
+- Follow-up "move the `h1`–`h3` color rule into `@layer base`": absorbed by US-019 in Sprint 003.
+
+The go-live gate above never ran: nothing was deployed. The owner exception for the branching ADR and `RELEASE.md` (Starter Kit sync note) is moot: ADR-005 is written in the Sprint 003 planning PR.
+
+**Retrospective (short):**
+- What worked: spec-first change management caught the honeypot/autofill incident and fixed it with a spec change first; parallel agents with an ownership map merged without conflicts.
+- What to keep: owner retests with real data for anything that touches personal data.
+- What changed: the client's brief changed the audience and the site's shape; keeping copy in one keyed `CONTENT.md` and the brief's text in the repository makes the next content round cheaper.
+
