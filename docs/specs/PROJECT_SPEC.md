@@ -218,8 +218,9 @@ Out of scope:
 
 ## 16. Open Questions
 
-- Production domain and hosting capabilities (human owner; US-014 on hold)
+- Production domain and hosting capabilities (human owner; US-014 on hold). The brief's header says "gabykelly.com"; until it is confirmed as the domain, no copy presents it as the site's address.
 - Official Método Polaris steps and final name (Gaby)
+- Whether "Wealth Mastery" (brief, VIP band: "Mentoría VIP · Wealth Mastery") is the official programme name (Gaby); until confirmed, `CONTENT.md` keeps it as written and marks it provisional
 - Names and files of the free resources and the featured mini-course (Gaby)
 - Terms page: whether one is needed and its text (Gaby, legal review)
 - Session photos (Gaby), testimonials with authorization (Gaby), bio and credentials (Gaby)
