@@ -32,7 +32,8 @@
   --color-ink: var(--color-charcoal);
   --color-navy: var(--color-heritage-blue);
   --color-brand: var(--color-heritage-blue);
-  --color-gold: var(--color-soft-gold);
+  /* `gold` is only used by the form's focus rings: heritage-blue (sections 2.2, 6.2). */
+  --color-gold: var(--color-heritage-blue);
   --color-gold-ink: var(--color-charcoal);
   --color-line: var(--color-sand);
 
