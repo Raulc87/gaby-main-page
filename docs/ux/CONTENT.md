@@ -276,7 +276,7 @@ The page ends with the short VIP band (§4: `vip_band.short_title`, `cta.vip_app
 | `vip.lead` | = `vip_band.body` | = `vip_band.body` | approved |
 | `vip.steps.1` | Llena la aplicación | Fill in the application | provisional |
 | `vip.steps.2` | Mira el video de Gaby | Watch Gaby's video | provisional |
-| `vip.steps.3` | Agenda tu llamada inicial | Book your initial call | provisional |
+| `vip.steps.3` | Agenda tu llamada inicial (si calificas) | Book your initial call (if you qualify) | provisional |
 
 ### 8.2 Video module
 
@@ -303,13 +303,13 @@ Labels, hints, options and errors are the phase 1 form copy, unchanged except th
 | `form.screening.no_capacity_now` | Me interesa, pero actualmente no tengo capacidad para invertir. | I am interested, but I do not currently have the capacity to invest. | approved |
 | `form.screening.exploring` | Solo estoy explorando por ahora. | I am only exploring for now. | approved |
 | `form.consent` | Acepto el tratamiento de mis datos personales según el [Aviso de Privacidad]. | I agree to the processing of my personal data as described in the [Privacy Notice]. | approved |
-| `form.submit` | Enviar y agendar mi llamada | Send and book my call | approved |
+| `form.submit` | Enviar mi aplicación | Submit my application | approved |
 | `form.submitting` | Enviando… | Sending… | approved |
 | `form.trust` | Llamada inicial sin costo · Tus datos protegidos (Ley 8968) | Free initial call · Your data is protected (Costa Rica Law 8968) | approved |
 
 `[...]` in `form.consent` is the link that opens the privacy notice dialog (not a placeholder). The phone label follows the brief ("WhatsApp"); the field, its validation and its contract name (`phone`) are unchanged.
 
-Open for Gaby (copy decision, `PROJECT_SPEC.md` §16): `form.submit` ("Enviar y agendar mi llamada", her wording) and `vip.steps.3` promise a call to everyone, but the not-ready answers get no scheduler (US-023 AC5; board 4: "Solo si califica"). Option: a neutral submit label (e.g. "Enviar mi aplicación") and step 3 "Agenda tu llamada (si calificas)". Until she decides, the strings stay as they are.
+Submit label decided by the human owner (2026-10-16): "Enviar mi aplicación" replaces the brief's "Enviar y agendar mi llamada", because the scheduler appears only for the qualified answers (`ready_to_invest`, `needs_investment_info`), never for `no_capacity_now` or `exploring` (FR-010, US-023 AC4–AC5). Step 3 says the call depends on qualifying.
 
 ### 8.4 Errors
 
