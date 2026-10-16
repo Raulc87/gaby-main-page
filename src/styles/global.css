@@ -1,55 +1,105 @@
 @import 'tailwindcss';
 
 /*
- * Approved brand palette and typography (UX_UI_DIRECTION.md section 2.1,
- * Proposal A "Institucional", approved by the human owner 2026-09-25).
- * Tailwind theme tokens only — components must never use hex literals
- * (US-015 AC1); use the generated utilities (bg-paper, text-ink, bg-navy,
- * text-brand, bg-gold, text-gold-ink, text-muted, border-line,
- * border-field-line, bg-surface). `field-line` (not `line`) is for form
- * control borders — it meets WCAG 1.4.11's 3:1 non-text contrast; `line` is
- * decorative-only, at 1.3:1.
+ * Gaby Kelly's official brand (UX_UI_DIRECTION.md v1.0 section 2, US-019).
+ * Tailwind theme tokens only: components never use hex literals (US-019 AC1);
+ * use the generated utilities (bg-ivory, text-charcoal, bg-heritage-blue,
+ * bg-soft-gold, bg-sand, bg-terracotta, bg-surface, text-muted,
+ * border-field-line, ...). Allowed text/background pairs: section 2.2 only.
+ *   - `sand` and `soft-gold` are never text on `ivory`; `terracotta` carries
+ *     `charcoal` text only.
+ *   - `field-line` (not `sand`) is the border of form controls (WCAG 1.4.11,
+ *     3:1); `sand` is decorative only.
  */
 @theme {
-  --color-paper: #f6f8fb;
+  --color-heritage-blue: #3c5f8d;
+  --color-ivory: #f5f1ea;
+  --color-sand: #d8c5b1;
+  --color-soft-gold: #d6b04d;
+  --color-terracotta: #c98368;
+  --color-charcoal: #2b2b2b;
   --color-surface: #ffffff;
-  --color-ink: #15243b;
-  --color-navy: #22395a;
-  --color-brand: #3c5f8e;
-  --color-gold: #f1be48;
-  --color-gold-ink: #7a5a0e;
-  --color-muted: #5a6a80;
-  --color-line: #d8dfe9;
-  --color-field-line: #7d8ba0;
+  --color-muted: #5a5148;
+  --color-field-line: #8c7b6b;
 
-  /* Body, labels, form, buttons (US-015 AC2). Replaces the provisional Inter font. */
-  --font-sans:
-    'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  /* Headings, italic emphasis, closing statement. */
-  --font-serif: 'Crimson Pro', Georgia, 'Times New Roman', serif;
-  /* Wordmark stand-in, only until the real logo file arrives (US-015 AC5). */
-  --font-wordmark: 'Playfair Display', Georgia, serif;
+  /*
+   * Transitional aliases of the Proposal A token names, kept only because
+   * src/components/lead/** (Agent 2) still uses them. They point at the brand
+   * tokens above, so no Proposal A colour is left. Delete this block when
+   * GK-023-vip-page restyles the form with the brand names.
+   */
+  --color-paper: var(--color-ivory);
+  --color-ink: var(--color-charcoal);
+  --color-navy: var(--color-heritage-blue);
+  --color-brand: var(--color-heritage-blue);
+  --color-gold: var(--color-soft-gold);
+  --color-gold-ink: var(--color-charcoal);
+  --color-line: var(--color-sand);
 
-  /* Sharp, corporate corners: "Corners: 2px everywhere" (section 2.1). */
+  /* Functional text: body, buttons, forms, navigation, labels, H3 (section 2.3). */
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* H1-H2, editorial phrases, italic emphasis. */
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  /* Wordmark stand-in, only until the real logo file arrives. */
+  --font-wordmark: 'Playfair Display', Georgia, 'Times New Roman', serif;
+
+  /* Section 2.6: 2 px on buttons and inputs, 4 px on cards. */
+  --radius-xs: 2px;
   --radius-sm: 2px;
   --radius-md: 2px;
-  --radius-lg: 2px;
-  --radius-xl: 2px;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-body {
-  @apply bg-paper text-ink font-sans antialiased;
-}
+  /* Section 2.3: body 16-17 px on mobile, 17-18 px on desktop. */
+  body {
+    @apply bg-ivory text-charcoal font-sans antialiased;
+    font-size: 1rem;
+  }
 
-/* Headings: navy per the token table (section 2.1, "navy: … headings"). */
-h1,
-h2,
-h3 {
-  font-family: var(--font-serif);
-  color: var(--color-navy);
-  text-wrap: balance;
+  @media (min-width: 768px) {
+    body {
+      font-size: 1.0625rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    body {
+      font-size: 1.125rem;
+    }
+  }
+
+  /* Headings (section 2.3): H1-H2 Playfair Display 500; H3 Manrope 700. */
+  h1,
+  h2,
+  h3 {
+    color: var(--color-charcoal);
+    text-wrap: balance;
+  }
+
+  h1,
+  h2 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+  }
+
+  h3 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+  }
+
+  /* Section 2.4 focus: 2 px heritage-blue ring, 2 px offset; ivory on blue bands. */
+  :focus-visible {
+    outline: 2px solid var(--color-heritage-blue);
+    outline-offset: 2px;
+  }
+
+  .on-blue :focus-visible {
+    outline-color: var(--color-ivory);
+  }
 }

@@ -1,9 +1,10 @@
 ---
-// US-003, US-015 AC3: initial call offer. Full-width navy band with a gold
-// circle in the bottom-right corner and three check-marked points, per
+// US-003, US-015 AC3: initial call offer. Full-width heritage-blue band with a
+// soft-gold polar star in the bottom-right corner and three check-marked points, per
 // UX_UI_DIRECTION.md section 2.1. The points are suggested/draft content
 // (section 4, Section 6; human owner, 2026-09-29), not yet validated with
 // Gabriela, same status as the rest of the document (BR-004).
+import PolarStar from '../layout/PolarStar.astro';
 import { SECTION_IDS, type OfferContent } from '../../i18n';
 
 interface Props {
@@ -13,19 +14,14 @@ interface Props {
 const { content } = Astro.props;
 ---
 
-<section id={SECTION_IDS.offer} class="relative overflow-hidden bg-navy pb-32 pt-16 text-center sm:pb-40">
+<section id={SECTION_IDS.offer} class="on-blue relative overflow-hidden bg-heritage-blue pb-32 pt-16 text-center sm:pb-40">
   <!--
-    The circle is confined to the padding reserved below the text (half its
-    own height, plus a buffer) so it never sits behind the paragraph at any
-    width — white text over the gold fill would fail contrast (US-015 AC6).
+    The star sits in the padding reserved below the text so it never lies
+    behind the paragraph at any width (UX_UI_DIRECTION.md section 2.5).
   -->
-  <div
-    aria-hidden="true"
-    class="absolute -bottom-24 -right-24 h-48 w-48 rounded-full bg-gold sm:-bottom-32 sm:-right-32 sm:h-64 sm:w-64"
-  >
-  </div>
+  <PolarStar tone="gold" size={140} class="absolute bottom-4 right-4 sm:bottom-6 sm:right-8" />
   <div class="relative mx-auto max-w-2xl px-4">
-    <p class="max-w-[65ch] text-lg text-white">{content.paragraph}</p>
+    <p class="max-w-[65ch] text-lg text-ivory">{content.paragraph}</p>
     <ul class="mx-auto mt-8 flex max-w-md flex-col gap-3 text-left">
       {
         content.points.map((point) => (
@@ -36,11 +32,11 @@ const { content } = Astro.props;
               fill="none"
               stroke="currentColor"
               stroke-width="1.6"
-              class="mt-1 h-5 w-5 shrink-0 text-gold"
+              class="mt-1 h-5 w-5 shrink-0 text-soft-gold"
             >
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 10l4 4 8-8" />
             </svg>
-            <span class="text-white">{point}</span>
+            <span class="text-ivory">{point}</span>
           </li>
         ))
       }

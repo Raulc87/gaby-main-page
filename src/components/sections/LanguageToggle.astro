@@ -12,7 +12,7 @@ interface Props {
 const { lang, label } = Astro.props;
 ---
 
-<nav aria-label={label} class="flex items-center gap-1 text-sm font-medium" data-language-toggle>
+<nav aria-label={label} class="flex items-center gap-1 text-sm font-semibold" data-language-toggle>
   {
     LANGUAGES.map((code) => (
       <a
@@ -21,7 +21,7 @@ const { lang, label } = Astro.props;
         aria-current={code === lang ? 'page' : undefined}
         class:list={[
           'flex min-h-11 min-w-11 items-center justify-center rounded-md px-2 uppercase',
-          code === lang ? 'bg-navy text-white' : 'text-ink hover:bg-paper',
+          code === lang ? 'bg-heritage-blue text-surface' : 'text-charcoal hover:bg-sand',
         ]}
       >
         {code}
