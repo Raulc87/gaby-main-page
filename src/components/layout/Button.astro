@@ -52,8 +52,8 @@ const tagProps = href
   : { type, disabled };
 
 const classes = [
-  'inline-flex items-center justify-center gap-2 rounded-[2px] px-6 py-3 text-base font-bold transition',
-  compact ? 'min-h-11' : 'min-h-[52px]',
+  'inline-flex items-center justify-center gap-2 rounded-[2px] font-bold transition',
+  compact ? 'min-h-11 px-4 py-2 text-sm lg:px-5' : 'min-h-[52px] px-6 py-3 text-base',
   variants[variant],
   onBlue && 'focus-visible:outline-ivory',
   disabled && 'pointer-events-none opacity-50',

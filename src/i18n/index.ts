@@ -1,6 +1,10 @@
 // Shared i18n constants and types (ADR-003, UX_UI_DIRECTION.md section 3).
+// Routes (page id -> path per language) are in ./routes.
 // Browser-language detection and the ES|EN toggle are implemented in
 // GK-010-i18n-toggle; this scaffold only defines the shared shape.
+
+import { common as commonEs } from './es/common';
+import { common as commonEn } from './en/common';
 
 export const LANGUAGES = ['es', 'en'] as const;
 
@@ -50,13 +54,6 @@ export function detectLanguage({
   const primary = browserLanguages[0] ?? '';
   return primary.toLowerCase().startsWith('es') ? 'es' : 'en';
 }
-
-/**
- * Single flag controlling every "Pendiente de validación" / "Pending
- * validation" marker (US-009, UX_UI_DIRECTION.md section 5). Set to false
- * once stakeholder content is approved, to hide the markers for production.
- */
-export const SHOW_PENDING_VALIDATION_BADGES = true;
 
 // Shape shared by src/i18n/es/content.ts and src/i18n/en/content.ts.
 // Copy is filled in progressively (GK-001-hero, GK-002-roadmap,
@@ -149,4 +146,69 @@ export interface ContentDictionary {
   offer: OfferContent;
   closing: ClosingContent;
   pendingBadge: PendingBadgeContent;
+}
+
+/** Per-page metadata (docs/ux/CONTENT.md section 1). */
+export interface PageMeta {
+  title: string;
+  description: string;
+}
+
+/**
+ * Shared strings (CONTENT.md sections 1-4, 8.6, 10), keyed exactly as in
+ * CONTENT.md: `common.nav.menu_open` is the key `nav.menu_open`.
+ */
+export interface CommonContent {
+  meta: {
+    site_name: string;
+    home: PageMeta;
+    story: PageMeta;
+    resources: PageMeta;
+    vip: PageMeta;
+    privacy: PageMeta;
+  };
+  nav: {
+    brand: string;
+    story: string;
+    method: string;
+    resources: string;
+    vip: string;
+    menu_open: string;
+    menu_close: string;
+    label: string;
+  };
+  lang: { toggle_label: string };
+  skip_link: string;
+  footer: {
+    brand: string;
+    concept: string;
+    disclaimer: string;
+    data_note: string;
+    privacy_link: string;
+  };
+  cta: {
+    vip_long: string;
+    vip_apply: string;
+    start_free: string;
+    all_resources: string;
+    read_story: string;
+  };
+  vip_band: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    short_title: string;
+  };
+  preview: {
+    badge: string;
+    banner: string;
+    form_note: string;
+    scheduler: string;
+  };
+  pending: { badge: string };
+}
+
+/** The shared strings of a language. */
+export function getCommon(lang: Language): CommonContent {
+  return lang === 'es' ? commonEs : commonEn;
 }

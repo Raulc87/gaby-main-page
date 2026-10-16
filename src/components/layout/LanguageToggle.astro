@@ -1,0 +1,70 @@
+---
+// ES | EN toggle (ADR-003, UX_UI_DIRECTION.md sections 3 and 4.1): links to the
+// same page id in the other language, keeps the section anchor and saves the
+// choice so it overrides browser detection on later visits.
+import { LANGUAGES, type Language } from '../../i18n';
+import type { PageId } from '../../i18n/routes';
+import { pageHref } from '../../lib/site/links';
+
+interface Props {
+  lang: Language;
+  pageId: PageId;
+  label: string;
+}
+
+const { lang, pageId, label } = Astro.props;
+---
+
+<nav aria-label={label} class="-ml-2 flex items-center text-sm font-semibold lg:ml-0" data-language-toggle>
+  {
+    LANGUAGES.map((code, index) => (
+      <>
+        {index > 0 && (
+          <span aria-hidden="true" class="text-muted">
+            |
+          </span>
+        )}
+        <a
+          href={pageHref(pageId, code)}
+          data-lang={code}
+          lang={code}
+          hreflang={code}
+          aria-current={code === lang ? 'true' : undefined}
+          class:list={[
+            'flex min-h-11 min-w-11 items-center justify-center px-2 uppercase underline-offset-4 hover:underline',
+            code === lang ? 'text-heritage-blue underline' : 'text-charcoal',
+          ]}
+        >
+          {code}
+        </a>
+      </>
+    ))
+  }
+</nav>
+
+<script>
+  import { LANGUAGE_STORAGE_KEY } from '../../i18n';
+
+  // Astro.url.hash is unavailable at build time for a static site, so the
+  // anchor can only be read client-side. Read it fresh on each click, not once
+  // at load: an in-page anchor link updates window.location.hash without a
+  // reload, so a value cached at load time would go stale.
+  document
+    .querySelectorAll<HTMLAnchorElement>('[data-language-toggle] [data-lang]')
+    .forEach((link) => {
+      link.addEventListener('click', () => {
+        const currentHash = window.location.hash;
+        if (currentHash) {
+          link.href = `${link.getAttribute('href')}${currentHash}`;
+        }
+
+        const lang = link.dataset.lang;
+        if (!lang) return;
+        try {
+          window.localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+        } catch {
+          // Storage unavailable (e.g. private browsing); navigation still works.
+        }
+      });
+    });
+</script>

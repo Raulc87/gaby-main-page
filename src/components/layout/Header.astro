@@ -1,0 +1,147 @@
+---
+// Header on every page (UX_UI_DIRECTION.md section 4.1, US-020 AC2, AC3):
+// sticky, ivory, wordmark, navigation, ES | EN toggle and the outlined VIP link.
+// Below 1024 px the navigation and the toggle sit in a panel opened by the menu
+// button; the VIP link stays visible. There is one navigation and one toggle in
+// the DOM: the panel is the same element as the desktop navigation row.
+import { getCommon, type Language } from '../../i18n';
+import type { PageId } from '../../i18n/routes';
+import { ANCHORS } from '../../i18n/routes';
+import { pageHref } from '../../lib/site/links';
+import Button from './Button.astro';
+import LanguageToggle from './LanguageToggle.astro';
+
+interface Props {
+  lang: Language;
+  pageId: PageId;
+}
+
+const { lang, pageId } = Astro.props;
+const { nav, lang: langStrings } = getCommon(lang);
+
+// `nav.method` leads to the Home section until the Método Polaris page exists (US-028).
+const links = [
+  { id: 'story', label: nav.story, href: pageHref('story', lang), current: pageId === 'story' },
+  { id: 'method', label: nav.method, href: pageHref('home', lang, ANCHORS.home.method), current: false },
+  {
+    id: 'resources',
+    label: nav.resources,
+    href: pageHref('resources', lang),
+    current: pageId === 'resources',
+  },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-sand bg-ivory" data-site-header>
+  <div class="mx-auto flex max-w-[1160px] items-center justify-between gap-3 px-4 py-2">
+    <a
+      href={pageHref('home', lang)}
+      class="flex min-h-11 items-center font-wordmark text-[26px] font-medium leading-none text-charcoal"
+    >
+      {nav.brand}
+    </a>
+
+    <div
+      id="site-menu"
+      data-menu-panel
+      class="absolute inset-x-0 top-full hidden flex-col gap-2 border-b border-sand bg-ivory px-4 py-4 data-[open]:flex lg:static lg:ml-auto lg:flex lg:flex-row lg:items-center lg:gap-8 lg:border-0 lg:p-0"
+    >
+      <nav aria-label={nav.label}>
+        <ul class="flex flex-col lg:flex-row lg:gap-8">
+          {
+            links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  data-nav={link.id}
+                  aria-current={link.current ? 'page' : undefined}
+                  class:list={[
+                    'flex min-h-11 w-fit items-center border-b-2 font-semibold text-charcoal hover:border-heritage-blue',
+                    link.current ? 'border-heritage-blue' : 'border-transparent',
+                  ]}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <LanguageToggle lang={lang} pageId={pageId} label={langStrings.toggle_label} />
+    </div>
+
+    <div class="flex items-center gap-2">
+      <Button
+        variant="outlined"
+        compact
+        arrow={false}
+        href={pageHref('vip', lang)}
+        label={nav.vip}
+        data-nav="vip"
+        aria-current={pageId === 'vip' ? 'page' : undefined}
+      />
+      <button
+        type="button"
+        data-menu-button
+        data-label-open={nav.menu_open}
+        data-label-close={nav.menu_close}
+        aria-controls="site-menu"
+        aria-expanded="false"
+        aria-label={nav.menu_open}
+        class="flex h-11 w-11 items-center justify-center rounded-[2px] text-heritage-blue lg:hidden"
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          class="h-6 w-6"
+        >
+          <path data-icon-open d="M4 7h16M4 12h16M4 17h16"></path>
+          <path data-icon-close class="hidden" d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile menu (US-020 AC3): opens and closes with mouse, touch and keyboard.
+  // Focus moves into the panel when it opens and back to the button when it
+  // closes; Escape closes it; the page behind does not scroll while it is open.
+  const button = document.querySelector<HTMLButtonElement>('[data-menu-button]');
+  const panel = document.querySelector<HTMLElement>('[data-menu-panel]');
+
+  if (button && panel) {
+    const desktop = window.matchMedia('(min-width: 1024px)');
+
+    const setOpen = (open: boolean, restoreFocus: boolean) => {
+      if (open) panel.setAttribute('data-open', '');
+      else panel.removeAttribute('data-open');
+      button.setAttribute('aria-expanded', String(open));
+      button.setAttribute('aria-label', open ? button.dataset.labelClose! : button.dataset.labelOpen!);
+      button.querySelector('[data-icon-open]')?.classList.toggle('hidden', open);
+      button.querySelector('[data-icon-close]')?.classList.toggle('hidden', !open);
+      document.documentElement.classList.toggle('overflow-hidden', open);
+      if (open) panel.querySelector<HTMLElement>('a')?.focus();
+      else if (restoreFocus) button.focus();
+    };
+
+    const isOpen = () => panel.hasAttribute('data-open');
+
+    button.addEventListener('click', () => setOpen(!isOpen(), true));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && isOpen()) setOpen(false, true);
+    });
+    // Following a link inside the panel (e.g. to a section of this page) closes it.
+    panel.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setOpen(false, false);
+    });
+    // Reaching the desktop layout with the panel open must not leave the page locked.
+    desktop.addEventListener('change', (event) => {
+      if (event.matches && isOpen()) setOpen(false, false);
+    });
+  }
+</script>

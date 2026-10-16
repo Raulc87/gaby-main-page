@@ -6,4 +6,6 @@ interface ImportMetaEnv {
   readonly PUBLIC_LEAD_ENDPOINT?: string;
   readonly PUBLIC_CALENDLY_URL?: string;
   readonly PUBLIC_CONTACT_EMAIL?: string;
+  /** "true" in preview builds (ADR-005, src/lib/site/preview.ts). */
+  readonly PUBLIC_PREVIEW?: string;
 }

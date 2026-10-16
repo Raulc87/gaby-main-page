@@ -1,7 +1,14 @@
 ---
-// Language detection per ADR-003 / US-010: the saved toggle choice first,
-// otherwise the browser's preferred language, keeping the URL hash.
-// The <noscript> block is the fallback described in US-010 AC6.
+// Language detection per ADR-003 / US-010 and US-020 AC6: the saved toggle
+// choice first, otherwise the browser's preferred language, keeping the URL
+// hash, then the Home in that language (through the base path). The <noscript>
+// block is the fallback described in US-010 AC6.
+import { getCommon } from '../i18n';
+import { pageHref } from '../lib/site/links';
+import { IS_PREVIEW } from '../lib/site/preview';
+
+const homeEs = pageHref('home', 'es');
+const homeEn = pageHref('home', 'en');
 ---
 
 <!doctype html>
@@ -9,9 +16,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gabriela Kelly</title>
+    <title>{getCommon('es').meta.site_name}</title>
+    {IS_PREVIEW && <meta name="robots" content="noindex, nofollow" />}
     <script>
       import { LANGUAGE_STORAGE_KEY, detectLanguage } from '../i18n';
+      import { pageHref } from '../lib/site/links';
 
       let storedPreference: string | null = null;
       try {
@@ -26,12 +35,12 @@
         browserLanguages: navigator.languages ?? [navigator.language],
       });
 
-      window.location.replace(`/${lang}/${window.location.hash}`);
+      window.location.replace(`${pageHref('home', lang)}${window.location.hash}`);
     </script>
   </head>
   <body>
     <noscript>
-      <p><a href="/es/">Español</a> · <a href="/en/">English</a></p>
+      <p><a href={homeEs}>Español</a> · <a href={homeEn}>English</a></p>
     </noscript>
   </body>
 </html>

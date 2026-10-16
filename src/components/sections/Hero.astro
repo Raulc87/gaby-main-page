@@ -6,6 +6,7 @@
 // and Gabriela's round portrait. Stacks on mobile, copy first.
 import Button from '../layout/Button.astro';
 import PolarStar from '../layout/PolarStar.astro';
+import { assetUrl } from '../../lib/site/links';
 import PendingBadge from './PendingBadge.astro';
 import { SECTION_IDS, type HeroContent } from '../../i18n';
 
@@ -58,14 +59,14 @@ const [headlineLead, headlineEmphasis] =
           class="h-32 w-32 shrink-0 overflow-hidden rounded-full border-[6px] border-ivory sm:h-40 sm:w-40 lg:h-44 lg:w-44"
         >
           <img
-            src="/gabriela-provisional.jpg"
+            src={assetUrl('/gabriela-provisional.jpg')}
             alt={photoAlt}
             width="352"
             height="352"
             class="h-full w-full object-cover"
           />
         </div>
-        <PendingBadge label={pendingLabel} />
+        <PendingBadge label={pendingLabel} block="phase1.hero_photo" />
       </div>
     </div>
   </div>
