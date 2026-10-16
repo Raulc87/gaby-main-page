@@ -1,7 +1,7 @@
-# SPRINT 003 — PLANNED
+# SPRINT 003 — ACTIVE
 
 ## Metadata
-- Status: PLANNED — waiting for the human owner's go-ahead (entry gate 14)
+- Status: ACTIVE — go-ahead given by the human owner on 2026-10-16 (entry gate 14)
 - Duration: 8 business days
 - Saturdays and Sundays excluded
 - Start: 2026-10-19 (Monday), or the first business day after the go-ahead
@@ -37,7 +37,7 @@ Readiness checklist run on 2026-10-16 on the documents as they will be merged by
 | 11 | Branching and release model recorded (ADR-005) before a sprint that deploys a preview; the preview's runbook is part of US-027, in the same PR as the workflow, so it exists by the first preview deploy (§6, blocking for a deploying sprint) | Done in this PR (ADR-005 proposed, accepted on merge) |
 | 12 | Previews use no production data (§6): the preview has no backend and its forms send nothing | Done (FR-030, ADR-005) |
 | 13 | Workstreams, ownership map, scaffold-first merge order, conflict rule, agent prompts with the merge and reviewer rules (§7, §7.1, blocking) | Done in this PR (`SPRINT_003_AGENT_PROMPTS.md`) |
-| 14 | Go-ahead from the human owner (§8, blocking) | **Pending** |
+| 14 | Go-ahead from the human owner (§8, blocking) | Done — 2026-10-16 |
 
 Non-blocking items, for the human owner:
 - `main` protection is in place; please confirm `frontend`, `e2e` and `pytest` are **required** status checks on `main` (checklist §6; Settings → Rules → Rulesets, or Branches).
@@ -152,6 +152,8 @@ Parallel work is not complete until:
 
 ## Important
 
-Planned on 2026-10-16. Agents start only after the human owner's go-ahead (entry gate 14), recorded here.
+Planned on 2026-10-16. Go-ahead given by the human owner on 2026-10-16 (entry gate 14); agents start on 2026-10-16, the sprint's 8 business days run 2026-10-19 → 2026-10-28.
+
+GitHub Pages, 2026-10-16: the first automatic "pages build and deployment" (Jekyll, source "Deploy from a branch") failed on `main` at `b0da005`. The human owner switches Settings → Pages → Source to **GitHub Actions**; the preview is then published only by `.github/workflows/preview.yml` (US-027, ADR-005), after `GK-027-preview-forms`.
 
 Agent kickoff prompts and model assignments: `docs/sprints/SPRINT_003_AGENT_PROMPTS.md`.
