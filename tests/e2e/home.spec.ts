@@ -245,14 +245,25 @@ const homeCopy = {
   en: { home: homeEn, story: storyEn },
 } as const;
 
-/** Visible links and buttons whose background is Oro Suave (the gold VIP style). */
-async function visibleGoldButtons(page: Page): Promise<number> {
-  return page.evaluate(() => {
-    const inViewport = (rect: DOMRect) => rect.bottom > 0 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth;
-    return [...document.querySelectorAll<HTMLElement>('a, button')].filter(
-      (el) => getComputedStyle(el).backgroundColor === 'rgb(214, 176, 77)' && inViewport(el.getBoundingClientRect()),
-    ).length;
-  });
+/**
+ * Whether any viewport of the given height can show two gold (Oro Suave) buttons at
+ * once. Exact and instant: two buttons share a viewport only when the gap between
+ * the lower edge of the upper one and the upper edge of the lower one is smaller
+ * than the viewport height, so no scrolling through the page is needed.
+ */
+async function goldButtonsShareAViewport(page: Page, viewportHeight: number): Promise<{ count: number; minGap: number }> {
+  return page.evaluate((height) => {
+    const gold = [...document.querySelectorAll<HTMLElement>('a, button')]
+      .filter((el) => getComputedStyle(el).backgroundColor === 'rgb(214, 176, 77)')
+      .map((el) => {
+        const rect = el.getBoundingClientRect();
+        return { top: rect.top + window.scrollY, bottom: rect.bottom + window.scrollY };
+      })
+      .sort((x, y) => x.top - y.top);
+    let minGap = Infinity;
+    for (let i = 1; i < gold.length; i++) minGap = Math.min(minGap, gold[i].top - gold[i - 1].bottom);
+    return { count: gold.length, minGap: minGap === Infinity ? height : minGap };
+  }, viewportHeight);
 }
 
 for (const lang of LANGUAGES) {
@@ -362,13 +373,10 @@ test.describe('never two gold buttons in one viewport (BR-010)', () => {
         await page.setViewportSize({ width, height: width >= 1280 ? 800 : 844 });
         await page.goto(routePath('home', lang));
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
-        const total = await page.evaluate(() => document.documentElement.scrollHeight);
-        let max = 0;
-        for (let y = 0; y < total; y += 40) {
-          await page.evaluate((top) => window.scrollTo(0, top), y);
-          max = Math.max(max, await visibleGoldButtons(page));
-        }
-        expect(max).toBeLessThanOrEqual(1);
+        const height = width >= 1280 ? 800 : 844;
+        const { count, minGap } = await goldButtonsShareAViewport(page, height);
+        expect(count).toBe(2); // the hero call to action and the VIP band
+        expect(minGap).toBeGreaterThanOrEqual(height);
       });
     }
   }
