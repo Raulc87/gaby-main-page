@@ -1,0 +1,90 @@
+---
+// Free resource library page (US-024, UX_UI_DIRECTION.md section 5.3, CONTENT.md
+// section 7): header block, the featured mini-course, topic filters, the grid of
+// resource cards and the short VIP band. The list comes from src/data/resources.ts,
+// so adding a resource does not touch this component. Without JavaScript every
+// card is shown and the filters stay hidden.
+import VipBand from '../layout/VipBand.astro';
+import type { Language } from '../../i18n';
+import { FEATURED_RESOURCE_ID, getResource, RESOURCES, RESOURCE_TOPICS } from '../../data/resources';
+import { getResources } from '../../lib/lead/dictionaries';
+import { parseEmphasis } from '../../lib/site/emphasis';
+import ResourceCard from './ResourceCard.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = getResources(lang);
+const title = parseEmphasis(t.resources.title);
+const featured = getResource(FEATURED_RESOURCE_ID);
+
+const filterButton =
+  'inline-flex min-h-11 items-center rounded-[2px] border-[1.5px] border-heritage-blue px-4 py-2 text-sm font-bold text-heritage-blue transition aria-pressed:bg-heritage-blue aria-pressed:text-surface hover:bg-heritage-blue/10 aria-pressed:hover:bg-heritage-blue';
+---
+
+<div data-resource-library>
+  <section class="bg-ivory py-12 lg:py-20">
+    <div class="mx-auto max-w-[1160px] px-4">
+      <div class="max-w-[44rem]">
+        <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+          {t.resources.eyebrow}
+        </p>
+        <h1 class="mt-3 text-[clamp(2rem,1.4rem+2.4vw,3.25rem)] leading-tight">
+          {
+            title.map((segment) =>
+              segment.emphasis ? (
+                <em class="italic text-heritage-blue">{segment.text}</em>
+              ) : (
+                segment.text
+              ),
+            )
+          }
+        </h1>
+        <p class="mt-5 max-w-[65ch] text-charcoal">{t.resources.lead}</p>
+      </div>
+
+      <div class="mt-10" data-featured>
+        <ResourceCard resource={featured} lang={lang} headingLevel={2} featured />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ivory pb-16 lg:pb-24">
+    <div class="mx-auto max-w-[1160px] px-4">
+      <div
+        role="group"
+        aria-label={t.resources.filter.label}
+        data-filter-group
+        hidden
+        class="flex flex-wrap gap-3"
+      >
+        <button type="button" data-filter="all" aria-pressed="true" class={filterButton}>
+          {t.resources.filter.all}
+        </button>
+        {
+          RESOURCE_TOPICS.map((topic) => (
+            <button type="button" data-filter={topic} aria-pressed="false" class={filterButton}>
+              {t.resources.topic[topic]}
+            </button>
+          ))
+        }
+      </div>
+
+      <div data-resource-grid class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {RESOURCES.map((resource) => <ResourceCard resource={resource} lang={lang} />)}
+      </div>
+
+      <p role="status" data-empty hidden class="mt-8 text-base text-muted">{t.resources.empty}</p>
+    </div>
+  </section>
+
+  <VipBand lang={lang} variant="short" />
+</div>
+
+<script>
+  import { initResourceFilters } from './resourceFilterController';
+
+  document.querySelectorAll<HTMLElement>('[data-resource-library]').forEach((root) => initResourceFilters(root));
+</script>

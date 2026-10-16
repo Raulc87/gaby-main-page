@@ -148,7 +148,14 @@ export interface ResourcesDictionary {
     cover_alt: string;
   };
   resources: {
+    eyebrow: string;
+    /** `*text*` marks the italic emphasis. */
+    title: string;
+    lead: string;
+    filter: { label: string; all: string };
     topic: Record<'debt' | 'wallets' | 'investing' | 'mindset', string>;
+    featured: { label: string };
+    empty: string;
   };
 }
 

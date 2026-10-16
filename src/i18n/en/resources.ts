@@ -1,7 +1,6 @@
 // Resource card labels and topic names (EN), docs/ux/CONTENT.md sections 7.1-7.2,
 // copied verbatim. The keys mirror CONTENT.md (`resource.type.guide`,
-// `resources.topic.debt`, ...). The page-level strings (eyebrow, title, filters)
-// come with GK-024-resource-library.
+// `resources.topic.debt`, ...), including the library page's own strings (section 7.1).
 import type { ResourcesDictionary } from '../../lib/lead/types';
 
 export const resources: ResourcesDictionary = {
@@ -26,11 +25,17 @@ export const resources: ResourcesDictionary = {
     cover_alt: 'Cover of {title}',
   },
   resources: {
+    eyebrow: 'Free library',
+    title: 'Tools to organize, *invest and grow.*',
+    lead: 'Guides, templates and mini-courses you can use today. Some download directly; others arrive in your inbox.',
+    filter: { label: 'Filter by topic', all: 'All' },
     topic: {
       debt: 'Getting out of debt',
       wallets: 'Wallets and budget',
       investing: 'Investing',
       mindset: 'Mindset and money',
     },
+    featured: { label: 'Featured mini-course · free' },
+    empty: 'There are no resources in this topic yet.',
   },
 };

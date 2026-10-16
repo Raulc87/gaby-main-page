@@ -22,10 +22,12 @@ interface Props {
   lang: Language;
   /** Heading level of the title (default 3). */
   headingLevel?: 2 | 3;
+  /** The wide featured layout of the library page (cover left, text right, featured label). */
+  featured?: boolean;
   class?: string;
 }
 
-const { resource, lang, headingLevel = 3, class: className } = Astro.props;
+const { resource, lang, headingLevel = 3, featured = false, class: className } = Astro.props;
 const t = getResources(lang);
 const common = getCommon(lang);
 const file = resourceFile(resource, lang);
@@ -34,13 +36,20 @@ const badgeBlock = file === undefined ? 'resource.file_pending' : 'resource.prov
 ---
 
 <article
-  class:list={['flex h-full flex-col rounded-[4px] border border-sand bg-surface', className]}
+  class:list={[
+    'flex h-full flex-col rounded-[4px] border border-sand bg-surface',
+    featured && 'md:flex-row',
+    className,
+  ]}
   data-resource-id={resource.id}
   data-topic={resource.topic}
 >
   <div
     aria-hidden="true"
-    class="relative flex aspect-[4/3] items-end justify-between overflow-hidden rounded-t-[3px] bg-sand p-4"
+    class:list={[
+      'relative flex aspect-[4/3] items-end justify-between overflow-hidden rounded-t-[3px] bg-sand p-4',
+      featured && 'md:aspect-auto md:w-2/5 md:shrink-0 md:rounded-l-[3px] md:rounded-tr-none',
+    ]}
   >
     <span class="text-[13px] font-semibold uppercase tracking-[0.16em] text-charcoal">
       {t.resource.type[resource.type]}
@@ -48,6 +57,13 @@ const badgeBlock = file === undefined ? 'resource.file_pending' : 'resource.prov
     <PolarStar tone="gold" size={56} class="h-14 w-14" />
   </div>
   <div class="flex flex-1 flex-col gap-3 p-5">
+    {
+      featured && (
+        <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-charcoal" data-featured-label>
+          {t.resources.featured.label}
+        </p>
+      )
+    }
     <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
       {t.resource.type[resource.type]} · {t.resource.free}
     </p>
