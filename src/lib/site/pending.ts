@@ -20,11 +20,6 @@ export const PENDING_BLOCKS = {
   'vip.steps': 'provisional',
   'thanks.not_ready': 'provisional',
   'resource.provisional_title': 'provisional',
-  // Phase 1 one-page blocks, removed with the phase 1 sections in GK-021-home;
-  // they keep showing their badge in every build until then.
-  'phase1.hero_photo': 'placeholder',
-  'phase1.guide': 'placeholder',
-  'phase1.proof': 'placeholder',
 } as const satisfies Record<string, PendingKind>;
 
 export type PendingBlockId = keyof typeof PENDING_BLOCKS;

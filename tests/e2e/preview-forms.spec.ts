@@ -1,5 +1,5 @@
 // US-027 AC3: in a preview build the application form, wherever it is used (the VIP
-// page and the phase 1 Home), never calls an endpoint and loads no third party.
+// page), never calls an endpoint and loads no third party.
 // After client-side validation it shows the next screen per the routing with
 // `preview.form_note`; the scheduler is the static stand-in (`preview.scheduler`)
 // whatever PUBLIC_CALENDLY_URL is.
@@ -67,7 +67,6 @@ function trackRequests(page: Page): { forbidden: string[]; api: string[] } {
 
 const PAGES: Array<[string, (lang: Language) => string]> = [
   ['VIP page', (lang) => routePath('vip', lang)],
-  ['phase 1 Home', (lang) => `${routePath('home', lang)}#lead-form`],
 ];
 
 for (const lang of ['es', 'en'] as const) {
@@ -134,7 +133,7 @@ for (const lang of ['es', 'en'] as const) {
 test('under the base path the form renders in the page language (FR-012)', async ({ page }) => {
   for (const lang of ['es', 'en'] as const) {
     const form = getForm(lang);
-    for (const path of [routePath('vip', lang), `${routePath('home', lang)}#lead-form`]) {
+    for (const path of [routePath('vip', lang)]) {
       await page.goto(`${ORIGIN}${path}`);
       await expect(page.locator('label[for="lead-name"]')).toHaveText(form.name.label);
       await expect(page.locator(SELECTORS.submitButton)).toContainText(form.submit.idle);

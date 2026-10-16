@@ -25,7 +25,7 @@ const full = variant === 'full';
 const title = parseEmphasis(full ? vip_band.title : vip_band.short_title);
 ---
 
-<section {id} class="on-blue relative overflow-hidden bg-heritage-blue py-16 text-ivory lg:py-24">
+<section {id} tabindex={id ? -1 : undefined} class="scroll-mt-16 outline-none on-blue relative overflow-hidden bg-heritage-blue py-16 text-ivory lg:py-24">
   <PolarStar
     tone="gold"
     size={140}

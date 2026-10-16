@@ -1,0 +1,72 @@
+---
+// My story teaser `#historia` (UX_UI_DIRECTION.md section 5.1 item 6): ivory; terracotta
+// is only an accent (a 4 px left rule on the title block and the portrait frame, no
+// text on it). Eyebrow, title, the three story paragraphs (all three at every width,
+// read from the story page's copy, `home.story.p1-p3` = `story.p1-p3`), the media
+// names row (section 5.2) and the text link `home.story.cta` to the story page.
+import { getCommon, getHome, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import { story as storyEn } from '../../i18n/en/story';
+import { story as storyEs } from '../../i18n/es/story';
+import { assetUrl, pageHref } from '../../lib/site/links';
+import Emphasized from './Emphasized.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { story: copy, hero } = getHome(lang).home;
+const story = lang === 'es' ? storyEs : storyEn;
+const { cta } = getCommon(lang);
+const mediaNames = [story.media['1'], story.media['2'], story.media['3'], story.media['4']];
+---
+
+<section id={ANCHORS.home.story} tabindex="-1" class="scroll-mt-16 outline-none border-t border-sand bg-ivory">
+  <div class="mx-auto grid max-w-[1160px] gap-10 px-4 py-16 lg:grid-cols-[auto_1fr] lg:gap-16 lg:py-24">
+    <div class="flex lg:justify-center">
+      <img
+        src={assetUrl('/gabriela-provisional.jpg')}
+        alt={hero.photo_alt}
+        width="352"
+        height="352"
+        class="h-40 w-40 rounded-full border-4 border-terracotta object-cover lg:h-56 lg:w-56"
+      />
+    </div>
+    <div class="max-w-[44rem]">
+      <div class="border-l-4 border-terracotta pl-5">
+        <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+          {copy.eyebrow}
+        </p>
+        <h2 class="mt-3 text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">
+          <Emphasized text={copy.title} />
+        </h2>
+      </div>
+      <p class="mt-8 text-charcoal">{story.p1}</p>
+      <p class="mt-6 text-charcoal">{story.p2}</p>
+      <p class="mt-6 text-charcoal">{story.p3}</p>
+      <div class="mt-8" data-home-media>
+        <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+          {story.media.label}
+        </p>
+        <ul class="mt-3 flex flex-wrap gap-3">
+          {
+            mediaNames.map((name) => (
+              <li class="flex h-14 items-center rounded-[4px] border border-sand bg-surface px-6 font-semibold text-charcoal">
+                {name}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <p class="mt-8">
+        <a
+          href={pageHref('story', lang)}
+          class="inline-flex min-h-11 items-center font-semibold text-heritage-blue underline-offset-4 hover:underline"
+        >
+          {cta.read_story}
+        </a>
+      </p>
+    </div>
+  </div>
+</section>

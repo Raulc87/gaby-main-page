@@ -1,0 +1,35 @@
+---
+// The Home (US-021, UX_UI_DIRECTION.md section 5.1, CONTENT.md section 5): hero,
+// the corporate ladder, the opportunity, Método Polaris, the resources teaser, the
+// story teaser, testimonials and the VIP band, in that order. The application form
+// lives on the VIP page; every VIP call to action leads there. The only gold buttons
+// are the hero's and the VIP band's, with non-gold sections between them (BR-010).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VipBand from '../layout/VipBand.astro';
+import type { Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import HomeHero from './HomeHero.astro';
+import LadderSection from './LadderSection.astro';
+import MethodSection from './MethodSection.astro';
+import OpportunitySection from './OpportunitySection.astro';
+import ResourcesTeaser from './ResourcesTeaser.astro';
+import StoryTeaser from './StoryTeaser.astro';
+import TestimonialsSection from './TestimonialsSection.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+---
+
+<BaseLayout lang={lang} pageId="home">
+  <HomeHero lang={lang} />
+  <LadderSection lang={lang} />
+  <OpportunitySection lang={lang} />
+  <MethodSection lang={lang} />
+  <ResourcesTeaser lang={lang} />
+  <StoryTeaser lang={lang} />
+  <TestimonialsSection lang={lang} />
+  <VipBand lang={lang} id={ANCHORS.home.vip} />
+</BaseLayout>

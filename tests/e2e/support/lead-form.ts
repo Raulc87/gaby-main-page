@@ -76,8 +76,3 @@ export async function fillLeadForm(page: Page, overrides: FillOptions = {}): Pro
 export async function gotoVip(page: Page, lang: Language, hash = ''): Promise<void> {
   await page.goto(`${routePath('vip', lang)}${hash}`);
 }
-
-/** Opens the phase 1 Home, which keeps its form until GK-021-home moves it out. */
-export async function gotoHomeForm(page: Page, lang: Language): Promise<void> {
-  await page.goto(`${routePath('home', lang)}#lead-form`);
-}

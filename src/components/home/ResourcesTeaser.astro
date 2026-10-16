@@ -1,0 +1,50 @@
+---
+// Free resources teaser `#recursos` (UX_UI_DIRECTION.md section 5.1 item 5): ivory;
+// eyebrow, title, the blue `home.resources.cta` link-button to the library and the
+// three resources marked `home` in src/data/resources.ts, in their home order, as
+// resource cards (section 6.1). The list is Agent 2's data file: never copied here.
+import Button from '../layout/Button.astro';
+import ResourceCard from '../resources/ResourceCard.astro';
+import { getCommon, getHome, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import { RESOURCES } from '../../data/resources';
+import { pageHref } from '../../lib/site/links';
+import Emphasized from './Emphasized.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { resources } = getHome(lang).home;
+const { cta } = getCommon(lang);
+const teaser = RESOURCES.filter((resource) => resource.homeOrder !== undefined).sort(
+  (a, b) => a.homeOrder! - b.homeOrder!,
+);
+---
+
+<section id={ANCHORS.home.resources} tabindex="-1" class="scroll-mt-16 outline-none bg-ivory">
+  <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-[44rem]">
+        <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+          {resources.eyebrow}
+        </p>
+        <h2 class="mt-3 text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">
+          <Emphasized text={resources.title} />
+        </h2>
+      </div>
+      <div>
+        <Button
+          variant="blue"
+          href={pageHref('resources', lang)}
+          label={cta.all_resources}
+          class="w-full sm:w-auto"
+        />
+      </div>
+    </div>
+    <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-resources-teaser>
+      {teaser.map((resource) => <ResourceCard resource={resource} lang={lang} />)}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,18 @@
+---
+// Text with `*italic*` emphasis (CONTENT.md): the asterisks are markers, not text.
+// Emphasis renders as heritage-blue italic (UX_UI_DIRECTION.md section 2.3).
+import { parseEmphasis } from '../../lib/site/emphasis';
+
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+const segments = parseEmphasis(text);
+---
+
+{
+  segments.map((segment) =>
+    segment.emphasis ? <em class="italic text-heritage-blue">{segment.text}</em> : segment.text,
+  )
+}
