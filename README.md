@@ -4,7 +4,7 @@ First pilot project built with the [Spec-Driven Development Starter Kit](https:/
 
 ## Project status
 
-**Phase 2 (brand redesign and multipage site).** Sprints 001 and 002 are CLOSED (phase 1, one-page site). **Sprint 003 is PLANNED** (phase 2a), waiting for the owner's go-ahead. Production deployment is on hold until the domain and hosting are decided; progress is shown on a GitHub Pages preview.
+**Phase 2 (brand redesign and multipage site).** Sprints 001 and 002 are CLOSED (phase 1, one-page site). **Sprint 003 is ACTIVE** (phase 2a, go-ahead 2026-10-16). Production deployment is on hold until the domain and hosting are decided; progress is shown on a GitHub Pages preview.
 
 See `PROJECT_CONTEXT.md` for the document map and current status.
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SECTION_IDS, SHOW_PENDING_VALIDATION_BADGES } from '../../../src/i18n';
+import { SECTION_IDS } from '../../../src/i18n';
 import { content as esContent } from '../../../src/i18n/es/content';
 import { content as enContent } from '../../../src/i18n/en/content';
 
@@ -165,7 +165,4 @@ describe('content dictionaries', () => {
     });
   });
 
-  it('exposes a single flag controlling every pending-validation badge (US-009)', () => {
-    expect(typeof SHOW_PENDING_VALIDATION_BADGES).toBe('boolean');
-  });
 });

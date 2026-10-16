@@ -1,14 +1,26 @@
 ---
+// Shared page shell (UX_UI_DIRECTION.md section 4, US-020): document head, skip
+// link, preview bar (preview builds), header, the page content in <main id="main">
+// and the footer. Every page passes its language and page id; title and meta
+// description come from the shared metadata (CONTENT.md section 1) unless a page
+// overrides them.
 import '../styles/global.css';
-import type { Language } from '../i18n';
+import Footer from '../components/layout/Footer.astro';
+import Header from '../components/layout/Header.astro';
+import PreviewBar from '../components/layout/PreviewBar.astro';
+import { getCommon, type Language } from '../i18n';
+import type { PageId } from '../i18n/routes';
+import { assetUrl } from '../lib/site/links';
+import { IS_PREVIEW } from '../lib/site/preview';
 
 interface Props {
   lang: Language;
-  title: string;
-  description?: string;
+  pageId: PageId;
 }
 
-const { lang, title, description } = Astro.props;
+const { lang, pageId } = Astro.props;
+const common = getCommon(lang);
+const { title, description } = common.meta[pageId];
 ---
 
 <!doctype html>
@@ -17,21 +29,33 @@ const { lang, title, description } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
-    {description && <meta name="description" content={description} />}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content={description} />
+    {IS_PREVIEW && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" type="image/svg+xml" href={assetUrl('/favicon.svg')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!--
-      UX_UI_DIRECTION.md section 2.1: only the listed weights — Crimson Pro
-      600 (+ italic 500 for emphasis), IBM Plex Sans 400/500/600, Playfair
-      Display 900 ("GK") and 400 ("GabyKelly") for the wordmark stand-in.
+      UX_UI_DIRECTION.md section 2.3: only the listed weights — Playfair
+      Display 500 (+ italic 500 for emphasis and the wordmark), Manrope
+      400, 600 and 700.
     -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,600;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=Playfair+Display:wght@400;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap"
     />
   </head>
-  <body>
-    <slot />
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only z-[60] rounded-[2px] bg-charcoal px-4 py-3 font-semibold text-ivory focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus-visible:outline-ivory"
+    >
+      {common.skip_link}
+    </a>
+    <PreviewBar lang={lang} />
+    <Header lang={lang} pageId={pageId} />
+    <main id="main" tabindex="-1" class="flex-1 outline-none">
+      <slot />
+    </main>
+    <Footer lang={lang} />
   </body>
 </html>

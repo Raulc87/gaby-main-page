@@ -1,0 +1,60 @@
+---
+// VIP band (UX_UI_DIRECTION.md section 4.4): full-width heritage-blue band with
+// ivory text, the eyebrow in ivory (13 px: soft-gold on blue is only 3.17:1),
+// a Playfair title whose italic part is soft-gold (large text), the body and the
+// gold `cta.vip_apply` button to the VIP page. A soft-gold polar star sits at one
+// side. The resource library uses the short variant (`vip_band.short_title`, no
+// eyebrow and no body). This is the page's one heritage-blue band and its one
+// gold button: never place it directly under another gold button (BR-010).
+import { getCommon, type Language } from '../../i18n';
+import { parseEmphasis } from '../../lib/site/emphasis';
+import { pageHref } from '../../lib/site/links';
+import Button from './Button.astro';
+import PolarStar from './PolarStar.astro';
+
+interface Props {
+  lang: Language;
+  variant?: 'full' | 'short';
+  /** Section anchor id (the Home uses "vip"). */
+  id?: string;
+}
+
+const { lang, variant = 'full', id } = Astro.props;
+const { vip_band, cta } = getCommon(lang);
+const full = variant === 'full';
+const title = parseEmphasis(full ? vip_band.title : vip_band.short_title);
+---
+
+<section {id} class="on-blue relative overflow-hidden bg-heritage-blue py-16 text-ivory lg:py-24">
+  <PolarStar
+    tone="gold"
+    size={140}
+    class="absolute right-4 top-6 hidden h-[140px] w-[140px] sm:block lg:right-16 lg:h-[200px] lg:w-[200px]"
+  />
+  <div class="relative mx-auto max-w-[1160px] px-4">
+    <div class="max-w-[44rem]">
+      {
+        full && (
+          <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-ivory">
+            {vip_band.eyebrow}
+          </p>
+        )
+      }
+      <h2 class="mt-3 text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight text-ivory">
+        {
+          title.map((segment) =>
+            segment.emphasis ? (
+              <em class="italic text-soft-gold">{segment.text}</em>
+            ) : (
+              segment.text
+            ),
+          )
+        }
+      </h2>
+      {full && <p class="mt-5 max-w-[65ch] text-ivory">{vip_band.body}</p>}
+      <div class="mt-8">
+        <Button variant="gold" onBlue href={pageHref('vip', lang)} label={cta.vip_apply} />
+      </div>
+    </div>
+  </div>
+</section>

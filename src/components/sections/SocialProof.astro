@@ -20,12 +20,12 @@ const { content, pendingLabel } = Astro.props;
 <section id={SECTION_IDS.proof} class="mx-auto max-w-4xl px-4 py-16">
   <div class="flex flex-wrap items-center gap-3">
     <h2 class="text-3xl">{content.heading}</h2>
-    <PendingBadge label={pendingLabel} />
+    <PendingBadge label={pendingLabel} block="phase1.proof" />
   </div>
   <div class="mt-8 grid gap-6 sm:grid-cols-2">
     {content.cards.map((card) => <TestimonialCard card={card} />)}
-    <div class="rounded-[2px] border border-dashed border-line bg-surface p-6 sm:col-span-2">
-      <span aria-hidden="true" class="font-serif text-4xl leading-none text-gold-ink">
+    <div class="rounded-[2px] border border-dashed border-sand bg-surface p-6 sm:col-span-2">
+      <span aria-hidden="true" class="font-serif text-4xl leading-none text-terracotta">
         &ldquo;
       </span>
       <p class="mt-2 text-sm text-muted">{content.credibilityPlaceholder}</p>

@@ -1,0 +1,26 @@
+---
+// Preview marker (UX_UI_DIRECTION.md section 6.6, US-027): a slim charcoal bar
+// above the header in preview builds only.
+import { getCommon, type Language } from '../../i18n';
+import { IS_PREVIEW } from '../../lib/site/preview';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { preview } = getCommon(lang);
+---
+
+{
+  IS_PREVIEW && (
+    <div class="bg-charcoal text-ivory" data-preview-bar>
+      <div class="mx-auto flex max-w-[1160px] flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2 text-sm">
+        <span class="rounded-full bg-soft-gold px-3 py-0.5 text-xs font-bold uppercase tracking-wider text-charcoal">
+          {preview.badge}
+        </span>
+        <p>{preview.banner}</p>
+      </div>
+    </div>
+  )
+}
