@@ -1,6 +1,6 @@
 // US-015 AC6 (UX_UI_DIRECTION.md v0.7 section 2.1, "Form" and the
 // `field-line` token row): form control borders must use `field-line`
-// (#7D8BA0, computed rgb(125, 139, 160)) rather than the decorative `line`
+// (#8C7B6B, computed rgb(140, 123, 107)) rather than the decorative `line`
 // token (#D8DFE9), which only reaches 1.3:1 and is not a valid control
 // boundary (WCAG 1.4.11 needs 3:1). Asserts the computed boundary color so a
 // regression back to `line` fails this test rather than only showing up as
@@ -8,8 +8,8 @@
 import { expect, test } from '@playwright/test';
 import { fillLeadForm, gotoLang, screeningOption, SELECTORS, VALID_LEAD } from './support/lead-form';
 
-const FIELD_LINE_RGB = 'rgb(125, 139, 160)';
-const BRAND_RGB = 'rgb(60, 95, 142)';
+const FIELD_LINE_RGB = 'rgb(140, 123, 107)';
+const BRAND_RGB = 'rgb(60, 95, 141)';
 
 async function borderColorOf(page: import('@playwright/test').Page, selector: string): Promise<string> {
   return page.$eval(selector, (el) => getComputedStyle(el).borderColor);
