@@ -25,7 +25,7 @@ function showFallback(widget: HTMLElement | null, fallbackEl: HTMLElement | null
   link.href = `mailto:${copy.contactEmail}`;
   link.textContent = copy.contactEmail;
   // 44px touch target (US-008 AC2): a bare <a> only hit-tests its glyphs.
-  link.className = 'inline-flex min-h-11 items-center text-brand underline underline-offset-2 hover:text-navy';
+  link.className = 'inline-flex min-h-11 items-center text-heritage-blue underline underline-offset-2 hover:text-charcoal';
   fallbackEl.append(link);
   fallbackEl.append(document.createTextNode(copy.after));
   fallbackEl.hidden = false;

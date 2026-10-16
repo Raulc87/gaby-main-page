@@ -1,12 +1,11 @@
-// Lead form copy (EN). Owned by Implementation Agent 2 (see SPRINT_001.md
-// file ownership map). Source: docs/ux/UX_UI_DIRECTION.md section 4
-// (sections 7-8) and docs/specs/LEAD_API_CONTRACT.md section 8 (field error
-// codes). Filled in progressively across GK-004-lead-form,
-// GK-005-pre-screening, GK-011-privacy-consent, and GK-007-calendly.
+// Lead form copy (EN). Owned by Implementation Agent 2. Source: docs/ux/CONTENT.md
+// sections 8.3-8.5 (copied verbatim, checked by tests/unit/i18n/form-content.test.ts)
+// and docs/specs/LEAD_API_CONTRACT.md section 8 (field error codes). The privacy
+// notice text moves to privacy.ts with GK-020-privacy-page.
 import type { FormDictionary } from '../../lib/lead/types';
 
 export const form: FormDictionary = {
-  formTitle: 'Take the first step',
+  formTitle: 'Apply to the VIP Mentorship',
   name: {
     label: 'Full name',
     hint: 'Enter your first and last name.',
@@ -15,7 +14,7 @@ export const form: FormDictionary = {
     label: 'Email',
   },
   phone: {
-    label: 'Phone (WhatsApp)',
+    label: 'WhatsApp',
     hint: 'Include your country code. Example: +50684104791',
   },
   screening: {
@@ -54,12 +53,17 @@ export const form: FormDictionary = {
     ],
   },
   submit: {
-    idle: 'Send and book my call',
+    idle: 'Submit my application',
     submitting: 'Sending…',
   },
+  trust: 'Free initial call · Your data is protected (Costa Rica Law 8968)',
   thankYou: {
     title: 'Thank you for your information!',
     text: "We may reach out by email or WhatsApp. If you'd like, you can book your initial call now:",
+  },
+  notReady: {
+    title: 'Thank you for telling us where you are today.',
+    text: "We may reach out by email or WhatsApp. When the time is right for you, we'll be here. In the meantime, you can start for free with the mini-course:",
   },
   calendlyFallback:
     "We couldn't load the calendar. Email us at {contact_email} and we'll arrange your call.",

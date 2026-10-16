@@ -5,7 +5,7 @@
 // rather than depending on real network access to assets.calendly.com.
 import { expect, test } from '@playwright/test';
 import { form as esForm } from '../../src/i18n/es/form';
-import { fillLeadForm, gotoLang, SELECTORS } from './support/lead-form';
+import { fillLeadForm, gotoVip, SELECTORS } from './support/lead-form';
 
 /** Makes the mocked Calendly script populate every widget with a fake iframe, simulating a successful embed. */
 async function mockCalendlyScript(page: import('@playwright/test').Page): Promise<void> {
@@ -33,14 +33,14 @@ async function setCalendlyUrl(page: import('@playwright/test').Page, url: string
 }
 
 test('Calendly is not loaded before a successful submission', async ({ page }) => {
-  await gotoLang(page, 'es');
+  await gotoVip(page, 'es');
 
   await expect(page.locator(SELECTORS.calendlyWidget)).toBeHidden();
   expect(await page.locator('script[src*="calendly.com"]').count()).toBe(0);
 });
 
 test('a valid submission saves, shows the thank-you message, and reveals Calendly', async ({ page }) => {
-  await gotoLang(page, 'es');
+  await gotoVip(page, 'es');
   await mockCalendlyScript(page);
   await setCalendlyUrl(page, 'https://calendly.com/test-account/intro-call');
 

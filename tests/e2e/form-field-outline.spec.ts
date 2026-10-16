@@ -6,7 +6,7 @@
 // regression back to `line` fails this test rather than only showing up as
 // a visual nit.
 import { expect, test } from '@playwright/test';
-import { fillLeadForm, gotoLang, screeningOption, SELECTORS, VALID_LEAD } from './support/lead-form';
+import { fillLeadForm, gotoVip, screeningOption, SELECTORS, VALID_LEAD } from './support/lead-form';
 
 const FIELD_LINE_RGB = 'rgb(140, 123, 107)';
 const BRAND_RGB = 'rgb(60, 95, 141)';
@@ -28,7 +28,7 @@ async function outlineColorOf(page: import('@playwright/test').Page, selector: s
 
 test.describe('form control borders use field-line (US-015 AC6)', () => {
   test('name, email and phone inputs use field-line', async ({ page }) => {
-    await gotoLang(page, 'es');
+    await gotoVip(page, 'es');
 
     expect(await borderColorOf(page, SELECTORS.nameInput)).toBe(FIELD_LINE_RGB);
     expect(await borderColorOf(page, SELECTORS.emailInput)).toBe(FIELD_LINE_RGB);
@@ -36,7 +36,7 @@ test.describe('form control borders use field-line (US-015 AC6)', () => {
   });
 
   test('an unselected screening option row uses field-line; the selected row uses brand', async ({ page }) => {
-    await gotoLang(page, 'es');
+    await gotoVip(page, 'es');
 
     const otherRow = `${screeningOption('exploring')} >> xpath=ancestor::label`;
     const targetRow = `${screeningOption(VALID_LEAD.screeningCode)} >> xpath=ancestor::label`;
@@ -61,7 +61,7 @@ test.describe('form control borders use field-line (US-015 AC6)', () => {
   test('the consent checkbox uses a field-line outline without shrinking its 44 px touch target', async ({
     page,
   }) => {
-    await gotoLang(page, 'es');
+    await gotoVip(page, 'es');
 
     expect(await outlineColorOf(page, SELECTORS.consentCheckbox)).toBe(FIELD_LINE_RGB);
 
@@ -77,7 +77,7 @@ test.describe('form control borders use field-line (US-015 AC6)', () => {
   test('the consent checkbox shows a distinct, 3:1+ contrast focus outline, not just its unfocused field-line boundary', async ({
     page,
   }) => {
-    await gotoLang(page, 'es');
+    await gotoVip(page, 'es');
 
     // Tab from the name field, through email/phone/screening, to consent —
     // the browser must treat this as keyboard focus (:focus-visible), not
@@ -113,7 +113,7 @@ test.describe('form control borders use field-line (US-015 AC6)', () => {
 
   test('field-line borders are visible at 390 px too', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await gotoLang(page, 'es');
+    await gotoVip(page, 'es');
     await fillLeadForm(page);
 
     expect(await borderColorOf(page, SELECTORS.nameInput)).toBe(FIELD_LINE_RGB);

@@ -4,6 +4,7 @@
 // canonical valid payload.
 import type { Page } from '@playwright/test';
 import type { Language } from '../../../src/i18n';
+import { routePath } from '../../../src/i18n/routes';
 
 export const VALID_LEAD = {
   name: 'Ana María Pérez Soto',
@@ -71,6 +72,12 @@ export async function fillLeadForm(page: Page, overrides: FillOptions = {}): Pro
   }
 }
 
-export async function gotoLang(page: Page, lang: Language, hash = ''): Promise<void> {
-  await page.goto(`/${lang}/${hash}`);
+/** Opens the VIP page, where the application form lives (US-023). */
+export async function gotoVip(page: Page, lang: Language, hash = ''): Promise<void> {
+  await page.goto(`${routePath('vip', lang)}${hash}`);
+}
+
+/** Opens the phase 1 Home, which keeps its form until GK-021-home moves it out. */
+export async function gotoHomeForm(page: Page, lang: Language): Promise<void> {
+  await page.goto(`${routePath('home', lang)}#lead-form`);
 }

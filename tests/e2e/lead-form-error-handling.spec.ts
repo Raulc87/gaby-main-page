@@ -5,7 +5,7 @@
 import { expect, test } from '@playwright/test';
 import { form as enForm } from '../../src/i18n/en/form';
 import { form as esForm } from '../../src/i18n/es/form';
-import { fillLeadForm, gotoLang, SELECTORS, VALID_LEAD } from './support/lead-form';
+import { fillLeadForm, gotoVip, SELECTORS, VALID_LEAD } from './support/lead-form';
 
 test('a server-side 422 is shown in the active language', async ({ page }) => {
   await page.route('**/api/save-lead', (route) =>
@@ -21,7 +21,7 @@ test('a server-side 422 is shown in the active language', async ({ page }) => {
     }),
   );
 
-  await gotoLang(page, 'en');
+  await gotoVip(page, 'en');
   await fillLeadForm(page);
   await page.locator(SELECTORS.submitButton).click();
 
@@ -49,7 +49,7 @@ test('a 503 shows no success, keeps the entered data, and a retry succeeds', asy
     return route.continue();
   });
 
-  await gotoLang(page, 'es');
+  await gotoVip(page, 'es');
   await fillLeadForm(page);
   await page.locator(SELECTORS.submitButton).click();
 

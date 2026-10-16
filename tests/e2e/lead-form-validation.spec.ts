@@ -5,7 +5,7 @@
 import { expect, test } from '@playwright/test';
 import { form as enForm } from '../../src/i18n/en/form';
 import { form as esForm } from '../../src/i18n/es/form';
-import { fillLeadForm, gotoLang, SELECTORS } from './support/lead-form';
+import { fillLeadForm, gotoVip, SELECTORS } from './support/lead-form';
 
 const LANGUAGES = [
   { lang: 'es' as const, dict: esForm },
@@ -14,7 +14,7 @@ const LANGUAGES = [
 
 for (const { lang, dict } of LANGUAGES) {
   test(`shows field errors in ${lang} for invalid input`, async ({ page }) => {
-    await gotoLang(page, lang);
+    await gotoVip(page, lang);
 
     await page.locator(SELECTORS.nameInput).fill('A');
     await page.locator(SELECTORS.emailInput).fill('not-an-email');
@@ -32,7 +32,7 @@ for (const { lang, dict } of LANGUAGES) {
 }
 
 test('a full name with only one word is rejected (full_name_required)', async ({ page }) => {
-  await gotoLang(page, 'es');
+  await gotoVip(page, 'es');
   await page.locator(SELECTORS.nameInput).fill('Ana');
   await page.locator(SELECTORS.submitButton).click();
 
@@ -45,7 +45,7 @@ test('an unchecked consent checkbox blocks submission and sends no request', asy
     if (request.url().includes('/api/save-lead')) leadRequests.push(request.url());
   });
 
-  await gotoLang(page, 'en');
+  await gotoVip(page, 'en');
   await fillLeadForm(page, { consent: false });
   await page.locator(SELECTORS.submitButton).click();
 
