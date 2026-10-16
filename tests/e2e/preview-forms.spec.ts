@@ -4,9 +4,10 @@
 // `preview.form_note`; the scheduler is the static stand-in (`preview.scheduler`)
 // whatever PUBLIC_CALENDLY_URL is.
 //
-// This spec builds its own preview build (PUBLIC_PREVIEW=true, with a Calendly URL
-// configured to prove it is ignored) into a temporary directory and serves it on its
-// own port with no /api proxy, so it never touches the build the rest of the suite uses.
+// This spec builds its own preview build exactly as the preview workflow will
+// (PUBLIC_PREVIEW=true, SITE_BASE_PATH=/gaby-main-page/, plus a Calendly URL configured
+// to prove it is ignored) into a temporary directory and serves it under that base on
+// its own port with no /api proxy, so it never touches the build the rest of the suite uses.
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -19,7 +20,8 @@ import { getForm } from '../../src/lib/lead/dictionaries';
 import { fillLeadForm, SELECTORS } from './support/lead-form';
 
 const PORT = 4322;
-const ORIGIN = `http://127.0.0.1:${PORT}`;
+const BASE = '/gaby-main-page';
+const ORIGIN = `http://127.0.0.1:${PORT}${BASE}`;
 
 let outDir = '';
 let server: PreviewServer | undefined;
@@ -33,6 +35,7 @@ test.beforeAll(async () => {
     env: {
       ...process.env,
       PUBLIC_PREVIEW: 'true',
+      SITE_BASE_PATH: `${BASE}/`,
       PUBLIC_CALENDLY_URL: 'https://calendly.com/test-account/intro-call',
     },
     stdio: 'pipe',
@@ -40,6 +43,7 @@ test.beforeAll(async () => {
   server = await preview({
     root: process.cwd(),
     build: { outDir },
+    base: `${BASE}/`,
     preview: { host: '127.0.0.1', port: PORT, strictPort: true },
   });
 });
@@ -126,6 +130,17 @@ for (const lang of ['es', 'en'] as const) {
     expect(tracked.forbidden).toEqual([]);
   });
 }
+
+test('under the base path the form renders in the page language (FR-012)', async ({ page }) => {
+  for (const lang of ['es', 'en'] as const) {
+    const form = getForm(lang);
+    for (const path of [routePath('vip', lang), `${routePath('home', lang)}#lead-form`]) {
+      await page.goto(`${ORIGIN}${path}`);
+      await expect(page.locator('label[for="lead-name"]')).toHaveText(form.name.label);
+      await expect(page.locator(SELECTORS.submitButton)).toContainText(form.submit.idle);
+    }
+  }
+});
 
 test('a normal build shows no preview note and no stand-in markup on the form screens', async ({ page }) => {
   // Served by the suite's regular webServer (baseURL), which is not a preview build.
