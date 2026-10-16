@@ -23,9 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PUBLIC_PREVIEW: "true"
-      # Name of the base-path variable read by astro.config.mjs
-      # (GK-020-site-shell). Keep in sync with that file.
-      SITE_BASE: /gaby-main-page/
+      # Read by astro.config.mjs (GK-020-site-shell).
+      SITE_BASE_PATH: /gaby-main-page/
     steps:
       - uses: actions/checkout@v4
 
