@@ -1,0 +1,27 @@
+---
+// Privacy notice page (UX_UI_DIRECTION.md section 5.5, US-020 AC1): a plain reading
+// page with the title, the DRAFT label until US-018 replaces the text, and the
+// notice (CONTENT.md section 9) in a narrow column. The DRAFT label is the notice's
+// own marker, not the pending badge of a content block.
+import PendingBadge from '../sections/PendingBadge.astro';
+import type { Language } from '../../i18n';
+import { getPrivacy } from '../../lib/lead/dictionaries';
+import PrivacyText from './PrivacyText.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { privacy } = getPrivacy(lang);
+---
+
+<section class="bg-ivory py-12 lg:py-20">
+  <div class="mx-auto max-w-[44rem] px-4">
+    <h1 class="text-[clamp(2rem,1.4rem+2.4vw,3.25rem)] leading-tight">{privacy.title}</h1>
+    <div class="mt-4">
+      <PendingBadge label={privacy.draft_label} />
+    </div>
+    <PrivacyText lang={lang} class="mt-8 text-base text-charcoal" />
+  </div>
+</section>

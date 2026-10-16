@@ -1,0 +1,43 @@
+---
+// The privacy notice text (CONTENT.md section 9): the eight paragraphs, shared by
+// the privacy page and the consent dialog so both always show the same keys.
+// `{contact_email}` is rendered as a mailto link to PUBLIC_CONTACT_EMAIL.
+import type { Language } from '../../i18n';
+import { CONTACT_EMAIL } from '../../lib/lead/config';
+import { getPrivacy } from '../../lib/lead/dictionaries';
+import { splitTemplate } from '../../lib/lead/format';
+import { PRIVACY_PARAGRAPH_KEYS } from '../../lib/lead/types';
+
+interface Props {
+  lang: Language;
+  class?: string;
+}
+
+const { lang, class: className } = Astro.props;
+const { privacy } = getPrivacy(lang);
+const paragraphs = PRIVACY_PARAGRAPH_KEYS.map((key) => ({
+  ...splitTemplate(privacy[key], 'contact_email'),
+  hasEmail: privacy[key].includes('{contact_email}'),
+}));
+---
+
+<div class:list={['space-y-3', className]} data-privacy-text>
+  {
+    paragraphs.map(({ before, after, hasEmail }) => (
+      <p>
+        {before}
+        {hasEmail ? (
+          <>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              class="text-heritage-blue underline underline-offset-2 hover:text-charcoal"
+            >
+              {CONTACT_EMAIL}
+            </a>
+            {after}
+          </>
+        ) : null}
+      </p>
+    ))
+  }
+</div>

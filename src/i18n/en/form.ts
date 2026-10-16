@@ -1,7 +1,7 @@
 // Lead form copy (EN). Owned by Implementation Agent 2. Source: docs/ux/CONTENT.md
 // sections 8.3-8.5 (copied verbatim, checked by tests/unit/i18n/form-content.test.ts)
 // and docs/specs/LEAD_API_CONTRACT.md section 8 (field error codes). The privacy
-// notice text moves to privacy.ts with GK-020-privacy-page.
+// notice text is in privacy.ts.
 import type { FormDictionary } from '../../lib/lead/types';
 
 export const form: FormDictionary = {
@@ -36,21 +36,6 @@ export const form: FormDictionary = {
   consent: {
     text: 'I agree to the processing of my personal data as described in the {privacy_notice_link}.',
     linkLabel: 'Privacy Notice',
-  },
-  privacyNotice: {
-    title: 'Privacy Notice',
-    draftLabel: 'Draft — pending legal review',
-    closeLabel: 'Close',
-    paragraphs: [
-      'Responsible party: Gabriela Kelly. Contact: {contact_email} (to be confirmed).',
-      'Data we collect: full name, email, phone, your pre-screening answer, the language you viewed the page in, and the date and time of your submission.',
-      'Purpose: to contact you about the initial call and the program, and to prioritize calls. We do not use it for any other purpose and do not sell it.',
-      'Who we share it with: Google (Google Sheets storage) and Calendly (scheduling the call), which may store data outside Costa Rica.',
-      'Voluntary nature: providing your data is optional. Without it, we cannot process the form or schedule your call from this page.',
-      'Your rights: you can request access, rectification, cancellation (deletion), or opposition to the processing of your data by emailing {contact_email}.',
-      'Retention period: to be defined; this will be updated once legal review is complete.',
-      'Each submission is associated with the version of this notice in effect at the time you submitted it.',
-    ],
   },
   submit: {
     idle: 'Submit my application',

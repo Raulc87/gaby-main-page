@@ -91,13 +91,6 @@ export interface FormDictionary {
   screening: { prompt: string; options: ScreeningOptionCopy[] };
   /** `text` contains one `{privacy_notice_link}` placeholder rendered as the dialog trigger. */
   consent: { text: string; linkLabel: string };
-  privacyNotice: {
-    title: string;
-    draftLabel: string;
-    closeLabel: string;
-    /** Paragraphs may contain `{contact_email}`, replaced with `PUBLIC_CONTACT_EMAIL` before rendering. */
-    paragraphs: string[];
-  };
   submit: { idle: string; submitting: string };
   /** The line under the submit button (`form.trust`). */
   trust: string;
@@ -158,3 +151,26 @@ export interface ResourcesDictionary {
     topic: Record<'debt' | 'wallets' | 'investing' | 'mindset', string>;
   };
 }
+
+/**
+ * Privacy notice (CONTENT.md section 9), keyed as in CONTENT.md (`privacy.title`,
+ * `privacy.p1`, ...): the page and the dialog show the same text. Paragraphs may
+ * contain one `{contact_email}`, rendered as a mailto link.
+ */
+export interface PrivacyDictionary {
+  privacy: {
+    title: string;
+    draft_label: string;
+    close: string;
+    p1: string;
+    p2: string;
+    p3: string;
+    p4: string;
+    p5: string;
+    p6: string;
+    p7: string;
+    p8: string;
+  };
+}
+
+export const PRIVACY_PARAGRAPH_KEYS = ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8'] as const;

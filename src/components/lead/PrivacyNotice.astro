@@ -1,18 +1,20 @@
 ---
-// Privacy notice dialog (US-011 AC2, AC5). Draft structure per Costa Rica's
-// Ley N.° 8968 (UX_UI_DIRECTION.md "Privacy Notice" section); requires
-// legal review before public launch, hence the visible draft marker. Opened
-// in place via <dialog>.showModal() (see leadFormController.ts) so the
-// visitor never navigates away and their entered form data is kept.
+// Privacy notice dialog (US-011 AC2, AC5). Shows the same text as the privacy page
+// (CONTENT.md section 9, via PrivacyText), with the visible DRAFT label; requires
+// legal review before public launch (US-018). Opened in place via
+// <dialog>.showModal() (see leadFormController.ts) so the visitor never navigates
+// away and their entered form data is kept.
 import PendingBadge from '../sections/PendingBadge.astro';
-import type { FormDictionary } from '../../lib/lead/types';
+import type { Language } from '../../i18n';
+import { getPrivacy } from '../../lib/lead/dictionaries';
+import PrivacyText from './PrivacyText.astro';
 
 interface Props {
-  privacyNotice: FormDictionary['privacyNotice'];
-  contactEmail: string;
+  lang: Language;
 }
 
-const { privacyNotice, contactEmail } = Astro.props;
+const { lang } = Astro.props;
+const { privacy } = getPrivacy(lang);
 ---
 
 <dialog
@@ -20,18 +22,16 @@ const { privacyNotice, contactEmail } = Astro.props;
   class="max-w-lg rounded-[4px] border-t-4 border-heritage-blue bg-surface p-6 backdrop:bg-charcoal/50"
 >
   <div class="mb-4 flex items-start justify-between gap-4">
-    <h2 class="text-lg text-charcoal">{privacyNotice.title}</h2>
+    <h2 class="text-lg text-charcoal">{privacy.title}</h2>
     <button
       type="button"
       id="privacy-notice-close"
-      aria-label={privacyNotice.closeLabel}
+      aria-label={privacy.close}
       class="min-h-11 min-w-11 text-xl leading-none text-muted hover:text-charcoal"
     >
       ×
     </button>
   </div>
-  <PendingBadge label={privacyNotice.draftLabel} />
-  <div class="mt-4 space-y-3 text-sm text-muted">
-    {privacyNotice.paragraphs.map((paragraph) => <p>{paragraph.replaceAll('{contact_email}', contactEmail)}</p>)}
-  </div>
+  <PendingBadge label={privacy.draft_label} />
+  <PrivacyText lang={lang} class="mt-4 text-sm text-muted" />
 </dialog>
