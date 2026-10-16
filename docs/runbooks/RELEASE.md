@@ -94,7 +94,7 @@ On Windows (PowerShell):
 
 Success: one line containing `<meta name="robots" content="noindex` appears. No output means the page is missing `noindex`: go to the troubleshooting table.
 
-### 5.5 In the terminal: the forms send nothing
+### 5.5 In the browser: the forms send nothing
 
 1. Open the Spanish VIP page: `https://raulc87.github.io/gaby-main-page/es/mentoria-vip/`.
 2. Open the browser's developer tools and select the **Network** tab.
