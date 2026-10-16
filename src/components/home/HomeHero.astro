@@ -1,0 +1,65 @@
+---
+// Hero `#hero` (UX_UI_DIRECTION.md section 5.1 item 1, CONTENT.md section 5.1): ivory,
+// two columns on desktop. Left: eyebrow, H1 (italic second half), lead, the gold
+// `home.hero.cta` to the VIP page, the text link `home.hero.secondary` to the
+// resources and the trust line. Right: Gaby's round portrait (the provisional photo)
+// inside thin sand arcs with a soft-gold polar star. On mobile the copy comes first,
+// then the portrait at 160 px; the gold button and the text link stack full width.
+import Button from '../layout/Button.astro';
+import PolarStar from '../layout/PolarStar.astro';
+import { getCommon, getHome, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import { assetUrl, pageHref } from '../../lib/site/links';
+import Emphasized from './Emphasized.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { home } = getHome(lang);
+const { cta } = getCommon(lang);
+---
+
+<section id={ANCHORS.home.hero} tabindex="-1" class="scroll-mt-16 outline-none overflow-hidden bg-ivory">
+  <div class="mx-auto grid max-w-[1160px] items-center gap-12 px-4 py-16 lg:grid-cols-[1.2fr_1fr] lg:gap-16 lg:py-24">
+    <div>
+      <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+        {home.hero.eyebrow}
+      </p>
+      <h1 class="mt-4 text-[clamp(2.5rem,1.9rem+2.9vw,4rem)] leading-[1.1]">
+        <Emphasized text={home.hero.title} />
+      </h1>
+      <p class="mt-6 max-w-[65ch] text-charcoal">{home.hero.lead}</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+        <Button variant="gold" href={pageHref('vip', lang)} label={cta.vip_long} class="w-full sm:w-auto" />
+        <a
+          href={pageHref('resources', lang)}
+          class="inline-flex min-h-11 items-center justify-center font-semibold text-heritage-blue underline-offset-4 hover:underline sm:justify-start"
+        >
+          {cta.start_free}
+        </a>
+      </div>
+      <p class="mt-6 text-sm text-muted">{home.hero.trust}</p>
+    </div>
+
+    <div class="flex justify-center lg:justify-end">
+      <div class="relative">
+        <div aria-hidden="true" class="absolute -inset-4 rounded-full border border-sand lg:-inset-6"></div>
+        <div aria-hidden="true" class="absolute -inset-8 rounded-full border border-sand/60 lg:-inset-12"></div>
+        <PolarStar
+          tone="gold"
+          size={96}
+          class="absolute -right-6 -top-6 h-[96px] w-[96px] lg:-right-10 lg:-top-10 lg:h-[140px] lg:w-[140px]"
+        />
+        <img
+          src={assetUrl('/gabriela-provisional.jpg')}
+          alt={home.hero.photo_alt}
+          width="352"
+          height="352"
+          class="relative h-40 w-40 rounded-full border-[6px] border-ivory object-cover lg:h-72 lg:w-72"
+        />
+      </div>
+    </div>
+  </div>
+</section>

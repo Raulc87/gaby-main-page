@@ -1,0 +1,53 @@
+---
+// Método Polaris `#metodo` (UX_UI_DIRECTION.md section 5.1 item 4): surface; eyebrow,
+// title and three numbered steps ("01", "02", "03" in Playfair, heritage-blue) in a
+// row on desktop, stacked on mobile; the polar star beside the title. The steps are
+// provisional copy (the official steps are still to come, US-028): each shows the
+// pending badge in preview and development builds.
+import PolarStar from '../layout/PolarStar.astro';
+import PendingBadge from '../sections/PendingBadge.astro';
+import { getCommon, getHome, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import Emphasized from './Emphasized.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { method } = getHome(lang).home;
+const { pending } = getCommon(lang);
+const steps = [method['1'], method['2'], method['3']];
+---
+
+<section id={ANCHORS.home.method} tabindex="-1" class="scroll-mt-16 outline-none bg-surface">
+  <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
+    <div class="flex items-start justify-between gap-6">
+      <div class="max-w-[44rem]">
+        <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+          {method.eyebrow}
+        </p>
+        <h2 class="mt-3 text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">
+          <Emphasized text={method.title} />
+        </h2>
+      </div>
+      <PolarStar tone="sand" size={96} class="hidden h-[96px] w-[96px] sm:block lg:h-[140px] lg:w-[140px]" />
+    </div>
+    <ol class="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+      {
+        steps.map((step, index) => (
+          <li data-method-step>
+            <span aria-hidden="true" class="font-serif text-5xl font-medium text-heritage-blue">
+              {`0${index + 1}`}
+            </span>
+            <h3 class="mt-3 text-[1.1875rem] leading-snug text-charcoal">{step.title}</h3>
+            <p class="mt-2 text-base text-charcoal">{step.body}</p>
+            <p class="mt-3">
+              <PendingBadge label={pending.badge} block="home.method" />
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

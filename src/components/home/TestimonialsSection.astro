@@ -1,0 +1,66 @@
+---
+// Testimonials `#testimonios` (UX_UI_DIRECTION.md section 5.1 item 7, section 6.3):
+// surface; title and three placeholder cards (two text, one video), each with the
+// pending badge. No real testimonial exists yet (BR-011, US-017): the cards hold the
+// keyed placeholder text and attribution, a terracotta decorative quote mark, and for
+// the video a 16:9 sand poster with a decorative play icon. Nothing is loaded.
+import PendingBadge from '../sections/PendingBadge.astro';
+import { getCommon, getHome, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import Emphasized from './Emphasized.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { home, testimonial } = getHome(lang);
+const { pending } = getCommon(lang);
+const cards = [
+  { kind: 'text', caption: testimonial.placeholder.text },
+  { kind: 'video', caption: testimonial.placeholder.video },
+  { kind: 'text', caption: testimonial.placeholder.text },
+] as const;
+---
+
+<section id={ANCHORS.home.testimonials} tabindex="-1" class="scroll-mt-16 outline-none bg-surface">
+  <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
+    <h2 class="max-w-[44rem] text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">
+      <Emphasized text={home.testimonials.title} />
+    </h2>
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      {
+        cards.map((card) => (
+          <article
+            class="flex flex-col overflow-hidden rounded-[4px] border border-sand bg-surface"
+            data-testimonial-card={card.kind}
+          >
+            {card.kind === 'video' ? (
+              <div aria-hidden="true" class="flex aspect-video items-center justify-center bg-sand">
+                <span class="flex h-14 w-14 items-center justify-center rounded-full bg-surface">
+                  <svg viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-6 w-6 text-heritage-blue">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </span>
+              </div>
+            ) : (
+              <span
+                aria-hidden="true"
+                class="px-6 pt-4 font-serif text-6xl leading-none text-terracotta"
+              >
+                &ldquo;
+              </span>
+            )}
+            <div class="flex flex-1 flex-col gap-2 p-6 pt-3">
+              <p class="text-base text-muted">{card.caption}</p>
+              <p class="text-sm text-muted">{testimonial.placeholder.attribution}</p>
+              <p class="mt-auto pt-3">
+                <PendingBadge label={pending.badge} block="home.testimonials" />
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
