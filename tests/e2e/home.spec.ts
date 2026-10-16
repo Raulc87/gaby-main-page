@@ -58,6 +58,9 @@ test.describe('header and footer on every page', () => {
           routePath('privacy', lang),
         );
         await expect(footer.getByRole('link')).toHaveCount(2); // brand + privacy only
+        for (const link of await footer.getByRole('link').all()) {
+          expect((await link.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+        }
 
         // AC1: no blog or method page in phase 2a.
         await expect(page.locator('a[href*="/blog"], a[href*="metodo-polaris"], a[href*="polaris-method"]')).toHaveCount(0);
@@ -91,6 +94,16 @@ test.describe('language toggle (AC4)', () => {
     await page.locator('[data-language-toggle] a[data-lang="en"]').click();
     await page.waitForURL(`**${routePath('home', 'en')}#lead-form`);
     expect(await page.evaluate(() => localStorage.getItem('preferred_language'))).toBe('en');
+  });
+
+  test('a Ctrl-click that keeps the page open does not pile the anchor up on the next click', async ({ page }) => {
+    await page.goto(`${routePath('home', 'es')}#lead-form`);
+    const toEnglish = page.locator('[data-language-toggle] a[data-lang="en"]');
+    await toEnglish.click({ modifiers: ['Control'] });
+    await expect(toEnglish).toHaveAttribute('href', `${routePath('home', 'en')}#lead-form`);
+    await toEnglish.click();
+    await page.waitForURL(`**${routePath('home', 'en')}#lead-form`);
+    expect(page.url().match(/#/g)).toHaveLength(1);
   });
 
   test('the saved choice decides where "/" leads (AC6)', async ({ page }) => {

@@ -26,6 +26,7 @@ const { lang, pageId, label } = Astro.props;
         )}
         <a
           href={pageHref(pageId, code)}
+          data-base-href={pageHref(pageId, code)}
           data-lang={code}
           lang={code}
           hreflang={code}
@@ -53,10 +54,10 @@ const { lang, pageId, label } = Astro.props;
     .querySelectorAll<HTMLAnchorElement>('[data-language-toggle] [data-lang]')
     .forEach((link) => {
       link.addEventListener('click', () => {
-        const currentHash = window.location.hash;
-        if (currentHash) {
-          link.href = `${link.getAttribute('href')}${currentHash}`;
-        }
+        // Always build from the link's own path, never from its current href: the
+        // handler also runs for a Ctrl-click that leaves this page open, and the
+        // hash must not pile up on a second activation.
+        link.href = `${link.dataset.baseHref}${window.location.hash}`;
 
         const lang = link.dataset.lang;
         if (!lang) return;
