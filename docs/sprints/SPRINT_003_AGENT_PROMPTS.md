@@ -93,23 +93,27 @@ Order of work:
      helper in src/lib/site/ that builds links from import.meta.env.BASE_URL; astro.config.mjs
      reads the base from an environment variable (default "/").
    - src/lib/site/ preview flag (PUBLIC_PREVIEW) and the preview bar (§6.6); noindex in
-     preview builds; pending badges on in preview and development, off in production builds.
+     preview builds; the PendingBadge reads the badge-block list (CONTENT.md → Metadata → Pending
+     badge): placeholders show it in every build, provisional copy blocks in preview and
+     development only (UX_UI_DIRECTION.md §6.5, §7).
    - Layout, header (desktop navigation, outlined VIP link, ES|EN toggle switching to the same
      page id and anchor, mobile menu below 1024 px with focus management and Escape), skip
      link, footer (§4.2, no Terms link), VipBand component (§4.4).
    - Dictionary split: src/i18n/{es,en}/common.ts for header, footer, CTAs, VIP band
      (CONTENT.md §2–4). Keep the existing content.ts and form.ts working.
-   - Stub pages for story, resources, vip and privacy in both languages with their titles and
+   - Stub pages for the phase 2a page ids only (story, resources, vip, privacy; no blog or
+     method page) in both languages with their titles and
      descriptions (CONTENT.md §1) and the layout only; tell Agents 2 and 3 (through me) when
      merged — the stubs then belong to them.
    - The current one-page Home keeps working (inside the new layout) until GK-021-home.
    - Unit tests: every page id has both paths, paths unique, links include the base.
      tests/e2e/home.spec.ts is yours; ask Agent 2 for any change in the shared e2e suite.
-3. GK-021-home — US-021, only after Agent 2's GK-023-vip-page is merged (the application form
-   leaves the Home then):
+3. GK-021-home — US-021, only after Agent 2's GK-023-vip-page (the application form leaves the
+   Home then) and GK-024-resource-library (the teaser reads src/data/resources.ts) are merged:
    - The Home sections in order (UX_UI_DIRECTION.md §5.1, CONTENT.md §5), resource teaser
-     cards reading the resource list Agent 2 publishes in src/data/resources.ts (ask for its
-     state if it is not merged; do not duplicate it), testimonial placeholders, VIP band.
+     cards reading the resource list in src/data/resources.ts (Agent 2's; never duplicate it),
+     testimonial placeholders, the story teaser on ivory with terracotta only as an accent
+     (§5.1 item 6), VIP band.
    - Never two gold buttons in one viewport at 360, 390, 768, 1280 px.
    - Remove the phase 1 section components and content.ts that nothing uses any more.
    - tests/e2e/home.spec.ts: sections in order, VIP links lead to the VIP page, both languages.
@@ -143,21 +147,23 @@ Order of work:
    - Move the e2e suite to the VIP page in this same PR; add e2e for one qualified and one
      not-ready answer in both languages. The Home keeps its form until Agent 1's
      GK-021-home; both must pass.
-3. GK-020-privacy-page — the privacy notice page in both languages from the existing notice
-   (same text, DRAFT kept; CONTENT.md §9); the consent link keeps opening the dialog.
-4. GK-024-resource-library — US-024:
+3. GK-027-preview-forms — US-027 AC3, right after GK-023-vip-page and before Agent 3's preview
+   workflow merges (the first publish must already be safe): in preview builds the form, wherever
+   it is used (the VIP page and the phase 1 Home while it has it), never calls an endpoint and
+   loads no third party; after client-side validation it shows the next screen per the routing
+   with preview.form_note, and the scheduler is the static stand-in (preview.scheduler) whatever
+   is configured. Unit tests with the flag on and off; e2e against a preview build that asserts
+   no request to /api or calendly.com is made. Tell me (and through me Agent 3) when merged.
+4. GK-020-privacy-page — the privacy notice page in both languages, with the keyed text of
+   CONTENT.md §9 (privacy.*, DRAFT label kept); the dialog shows the same keys; the consent link
+   keeps opening the dialog.
+5. GK-024-resource-library — US-024:
    - src/data/resources.ts: the typed list from CONTENT.md §7.3 (id, type, topic, access,
      home order, titles and descriptions per language, file per language or none). No file
      is linked unless it exists in public/resources/ (none yet: every card shows pending).
    - Resource card (§6.1), featured mini-course, topic filters with aria-pressed (all shown and
      filters hidden without JavaScript), empty state, short VIP band.
    - Tell Agent 1 (through me) when the list is merged; the Home teaser reads it.
-5. GK-027-preview-forms — US-027 AC3, after GK-023-vip-page and Agent 3's
-   GK-027-preview-workflow: in preview builds the form never calls an endpoint and loads no
-   third party; after client-side validation it shows the next screen per the routing with
-   preview.form_note, and the scheduler is the static stand-in (preview.scheduler) whatever is
-   configured. Unit tests with the flag on and off; e2e against a preview build that asserts no
-   request to /api or calendly.com is made.
 6. Integration check (SPRINT_003.md merge order step 5) and a short report to me.
 ```
 
@@ -171,7 +177,9 @@ You are Implementation Agent 3: preview publishing and the My story page. Storie
 
 Order of work:
 1. GK-027-preview-workflow — US-027 AC1, AC2 (with Agent 1's flag), AC4, AC5; start now, open
-   the PR once GK-020-site-shell is merged (it needs the base path):
+   the PR once GK-020-site-shell is merged (it needs the base path). It must not merge before
+   Agent 2's GK-027-preview-forms (no form may send data from the first publish on); say so in
+   the PR description:
    - .github/workflows/preview.yml per ADR-005: on push to main (and workflow_dispatch), build
      with PUBLIC_PREVIEW=true and the base /gaby-main-page/, upload with
      actions/upload-pages-artifact and publish with actions/deploy-pages (environment

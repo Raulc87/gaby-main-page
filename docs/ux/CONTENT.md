@@ -14,6 +14,10 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
   - `provisional`: proposed by the team, or a placeholder in the brief itself (`[...]` there); shown with the pending badge in preview builds.
   - **All English values are provisional** until Gaby validates them (one review of the English as a whole); that does not add badges.
 - Values are copied verbatim and never contain markers. The code keeps the list of provisional keys next to the strings (`UX_UI_DIRECTION.md` §7).
+- **Pending badge (which keys show one):** only content blocks, never navigation, accessibility labels, alt text, metadata or state messages. Two kinds (`UX_UI_DIRECTION.md` §6.5):
+  - **Placeholders** (content that has not arrived; BR-011), badge in **every** build, production included, until the real content replaces them: the testimonial cards (§5.7), the story photo and bio placeholders (§6), the VIP video module (§8.2), and every resource card whose file has not been delivered (§7.3).
+  - **Provisional copy blocks**, badge in preview and development builds only: the Método Polaris steps (§5.4), the VIP steps (§8.1), the not-ready screen (§8.5), and resource cards with provisional titles. Before any production release, each of these is approved or the human owner decides per block whether it ships (as the phase 1 go-live gate did).
+  - No badge: `nav.*`, `skip_link`, `lang.*`, `meta.*`, `*_alt`, `resource.cover_alt`, `resources.filter.label`, `resources.empty`, `resource.pending`, `resource.email.coming_soon`, `story.media.label`, `story.experience.label`, `preview.*`, `privacy.*` (the notice has its own DRAFT label).
 - `*text*` marks the italic emphasis (Playfair italic, `UX_UI_DIRECTION.md` §2) inside a heading; the asterisks are not part of the text.
 - `{contact_email}` is replaced with a `mailto:` link to `PUBLIC_CONTACT_EMAIL`.
 
@@ -305,6 +309,8 @@ Labels, hints, options and errors are the phase 1 form copy, unchanged except th
 
 `[...]` in `form.consent` is the link that opens the privacy notice dialog (not a placeholder). The phone label follows the brief ("WhatsApp"); the field, its validation and its contract name (`phone`) are unchanged.
 
+Open for Gaby (copy decision, `PROJECT_SPEC.md` §16): `form.submit` ("Enviar y agendar mi llamada", her wording) and `vip.steps.3` promise a call to everyone, but the not-ready answers get no scheduler (US-023 AC5; board 4: "Solo si califica"). Option: a neutral submit label (e.g. "Enviar mi aplicación") and step 3 "Agenda tu llamada (si calificas)". Until she decides, the strings stay as they are.
+
 ### 8.4 Errors
 
 | Key | Español | English | Status |
@@ -354,19 +360,23 @@ Below `thanks.not_ready.body` the `minicourse-debt` card (§7.3) is shown with i
 
 ## 9. Privacy notice (page `/es/privacidad/`, `/en/privacy/`, and the dialog from the consent link)
 
-**DRAFT — requires legal review before public launch (US-018).** The same text is shown on the page and in the dialog.
+**DRAFT — requires legal review before public launch (US-018).** The page and the dialog show the same text. Starting point: the phase 1 notice (`src/i18n/{es,en}/form.ts`, `privacyNotice`), with the phase 2 changes applied (name, phone (WhatsApp), VIP mentorship, "this site"). All keys are `provisional` until US-018 replaces them with the reviewed text.
 
-Required elements, in both languages (unchanged from phase 1 except the name, processors and the page):
-1. Responsible party: Gaby Kelly (Gabriela Kelly), contact `{contact_email}` (placeholder until confirmed).
-2. Data collected through the VIP application: full name, email, phone (WhatsApp), pre-screening answer, page language, date and time of submission.
-3. Purpose: contacting the person about the initial call and the VIP mentorship, and prioritizing calls. No other use; data is not sold.
-4. Recipients / processors: Google (Google Sheets storage) and Calendly (scheduling), which may store data outside Costa Rica.
-5. Voluntary nature: providing data is optional; without it, the application cannot be submitted and the call cannot be booked through this site.
-6. Rights: access, rectification, cancellation (deletion), and opposition, by email to the contact address.
-7. Retention period: TBD (legal review).
-8. Version identifier matching `PRIVACY_NOTICE_VERSION`.
+| Key | Español | English | Status |
+|---|---|---|---|
+| `privacy.title` | Aviso de Privacidad | Privacy Notice | provisional |
+| `privacy.draft_label` | Borrador — pendiente de revisión legal | Draft — pending legal review | provisional |
+| `privacy.close` | Cerrar | Close | provisional |
+| `privacy.p1` | Responsable del tratamiento: Gaby Kelly (Gabriela Kelly). Contacto: {contact_email} (dato por confirmar). | Responsible party: Gaby Kelly (Gabriela Kelly). Contact: {contact_email} (to be confirmed). | provisional |
+| `privacy.p2` | Datos que recopilamos: nombre completo, correo electrónico, teléfono (WhatsApp), tu respuesta a la pregunta de preselección, el idioma en el que ves el sitio, y la fecha y hora de tu envío. | Data we collect: full name, email, phone (WhatsApp), your pre-screening answer, the language you viewed the site in, and the date and time of your submission. | provisional |
+| `privacy.p3` | Para qué los usamos: para contactarte sobre la llamada inicial y la Mentoría VIP, y para priorizar las llamadas. No los usamos para ningún otro fin ni los vendemos. | Purpose: to contact you about the initial call and the VIP Mentorship, and to prioritize calls. We do not use it for any other purpose and do not sell it. | provisional |
+| `privacy.p4` | Con quién los compartimos: con Google (almacenamiento en Google Sheets) y Calendly (agendamiento de la llamada), que pueden almacenar información fuera de Costa Rica. | Who we share it with: Google (Google Sheets storage) and Calendly (scheduling the call), which may store data outside Costa Rica. | provisional |
+| `privacy.p5` | Carácter voluntario: brindar tus datos es opcional. Sin ellos no podemos procesar tu aplicación ni agendar tu llamada desde este sitio. | Voluntary nature: providing your data is optional. Without it, we cannot process your application or schedule your call from this site. | provisional |
+| `privacy.p6` | Tus derechos: puedes solicitar acceso, rectificación, cancelación (eliminación) u oposición al tratamiento de tus datos escribiendo a {contact_email}. | Your rights: you can request access, rectification, cancellation (deletion), or opposition to the processing of your data by emailing {contact_email}. | provisional |
+| `privacy.p7` | Plazo de conservación: por definir; se actualizará cuando se complete la revisión legal. | Retention period: to be defined; this will be updated once legal review is complete. | provisional |
+| `privacy.p8` | Cada envío queda asociado a la versión de este aviso vigente en el momento de tu envío. | Each submission is associated with the version of this notice in effect at the time you submitted it. | provisional |
 
-Resource requests by email (US-025) are added to the notice before phase 2b goes live (US-025 AC6).
+The privacy notice shows its own DRAFT label (`privacy.draft_label`), not the pending badge. Resource requests by email (US-025) are added to the notice before phase 2b goes live (US-025 AC6).
 
 ## 10. Pending badge
 

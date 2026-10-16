@@ -25,7 +25,7 @@ Readiness checklist run on 2026-10-16 on the documents as they will be merged by
 | # | Gate (checklist section) | Status |
 |---|---|---|
 | 1 | Sprint 002 closed (`SPRINT_002.md` close-out) | Done in this PR |
-| 2 | Paths in `PROJECT_CONTEXT.md` exist (§1, blocking) | Done in this PR (`CONTENT.md`, ADR-005 added) |
+| 2 | Paths in `PROJECT_CONTEXT.md` exist (§1, blocking) | Done in this PR (`CONTENT.md`, ADR-005 added), except `docs/runbooks/RELEASE.md`, planned in US-027 and merged before the first preview publish (`AGENTS.md` → Document map, Runbooks: a runbook may be a story ordered before the first deploy). Agents do not stop on it |
 | 3 | `AGENTS.md` and the checklist match the Starter Kit (§1, blocking) | Done (#49; kit #12 and #13 changed neither) |
 | 4 | `README.md` status matches `PROJECT_CONTEXT.md` (§1) | Done in this PR |
 | 5 | Branch names for every story (§1, blocking) | Done (Planned Stories) |
@@ -53,9 +53,9 @@ Non-blocking items, for the human owner:
 | US-023 VIP page and routing | 5 | Agent 2 | `GK-020-site-shell` | `GK-023-vip-page` | Planned |
 | US-020 AC1 (privacy notice page) | — | Agent 2 | `GK-020-site-shell` | `GK-020-privacy-page` | Planned |
 | US-024 Free resource library | 5 | Agent 2 | `GK-020-site-shell` | `GK-024-resource-library` | Planned |
-| US-027 AC3 (preview mode in forms) | — | Agent 2 | `GK-023-vip-page` | `GK-027-preview-forms` | Planned |
-| US-021 Home for corporate professionals | 8 | Agent 1 | `GK-020-site-shell`, `GK-023-vip-page` merged (the form leaves the Home) | `GK-021-home` | Planned |
-| US-027 Preview on GitHub Pages (workflow, `RELEASE.md`) | 3 | Agent 3 | `GK-020-site-shell` (base path) | `GK-027-preview-workflow` | Planned |
+| US-027 AC3 (preview mode in forms) | — | Agent 2 | `GK-023-vip-page` | `GK-027-preview-forms` | Planned; merges **before** the preview workflow |
+| US-021 Home for corporate professionals | 8 | Agent 1 | `GK-020-site-shell`; `GK-023-vip-page` merged (the form leaves the Home); `GK-024-resource-library` merged (the teaser reads `src/data/resources.ts`) | `GK-021-home` | Planned |
+| US-027 Preview on GitHub Pages (workflow, `RELEASE.md`) | 3 | Agent 3 | `GK-020-site-shell` (base path); `GK-027-preview-forms` merged (no form may send data from the preview) | `GK-027-preview-workflow` | Planned |
 | US-022 My story page | 3 | Agent 3 | `GK-020-site-shell`; logo files (human owner) | `GK-022-my-story` | Planned |
 
 Total: 34 points. Not in this sprint: US-025, US-026, US-028 (phase 2b); US-014 (on hold); US-017 and US-018 (waiting on content and legal text, backlog); the Sprint 003 follow-up from Sprint 002 (`h1`–`h3` colour rule into `@layer base`) is absorbed by US-019 (the token rewrite replaces those rules).
@@ -71,7 +71,7 @@ Total: 34 points. Not in this sprint: US-025, US-026, US-028 (phase 2b); US-014 
 - `GK-023-vip-page`: the VIP page (`CONTENT.md` §8, `UX_UI_DIRECTION.md` §5.4, §6.2, §6.4), the form restyle (US-019 tokens; `field-line` borders), the routing by screening answer, the not-ready screen; moves the e2e suite from the Home's form to the VIP page.
 - `GK-020-privacy-page`: the privacy notice page from the existing notice component (same text, DRAFT kept).
 - `GK-024-resource-library`: the typed resource list (`CONTENT.md` §7.3), resource card, filters, featured mini-course, short VIP band.
-- `GK-027-preview-forms`: preview mode for the application form (US-027 AC3).
+- `GK-027-preview-forms`: preview mode for the application form (US-027 AC3), right after `GK-023-vip-page`; it must merge before the preview workflow publishes anything.
 - Keeps the cross-cutting e2e suite green.
 
 ### Agent 3 — Preview, My story
@@ -106,9 +106,9 @@ Locked: `docs/specs/LEAD_API_CONTRACT.md` v1.1, unchanged by phase 2. Shared wit
 ## Merge / Integration Order
 
 1. `GK-019-brand-tokens`, then `GK-020-site-shell` (Agent 1). Nothing else merges before the site shell, except unit-test-only or docs PRs.
-2. In parallel after step 1: `GK-023-vip-page`, then `GK-020-privacy-page` and `GK-024-resource-library` (Agent 2); `GK-027-preview-workflow` and `GK-022-my-story` (Agent 3).
-3. `GK-021-home` (Agent 1), after `GK-023-vip-page` (the form must be on the VIP page before the Home drops it; e2e moved in the same PR as the form).
-4. `GK-027-preview-forms` (Agent 2), after `GK-023-vip-page` and `GK-027-preview-workflow`.
+2. In parallel after step 1: `GK-023-vip-page`, then `GK-027-preview-forms`, `GK-020-privacy-page` and `GK-024-resource-library` (Agent 2); `GK-022-my-story` (Agent 3). `GK-027-preview-forms` covers the lead form wherever it is used, including the phase 1 Home while it still has it.
+3. `GK-027-preview-workflow` (Agent 3), only after `GK-027-preview-forms` is merged: the first publish must already have demonstration-mode forms (FR-030). Agent 3 can open the PR earlier; it does not merge before that.
+4. `GK-021-home` (Agent 1), after `GK-023-vip-page` (the form must be on the VIP page before the Home drops it; e2e moved in the same PR as the form) and `GK-024-resource-library` (the teaser reads its data).
 5. Integration check (Agent 2, owner of the cross-cutting e2e suite): every page in both languages, the toggle on every page, the VIP routing, at 390 px and 1280 px, on `main` locally and on the preview.
 
 Each merge to `main` after `GK-027-preview-workflow` updates the preview.

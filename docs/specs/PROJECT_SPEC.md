@@ -222,6 +222,7 @@ Out of scope:
 - Official Método Polaris steps and final name (Gaby)
 - Names and files of the free resources and the featured mini-course (Gaby)
 - Terms page: whether one is needed and its text (Gaby, legal review)
+- VIP submit label and third step (Gaby): "Enviar y agendar mi llamada" and "Agenda tu llamada inicial" promise a call, but not-ready answers get no scheduler (FR-010); a neutral wording is proposed in `CONTENT.md` §8.3
 - Session photos (Gaby), testimonials with authorization (Gaby), bio and credentials (Gaby)
 - The VIP explainer video and where it is hosted (Gaby, human owner)
 - Permission to show media logos (Canal 13, Radio Azul, Radio Fides); Intel logo (only Microsoft and Oracle are confirmed)

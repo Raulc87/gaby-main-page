@@ -293,7 +293,7 @@ so that the lead sheet stays clean and the endpoint cannot be abused.
 ## US-014 — Deploy to GoDaddy cPanel
 - Priority: High
 - Story Points: 3
-- Status: In progress — Sprint 002. Per criterion:
+- Status: On hold (backlog) since the Sprint 002 close-out, 2026-10-16. Per criterion:
   - AC1 runbook: done (#44).
   - AC2 Python version in cPanel: actionable now (human owner checks "Setup Python App" and records the version in ADR-001).
   - AC3 HTTPS: waits on the domain and SSL.
@@ -375,7 +375,7 @@ so that I can fix a production problem quickly instead of losing leads silently.
 ## US-017 — Final content from Gabriela
 - Priority: High
 - Story Points: 3
-- Status: In progress — Sprint 002. Proof cards merged (#33); final content waits on the review meeting with Gabriela
+- Status: Backlog since the Sprint 002 close-out (2026-10-16). Proof cards merged (#33); the remaining content arrives later (see the phase 2 note)
 - Phase 2 (2026-10-15): the copy now comes from Gaby's brief and is applied by US-021 to US-024. This story keeps what arrives later: session photos, authorized testimonials (text and video), bio and credentials, media logos once authorized, and the final names of the resources and the Método Polaris steps
 - Related Requirements: FR-003, FR-005, BR-003, BR-004, BR-005, BR-008
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` sections 4, 5, 6
@@ -403,7 +403,7 @@ so that visitors meet the real me before they leave their data.
 ## US-018 — Final privacy notice
 - Priority: High
 - Story Points: 2
-- Status: Ready — Sprint 002 (text depends on legal review; see dependencies); phase 2: the notice also gets its own page, linked from the footer (FR-017); the consent links keep opening it in a dialog (AC5)
+- Status: Backlog since the Sprint 002 close-out (2026-10-16), waiting on the legal text; must be done before any public launch; phase 2: the notice also gets its own page, linked from the footer (FR-017); the consent links keep opening it in a dialog (AC5)
 - Related Requirements: FR-013, BR-006
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` section 4, Privacy Notice
 
@@ -466,7 +466,7 @@ I want to move between the site's pages easily, in my language,
 so that I can find the story, the resources or the VIP path without getting lost.
 
 **Acceptance Criteria**
-1. The pages in FR-017 exist in both languages at the paths in `UX_UI_DIRECTION.md` (phase 2 site map); the Blog page is not linked until US-026.
+1. The phase 2a pages of FR-017 (`UX_UI_DIRECTION.md` §3, rows with Phase 2a: Home, My story, Free resources, VIP mentorship, Privacy notice) exist in both languages at their paths. The Blog (US-026) and Método Polaris (US-028) pages are phase 2b: not built and not linked in this story.
 2. The header shows the brand name, the navigation, the language toggle and the outlined VIP link on every page; the current page is indicated in the navigation.
 3. At common mobile widths the navigation collapses into a menu button that opens and closes with mouse, touch and keyboard (Escape closes it, focus is managed); the VIP link stays visible.
 4. The language toggle switches to the same page (and section) in the other language and remembers the choice (ADR-003).

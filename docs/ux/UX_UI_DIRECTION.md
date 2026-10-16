@@ -139,7 +139,7 @@ Order and anchors (copy: `CONTENT.md` §5):
 3. **Opportunity `#oportunidad`** (`ivory`): eyebrow, title, lead; six benefit cards (`surface`, `sand` border, line icon) in 3 columns on desktop, 2 at 768 px, 1 on mobile.
 4. **Método Polaris `#metodo`** (`surface`): eyebrow, title; three numbered steps ("01", "02", "03" in Playfair `heritage-blue`) in a row on desktop, stacked on mobile; the polar star beside the title. Steps show the pending badge (provisional).
 5. **Resources teaser `#recursos`** (`ivory`): eyebrow, title, the blue `home.resources.cta` link-button; three resource cards (§6.1).
-6. **Story teaser `#historia`** (`terracotta` panel with `charcoal` text, or `ivory` with a `terracotta` portrait frame): eyebrow, title, the three story paragraphs (all three at every width), the media names row (§5.2), and the text link `home.story.cta`.
+6. **Story teaser `#historia`** (`ivory` background; `terracotta` used only as an accent: a 4 px left rule on the title block and the portrait frame — no text on `terracotta`): eyebrow, title, the three story paragraphs (all three at every width), the media names row (§5.2), and the text link `home.story.cta`.
 7. **Testimonials `#testimonios`** (`surface`): title; three placeholder cards (two text, one video) with the pending badge (§6.3).
 8. **VIP band `#vip`** (§4.4). Keep at least one non-gold section between the hero and the VIP band at every width (it is the last section, so this always holds).
 
@@ -200,7 +200,7 @@ Plain reading page: title, the notice text (`CONTENT.md` §9) in a narrow column
 
 ### 6.5 Pending badge
 
-Small pill: `sand` fill, `charcoal` text, 12 px Manrope 600, `pending.badge`. Shown next to every provisional block (keys marked `provisional` in `CONTENT.md` and placeholders) in preview builds and in development; production builds show none (one build flag, as in phase 1).
+Small pill: `sand` fill, `charcoal` text, 12 px Manrope 600, `pending.badge`, at block level (a section heading, a card), never inside running text. Which blocks get one is listed in `CONTENT.md` → Metadata → Pending badge: placeholders (BR-011) show it in **every** build, production included, until the real content arrives; provisional copy blocks show it in preview and development builds only. Visibility follows the content's state (a typed list next to the strings), not only the build type.
 
 ### 6.6 Preview marker (US-027)
 
@@ -208,7 +208,7 @@ In preview builds only: a slim `charcoal` bar above the header with `preview.bad
 
 ## 7. Provisional copy in code
 
-The code keeps the list of provisional keys (`CONTENT.md` Status = `provisional`) next to the strings; the pending badge reads from it. English provisional status (all English, `CONTENT.md` metadata) does not add badges.
+The code keeps, next to the strings, the list of badge blocks from `CONTENT.md` → Metadata → Pending badge, each tagged `placeholder` or `provisional`; the pending badge reads from it. Provisional keys outside that list (navigation, labels, metadata, alt text, state messages) never show a badge. English provisional status (all English) does not add badges.
 
 ## 8. Imagery
 
