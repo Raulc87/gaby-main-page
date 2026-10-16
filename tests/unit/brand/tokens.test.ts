@@ -125,7 +125,7 @@ describe('allowed color pairs (UX_UI_DIRECTION.md section 2.2, AC5, AC7)', () =>
     ['soft-gold', 'ivory'],
     ['terracotta', 'ivory'],
     ['sand', 'ivory'],
-  ])('%s on %s is documented as never text (below 4.5:1)', (fg, bg) => {
+  ])('%s on %s is documented as never text (below 3:1)', (fg, bg) => {
     expect(contrast(c[fg], c[bg])).toBeLessThan(3);
   });
 

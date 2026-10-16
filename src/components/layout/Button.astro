@@ -44,8 +44,11 @@ const variants = {
 };
 
 const Tag = href ? 'a' : 'button';
+// A disabled link drops its href so it cannot be focused or activated.
 const tagProps = href
-  ? { href, 'aria-disabled': disabled ? ('true' as const) : undefined }
+  ? disabled
+    ? { role: 'link' as const, 'aria-disabled': 'true' as const }
+    : { href }
   : { type, disabled };
 
 const classes = [
