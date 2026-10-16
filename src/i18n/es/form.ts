@@ -1,7 +1,7 @@
 // Lead form copy (ES). Owned by Implementation Agent 2. Source: docs/ux/CONTENT.md
 // sections 8.3-8.5 (copied verbatim, checked by tests/unit/i18n/form-content.test.ts)
 // and docs/specs/LEAD_API_CONTRACT.md section 8 (field error codes). The privacy
-// notice text moves to privacy.ts with GK-020-privacy-page.
+// notice text is in privacy.ts.
 import type { FormDictionary } from '../../lib/lead/types';
 
 export const form: FormDictionary = {
@@ -36,21 +36,6 @@ export const form: FormDictionary = {
   consent: {
     text: 'Acepto el tratamiento de mis datos personales según el {privacy_notice_link}.',
     linkLabel: 'Aviso de Privacidad',
-  },
-  privacyNotice: {
-    title: 'Aviso de Privacidad',
-    draftLabel: 'Borrador — pendiente de revisión legal',
-    closeLabel: 'Cerrar',
-    paragraphs: [
-      'Responsable del tratamiento: Gabriela Kelly. Contacto: {contact_email} (dato por confirmar).',
-      'Datos que recopilamos: nombre completo, correo electrónico, teléfono, tu respuesta a la pregunta de preselección, el idioma en el que ves la página, y la fecha y hora de tu envío.',
-      'Para qué los usamos: para contactarte sobre la llamada inicial y el programa, y para priorizar las llamadas. No los usamos para ningún otro fin ni los vendemos.',
-      'Con quién los compartimos: con Google (almacenamiento en Google Sheets) y Calendly (agendamiento de la llamada), que pueden almacenar información fuera de Costa Rica.',
-      'Carácter voluntario: brindar tus datos es opcional. Sin ellos no podemos procesar el formulario ni agendar tu llamada desde esta página.',
-      'Tus derechos: puedes solicitar acceso, rectificación, cancelación (eliminación) u oposición al tratamiento de tus datos escribiendo a {contact_email}.',
-      'Plazo de conservación: por definir; se actualizará cuando se complete la revisión legal.',
-      'Cada envío queda asociado a la versión de este aviso vigente en el momento de tu envío.',
-    ],
   },
   submit: {
     idle: 'Enviar mi aplicación',
