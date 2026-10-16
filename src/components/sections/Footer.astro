@@ -1,6 +1,6 @@
 ---
-// Footer (UX_UI_DIRECTION.md section 2.1): `ink` background, wordmark stand-in
-// with the gold "GabyKelly", used until the real logo file arrives (US-015 AC5).
+// Footer (UX_UI_DIRECTION.md section 2.1): `charcoal` background, wordmark stand-in
+// in Playfair Display, used until the real logo file arrives (US-015 AC5).
 import type { Language } from '../../i18n';
 import { SECTION_IDS } from '../../i18n';
 
@@ -11,14 +11,14 @@ interface Props {
 const { lang } = Astro.props;
 ---
 
-<footer class="bg-ink py-10">
+<footer class="bg-charcoal py-10">
   <div class="mx-auto flex max-w-5xl flex-col items-center px-4 text-center">
     <a
       href={`/${lang}/#${SECTION_IDS.hero}`}
-      class="flex min-h-11 items-center gap-1 font-wordmark text-paper"
+      class="flex min-h-11 items-center gap-1 font-wordmark text-ivory"
     >
-      <span class="text-xl font-black">GK</span>
-      <span class="text-lg font-normal text-gold">GabyKelly</span>
+      <span class="text-xl font-medium">GK</span>
+      <span class="text-lg font-medium text-soft-gold">GabyKelly</span>
     </a>
   </div>
 </footer>

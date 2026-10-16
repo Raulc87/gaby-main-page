@@ -1,0 +1,80 @@
+---
+// Brand buttons (UX_UI_DIRECTION.md section 2.4, US-019 AC4).
+//   gold     in-page VIP calls to action only (hero, VIP bands, form submit);
+//            at most one visible per viewport (BR-010)
+//   blue     free actions: downloads, "see the library"
+//   outlined the header VIP link
+// Renders a link when `href` is given, otherwise a <button>. Text links
+// ("Read my full story") are plain anchors styled with `text-heritage-blue`,
+// not this component.
+interface Props {
+  variant: 'gold' | 'blue' | 'outlined';
+  label: string;
+  href?: string;
+  /** Trailing arrow icon (default true). */
+  arrow?: boolean;
+  /** Header-sized (44 px) instead of the 52 px calls to action. */
+  compact?: boolean;
+  /** On a heritage-blue band the focus ring is ivory (section 2.4). */
+  onBlue?: boolean;
+  type?: 'button' | 'submit';
+  disabled?: boolean;
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const {
+  variant,
+  label,
+  href,
+  arrow = true,
+  compact = false,
+  onBlue = false,
+  type = 'button',
+  disabled = false,
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const variants = {
+  gold: 'bg-soft-gold text-charcoal border-[1.5px] border-transparent hover:-translate-y-0.5 hover:brightness-95',
+  blue: 'bg-heritage-blue text-surface border-[1.5px] border-transparent hover:bg-[color-mix(in_srgb,var(--color-heritage-blue),var(--color-charcoal)_30%)]',
+  outlined:
+    'border-[1.5px] border-heritage-blue bg-transparent text-heritage-blue hover:bg-heritage-blue hover:text-surface',
+};
+
+const Tag = href ? 'a' : 'button';
+// A disabled link drops its href so it cannot be focused or activated.
+const tagProps = href
+  ? disabled
+    ? { role: 'link' as const, 'aria-disabled': 'true' as const }
+    : { href }
+  : { type, disabled };
+
+const classes = [
+  'inline-flex items-center justify-center gap-2 rounded-[2px] px-6 py-3 text-base font-bold transition',
+  compact ? 'min-h-11' : 'min-h-[52px]',
+  variants[variant],
+  onBlue && 'focus-visible:outline-ivory',
+  disabled && 'pointer-events-none opacity-50',
+  className,
+];
+---
+
+<Tag {...tagProps} class:list={classes} {...attrs}>
+  {label}
+  {
+    arrow && (
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 20 20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        class="h-4 w-4 shrink-0"
+      >
+        <path d="M4 10h12M11 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    )
+  }
+</Tag>

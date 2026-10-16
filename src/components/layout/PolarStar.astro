@@ -1,0 +1,56 @@
+---
+// The polar-star motif (UX_UI_DIRECTION.md section 2.5, US-019 AC3): a thin
+// line star with 4 long and 4 short points and thin concentric arcs. Replaces
+// the large yellow circles. Decorative: aria-hidden, no fill, constant 1.4 px
+// stroke at any size. Use at most once per section, never behind body text,
+// at most ~240 px on desktop (~140 px on mobile).
+//   gold  on heritage-blue bands, or as an accent on ivory
+//   sand  decorative on ivory
+interface Props {
+  tone?: 'gold' | 'sand';
+  /** Rendered width and height in px. */
+  size?: number;
+  class?: string;
+}
+
+const { tone = 'gold', size = 160, class: className } = Astro.props;
+
+const CENTER = 100;
+const LONG = 62;
+const SHORT = 36;
+const INNER = 11;
+
+// 16 vertices around the centre: long point at 0/90/180/270 degrees, short
+// point at the diagonals, an inner notch between each pair.
+const point = (radius: number, degrees: number) => {
+  const angle = ((degrees - 90) * Math.PI) / 180;
+  return `${(CENTER + radius * Math.cos(angle)).toFixed(2)} ${(CENTER + radius * Math.sin(angle)).toFixed(2)}`;
+};
+const vertices: string[] = [];
+for (let i = 0; i < 8; i++) {
+  vertices.push(point(i % 2 === 0 ? LONG : SHORT, i * 45));
+  vertices.push(point(INNER, i * 45 + 22.5));
+}
+const star = `M${vertices.join(' L')} Z`;
+
+// Two thin concentric arcs, not full circles, so the motif stays light.
+const arc = (radius: number, from: number, to: number) =>
+  `M${point(radius, from)} A${radius} ${radius} 0 ${to - from > 180 ? 1 : 0} 1 ${point(radius, to)}`;
+const arcs = [arc(78, 200, 340), arc(92, 20, 150)];
+---
+
+<svg
+  aria-hidden="true"
+  focusable="false"
+  viewBox="0 0 200 200"
+  width={size}
+  height={size}
+  fill="none"
+  stroke-width="1.4"
+  stroke-linejoin="round"
+  stroke-linecap="round"
+  class:list={['shrink-0', tone === 'gold' ? 'stroke-soft-gold' : 'stroke-sand', className]}
+>
+  <path d={star} vector-effect="non-scaling-stroke"></path>
+  {arcs.map((d) => <path d={d} vector-effect="non-scaling-stroke" />)}
+</svg>

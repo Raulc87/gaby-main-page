@@ -26,8 +26,8 @@ const { card } = Astro.props;
 
 {
   card.kind === 'text' && (
-    <div class="rounded-[2px] border border-dashed border-line bg-surface p-6">
-      <span aria-hidden="true" class="font-serif text-4xl leading-none text-gold-ink">
+    <div class="rounded-[2px] border border-dashed border-sand bg-surface p-6">
+      <span aria-hidden="true" class="font-serif text-4xl leading-none text-terracotta">
         &ldquo;
       </span>
       <p class="mt-2 text-sm text-muted">{card.placeholder}</p>
@@ -37,13 +37,13 @@ const { card } = Astro.props;
 
 {
   card.kind === 'video' && (
-    <div class="overflow-hidden rounded-[2px] border border-dashed border-line bg-surface">
-      <div class="relative flex aspect-video items-center justify-center bg-line">
+    <div class="overflow-hidden rounded-[2px] border border-dashed border-sand bg-surface">
+      <div class="relative flex aspect-video items-center justify-center bg-sand">
         <span
           aria-hidden="true"
           class="flex h-14 w-14 items-center justify-center rounded-full bg-surface/90 shadow"
         >
-          <svg viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-6 w-6 text-navy">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-6 w-6 text-heritage-blue">
             <path d="M8 5v14l11-7z" />
           </svg>
         </span>
