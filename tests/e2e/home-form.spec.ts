@@ -21,6 +21,18 @@ test('the Home form still validates and saves (qualified answer)', async ({ page
   await expect(page.getByRole('heading', { name: form.thankYou.title })).toBeVisible();
 });
 
+test('the Home form submit is not gold, so the Home never shows two gold buttons (BR-010)', async ({ page }) => {
+  await gotoHomeForm(page, 'es');
+  const gold = await page.$$eval(
+    '#lead-submit, #closing a',
+    (nodes) => nodes.filter((node) => getComputedStyle(node).backgroundColor === 'rgb(214, 176, 77)').length,
+  );
+  expect(gold).toBeLessThanOrEqual(1);
+  expect(await page.locator('#lead-submit').evaluate((el) => getComputedStyle(el).backgroundColor)).not.toBe(
+    'rgb(214, 176, 77)',
+  );
+});
+
 test('the Home form routes a not-ready answer to the not-ready screen', async ({ page }) => {
   const form = getForm('en');
   await gotoHomeForm(page, 'en');

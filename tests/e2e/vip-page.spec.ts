@@ -4,7 +4,7 @@
 import { expect, test } from '@playwright/test';
 import { getCommon } from '../../src/i18n';
 import { getForm, getVip } from '../../src/lib/lead/dictionaries';
-import { gotoVip, SELECTORS } from './support/lead-form';
+import { fillLeadForm, gotoVip, SELECTORS } from './support/lead-form';
 
 const SOFT_GOLD_RGB = 'rgb(214, 176, 77)';
 
@@ -63,4 +63,20 @@ test('the screening options are at least 44 px high', async ({ page }) => {
   );
   expect(heights).toHaveLength(4);
   for (const height of heights) expect(height).toBeGreaterThanOrEqual(44);
+});
+
+test('while submitting, the submit looks disabled: 50% opacity (UX_UI_DIRECTION.md section 2.4)', async ({ page }) => {
+  await page.route('**/api/save-lead', async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await route.continue();
+  });
+  await gotoVip(page, 'es');
+  await fillLeadForm(page);
+  await page.locator(SELECTORS.submitButton).click();
+
+  const button = page.locator(SELECTORS.submitButton);
+  await expect(button).toBeDisabled();
+  // The button transitions its opacity, so wait for the computed value to settle.
+  await expect(button).toHaveCSS('opacity', '0.5');
+  await expect(button).toHaveCSS('pointer-events', 'none');
 });

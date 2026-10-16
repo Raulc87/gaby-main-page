@@ -46,6 +46,7 @@ function formEntries(form: FormDictionary): Array<[string, string]> {
     ['form.screening.needs_investment_info', option('needs_investment_info')],
     ['form.screening.no_capacity_now', option('no_capacity_now')],
     ['form.screening.exploring', option('exploring')],
+    ['form.consent', form.consent.text.replace('{privacy_notice_link}', `[${form.consent.linkLabel}]`)],
     ['form.submit', form.submit.idle],
     ['form.submitting', form.submit.submitting],
     ['form.trust', form.trust],
