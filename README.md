@@ -1,26 +1,24 @@
-# Gabriela Kelly — Financial Health One-Page Pilot
+# Gaby Kelly — website
 
 First pilot project built with the [Spec-Driven Development Starter Kit](https://github.com/Raulc87/sdd_starter_kit).
 
 ## Project status
 
-**Sprint 001 is CLOSED** (2026-09-23 → 2026-09-28). **Sprint 002 is ACTIVE** (2026-09-29 → 2026-10-07, go-live on GoDaddy).
+**Phase 2 (brand redesign and multipage site).** Sprints 001 and 002 are CLOSED (phase 1, one-page site). **Sprint 003 is PLANNED** (phase 2a), waiting for the owner's go-ahead. Production deployment is on hold until the domain and hosting are decided; progress is shown on a GitHub Pages preview.
 
 See `PROJECT_CONTEXT.md` for the document map and current status.
 
 ## Product summary
 
-A bilingual (Spanish/English) one-page lead-generation website for Gabriela Kelly's high-ticket financial-health program.
+A bilingual (Spanish/English) website for Gaby Kelly: "Del mundo corporativo a tu libertad financiera" / "From corporate life to your financial freedom". It serves executives and professionals at multinational companies with free resources and one premium path, the VIP mentorship (Wealth Mastery).
 
-The target audience is people who already earn enough income but have financial disorder and tend to seek more income instead of first organizing and managing what they already have.
+The VIP path:
 
-Primary conversion:
+1. Visitor applies on the VIP page (full name, email, WhatsApp, one screening question about willingness and capacity to invest, privacy consent).
+2. The application is stored in Google Sheets.
+3. Qualified answers see a thank-you and book a call in the inline Calendly scheduler; the others see a thank-you with a free mini-course.
 
-1. Visitor understands the problem and proposed transformation (in Spanish or English).
-2. Visitor leaves contact information and accepts the privacy notice.
-3. Visitor answers one pre-screening question about willingness/capacity to invest.
-4. Lead is stored in Google Sheets.
-5. Visitor sees a thank-you message and books a call in the inline Calendly scheduler.
+Phase 1 (Sprints 001–002) built the one-page version of this flow; phase 2 (`docs/specs/PROJECT_SPEC.md` v0.5) turns it into a multipage site in Gaby's official brand.
 
 ## Reference approach
 

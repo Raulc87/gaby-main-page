@@ -1,6 +1,6 @@
 # ADR-001 — Python endpoint on GoDaddy cPanel, same origin
 
-- Status: Accepted (Python 3.11 documented by GoDaddy; confirm in the account during US-014)
+- Status: Accepted (Python 3.11 documented by GoDaddy; confirm in the account during US-014). Phase 2 (2026-10-16): the production domain and hosting are not decided; this ADR is the working assumption and is revisited when they are (`PROJECT_SPEC.md` §11, ADR-005)
 - Date: 2026-09-23 (updated 2026-09-28)
 - Decision owner: Human project owner
 - Related specs: `PROJECT_SPEC.md` (Constraints), `TECH_STACK.md`, `LEAD_API_CONTRACT.md`

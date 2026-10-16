@@ -5,7 +5,7 @@ Backlog source until Jira is available.
 Common references:
 - Spec: `docs/specs/PROJECT_SPEC.md`
 - Lead API contract: `docs/specs/LEAD_API_CONTRACT.md`
-- Copy (ES/EN): `docs/ux/UX_UI_DIRECTION.md` section 4 (phase 1, one page); from phase 2, `docs/ux/CONTENT.md`
+- Copy (ES/EN): `docs/ux/CONTENT.md` (phase 2, the only copy source); phase 1 copy was `UX_UI_DIRECTION.md` v0.8 §4 (history, commit `09d6ca6`)
 - Phase 2 source: Gaby's visual brief (2026-10-15), recorded in `PROJECT_SPEC.md` v0.5
 
 "Common mobile widths" in any acceptance criterion means viewports of 360 px, 390 px, and 768 px wide. "Both languages" means the Spanish (`/es/...`) and English (`/en/...`) versions of a page.
@@ -293,7 +293,7 @@ so that the lead sheet stays clean and the endpoint cannot be abused.
 ## US-014 — Deploy to GoDaddy cPanel
 - Priority: High
 - Story Points: 3
-- Status: In progress — Sprint 002. Per criterion:
+- Status: On hold (backlog) since the Sprint 002 close-out, 2026-10-16. Per criterion:
   - AC1 runbook: done (#44).
   - AC2 Python version in cPanel: actionable now (human owner checks "Setup Python App" and records the version in ADR-001).
   - AC3 HTTPS: waits on the domain and SSL.
@@ -375,7 +375,7 @@ so that I can fix a production problem quickly instead of losing leads silently.
 ## US-017 — Final content from Gabriela
 - Priority: High
 - Story Points: 3
-- Status: In progress — Sprint 002. Proof cards merged (#33); final content waits on the review meeting with Gabriela
+- Status: Backlog since the Sprint 002 close-out (2026-10-16). Proof cards merged (#33); the remaining content arrives later (see the phase 2 note)
 - Phase 2 (2026-10-15): the copy now comes from Gaby's brief and is applied by US-021 to US-024. This story keeps what arrives later: session photos, authorized testimonials (text and video), bio and credentials, media logos once authorized, and the final names of the resources and the Método Polaris steps
 - Related Requirements: FR-003, FR-005, BR-003, BR-004, BR-005, BR-008
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` sections 4, 5, 6
@@ -403,7 +403,7 @@ so that visitors meet the real me before they leave their data.
 ## US-018 — Final privacy notice
 - Priority: High
 - Story Points: 2
-- Status: Ready — Sprint 002 (text depends on legal review; see dependencies); phase 2: the notice also gets its own page, linked from the footer (FR-017); the consent links keep opening it in a dialog (AC5)
+- Status: Backlog since the Sprint 002 close-out (2026-10-16), waiting on the legal text; must be done before any public launch; phase 2: the notice also gets its own page, linked from the footer (FR-017); the consent links keep opening it in a dialog (AC5)
 - Related Requirements: FR-013, BR-006
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` section 4, Privacy Notice
 
@@ -428,7 +428,7 @@ so that the public form complies with Costa Rica's Ley N.° 8968.
 ## US-019 — Official brand skin
 - Priority: Critical
 - Story Points: 5
-- Status: Proposed — phase 2a
+- Status: Planned — Sprint 003 (phase 2a)
 - Related Requirements: FR-019, NFR-003, BR-005, BR-010
 - Related Spec: `UX_UI_DIRECTION.md` (brand section, phase 2)
 
@@ -455,7 +455,7 @@ so that visitors see the same Gaby Kelly they know from my other channels.
 ## US-020 — Multipage site and navigation
 - Priority: Critical
 - Story Points: 5
-- Status: Proposed — phase 2a
+- Status: Planned — Sprint 003 (phase 2a)
 - Related Requirements: FR-017, FR-018, FR-020, FR-012, FR-011
 - Related ADR: ADR-003 (updated for multiple pages)
 
@@ -466,7 +466,7 @@ I want to move between the site's pages easily, in my language,
 so that I can find the story, the resources or the VIP path without getting lost.
 
 **Acceptance Criteria**
-1. The pages in FR-017 exist in both languages at the paths in `UX_UI_DIRECTION.md` (phase 2 site map); the Blog page is not linked until US-026.
+1. The phase 2a pages of FR-017 (`UX_UI_DIRECTION.md` §3, rows with Phase 2a: Home, My story, Free resources, VIP mentorship, Privacy notice) exist in both languages at their paths. The Blog (US-026) and Método Polaris (US-028) pages are phase 2b: not built and not linked in this story.
 2. The header shows the brand name, the navigation, the language toggle and the outlined VIP link on every page; the current page is indicated in the navigation.
 3. At common mobile widths the navigation collapses into a menu button that opens and closes with mouse, touch and keyboard (Escape closes it, focus is managed); the VIP link stays visible.
 4. The language toggle switches to the same page (and section) in the other language and remembers the choice (ADR-003).
@@ -482,7 +482,7 @@ so that I can find the story, the resources or the VIP path without getting lost
 ## US-021 — Home for corporate professionals
 - Priority: Critical
 - Story Points: 8
-- Status: Proposed — phase 2a
+- Status: Planned — Sprint 003 (phase 2a)
 - Related Requirements: FR-001, FR-002, FR-004, FR-005, FR-021, FR-022, BR-003, BR-005, BR-009, BR-011
 - Related Spec: `CONTENT.md` (Home), `UX_UI_DIRECTION.md` (Home layout)
 
@@ -507,7 +507,7 @@ so that I decide whether to start free or apply to work with Gaby.
 ## US-022 — My story page
 - Priority: High
 - Story Points: 3
-- Status: Proposed — phase 2a
+- Status: Planned — Sprint 003 (phase 2a)
 - Related Requirements: FR-003, FR-029, BR-011
 
 **User Story**
@@ -531,7 +531,7 @@ so that I understand why she can guide me.
 ## US-023 — VIP mentorship page and screening-based routing
 - Priority: Critical
 - Story Points: 5
-- Status: Proposed — phase 2a
+- Status: Planned — Sprint 003 (phase 2a)
 - Related Requirements: FR-006 to FR-010, FR-014, FR-015, FR-026, BR-001, BR-002, BR-006, BR-008
 - Related Spec: `LEAD_API_CONTRACT.md` (unchanged), `CONTENT.md` (VIP)
 
@@ -557,7 +557,7 @@ so that my calls go to qualified applicants and everyone else still gets somethi
 ## US-024 — Free resource library
 - Priority: High
 - Story Points: 5
-- Status: Proposed — phase 2a
+- Status: Planned — Sprint 003 (phase 2a)
 - Related Requirements: FR-023, FR-024, BR-011
 
 **User Story**
@@ -624,7 +624,7 @@ so that visitors find useful content and get to know my approach.
 ## US-027 — Preview on GitHub Pages
 - Priority: High
 - Story Points: 3
-- Status: Proposed — phase 2a
+- Status: Planned — Sprint 003 (phase 2a)
 - Related Requirements: FR-030
 - Related ADR: ADR-005 (branching, preview and release)
 

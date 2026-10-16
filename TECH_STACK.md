@@ -1,10 +1,10 @@
 # TECH_STACK — Gabriela Kelly Pilot
 
 ## Metadata
-- Version: 0.3
-- Status: Approved for Sprint 001
+- Version: 0.4
+- Status: Approved for Sprint 001; v0.4 proposed for Sprint 003 (phase 2)
 - Complexity: Simple
-- Last updated: 2026-09-23 (v0.3: Node floor raised from 20 LTS to 22 LTS, section 4 — see GK-010-frontend-scaffold PR #4)
+- Last updated: 2026-10-16 (v0.4: phase 2 — GitHub Pages preview, ADR-005; production host undecided; multipage routes, ADR-003 update; fonts Playfair Display and Manrope, `UX_UI_DIRECTION.md` v1.0). v0.3 (2026-09-23: Node floor raised from 20 LTS to 22 LTS, section 4 — see GK-010-frontend-scaffold PR #4)
 
 ## 1. Complexity Assessment
 
@@ -19,7 +19,9 @@ A heavy application framework or relational database is not justified.
 
 ## 2. Hosting and Environment Constraints
 
-- Hosting provider: GoDaddy
+- Production hosting: **not decided** (phase 2, `PROJECT_SPEC.md` §11). GoDaddy cPanel (below, ADR-001) stays the working assumption until the domain and its hosting are known.
+- Preview: GitHub Pages, static files only, under `/gaby-main-page/`, published on every push to `main` (ADR-005). No backend, no secrets; forms run in demonstration mode.
+- Hosting provider (working assumption): GoDaddy
 - Expected environment: cPanel (Linux shared hosting)
 - Frontend: static files in the site's document root
 - Backend: Python app via cPanel "Setup Python App" (Phusion Passenger), mounted at `/api` on the same domain (ADR-001)
@@ -119,7 +121,9 @@ GitHub Actions, on every pull request and on pushes to `main`:
 
 CI never uses real Google credentials.
 
-Deployment to GoDaddy (US-014) may initially be manual or scripted depending on cPanel capabilities.
+Preview workflow (`.github/workflows/preview.yml`, US-027, ADR-005): on push to `main`, build with `PUBLIC_PREVIEW=true` and the Pages base path, publish with the official GitHub Pages actions.
+
+Production deployment (US-014) waits on the hosting decision; on GoDaddy it may be manual or scripted depending on cPanel capabilities.
 
 ## 11. Local Development
 

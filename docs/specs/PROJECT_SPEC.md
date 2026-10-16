@@ -229,7 +229,7 @@ Out of scope:
 - Exact Calendly URL; final contact email (currently `gkelly@poliartcr.com`)
 - Legal review of the privacy notice, including retention (US-018); it must also cover resource requests before phase 2b goes live
 
-Resolved: brand palette, typography and motif (Gaby's brief, 2026-10-15; replaces Proposal A of 2026-09-25); brand name "Gaby Kelly" and "Método Polaris" (Gaby, 2026-10-15); "Wealth Mastery" is the official VIP programme name (human owner, 2026-10-15); media named without logos, Microsoft and Oracle logos allowed (Gaby, 2026-10-15); disclaimer accepted as written (2026-10-15); bilingual ES/EN kept (human owner, 2026-10-15); preview on GitHub Pages (human owner, 2026-10-15); Google account for the lead sheet (2026-09-28); CAPTCHA not needed for now (ADR-004).
+Resolved: brand palette, typography and motif (Gaby's brief, 2026-10-15; replaces Proposal A of 2026-09-25); brand name "Gaby Kelly" and "Método Polaris" (Gaby, 2026-10-15); "Wealth Mastery" is the official VIP programme name (human owner, 2026-10-15); VIP submit label "Enviar mi aplicación" / "Submit my application", the scheduler only for qualified answers (human owner, 2026-10-16); media named without logos, Microsoft and Oracle logos allowed (Gaby, 2026-10-15); disclaimer accepted as written (2026-10-15); bilingual ES/EN kept (human owner, 2026-10-15); preview on GitHub Pages (human owner, 2026-10-15); Google account for the lead sheet (2026-09-28); CAPTCHA not needed for now (ADR-004).
 
 ## 17. Approval
 

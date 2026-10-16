@@ -1,13 +1,14 @@
 # IMPLEMENTATION_PLAN — Gabriela Kelly Pilot
 
 ## Metadata
-- Version: 0.4
-- Status: Approved for Sprint 002 (sections 1–16 describe Sprint 001; section 17 adds Sprint 002)
-- Related spec: `docs/specs/PROJECT_SPEC.md` (v0.4)
+- Version: 0.5
+- Status: Sections 1–16 describe Sprint 001; section 17 Sprint 002; section 18 (proposed) Sprint 003, phase 2a
+- Related spec: `docs/specs/PROJECT_SPEC.md` (v0.5)
 - Related stories: `docs/specs/USER_STORIES.md`
 - Integration contract: `docs/specs/LEAD_API_CONTRACT.md` (v1.1, locked)
-- Tech stack: `TECH_STACK.md` (v0.2)
-- ADRs: ADR-001, ADR-002, ADR-003, ADR-004
+- Tech stack: `TECH_STACK.md` (v0.4)
+- UX and copy: `docs/ux/UX_UI_DIRECTION.md` (v1.0), `docs/ux/CONTENT.md`
+- ADRs: ADR-001 to ADR-005
 
 ## 1. Purpose
 
@@ -202,3 +203,19 @@ Scope, ownership, merge order and the go-live gate: `docs/sprints/SPRINT_002.md`
 5. Deployment (US-014): Agent 3 writes `docs/runbooks/DEPLOYMENT.md`; the human owner deploys to GoDaddy cPanel with Gabriela's production sheet, runs the smoke test, and applies the go-live gate.
 
 Testing additions: pytest for `429` (with an injected clock), the honeypot, and log content (no personal data); Vitest for the `429` message and the `website` field; Playwright for the restyled page at 390 px and desktop, `429` (mocked), and the honeypot against the real backend in memory mode.
+
+## 18. Sprint 003 — Phase 2a (brand, multipage site, preview)
+
+Scope, ownership, merge order and entry gates: `docs/sprints/SPRINT_003.md`. Summary:
+
+1. **Brand (US-019):** `UX_UI_DIRECTION.md` §2 tokens, Playfair Display and Manrope, button styles, polar-star motif (Agent 1), first.
+2. **Site shell (US-020):** route map (ADR-003 update) and base-path link helper; preview flag; layout, header with mobile menu, footer, VIP band; stub pages for every phase 2a page; dictionaries split per page plus `common.ts` (Agent 1), before any page work.
+3. **Pages in parallel:** VIP page with the restyled form and the screening-based routing (US-023), privacy page, resource library with the typed resource list (US-024) — Agent 2; My story (US-022) and the preview workflow with `RELEASE.md` (US-027) — Agent 3; the new Home (US-021) — Agent 1, after the form has moved to the VIP page.
+4. **Preview forms (US-027 AC3):** demonstration mode, no network calls (Agent 2).
+
+Data and contract: `LEAD_API_CONTRACT.md` v1.1 unchanged. The routing after `201` happens in the browser from the submitted screening code. The backend is untouched this sprint.
+
+Testing additions: Vitest for the route map, the base-path helper, the routing for all four codes, preview mode on and off, the resource filters; Playwright for every page in both languages, the toggle per page, the mobile menu (keyboard), the VIP routes (qualified and not ready), and a run against a preview build (no requests to `/api` or Calendly).
+
+Rollback: every story is its own PR; a broken merge is reverted on `main`, and the preview republishes the previous state.
+

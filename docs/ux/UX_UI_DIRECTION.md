@@ -1,319 +1,226 @@
-# UX_UI_DIRECTION — v0.8
+# UX_UI_DIRECTION — v1.0 (phase 2)
 
-v0.8 (2026-09-30): honeypot redesigned after browser autofill filled it during the human owner's local test and a real lead was dropped (section 4, Section 7; US-013 reopened).
+v1.0 (2026-10-16): phase 2 — Gaby's official brand, multipage site, VIP flow with screening-based routing, resource library, GitHub Pages preview (`PROJECT_SPEC.md` v0.5; Gaby's brief, `docs/ux/BRIEF_2026-10-15.md`). All visitor-facing copy moved to `docs/ux/CONTENT.md`; this document says how the site looks and behaves and refers to copy by key. The phase 1 one-page direction (v0.8, Proposal A, and its copy) is retired by Sprint 003; it stays in the history at commit `09d6ca6` (`docs/ux/UX_UI_DIRECTION.md`).
 
-v0.7 (2026-09-29): decisions from the review of #34 (human owner) — `field-line` token for form control borders, which must reach 3:1 (section 2.1); field errors use Tailwind `red-700`, no brand token (section 2.1).
+Earlier versions: v0.8 (2026-09-30) honeypot redesign after the autofill incident; v0.4–v0.7 (2026-09-28/29) Proposal A details; see the history.
 
-v0.6 (2026-09-29): review fix on v0.5 — the offer band's third point used "Vemos juntos" (masculine plural), violating BR-005; reworded gender-neutral (section 4, Section 6). Also recorded that check-mark icons on navy/dark panels use `gold`, not `brand`, for contrast (section 2.1 motif rules).
-v0.5 (2026-09-29): resolved open items from the US-015/US-017 review (human owner) — `gold-ink`, not `gold`, for the proof cards' quote mark (section 2.1); the eyebrow treatment is Roadmap-only for now (section 2.1); confirmed the English roadmap label "Step" (section 4, Section 3); the guide's "Approach" placeholder chip label (section 4, Section 4); the offer band's three points, proposed placeholder content pending Gabriela's review (section 4, Section 6); a distinct video-testimonial placeholder caption (section 4, Section 5).
-v0.4 (2026-09-28): rate-limit message and honeypot field (section 4, Section 7, US-013); video testimonials in the proof section (Section 5, US-017).
+## 1. Experience goal
 
-All copy in this document is **proposed** and pending Gabriela's review (BR-004). It is written in gender-neutral language in both Spanish and English (BR-005): no gendered adjectives or participles referring to the visitor (e.g. avoid "listo/lista", "preparado/preparada"); prefer nouns ("disposición", "una persona"), verbs, and second-person constructions.
+Calm, premium and trustworthy, for corporate professionals. Many free resources and one premium door (the VIP mentorship). Hopeful, never fear-based or "get rich"; no pressure.
 
-## 1. Experience Goal
+## 2. Brand
 
-The page should feel calm, clear, professional, and trustworthy.
+Source: Gaby's brief, board 1 ("Paleta", "Tipografía", "Botones y motivo gráfico"). Implement as Tailwind `@theme` tokens in `src/styles/global.css`, replacing the Proposal A tokens; components use tokens, never hex literals (US-019 AC1).
 
-It should communicate progress and financial organization without using aggressive "get rich" aesthetics or fear-heavy sales tactics.
+### 2.1 Color tokens
 
-## 2. Visual Direction
+| Token | Brand name | Hex | Use |
+|---|---|---|---|
+| `heritage-blue` | Azul Patrimonio | `#3C5F8D` | Bands, the blue (free-action) button, links, focus rings, eyebrows, icons on light backgrounds |
+| `ivory` | Marfil | `#F5F1EA` | Main page background |
+| `sand` | Arena | `#D8C5B1` | Decorative borders, soft cards, dividers, thin arcs of the motif. Never text, never a control boundary |
+| `soft-gold` | Oro Suave | `#D6B04D` | The gold VIP button (with `charcoal` text) and accents of the motif. Never text on light backgrounds |
+| `terracotta` | Terracota | `#C98368` | Human moments (My story, testimonials): background panels or accents with `charcoal` text only |
+| `charcoal` | Carbón | `#2B2B2B` | Main text, footer background |
+| `surface` | (derived) | `#FFFFFF` | Cards and the form card on `ivory` |
+| `muted` | (derived) | `#5A5148` | Secondary text, hints, captions (the brief's own secondary text color) |
+| `field-line` | (derived) | `#8C7B6B` | Borders of form controls (inputs, screening option cards, the consent checkbox) |
 
-- Clean and modern
-- Professional but approachable
-- Strong spacing and hierarchy
-- Short, scannable text blocks
-- Neutral and inclusive language
-- Avoid excessive visual clutter
+Error text keeps Tailwind `red-700` (as in phase 1; no brand token).
 
-## 2.1 Visual Identity — Proposal A "Institucional" (approved 2026-09-25)
+### 2.2 Allowed color pairs (WCAG AA)
 
-Chosen by the human owner from two explorations. Reference mockup (visual reference only, not code): https://claude.ai/artifact/1HSbf43ykt2J6LphBVBH9G
+Text (4.5:1, or 3:1 for large text of at least 24 px, or 18.66 px bold):
 
-Character: light, corporate, serious. Navy carries weight, gold is a sparing accent, and the half-circle from Gaby's slide deck is the one recurring motif.
+| Text | Background | Ratio | Allowed for |
+|---|---|---|---|
+| `charcoal` | `ivory` | 12.58 | All text |
+| `charcoal` | `surface` | 14.16 | All text |
+| `charcoal` | `sand` | 8.46 | All text |
+| `charcoal` | `soft-gold` | 6.86 | All text (the VIP button) |
+| `charcoal` | `terracotta` | 4.67 | All text |
+| `heritage-blue` | `ivory` | 5.80 | All text (links, eyebrows, italic emphasis) |
+| `heritage-blue` | `surface` | 6.53 | All text |
+| `muted` | `ivory` | 6.89 | All text |
+| `muted` | `surface` | 7.76 | All text |
+| `ivory` or `surface` | `heritage-blue` | 5.80 / 6.53 | All text (blue bands, the blue button) |
+| `ivory` | `charcoal` | 12.58 | All text (footer) |
+| `soft-gold` | `charcoal` | 6.86 | All text (footer accents) |
+| `red-700` | `ivory` / `surface` | 5.70 / 6.42 | Error text |
 
-### Color tokens
+Never: `soft-gold` (1.83), `terracotta` (2.69) or `sand` (1.49) as text on `ivory`; `heritage-blue` text on `sand` (3.90) below large text; any text on `terracotta` other than `charcoal`; `soft-gold` text on `heritage-blue` (3.17) except large text.
 
-Brand colors sampled from Gaby's existing slide deck. Implement as Tailwind theme tokens in `src/styles/global.css`, replacing the provisional palette; components use tokens, never hex literals.
+Non-text (3:1, WCAG 1.4.11): form control borders use `field-line` (3.61 on `ivory`, 4.07 on `surface`); focus rings use `heritage-blue` (5.80 on `ivory`), and on `heritage-blue` bands `ivory`. The motif in `soft-gold` on `heritage-blue` (3.17) passes as a graphic; in `sand` on `ivory` it is decorative only and carries no meaning.
 
-| Token | Hex | Use |
+### 2.3 Typography
+
+| Role | Face | Notes |
 |---|---|---|
-| `paper` | `#F6F8FB` | Page background (cool neutral biased toward the brand blue) |
-| `surface` | `#FFFFFF` | Cards, hero copy panel, form |
-| `ink` | `#15243B` | Body text, footer background |
-| `navy` | `#22395A` | Headings, primary buttons, large brand panels |
-| `brand` | `#3C5F8E` | Brand blue from the deck: links, italic emphasis, icons, eyebrows |
-| `gold` | `#F1BE48` | Brand gold from the deck: half-circle motif, eyebrow rules, focus rings. Fill only on light backgrounds; never as text on white |
-| `gold-ink` | `#7A5A0E` | Gold-family text on white (e.g. "PASO 1"), passes WCAG AA |
-| `muted` | `#5A6A80` | Secondary text, hints |
-| `line` | `#D8DFE9` | Decorative borders and dividers only (1.3:1, not enough for a control boundary) |
-| `field-line` | `#7D8BA0` | Derived from `muted`. Borders of form controls: text inputs, screening option rows, the consent checkbox. 3.25:1 on `paper`, 3.46:1 on `surface` (WCAG 1.4.11 needs 3:1) |
+| Headings H1–H2, editorial phrases, italic emphasis | Playfair Display (Google Fonts), 500; italic 500 | Replaces Crimson Pro. The `*...*` parts of a heading in `CONTENT.md` are italic `heritage-blue` |
+| Everything functional: body, buttons, forms, navigation, labels, H3 | Manrope (Google Fonts), 400, 600, 700 | Replaces IBM Plex Sans; body 17–18 px on desktop, 16–17 px on mobile |
+| Wordmark | Playfair Display 500, "Gaby Kelly" | Until a logo file arrives |
 
-### Typography
-
-| Role | Face | Weights |
-|---|---|---|
-| Headings, italic emphasis, closing statement | Crimson Pro (Google Fonts) | 600; italic 500 for emphasized words |
-| Body, labels, form, buttons | IBM Plex Sans (Google Fonts) | 400, 500, 600 |
-| Wordmark (only until the real logo file arrives) | Playfair Display | 900 "GK", 400 "GabyKelly" |
-
-- Scale: hero headline 38–60px fluid, section titles 30–42px, body 17–19px, eyebrow labels 12px uppercase with 0.16em tracking.
+- Scale: hero headline 40–64 px fluid; section titles 30–44 px; card titles (H3, Manrope 700) 19–20 px; eyebrows 13 px uppercase, 0.16em tracking, `heritage-blue`.
 - Headings use `text-wrap: balance`; running text at most ~65 characters wide.
-- Replaces the provisional Inter font.
 
-### Components and layout
+### 2.4 Buttons and links
 
-- **Header:** sticky, light background with a bottom border; wordmark left, `ES | EN` toggle right (active language as a navy fill).
-- **Eyebrow:** 28px gold rule + uppercase `brand` label. Applied only to the Roadmap's step markers ("PASO 1–3" / "STEP 1–3", in `gold-ink` — see Roadmap below) for now; no other section carries a top-of-section eyebrow (human owner decision, 2026-09-29).
-- **Hero:** two columns on desktop. Left: white panel with headline (italic `brand` emphasis on the second half), lead text, navy CTA, and the trust row from section 4, Section 1 (free initial call per BR-008; data protection per FR-013). Right: navy panel with a large gold circle bleeding off the right edge and Gabriela's round portrait (white 8px ring, soft shadow) over it. Stacks on mobile (copy first).
-- **Buttons:** navy fill, white text, 2px radius, min height 52px, arrow icon; hover shifts to `brand` and lifts 2px.
-- **Roadmap:** one bordered row of three cells ("PASO 1–3" in Spanish / "STEP 1–3" in English, both in `gold-ink`, line icon, Crimson Pro step name); stacks with horizontal dividers on mobile.
-- **Guide:** round portrait (white ring + thin gold outline) beside the text; pending-validation chips for bio, credentials, and approach.
-- **Proof:** dashed-border placeholder cards with a `gold-ink` opening quote mark (not `gold`, to stay off the "never as text on white" rule) until real testimonials exist.
-- **Offer:** full-width navy band with a gold circle in the bottom-right corner and three check-marked points.
-- **Form:** white card with a 4px navy top border; `paper` input fills with a 1px `field-line` border; screening options as `field-line` bordered rows that highlight in `brand` when selected. Field and submission error text uses the `red-700` utility of the pinned Tailwind 4 (`oklch(50.5% 0.213 27.518)`, about `#C10007`; 6.0:1 on `paper`, 6.4:1 on `surface`); no brand error token (human owner, 2026-09-29).
-- **Closing:** white band, Crimson Pro italic statement plus the CTA.
-- **Footer:** `ink` background, wordmark with the gold "GabyKelly".
-- Corners: 2px everywhere (sharp, corporate). No glow effects, gradients, or grain.
-
-### Motif rules
-
-- The gold circle or half-circle appears at most once per section, always bleeding off an edge or sitting behind the portrait, never behind body text.
-- Icons are simple line icons (1.6px stroke) in `brand` on light backgrounds; on navy or other dark panels, use `gold` instead — `brand` on `navy` is 1.79:1, `gold` on `navy` is 6.77:1 (e.g. the offer band's check-marks). No emoji, no 3D illustrations.
-
-## 3. Language Behavior (FR-012, ADR-003)
-
-- Two versions of the page: Spanish at `/es/`, English at `/en/`.
-- `/` picks the version: saved toggle choice first; otherwise Spanish if the browser's first preferred language starts with `es`, else English.
-- A compact `ES | EN` toggle sits at the top right of a slim header that stays visible while scrolling. The active language is highlighted. The toggle has an accessible label ("Cambiar idioma" / "Change language").
-- Switching language keeps the visitor on the same section (same anchor IDs in both versions).
-- Section anchor IDs are English and identical in both versions: `#hero`, `#recognition`, `#roadmap`, `#guide`, `#proof`, `#offer`, `#lead-form`, `#closing`.
-
-## 4. Page Structure and Proposed Copy
-
-### Section 1 — Hero / Opening (`#hero`)
-
-| | Español | English |
+| Style | Look | Used for |
 |---|---|---|
-| Headline | Ganas bien, pero tu dinero no te está dando tranquilidad. | You earn well, but your money isn't giving you peace of mind. |
-| Supporting line | No siempre se trata de generar más. A veces, el siguiente paso es ordenar mejor lo que ya tienes. | It's not always about earning more. Sometimes the next step is to better organize what you already have. |
-| CTA (scrolls to `#lead-form`) | Quiero dar el primer paso | I want to take the first step |
-| Trust row (below the CTA) | Llamada inicial sin costo · Tus datos protegidos (Ley 8968) | Free initial call · Your data is protected (Costa Rica Law 8968) |
+| Gold (VIP) | `soft-gold` fill, `charcoal` text, Manrope 700, arrow, min height 52 px, 2 px radius | In-page VIP calls to action only: the Home hero (`cta.vip_long`), VIP bands (`cta.vip_apply`), the VIP form submit. At most one visible per viewport (BR-010) |
+| Blue | `heritage-blue` fill, `surface` text, same shape | Free actions: downloads, "see the library", resource calls to action |
+| Outlined | 1.5 px `heritage-blue` border, `heritage-blue` text, transparent | The header VIP link (`nav.vip`) on every page |
+| Text link | `heritage-blue`, underlined on hover and focus, arrow where the brief shows one | "Read my full story", "Or start free with the resources" |
 
-### Section 2 — Recognition / Hopeful Problem Framing (`#recognition`)
+Hover: the gold button darkens slightly and lifts 2 px; the blue button shifts toward `charcoal`. Focus: 2 px `heritage-blue` ring with 2 px offset (on blue bands, `ivory` ring). Disabled: 50% opacity, no lift.
 
-**Español**
+Viewport rule (BR-010): a layout must not place two gold buttons in one viewport at 360, 390, 768 or 1280 px wide (e.g. the VIP band never sits directly under the hero). The VIP page has one gold button: the form submit; its intro has no gold button.
 
-> Tener buenos ingresos no garantiza sentir claridad con el dinero. Cuando no existe una estructura clara, es fácil trabajar cada vez más sin sentir que realmente avanzas.
->
-> La buena noticia es que no necesitas convertirte en una persona experta en finanzas de la noche a la mañana. Puedes empezar por ordenar, entender y tomar mejores decisiones paso a paso.
+### 2.5 Motif: the polar star
 
-**English**
+- A thin line star (4 long and 4 short points, 1.25–1.5 px stroke, no fill) with thin concentric arcs, in `soft-gold` or `sand`. It replaces the large yellow circles (brief, board 1): smaller and more elegant.
+- At most one per section, beside or behind a heading or the portrait, never behind body text, never larger than ~240 px on desktop (~140 px on mobile).
+- On `heritage-blue` bands: `soft-gold`. On `ivory`: `sand` (decorative) or `soft-gold` (accent, not carrying meaning).
+- Inline SVG, `aria-hidden="true"`.
+- Icons elsewhere: simple line icons (1.5 px), `heritage-blue` on light backgrounds, `soft-gold` on blue bands. No emoji, no 3D, no cash imagery.
 
-> A good income doesn't guarantee clarity with money. Without a clear structure, it's easy to keep working harder without feeling that you're really moving forward.
->
-> The good news is that you don't need to become a finance expert overnight. You can start by organizing, understanding, and making better decisions step by step.
+### 2.6 Shape and depth
 
-### Section 3 — Transformation Roadmap (`#roadmap`)
+2 px corners on buttons and inputs, 4 px on cards; cards are `surface` with a 1 px `sand` border and no shadow, or `sand` fill for soft cards. No gradients, glows or grain.
 
-| Step | Español | English |
-|---|---|---|
-| 1 | **Ordena** — entiende con claridad dónde estás hoy. | **Organize** — understand clearly where you are today. |
-| 2 | **Decide** — prioriza mejor cómo usar tus recursos. | **Decide** — prioritize how to use your resources. |
-| 3 | **Construye** — empieza a crear una estructura en la que tu dinero también pueda trabajar a favor de tus objetivos. | **Build** — start creating a structure where your money can also work toward your goals. |
+## 3. Site map, routes and language (FR-017, FR-012, ADR-003)
 
-Step-number label (section 2.1): "Paso" in Spanish, "Step" in English (confirmed, human owner, 2026-09-29).
+| Page id | Spanish path | English path | Phase |
+|---|---|---|---|
+| `home` | `/es/` | `/en/` | 2a |
+| `story` | `/es/mi-historia/` | `/en/my-story/` | 2a |
+| `resources` | `/es/recursos/` | `/en/resources/` | 2a |
+| `vip` | `/es/mentoria-vip/` | `/en/vip-mentorship/` | 2a |
+| `privacy` | `/es/privacidad/` | `/en/privacy/` | 2a |
+| `blog` | `/es/blog/` | `/en/blog/` | 2b (US-026) |
+| `method` | `/es/metodo-polaris/` | `/en/polaris-method/` | 2b (US-028) |
 
-### Section 4 — Gabriela as Guide (`#guide`)
+- `/` keeps the ADR-003 detection (saved choice, else browser language) and sends the visitor to the Home in their language.
+- The language toggle (`ES | EN`) switches to the same page id in the other language and keeps the section anchor; it saves the choice.
+- Section anchors are shared by both languages (they are identifiers, not copy): Home `#hero`, `#escalera`, `#oportunidad`, `#metodo`, `#recursos`, `#historia`, `#testimonios`, `#vip`; VIP page `#aplicar`.
+- All internal links and assets are built from the site's base path, so the same build works at the domain root (production) and under `/gaby-main-page/` (GitHub Pages preview, ADR-005).
+- Every page has its own `<title>` and meta description (`CONTENT.md` §1).
 
-**Español**
+## 4. Shared layout
 
-> No necesitas recorrer este proceso a solas.
->
-> Gabriela acompaña a personas que quieren construir una relación más clara y estratégica con sus finanzas, empezando por el orden y avanzando hacia decisiones de inversión más conscientes.
+### 4.1 Header (every page)
 
-**English**
+- Sticky, `ivory` background, 1 px `sand` bottom border; content max width 1160 px.
+- Left: wordmark (`nav.brand`, Playfair 26 px, `charcoal`), linking to the Home.
+- Desktop (≥ 1024 px): navigation `nav.story`, `nav.method`, `nav.resources` (Manrope 600, `charcoal`, `heritage-blue` underline for the current page with `aria-current="page"`), the `ES | EN` toggle, then the outlined `nav.vip` link.
+- Below 1024 px: wordmark, the outlined `nav.vip` link and a menu button (`nav.menu_open` / `nav.menu_close`); the menu opens as a panel under the header with the navigation and the toggle. Escape and the close button close it; focus moves into the panel when it opens and back to the button when it closes; the page behind does not scroll while it is open (US-020 AC3).
+- A skip link (`skip_link`) is the first focusable element.
 
-> You don't have to go through this process alone.
->
-> Gabriela works with people who want to build a clearer, more strategic relationship with their finances, starting with order and moving toward more deliberate investment decisions.
+### 4.2 Footer (every page)
 
-Placeholders (marked "pending validation"):
-- Real photo of Gabriela
-- Short bio
-- Relevant credentials
-- Experience / approach
+`charcoal` background, `ivory` text: wordmark and `footer.concept`; `footer.disclaimer` and `footer.data_note` in `ivory` at 15 px; `footer.privacy_link` (to the privacy page). A small `soft-gold` polar star. No Terms link (FR-020).
 
-Chip labels (ES / EN): "Biografía breve" / "Short bio"; "Credenciales y experiencia" / "Credentials and experience"; "Enfoque" / "Approach" (confirmed, human owner, 2026-09-29).
+### 4.3 Sections
 
-### Section 5 — Proof / Social Validation (`#proof`)
+Alternate `ivory` and `surface` bands, with one `heritage-blue` band (the VIP band) per page at most. Section padding 96 px desktop, 64 px mobile. Each section: optional eyebrow, Playfair title, content.
 
-Use real proof only when provided. Never invent testimonials or outcomes.
+### 4.4 VIP band
 
-Placeholder structure (marked "pending validation"):
-- testimonial cards
-- quantified outcomes only if verifiable
-- credibility statements
-- client stories
+Full-width `heritage-blue` band, `ivory` text: eyebrow `vip_band.eyebrow` in `ivory` (13 px: `soft-gold` on blue is only 3.17:1), Playfair title `vip_band.title` (italic part in `soft-gold`, large text, 3.17:1 allowed for large text), `vip_band.body`, and the gold `cta.vip_apply` button to the VIP page. A `soft-gold` polar star at one side. The resource library uses the short variant (`vip_band.short_title`, no body).
 
-Testimonial formats (US-017): text cards and video cards. Placeholders stay until real, approved testimonials are supplied (human owner, 2026-09-28). A video card shows a poster image with a play button and loads the video (and anything from its host) only when the visitor presses play; it has captions or a short text summary in the page language. The video host (self-hosted or YouTube/Vimeo) is decided before the first video is added — until that decision, the video card stays a placeholder with a decorative (non-functional) play icon, which the human owner has confirmed is fine to ship as-is (2026-09-29); when a third-party host is chosen, add it to the privacy notice's processors list (US-018).
+## 5. Pages
 
-Placeholder captions (ES / EN, confirmed human owner, 2026-09-29): text card — "Testimonio de una clienta o cliente" / "Client testimonial"; video card — "Testimonio en video de una clienta o cliente" / "Video testimonial from a client".
+### 5.1 Home (US-021)
 
-### Section 6 — Initial Call Offer (`#offer`)
+Order and anchors (copy: `CONTENT.md` §5):
 
-**Español**
+1. **Hero `#hero`** (`ivory`): two columns on desktop. Left: eyebrow, H1 (italic second half), lead, the gold `home.hero.cta`, the text link `home.hero.secondary` to the resources, and the trust line `home.hero.trust` in `muted`. Right: Gaby's round portrait (provisional photo) inside thin `sand` arcs with a `soft-gold` polar star. Mobile: copy first, then the portrait at 160 px; the gold button and the text link stack full width.
+2. **Ladder `#escalera`** (`surface`): narrow text column; `home.ladder.closing` as an editorial Playfair italic line with a `terracotta` left rule.
+3. **Opportunity `#oportunidad`** (`ivory`): eyebrow, title, lead; six benefit cards (`surface`, `sand` border, line icon) in 3 columns on desktop, 2 at 768 px, 1 on mobile.
+4. **Método Polaris `#metodo`** (`surface`): eyebrow, title; three numbered steps ("01", "02", "03" in Playfair `heritage-blue`) in a row on desktop, stacked on mobile; the polar star beside the title. Steps show the pending badge (provisional).
+5. **Resources teaser `#recursos`** (`ivory`): eyebrow, title, the blue `home.resources.cta` link-button; three resource cards (§6.1).
+6. **Story teaser `#historia`** (`ivory` background; `terracotta` used only as an accent: a 4 px left rule on the title block and the portrait frame — no text on `terracotta`): eyebrow, title, the three story paragraphs (all three at every width), the media names row (§5.2), and the text link `home.story.cta`.
+7. **Testimonials `#testimonios`** (`surface`): title; three placeholder cards (two text, one video) with the pending badge (§6.3).
+8. **VIP band `#vip`** (§4.4). Keep at least one non-gold section between the hero and the VIP band at every width (it is the last section, so this always holds).
 
-> En una llamada inicial revisaremos tu situación a un nivel general, conversaremos sobre lo que buscas y veremos si el programa tiene sentido para ti.
+### 5.2 My story (US-022)
 
-**English**
+Copy: `CONTENT.md` §6. Layout: hero with eyebrow and title and a photo placeholder (`story.photo.placeholder`, pending); the three paragraphs in a narrow column; "media" row: `story.media.label` then the names as text chips in a row that can hold logos later without a redesign (same height boxes, 56 px); "experience" row: Microsoft and Oracle logos (monochrome `charcoal`, max height 28 px, from files committed with their source noted in the PR) and the name "Intel" as text; a bio/credentials placeholder card (pending); the text link to the resources; the VIP band.
 
-> In an initial call, we'll review your situation at a general level, talk about what you're looking for, and see whether the program makes sense for you.
+### 5.3 Free resources (US-024)
 
-Avoid guaranteed results.
+Copy: `CONTENT.md` §7.
 
-Three check-marked points (section 2.1). Draft/suggested placeholder content the human owner asked for, to be refined once Gabriela reviews it (2026-09-29) — not yet validated with her, same as the rest of this document's copy (BR-004):
+- Header block: eyebrow, title, lead.
+- Featured mini-course: a wide card (cover placeholder left, text right) with `resources.featured.label`, the title and description of `minicourse-debt`, and its state (§6.1).
+- Topic filters: a row of toggle buttons (`resources.filter.all` and the four topics) with `aria-pressed`; the list updates without reloading; without JavaScript all resources are shown and the filters are hidden. Wraps to two lines on mobile.
+- Grid of resource cards (§6.1): 3 columns desktop, 2 at 768 px, 1 on mobile; `resources.empty` when a topic has none.
+- Short VIP band at the end.
 
-| Español | English |
-|---|---|
-| Revisamos tu situación financiera actual, sin juicios. | We review your current financial situation, without judgment. |
-| Conversamos sobre tus metas y lo que buscas lograr. | We talk about your goals and what you're looking to achieve. |
-| Vemos en conjunto si el programa es el siguiente paso adecuado para ti. | We see together whether the program is the right next step for you. |
+### 5.4 VIP mentorship (US-023)
 
-### Section 7 — Lead Form (`#lead-form`)
+Copy: `CONTENT.md` §8.
 
-| Element | Español | English |
-|---|---|---|
-| Form title | Da el primer paso | Take the first step |
-| Name label | Nombre completo | Full name |
-| Name hint | Escribe tu nombre y apellido(s). | Enter your first and last name. |
-| Email label | Correo electrónico | Email |
-| Phone label | Teléfono (WhatsApp) | Phone (WhatsApp) |
-| Phone hint | Incluye el código de país. Ejemplo: +50684104791 | Include your country code. Example: +50684104791 |
-| Screening prompt | Si este programa encaja con lo que buscas, ¿cuál es tu disposición para invertir en mejorar tu salud financiera? | If this program fits what you're looking for, how willing are you to invest in improving your financial health? |
-| Option `ready_to_invest` | Quiero invertir si el programa es adecuado para mí. | I want to invest if the program is right for me. |
-| Option `needs_investment_info` | Tengo disposición, pero necesito conocer la inversión primero. | I am willing, but I need to understand the investment first. |
-| Option `no_capacity_now` | Me interesa, pero actualmente no tengo capacidad para invertir. | I am interested, but I do not currently have the capacity to invest. |
-| Option `exploring` | Solo estoy explorando por ahora. | I am only exploring for now. |
-| Consent checkbox | Acepto el tratamiento de mis datos personales según el [Aviso de Privacidad]. | I agree to the processing of my personal data as described in the [Privacy Notice]. |
-| Submit button | Enviar y agendar mi llamada | Send and book my call |
-| Submitting state | Enviando… | Sending… |
+1. Intro (`ivory`): eyebrow, title, lead, and the three steps as a numbered row (no button: the only gold button on this page is the form submit).
+2. Video module: 16:9 frame with a `heritage-blue` background, a `soft-gold` polar star and `vip.video.placeholder`, with the pending badge. Nothing is loaded from a third party.
+3. Application form `#aplicar` (§6.2).
+4. After a successful save (§6.4): the form card is replaced in place by the qualified or not-ready screen.
 
-Honeypot (US-013, contract section 3.1). Browser autofill and password managers ignore `autocomplete="off"` and fill hidden fields they recognize; on 2026-09-30 this filled the old field (`name="website"` inside the lead form) and a real lead was silently dropped. The honeypot therefore:
-- is a `type="text"` input inside **its own separate `<form>` element, outside the lead form** (autofill fills one form at a time, so filling the lead form never reaches it); that form has no submit button, and its `submit` event is always prevented (pressing Enter in it must not reload the page);
-- has a DOM `id` and `name` that autofill heuristics do not recognize: no words such as website, url, homepage, company, name, email, phone, tel, address, or city (e.g. `id="lead-hp" name="hp_field"`), and no label, placeholder, or `title`;
-- carries `autocomplete="off"` plus the password-manager opt-outs `data-1p-ignore`, `data-lpignore="true"`, `data-bwignore="true"`, and `data-form-type="other"`;
-- stays off-screen (not `display: none`), with `tabindex="-1"` and `aria-hidden="true"` on its wrapper.
+### 5.5 Privacy notice page
 
-On submit, the lead form's script reads that input's value and sends it as the JSON field `website`; the contract (section 3.1) is unchanged. People never see or fill it.
+Plain reading page: title, the notice text (`CONTENT.md` §9) in a narrow column, the DRAFT badge until US-018.
 
-Autofill stays a supported way to fill the form. The visible fields keep their autofill hints (`autocomplete="name"`, `"email"`, `"tel"`) and stay inside the lead form, so a browser or password manager can fill them in one step. The fix isolates the honeypot from autofill; it never disables autofill for the visible fields.
+## 6. Components
 
-Field error messages (keyed by the contract's field error codes):
+### 6.1 Resource card
 
-| Code | Español | English |
-|---|---|---|
-| `required` | Este campo es obligatorio. | This field is required. |
-| `too_short` | Es demasiado corto. | This is too short. |
-| `too_long` | Es demasiado largo. | This is too long. |
-| `invalid_characters` | Usa solo letras, espacios, apóstrofos, guiones o puntos. | Use only letters, spaces, apostrophes, hyphens, or periods. |
-| `full_name_required` | Escribe tu nombre completo: nombre y al menos un apellido. | Please enter your full name: first name and at least one last name. |
-| `invalid_format` (email) | Escribe un correo válido, por ejemplo nombre@dominio.com. | Enter a valid email, for example name@domain.com. |
-| `invalid_format` (phone) | Escribe el número con código de país, por ejemplo +50684104791. | Enter the number with country code, for example +50684104791. |
-| `invalid_option` | Selecciona una opción. | Please select an option. |
-| `consent_required` | Necesitamos tu aceptación para poder guardar tus datos. | We need your consent to save your information. |
+`surface`, 1 px `sand` border, 4 px radius. Cover area (4:3, `sand` fill with the type label and a small polar star, until real covers exist), type label + `resource.free` (eyebrow style), access label (`resource.access.*`, `muted`), title (Manrope 700), description, topic (small, `muted`), and the action:
+- file delivered: blue button (`download`) or blue button with the email CTA label (email resources show `resource.email.coming_soon` until US-025, without a form);
+- file not delivered: `resource.pending` as plain text, no link, plus the pending badge.
 
-Submission error (any non-`201` result, network failure):
+### 6.2 Application form (unchanged behavior, new skin)
 
-| Español | English |
-|---|---|
-| No pudimos guardar tu información. Por favor, inténtalo de nuevo en unos minutos. Si el problema continúa, escríbenos a {contact_email}. | We couldn't save your information. Please try again in a few minutes. If the problem continues, email us at {contact_email}. |
+- `surface` card with a 4 px `heritage-blue` top border on `ivory`; title `form.title`.
+- Inputs: `ivory` fill, 1 px `field-line` border (US-019 AC7), 2 px radius, min height 48 px; focus: `heritage-blue` border and ring.
+- Screening options: large selectable cards, at least 44 px high (comfortable on mobile), `field-line` border; selected: `heritage-blue` border and a light `heritage-blue` tint with `charcoal` text.
+- Consent checkbox with the privacy-dialog link (§6.3 of phase 1 behavior: opens in a dialog, form data kept).
+- Gold submit (`form.submit`), the only gold button in its viewport; below it `form.trust` in `muted`.
+- Errors in `red-700` next to the field; submission errors above the submit button.
+- Honeypot: unchanged from v0.8 (US-013, contract §3.1): a `type="text"` input inside its own separate `<form>` outside the lead form, with a non-autofill `id`/`name` (e.g. `id="lead-hp" name="hp_field"`), no label, placeholder or title, `autocomplete="off"` and the password-manager opt-outs (`data-1p-ignore`, `data-lpignore="true"`, `data-bwignore="true"`, `data-form-type="other"`), off-screen (not `display: none`) with `tabindex="-1"` and `aria-hidden="true"` on its wrapper; its value is sent as JSON `website`. The visible fields keep their autofill hints (`name`, `email`, `tel`).
 
-Too many attempts (`429` / `rate_limited`, US-013; proposed copy):
+### 6.3 Testimonial card (placeholder)
 
-| Español | English |
-|---|---|
-| Recibimos varios intentos seguidos desde tu conexión. Por favor, espera unos minutos e inténtalo de nuevo. Si lo prefieres, escríbenos a {contact_email}. | We received several attempts in a row from your connection. Please wait a few minutes and try again. If you prefer, email us at {contact_email}. |
+`surface` card with a `terracotta` opening quote mark (large, decorative, `aria-hidden`), the placeholder caption and attribution in `muted`, and the pending badge. The video variant shows a 16:9 `sand` poster with a decorative play icon; it loads nothing until a real video and its host are decided (US-017).
 
-### Section 8 — Thank You + Calendly (`#lead-form`, after `201`)
+### 6.4 Thank-you screens (US-023 AC4, AC5)
 
-Shown only after a successful save. The form is replaced by:
+- Qualified: `thanks.qualified.title` and `.body`, then the inline Calendly (full width of the content column, name and email pre-filled), with the `thanks.calendly_fallback` message if the URL is unset, the script fails, or nothing appears within 10 seconds (US-007).
+- Not ready: `thanks.not_ready.title` and `.body`, then the `minicourse-debt` resource card (§6.1, in its current state), then the blue `thanks.not_ready.more` link to the library. Calendly is not loaded. No gold button.
+- Focus moves to the screen's title when it appears.
 
-| Element | Español | English |
-|---|---|---|
-| Thank-you title | ¡Gracias por tu información! | Thank you for your information! |
-| Thank-you text | Es posible que te contactemos por correo electrónico o WhatsApp. Si lo deseas, puedes agendar ahora tu llamada inicial: | We may reach out by email or WhatsApp. If you'd like, you can book your initial call now: |
-| Calendly fallback | No pudimos cargar el calendario. Escríbenos a {contact_email} y coordinamos tu llamada. | We couldn't load the calendar. Email us at {contact_email} and we'll arrange your call. |
+### 6.5 Pending badge
 
-- Calendly is embedded inline, full width of the content column, with name and email pre-filled.
-- `{contact_email}` is a `mailto:` link to `PUBLIC_CONTACT_EMAIL` (currently `gkelly@poliartcr.com`).
+Small pill: `sand` fill, `charcoal` text, 12 px Manrope 600, `pending.badge`, at block level (a section heading, a card), never inside running text. Which blocks get one is listed in `CONTENT.md` → Metadata → Pending badge: placeholders (BR-011) show it in **every** build, production included, until the real content arrives; provisional copy blocks show it in preview and development builds only. Visibility follows the content's state (a typed list next to the strings), not only the build type.
 
-### Section 9 — Closing CTA (`#closing`)
+### 6.6 Preview marker (US-027)
 
-**Español**
+In preview builds only: a slim `charcoal` bar above the header with `preview.badge` (a `soft-gold` pill) and `preview.banner` in `ivory`. Forms show `preview.form_note` on the next screen; the scheduler is replaced by a `sand` box with `preview.scheduler`.
 
-> Si esto resuena contigo, puedes dar el primer paso con calma. Déjanos tus datos y agenda una conversación para entender si este proceso encaja contigo.
+## 7. Provisional copy in code
 
-**English**
+The code keeps, next to the strings, the list of badge blocks from `CONTENT.md` → Metadata → Pending badge, each tagged `placeholder` or `provisional`; the pending badge reads from it. Provisional keys outside that list (navigation, labels, metadata, alt text, state messages) never show a badge. English provisional status (all English) does not add badges.
 
-> If this resonates with you, you can take the first step at your own pace. Leave your details and book a conversation to see whether this process is a good fit for you.
+## 8. Imagery
 
-### Privacy Notice (dialog opened from the consent checkbox link)
+- Sí (brief): real session photos with natural light, `ivory` or green backgrounds; Gaby working, reading, in session, with coffee or a notebook. Mixed people (men and women) in any image of clients.
+- No: stock photos, banknotes or cash, cars, stiff corporate poses, luxury symbols.
+- Until the session photos arrive: the provisional portrait from phase 1 in the Home hero, and marked placeholders elsewhere.
+- Portrait: round, `ivory` 6 px ring; alt text from `CONTENT.md`.
 
-Draft structure following Costa Rica's Ley N.° 8968. **DRAFT — requires legal review before public launch.** Shown in a dialog on the same page so form data is not lost.
+## 9. Responsive
 
-Required elements (ES and EN versions):
-1. Responsible party: Gabriela Kelly, contact `gkelly@poliartcr.com` (placeholder until confirmed).
-2. Data collected: full name, email, phone, pre-screening answer, page language, date and time of submission.
-3. Purpose: contacting the person about the initial call and the program, and prioritizing calls. No other use; data is not sold.
-4. Recipients / processors: Google (Google Sheets storage) and Calendly (scheduling), which may store data outside Costa Rica.
-5. Voluntary nature: providing data is optional; without it, the form cannot be submitted and the call cannot be scheduled through this page.
-6. Rights: access, rectification, cancellation (deletion), and opposition, exercised by email to the contact address.
-7. Retention period: TBD (to be defined in legal review).
-8. Version identifier matching `PRIVACY_NOTICE_VERSION`.
+Mobile first. Verify at 360, 390, 768 and 1280 px, with no horizontal scroll. Touch targets at least 44×44 px. The header menu below 1024 px (§4.1). Grids: 3 → 2 → 1 columns. The VIP rule of §2.4 at every width. The brief's mobile board (board 5) sets the mobile hero: brand header, headline, lead, the calls to action stacked; the copy is the same as on desktop (one set of keys).
 
-## 5. Pending-Validation Markers (US-009)
+## 10. Stakeholder validation
 
-In the prototype, every placeholder or provisional block (photo, bio, credentials, proof, privacy notice) shows a small, clearly styled label: "Pendiente de validación" / "Pending validation". The markers are controlled by a single flag so they can be turned off for production.
-
-## 6. Imagery
-
-Preferred:
-- Real photography of Gabriela: displayed as a round portrait (see section 2.1). Provisional source: her Instagram profile picture (352px, too small for production). Final: original photo at least 800×800px, ideally with a plain or softly blurred background, with Gabriela's consent for web use.
-- Calm, real-world financial planning imagery
-- Professional environments
-- People of different genders and ages making deliberate decisions
-
-Avoid:
-- cash piles
-- luxury-car imagery
-- exaggerated wealth symbolism
-- "quick money" visuals
-
-## 7. Responsive Direction
-
-Mobile first. Verify at 360 px, 390 px, 768 px, and desktop (≥1280 px).
-
-Requirements:
-- strong headline legibility
-- touch-friendly CTA and controls (≥44×44 px)
-- stacked roadmap on narrow screens
-- form usable without horizontal scrolling
-- language toggle always visible
-- Calendly usable on mobile
-
-## 8. Stakeholder Validation
-
-Brand palette and visual tone: approved by the human owner on 2026-09-25 (section 2.1, Proposal A); still to be shown to Gabriela.
-
-Open for decision:
-- Gaby's slide deck uses 3D banknote artwork. Section 6 says to avoid cash imagery; keep that rule for the website?
-- Some slides address employers (staff turnover, KPIs, retention). The current spec targets individuals. Is a corporate audience in scope? If yes, it is a spec change first.
-
-To be validated with Gabriela:
-- final copy (both languages)
-- photography
-- credentials
-- testimonials
-- brand palette
-- visual tone
-- privacy notice (plus legal review)
+Approved by Gaby in her brief (2026-10-15): palette, typography, motif, structure, the Spanish copy marked `approved` in `CONTENT.md`. Still to validate with Gaby: the English copy, the provisional keys, the layouts as built (on the preview). Deliberate departures from the brief are listed in `docs/ux/BRIEF_2026-10-15.md` → Decisions.
