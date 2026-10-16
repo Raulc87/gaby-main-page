@@ -16,3 +16,30 @@ describe('detectPageLanguage', () => {
     expect(detectPageLanguage('/fr/')).toBe('es');
   });
 });
+
+describe('detectPageLanguage under a base path (GitHub Pages preview, ADR-005)', () => {
+  const base = '/gaby-main-page/';
+
+  it('reads the language after the base', () => {
+    expect(detectPageLanguage('/gaby-main-page/en/', base)).toBe('en');
+    expect(detectPageLanguage('/gaby-main-page/en/vip-mentorship/', base)).toBe('en');
+    expect(detectPageLanguage('/gaby-main-page/es/mentoria-vip/', base)).toBe('es');
+    expect(detectPageLanguage('/gaby-main-page/en/#lead-form', base)).toBe('en');
+  });
+
+  it('accepts a base without trailing slash and falls back outside it', () => {
+    expect(detectPageLanguage('/gaby-main-page/en/', '/gaby-main-page')).toBe('en');
+    expect(detectPageLanguage('/gaby-main-page/', base)).toBe('es');
+    expect(detectPageLanguage('/gaby-main-page', base)).toBe('es');
+    expect(detectPageLanguage('/en/', base)).toBe('en');
+  });
+
+  it('does not mistake a base that looks like a language for the page language', () => {
+    expect(detectPageLanguage('/en/es/', '/en/')).toBe('es');
+  });
+
+  it('keeps working at the root base', () => {
+    expect(detectPageLanguage('/en/', '/')).toBe('en');
+    expect(detectPageLanguage('/', '/')).toBe('es');
+  });
+});

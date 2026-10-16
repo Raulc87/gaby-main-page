@@ -12,6 +12,8 @@ import type { FieldErrorCode, LeadFieldErrors, LeadFormField, LeadRequestPayload
 import { validateLeadForm, type RawLeadFormInput } from '../../lib/lead/validation';
 
 interface LeadFormCopy {
+  /** Preview build (US-027 AC3): after validation, go to the next screen without calling the API. */
+  preview?: boolean;
   submit: { idle: string; submitting: string };
   fieldErrors: Partial<Record<string, string>>;
   submissionError: { before: string; after: string };
@@ -202,6 +204,12 @@ export function initLeadForm(root: HTMLElement): void {
 
     if (Object.keys(fieldErrors).length > 0) {
       if (applyFieldErrors(fieldErrors)) renderSubmissionError();
+      return;
+    }
+
+    // Preview builds never call an endpoint: the routing runs as a demonstration.
+    if (copy.preview) {
+      onSuccess(values as LeadRequestPayload);
       return;
     }
 
