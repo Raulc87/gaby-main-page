@@ -1,10 +1,12 @@
 ---
 // Hero (US-001, US-015 AC3/AC8): two-column layout per
-// UX_UI_DIRECTION.md section 2.1. Left: white panel with headline (italic
-// `brand` emphasis on the second clause), supporting line, CTA and trust
-// row. Right: navy panel with a gold circle bleeding off the edge and
-// Gabriela's round portrait over it. Stacks on mobile, copy first.
-import CtaButton from './CtaButton.astro';
+// UX_UI_DIRECTION.md section 5.1. Left: surface panel with headline (italic
+// `heritage-blue` emphasis on the second clause), supporting line, gold CTA
+// and trust row. Right: heritage-blue panel with the soft-gold polar star
+// and Gabriela's round portrait. Stacks on mobile, copy first.
+import Button from '../layout/Button.astro';
+import PolarStar from '../layout/PolarStar.astro';
+import { assetUrl } from '../../lib/site/links';
 import PendingBadge from './PendingBadge.astro';
 import { SECTION_IDS, type HeroContent } from '../../i18n';
 
@@ -32,39 +34,39 @@ const [headlineLead, headlineEmphasis] =
 // of stepping abruptly at each Tailwind breakpoint.
 ---
 
-<section id={SECTION_IDS.hero} class="overflow-hidden bg-paper">
+<section id={SECTION_IDS.hero} class="overflow-hidden bg-ivory">
   <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
-    <div class="rounded-[2px] bg-surface p-8 shadow-sm sm:p-10">
+    <div class="rounded-[4px] border border-sand bg-surface p-8 sm:p-10">
       <h1 class="text-[clamp(2.375rem,1.84rem+2.39vw,3.75rem)] leading-tight">
         {headlineLead}{' '}
-        {headlineEmphasis && <em class="italic text-brand">{headlineEmphasis}</em>}
+        {headlineEmphasis && <em class="italic text-heritage-blue">{headlineEmphasis}</em>}
       </h1>
       <p class="mt-4 max-w-[65ch] text-lg text-muted">{content.supportingLine}</p>
       <div class="mt-8">
-        <CtaButton href={`#${SECTION_IDS.leadForm}`} label={content.cta} />
+        <Button variant="gold" href={`#${SECTION_IDS.leadForm}`} label={content.cta} />
       </div>
       <p class="mt-4 text-sm text-muted">{content.trustRow}</p>
     </div>
 
-    <div class="relative flex justify-center overflow-hidden rounded-[2px] bg-navy p-10 lg:justify-end lg:p-14">
-      <div
-        aria-hidden="true"
-        class="absolute -right-16 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-gold lg:h-96 lg:w-96"
-      >
-      </div>
+    <div class="relative flex justify-center overflow-hidden on-blue rounded-[4px] bg-heritage-blue p-10 lg:justify-end lg:p-14">
+      <PolarStar
+        tone="gold"
+        size={140}
+        class="absolute -right-6 top-1/2 h-[140px] w-[140px] -translate-y-1/2 lg:-right-8 lg:h-[220px] lg:w-[220px]"
+      />
       <div class="relative flex flex-col items-center gap-3">
         <div
-          class="h-32 w-32 shrink-0 overflow-hidden rounded-full border-8 border-white shadow-lg sm:h-40 sm:w-40 lg:h-44 lg:w-44"
+          class="h-32 w-32 shrink-0 overflow-hidden rounded-full border-[6px] border-ivory sm:h-40 sm:w-40 lg:h-44 lg:w-44"
         >
           <img
-            src="/gabriela-provisional.jpg"
+            src={assetUrl('/gabriela-provisional.jpg')}
             alt={photoAlt}
             width="352"
             height="352"
             class="h-full w-full object-cover"
           />
         </div>
-        <PendingBadge label={pendingLabel} />
+        <PendingBadge label={pendingLabel} block="phase1.hero_photo" />
       </div>
     </div>
   </div>

@@ -1,9 +1,15 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
+// The base path comes from SITE_BASE_PATH (default "/"): the GitHub Pages preview
+// builds with "/gaby-main-page/" (ADR-005), production at the domain root. All
+// links and assets are built from import.meta.env.BASE_URL (src/lib/site/links.ts).
+const basePath = (process.env.SITE_BASE_PATH ?? '').replace(/^\/+|\/+$/g, '');
+
 // See docs/decisions/ADR-001_BACKEND_HOSTING.md and docs/decisions/ADR-003_I18N_ROUTING.md.
 export default defineConfig({
   output: 'static',
+  base: basePath ? `/${basePath}/` : '/',
   vite: {
     plugins: [tailwindcss()],
     server: {

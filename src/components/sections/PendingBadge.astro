@@ -1,20 +1,24 @@
 ---
 // "Pendiente de validación" / "Pending validation" marker (US-003, US-009,
-// US-011). Rendering is gated by the single flag described in
-// UX_UI_DIRECTION.md section 5, so every marker can be turned off at once
-// for a production/stakeholder-approved build.
-import { SHOW_PENDING_VALIDATION_BADGES } from '../../i18n';
+// US-011). Pill per UX_UI_DIRECTION.md section 6.5: sand fill, charcoal text,
+// 12 px Manrope 600, at block level. `block` names the content block in the
+// badge-block list (src/lib/site/pending.ts, CONTENT.md -> Pending badge):
+// placeholders show in every build, provisional copy blocks in preview and
+// development builds only. Without `block` the badge always shows (a label that
+// is not a pending marker, such as the privacy notice's DRAFT label).
+import { showsPendingBadge, type PendingBlockId } from '../../lib/site/pending';
 
 interface Props {
   label: string;
+  block?: PendingBlockId;
 }
 
-const { label } = Astro.props;
+const { label, block } = Astro.props;
 ---
 
 {
-  SHOW_PENDING_VALIDATION_BADGES && (
-    <span class="inline-flex min-h-6 items-center rounded-full border border-gold bg-paper px-3 py-1 text-xs font-medium text-gold-ink">
+  (!block || showsPendingBadge(block)) && (
+    <span class="inline-flex min-h-6 items-center rounded-full bg-sand px-3 py-1 font-sans text-xs font-semibold text-charcoal">
       {label}
     </span>
   )
