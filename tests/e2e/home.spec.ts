@@ -175,6 +175,16 @@ test.describe('mobile menu (AC3)', () => {
     await expect(button).toBeFocused();
   });
 
+  test('following a same-page link closes the panel and returns focus to the button', async ({ page }) => {
+    await page.goto(routePath('home', 'es'));
+    const button = page.locator('[data-menu-button]');
+    await button.click();
+    await page.locator('[data-nav="method"]').click();
+    await expect(button).toHaveAttribute('aria-expanded', 'false');
+    await expect(button).toBeFocused();
+    await expect(page.locator('html')).not.toHaveClass(/overflow-hidden/);
+  });
+
   test('the language toggle inside the panel switches to the same page', async ({ page }) => {
     const button = await openMenu(page);
     await button.click();

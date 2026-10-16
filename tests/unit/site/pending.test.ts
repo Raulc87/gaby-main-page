@@ -54,9 +54,9 @@ describe('pending badge visibility', () => {
 
 describe('preview flag', () => {
   it('is on only for PUBLIC_PREVIEW=true', () => {
-    expect(isPreviewBuild({ PUBLIC_PREVIEW: 'true' })).toBe(true);
-    expect(isPreviewBuild({ PUBLIC_PREVIEW: 'false' })).toBe(false);
-    expect(isPreviewBuild({ PUBLIC_PREVIEW: '' })).toBe(false);
-    expect(isPreviewBuild({})).toBe(false);
+    expect(isPreviewBuild('true')).toBe(true);
+    expect(isPreviewBuild('false')).toBe(false);
+    expect(isPreviewBuild('')).toBe(false);
+    expect(isPreviewBuild(undefined)).toBe(false);
   });
 });

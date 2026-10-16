@@ -135,9 +135,11 @@ const links = [
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && isOpen()) setOpen(false, true);
     });
-    // Following a link inside the panel (e.g. to a section of this page) closes it.
+    // Following a link inside the panel (e.g. to a section of this page) closes it
+    // and returns focus to the button, as on Escape; a link to another page unloads
+    // this one anyway.
     panel.addEventListener('click', (event) => {
-      if ((event.target as HTMLElement).closest('a')) setOpen(false, false);
+      if ((event.target as HTMLElement).closest('a')) setOpen(false, true);
     });
     // Reaching the desktop layout with the panel open must not leave the page locked.
     desktop.addEventListener('change', (event) => {
