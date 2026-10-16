@@ -24,7 +24,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { form as enForm } from '../../src/i18n/en/form';
 import { form as esForm } from '../../src/i18n/es/form';
-import { fillLeadForm, gotoLang, SELECTORS, VALID_LEAD } from './support/lead-form';
+import { fillLeadForm, gotoVip, SELECTORS, VALID_LEAD } from './support/lead-form';
 
 async function expectHoneypotMitigations(page: Page): Promise<void> {
   const honeypot = page.locator(SELECTORS.honeypotInput);
@@ -143,30 +143,30 @@ for (const [description, viewportOptions] of [
     test('is off-screen, outside the lead form, unlabeled, and carries the required mitigations', async ({
       page,
     }) => {
-      await gotoLang(page, 'es');
+      await gotoVip(page, 'es');
       await expectHoneypotMitigations(page);
     });
 
     test('is not reachable with Tab', async ({ page }) => {
-      await gotoLang(page, 'es');
+      await gotoVip(page, 'es');
       await expectHoneypotUnreachableByTab(page);
     });
 
     test('is empty after load and stays empty after filling the visible fields', async ({ page }) => {
-      await gotoLang(page, 'es');
+      await gotoVip(page, 'es');
       await expectHoneypotEmpty(page);
     });
 
     test("a simulated autofill of every field inside the lead form leaves it untouched (US-013 AC1, regression)", async ({
       page,
     }) => {
-      await gotoLang(page, 'es');
+      await gotoVip(page, 'es');
       await simulateAutofillInsideLeadForm(page);
       await expect(page.locator(SELECTORS.honeypotInput)).toHaveValue('');
     });
 
     test("its own form's submit is always prevented", async ({ page }) => {
-      await gotoLang(page, 'es');
+      await gotoVip(page, 'es');
       await expectHoneypotFormSubmitIsPrevented(page);
     });
   });
@@ -174,7 +174,7 @@ for (const [description, viewportOptions] of [
 
 test.describe('autofill keeps working for the visible fields (US-013 AC1)', () => {
   test('name, email and phone keep their autocomplete hints', async ({ page }) => {
-    await gotoLang(page, 'es');
+    await gotoVip(page, 'es');
 
     await expect(page.locator(SELECTORS.nameInput)).toHaveAttribute('autocomplete', 'name');
     await expect(page.locator(SELECTORS.emailInput)).toHaveAttribute('autocomplete', 'email');
@@ -184,7 +184,7 @@ test.describe('autofill keeps working for the visible fields (US-013 AC1)', () =
 
 test.describe('the honeypot value reaches the server as `website` (US-013 AC1, real backend)', () => {
   test('filling the honeypot directly puts that value on the outgoing request body', async ({ page }) => {
-    await gotoLang(page, 'es');
+    await gotoVip(page, 'es');
     await fillLeadForm(page);
     await page.locator(SELECTORS.honeypotInput).fill('http://bot.example');
 
@@ -198,7 +198,7 @@ test.describe('the honeypot value reaches the server as `website` (US-013 AC1, r
   });
 
   test('a real visitor (honeypot left empty) sends an empty `website`', async ({ page }) => {
-    await gotoLang(page, 'es');
+    await gotoVip(page, 'es');
     await fillLeadForm(page);
 
     const [request] = await Promise.all([
@@ -215,7 +215,7 @@ test.describe('honeypot decoy against the real backend (memory mode)', () => {
   test('a filled website still returns the normal success response, indistinguishable from a real submission', async ({
     page,
   }) => {
-    await gotoLang(page, 'es');
+    await gotoVip(page, 'es');
     await fillLeadForm(page);
     // A bot fills every field it can reach in the DOM, ignoring the CSS that
     // keeps this one off-screen for people (contract section 3.1).
@@ -250,7 +250,7 @@ test.describe('429 / rate_limited (mocked)', () => {
       }),
     );
 
-    await gotoLang(page, 'en');
+    await gotoVip(page, 'en');
     await fillLeadForm(page);
     await page.locator(SELECTORS.submitButton).click();
 
@@ -285,7 +285,7 @@ test.describe('429 / rate_limited (mocked)', () => {
       }),
     );
 
-    await gotoLang(page, 'es');
+    await gotoVip(page, 'es');
     await fillLeadForm(page);
     await page.locator(SELECTORS.submitButton).click();
 

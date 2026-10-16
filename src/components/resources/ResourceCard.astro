@@ -1,0 +1,81 @@
+---
+// Resource card (UX_UI_DIRECTION.md section 6.1, CONTENT.md section 7.2): `surface`
+// with a 1 px `sand` border and 4 px radius; a 4:3 `sand` cover with the type label
+// and a small polar star (until real covers exist); type label + "free", access
+// label, title, description, topic, and the action:
+//   file delivered, download   blue button
+//   file delivered, email      `resource.email.coming_soon`, no form until US-025
+//   file not delivered         `resource.pending` as plain text, no link, plus the
+//                              pending badge (a placeholder: shown in every build)
+// A delivered resource carries the provisional-title badge instead (preview and
+// development builds only), so a card never shows two badges.
+import Button from '../layout/Button.astro';
+import PolarStar from '../layout/PolarStar.astro';
+import PendingBadge from '../sections/PendingBadge.astro';
+import { getCommon, type Language } from '../../i18n';
+import { getResources } from '../../lib/lead/dictionaries';
+import { assetUrl } from '../../lib/site/links';
+import { resourceFile, type Resource } from '../../data/resources';
+
+interface Props {
+  resource: Resource;
+  lang: Language;
+  /** Heading level of the title (default 3). */
+  headingLevel?: 2 | 3;
+  class?: string;
+}
+
+const { resource, lang, headingLevel = 3, class: className } = Astro.props;
+const t = getResources(lang);
+const common = getCommon(lang);
+const file = resourceFile(resource, lang);
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+const badgeBlock = file === undefined ? 'resource.file_pending' : 'resource.provisional_title';
+---
+
+<article
+  class:list={['flex h-full flex-col rounded-[4px] border border-sand bg-surface', className]}
+  data-resource-id={resource.id}
+  data-topic={resource.topic}
+>
+  <div
+    aria-hidden="true"
+    class="relative flex aspect-[4/3] items-end justify-between overflow-hidden rounded-t-[3px] bg-sand p-4"
+  >
+    <span class="text-[13px] font-semibold uppercase tracking-[0.16em] text-charcoal">
+      {t.resource.type[resource.type]}
+    </span>
+    <PolarStar tone="gold" size={56} class="h-14 w-14" />
+  </div>
+  <div class="flex flex-1 flex-col gap-3 p-5">
+    <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+      {t.resource.type[resource.type]} · {t.resource.free}
+    </p>
+    <p class="-mt-2 text-sm text-muted">{t.resource.access[resource.access]}</p>
+    <Heading class="font-sans text-[1.1875rem] font-bold leading-snug text-charcoal">
+      {resource.title[lang]}
+    </Heading>
+    <p class="text-base text-charcoal">{resource.description[lang]}</p>
+    <p class="text-sm text-muted">{t.resources.topic[resource.topic]}</p>
+    <div class="mt-auto flex flex-col items-start gap-3 pt-2">
+      {
+        file === undefined ? (
+          <>
+            <p class="text-base font-semibold text-charcoal">{t.resource.pending}</p>
+            <PendingBadge label={common.pending.badge} block={badgeBlock} />
+          </>
+        ) : resource.access === 'download' ? (
+          <>
+            <Button variant="blue" href={assetUrl(file)} label={t.resource.cta.download} download />
+            <PendingBadge label={common.pending.badge} block={badgeBlock} />
+          </>
+        ) : (
+          <>
+            <p class="text-sm text-muted">{t.resource.email.coming_soon}</p>
+            <PendingBadge label={common.pending.badge} block={badgeBlock} />
+          </>
+        )
+      }
+    </div>
+  </div>
+</article>

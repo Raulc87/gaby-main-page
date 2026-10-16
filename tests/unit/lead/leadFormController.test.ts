@@ -18,7 +18,7 @@ vi.mock('../../../src/lib/lead/api', () => ({
 }));
 
 const COPY = {
-  submit: { idle: 'Send and book my call', submitting: 'Sending…' },
+  submit: { idle: 'Submit my application', submitting: 'Sending…' },
   fieldErrors: {},
   submissionError: { before: '', after: '' },
   rateLimited: { before: '', after: '' },
@@ -31,10 +31,17 @@ const COPY = {
  * (US-013 AC1) lives in its own <form>, a sibling of #lead-form-container,
  * outside #lead-form-form — matching LeadForm.astro after the autofill fix.
  */
-function mountFormFixture(honeypotValue = ''): HTMLElement {
+function mountFormFixture(
+  honeypotValue = '',
+  {
+    screening = 'exploring',
+    buttonMarkup = 'span',
+    preview,
+  }: { screening?: string; buttonMarkup?: 'span' | 'text'; preview?: boolean } = {},
+): HTMLElement {
   const root = document.createElement('div');
   root.id = 'lead-form';
-  root.dataset.copy = JSON.stringify(COPY);
+  root.dataset.copy = JSON.stringify(preview === undefined ? COPY : { ...COPY, preview });
   root.innerHTML = `
     <form id="lead-hp-form" aria-hidden="true">
       <input id="lead-hp" name="hp_field" value="${honeypotValue}" />
@@ -44,16 +51,19 @@ function mountFormFixture(honeypotValue = ''): HTMLElement {
         <input id="lead-name" value="Ana María Pérez Soto" />
         <input id="lead-email" value="ana.perez@example.com" />
         <input id="lead-phone" value="+50684104791" />
-        <input type="radio" name="screening_answer" value="exploring" checked />
+        <input type="radio" name="screening_answer" value="${screening}" checked />
         <input id="lead-consent" type="checkbox" checked />
         <p id="lead-submission-error" hidden></p>
-        <button id="lead-submit" type="submit">
-          <span data-submit-label>${COPY.submit.idle}</span>
-          <svg data-testid="submit-arrow"></svg>
+        <button id="lead-submit" type="submit">${
+          buttonMarkup === 'span'
+            ? `<span data-submit-label>${COPY.submit.idle}</span>`
+            : `\n  ${COPY.submit.idle}\n  `
+        }<svg data-testid="submit-arrow"></svg>
         </button>
       </form>
     </div>
-    <div id="lead-success-container" hidden></div>
+    <div id="lead-success-container" hidden><h2 id="lead-success-title" tabindex="-1">Thanks</h2></div>
+    <div id="lead-not-ready-container" hidden><h2 id="lead-not-ready-title" tabindex="-1">Not ready</h2></div>
   `;
   document.body.appendChild(root);
   return root;
@@ -146,5 +156,130 @@ describe('leadFormController honeypot handling (US-013 AC1)', () => {
     expect(event.defaultPrevented).toBe(true);
     // The lead form's own submitLead must not have been triggered by this.
     expect(vi.mocked(submitLead)).not.toHaveBeenCalled();
+  });
+});
+
+describe('leadFormController routing after a 201 (US-023 AC4, AC5)', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    vi.mocked(submitLead).mockReset();
+    vi.mocked(submitLead).mockResolvedValue({ kind: 'success' });
+  });
+
+  async function submitWith(screening: string) {
+    const root = mountFormFixture('', { screening });
+    const started = vi.fn();
+    root.querySelector('#lead-success-container')!.addEventListener('lead:success', started);
+    initLeadForm(root);
+    (root.querySelector('#lead-form-form') as HTMLFormElement).dispatchEvent(
+      new Event('submit', { cancelable: true, bubbles: true }),
+    );
+    await flushMicrotasksAndTimers();
+    return { root, started };
+  }
+
+  it.each(['ready_to_invest', 'needs_investment_info'])(
+    'shows the thank-you, starts the scheduler and focuses its title for %s',
+    async (screening) => {
+      const { root, started } = await submitWith(screening);
+
+      expect((root.querySelector('#lead-form-container') as HTMLElement).hidden).toBe(true);
+      expect((root.querySelector('#lead-success-container') as HTMLElement).hidden).toBe(false);
+      expect((root.querySelector('#lead-not-ready-container') as HTMLElement).hidden).toBe(true);
+      expect(started).toHaveBeenCalledTimes(1);
+      expect(document.activeElement?.id).toBe('lead-success-title');
+    },
+  );
+
+  it.each(['no_capacity_now', 'exploring'])(
+    'shows the not-ready screen without starting the scheduler and focuses its title for %s',
+    async (screening) => {
+      const { root, started } = await submitWith(screening);
+
+      expect((root.querySelector('#lead-form-container') as HTMLElement).hidden).toBe(true);
+      expect((root.querySelector('#lead-not-ready-container') as HTMLElement).hidden).toBe(false);
+      expect((root.querySelector('#lead-success-container') as HTMLElement).hidden).toBe(true);
+      expect(started).not.toHaveBeenCalled();
+      expect(document.activeElement?.id).toBe('lead-not-ready-title');
+    },
+  );
+
+  it('keeps the arrow icon when the label is a bare text node (shared Button markup)', async () => {
+    let resolveSubmit!: (value: SubmitLeadResult) => void;
+    vi.mocked(submitLead).mockReturnValue(
+      new Promise<SubmitLeadResult>((resolve) => {
+        resolveSubmit = resolve;
+      }),
+    );
+    const root = mountFormFixture('', { buttonMarkup: 'text' });
+    initLeadForm(root);
+    const button = root.querySelector('#lead-submit') as HTMLButtonElement;
+
+    (root.querySelector('#lead-form-form') as HTMLFormElement).dispatchEvent(
+      new Event('submit', { cancelable: true, bubbles: true }),
+    );
+    expect(button.textContent?.trim()).toBe(COPY.submit.submitting);
+    expect(button.querySelector('[data-testid="submit-arrow"]')).not.toBeNull();
+
+    resolveSubmit({ kind: 'success' });
+    await flushMicrotasksAndTimers();
+    expect(button.textContent?.trim()).toBe(COPY.submit.idle);
+    expect(button.querySelector('[data-testid="submit-arrow"]')).not.toBeNull();
+  });
+});
+
+describe('leadFormController preview mode (US-027 AC3)', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    vi.mocked(submitLead).mockReset();
+    vi.mocked(submitLead).mockResolvedValue({ kind: 'success' });
+  });
+
+  function submit(root: HTMLElement): void {
+    (root.querySelector('#lead-form-form') as HTMLFormElement).dispatchEvent(
+      new Event('submit', { cancelable: true, bubbles: true }),
+    );
+  }
+
+  it.each([
+    ['ready_to_invest', '#lead-success-container'],
+    ['needs_investment_info', '#lead-success-container'],
+    ['no_capacity_now', '#lead-not-ready-container'],
+    ['exploring', '#lead-not-ready-container'],
+  ])('with the flag on, %s shows its screen and never calls the API', async (screening, screen) => {
+    const root = mountFormFixture('', { screening, preview: true });
+    initLeadForm(root);
+
+    submit(root);
+    await flushMicrotasksAndTimers();
+
+    expect(vi.mocked(submitLead)).not.toHaveBeenCalled();
+    expect((root.querySelector(screen) as HTMLElement).hidden).toBe(false);
+    expect((root.querySelector('#lead-form-container') as HTMLElement).hidden).toBe(true);
+  });
+
+  it('with the flag on, an invalid form still shows its errors and goes nowhere', async () => {
+    const root = mountFormFixture('', { preview: true });
+    (root.querySelector('#lead-name') as HTMLInputElement).value = '';
+    root.insertAdjacentHTML('beforeend', '<p id="lead-name-error"></p>');
+    initLeadForm(root);
+
+    submit(root);
+    await flushMicrotasksAndTimers();
+
+    expect(vi.mocked(submitLead)).not.toHaveBeenCalled();
+    expect((root.querySelector('#lead-form-container') as HTMLElement).hidden).toBe(false);
+    expect((root.querySelector('#lead-success-container') as HTMLElement).hidden).toBe(true);
+    expect((root.querySelector('#lead-not-ready-container') as HTMLElement).hidden).toBe(true);
+  });
+
+  it.each([false, undefined])('with the flag %s, the form calls the API as before', async (preview) => {
+    const root = mountFormFixture('', { preview });
+    initLeadForm(root);
+
+    submit(root);
+    await flushMicrotasksAndTimers();
+
+    expect(vi.mocked(submitLead)).toHaveBeenCalledTimes(1);
   });
 });

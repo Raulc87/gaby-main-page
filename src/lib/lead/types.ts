@@ -99,7 +99,12 @@ export interface FormDictionary {
     paragraphs: string[];
   };
   submit: { idle: string; submitting: string };
+  /** The line under the submit button (`form.trust`). */
+  trust: string;
+  /** Qualified screen (`thanks.qualified.*`, US-023 AC4). */
   thankYou: { title: string; text: string };
+  /** Not-ready screen (`thanks.not_ready.title` and `.body`, US-023 AC5). */
+  notReady: { title: string; text: string };
   /** Shown when Calendly is unavailable; contains one `{contact_email}` placeholder. */
   calendlyFallback: string;
   /**
@@ -127,4 +132,29 @@ export interface FormDictionary {
    * attempts" message; contains one `{contact_email}` placeholder.
    */
   rateLimited: string;
+}
+
+/** VIP page copy (CONTENT.md section 8.1-8.2; `vip.lead` is `vip_band.body`, read from the shared dictionary). */
+export interface VipDictionary {
+  eyebrow: string;
+  title: string;
+  steps: [string, string, string];
+  video: { title: string; placeholder: string };
+}
+
+/** Resource card labels and topic names (CONTENT.md sections 7.1-7.2), keyed as in CONTENT.md. */
+export interface ResourcesDictionary {
+  resource: {
+    type: Record<'minicourse' | 'guide' | 'template' | 'checklist' | 'class', string>;
+    free: string;
+    access: Record<'download' | 'email', string>;
+    cta: Record<'download' | 'guide' | 'class' | 'minicourse', string>;
+    pending: string;
+    email: { coming_soon: string };
+    /** Contains one `{title}` placeholder. */
+    cover_alt: string;
+  };
+  resources: {
+    topic: Record<'debt' | 'wallets' | 'investing' | 'mindset', string>;
+  };
 }

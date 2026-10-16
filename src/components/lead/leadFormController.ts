@@ -7,10 +7,13 @@
 // falls back to the generic submission error (see `applyFieldErrors`).
 import { submitLead } from '../../lib/lead/api';
 import { detectPageLanguage } from '../../lib/lead/language';
+import { routeForScreeningAnswer } from '../../lib/lead/routing';
 import type { FieldErrorCode, LeadFieldErrors, LeadFormField, LeadRequestPayload } from '../../lib/lead/types';
 import { validateLeadForm, type RawLeadFormInput } from '../../lib/lead/validation';
 
 interface LeadFormCopy {
+  /** Preview build (US-027 AC3): after validation, go to the next screen without calling the API. */
+  preview?: boolean;
   submit: { idle: string; submitting: string };
   fieldErrors: Partial<Record<string, string>>;
   submissionError: { before: string; after: string };
@@ -61,6 +64,24 @@ function preventHoneypotFormSubmit(root: HTMLElement): void {
   honeypotForm?.addEventListener('submit', (event) => event.preventDefault());
 }
 
+/**
+ * Sets the button's text without removing its arrow icon: the `[data-submit-label]`
+ * span when the markup has one, otherwise the first text node (the shared Button
+ * component renders its label as a text node followed by the icon).
+ */
+function setButtonLabel(button: HTMLElement, text: string): void {
+  const span = button.querySelector<HTMLElement>('[data-submit-label]');
+  if (span) {
+    span.textContent = text;
+    return;
+  }
+  const textNode = Array.from(button.childNodes).find(
+    (node) => node.nodeType === Node.TEXT_NODE && (node.textContent ?? '').trim() !== '',
+  );
+  if (textNode) textNode.textContent = text;
+  else button.prepend(document.createTextNode(text));
+}
+
 export function initLeadForm(root: HTMLElement): void {
   const copy = JSON.parse(root.dataset.copy ?? '{}') as LeadFormCopy;
   const form = root.querySelector<HTMLFormElement>('#lead-form-form');
@@ -68,6 +89,7 @@ export function initLeadForm(root: HTMLElement): void {
   const submissionErrorEl = root.querySelector<HTMLElement>('#lead-submission-error');
   const formContainer = root.querySelector<HTMLElement>('#lead-form-container');
   const successContainer = root.querySelector<HTMLElement>('#lead-success-container');
+  const notReadyContainer = root.querySelector<HTMLElement>('#lead-not-ready-container');
 
   if (!form || !submitButton || !submissionErrorEl) {
     return;
@@ -150,21 +172,28 @@ export function initLeadForm(root: HTMLElement): void {
 
   function setPending(pending: boolean): void {
     submitButtonEl.disabled = pending;
-    // Targets the label span rather than the button's own textContent so it
-    // doesn't wipe out the button's arrow icon (UX_UI_DIRECTION.md section
-    // 2.1, "Buttons").
-    const label = submitButtonEl.querySelector<HTMLElement>('[data-submit-label]');
     const text = pending ? copy.submit.submitting : copy.submit.idle;
-    if (label) label.textContent = text;
-    else submitButtonEl.textContent = text;
+    setButtonLabel(submitButtonEl, text);
   }
 
+  /**
+   * US-023 AC4, AC5: the screening answer decides the next screen. Qualified
+   * answers get the thank-you and the scheduler (`lead:success` starts it);
+   * the others get the not-ready screen and the scheduler is never started.
+   * Focus moves to the new screen's title (UX_UI_DIRECTION.md section 6.4).
+   */
   function onSuccess(payload: LeadRequestPayload): void {
     if (formContainer) formContainer.hidden = true;
-    if (successContainer) {
+    if (routeForScreeningAnswer(payload.screening_answer) === 'qualified') {
+      if (!successContainer) return;
       successContainer.hidden = false;
       successContainer.dispatchEvent(new CustomEvent('lead:success', { detail: payload }));
+      successContainer.querySelector<HTMLElement>('#lead-success-title')?.focus();
+      return;
     }
+    if (!notReadyContainer) return;
+    notReadyContainer.hidden = false;
+    notReadyContainer.querySelector<HTMLElement>('#lead-not-ready-title')?.focus();
   }
 
   formEl.addEventListener('submit', (event) => {
@@ -175,6 +204,12 @@ export function initLeadForm(root: HTMLElement): void {
 
     if (Object.keys(fieldErrors).length > 0) {
       if (applyFieldErrors(fieldErrors)) renderSubmissionError();
+      return;
+    }
+
+    // Preview builds never call an endpoint: the routing runs as a demonstration.
+    if (copy.preview) {
+      onSuccess(values as LeadRequestPayload);
       return;
     }
 

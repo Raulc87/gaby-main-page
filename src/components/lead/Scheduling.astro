@@ -4,16 +4,22 @@
 // by leadFormController.ts's `onSuccess`), so the Calendly script is never
 // requested before a successful save (AC2). Falls back to a mailto link
 // when PUBLIC_CALENDLY_URL is unset, the widget script fails to load, or no
-// iframe renders within 10 seconds (AC5).
+// iframe renders within 10 seconds (AC5). In preview builds (US-027 AC3) it is a
+// static `sand` stand-in with `preview.scheduler`: no Calendly script, no URL,
+// whatever PUBLIC_CALENDLY_URL is.
 import { splitTemplate } from '../../lib/lead/format';
 import { CALENDLY_URL, CONTACT_EMAIL } from '../../lib/lead/config';
 import type { FormDictionary } from '../../lib/lead/types';
 
 interface Props {
   calendlyFallback: FormDictionary['calendlyFallback'];
+  /** Preview build: show the stand-in instead of the scheduler. */
+  preview?: boolean;
+  /** `preview.scheduler`. */
+  previewNote?: string;
 }
 
-const { calendlyFallback } = Astro.props;
+const { calendlyFallback, preview = false, previewNote = '' } = Astro.props;
 const fallbackParts = splitTemplate(calendlyFallback, 'contact_email');
 
 const fallbackCopy = {
@@ -23,15 +29,23 @@ const fallbackCopy = {
 };
 ---
 
-<div
-  id="calendly-container"
-  class="mt-6"
-  data-calendly-url={CALENDLY_URL}
-  data-fallback={JSON.stringify(fallbackCopy)}
->
-  <div id="calendly-widget" class="min-h-[630px] w-full" hidden></div>
-  <p id="calendly-fallback" hidden class="text-sm text-muted"></p>
-</div>
+{
+  preview ? (
+    <div id="scheduler-preview" class="mt-6 rounded-[4px] bg-sand p-6 text-base text-charcoal">
+      {previewNote}
+    </div>
+  ) : (
+    <div
+      id="calendly-container"
+      class="mt-6"
+      data-calendly-url={CALENDLY_URL}
+      data-fallback={JSON.stringify(fallbackCopy)}
+    >
+      <div id="calendly-widget" class="min-h-[630px] w-full" hidden></div>
+      <p id="calendly-fallback" hidden class="text-sm text-muted"></p>
+    </div>
+  )
+}
 
 <script>
   import { initScheduling } from './schedulingController';

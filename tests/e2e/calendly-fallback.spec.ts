@@ -4,10 +4,10 @@
 // PUBLIC_CALENDLY_URL (see lead-form-submission.spec.ts for why).
 import { expect, test } from '@playwright/test';
 import { form as enForm } from '../../src/i18n/en/form';
-import { DEFAULT_CONTACT_EMAIL, fillLeadForm, gotoLang, SELECTORS } from './support/lead-form';
+import { DEFAULT_CONTACT_EMAIL, fillLeadForm, gotoVip, SELECTORS } from './support/lead-form';
 
 test('shows the mailto fallback when the Calendly URL is not configured', async ({ page }) => {
-  await gotoLang(page, 'en');
+  await gotoVip(page, 'en');
   await page.evaluate(() => {
     const container = document.getElementById('calendly-container');
     if (container) container.dataset.calendlyUrl = '';
