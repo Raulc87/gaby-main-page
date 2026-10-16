@@ -11,6 +11,7 @@
 // photo (>=800x800) replaces it, and this pending-validation badge is
 // removed, in US-017 (GK-017-final-content).
 import PendingBadge from './PendingBadge.astro';
+import { assetUrl } from '../../lib/site/links';
 import { SECTION_IDS, type GuideContent } from '../../i18n';
 
 interface Props {
@@ -26,14 +27,14 @@ const { content, pendingLabel } = Astro.props;
     <div class="mx-auto flex flex-col items-center gap-3 sm:mx-0">
       <div class="h-40 w-40 shrink-0 overflow-hidden rounded-full border-[6px] border-ivory ring-1 ring-sand sm:h-44 sm:w-44">
         <img
-          src="/gabriela-provisional.jpg"
+          src={assetUrl('/gabriela-provisional.jpg')}
           alt={content.photoPlaceholder}
           width="352"
           height="352"
           class="h-full w-full object-cover"
         />
       </div>
-      <PendingBadge label={pendingLabel} />
+      <PendingBadge label={pendingLabel} block="phase1.guide" />
     </div>
 
     <div>
@@ -41,15 +42,15 @@ const { content, pendingLabel } = Astro.props;
 
       <ul class="mt-6 flex flex-wrap gap-x-6 gap-y-3">
         <li class="flex items-center gap-2">
-          <PendingBadge label={pendingLabel} />
+          <PendingBadge label={pendingLabel} block="phase1.guide" />
           <span class="text-sm text-muted">{content.bioPlaceholder}</span>
         </li>
         <li class="flex items-center gap-2">
-          <PendingBadge label={pendingLabel} />
+          <PendingBadge label={pendingLabel} block="phase1.guide" />
           <span class="text-sm text-muted">{content.credentialsPlaceholder}</span>
         </li>
         <li class="flex items-center gap-2">
-          <PendingBadge label={pendingLabel} />
+          <PendingBadge label={pendingLabel} block="phase1.guide" />
           <span class="text-sm text-muted">{content.approachPlaceholder}</span>
         </li>
       </ul>
