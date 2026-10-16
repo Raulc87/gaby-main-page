@@ -3,8 +3,8 @@
 // Hero with eyebrow, title and the session-photo placeholder; the three story
 // paragraphs in a narrow column; the media row (names as text chips in
 // same-height boxes that can take logos later); the experience row (Microsoft and
-// Oracle logos from public/logos, Intel as text); the bio and credentials
-// placeholder; the text link to the resources; the VIP band. The photo and bio
+// Oracle logos from public/logos as charcoal silhouettes, Intel as text); the
+// bio and credentials placeholder; the text link to the resources; the VIP band. The photo and bio
 // placeholders carry the pending badge in every build (they are placeholders).
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PendingBadge from '../sections/PendingBadge.astro';
@@ -62,15 +62,6 @@ const mediaNames = [story.media['1'], story.media['2'], story.media['3'], story.
       <p class="text-lg text-charcoal">{story.p1}</p>
       <p class="mt-6 text-lg text-charcoal">{story.p2}</p>
       <p class="mt-6 text-lg text-charcoal">{story.p3}</p>
-      <p class="mt-8">
-        <a
-          href={pageHref('resources', lang)}
-          class="font-semibold text-heritage-blue underline underline-offset-4"
-          data-testid="story-resources-link"
-        >
-          {common.cta.start_free}
-        </a>
-      </p>
     </div>
   </section>
 
@@ -97,22 +88,22 @@ const mediaNames = [story.media['1'], story.media['2'], story.media['3'], story.
         </p>
         <ul class="mt-4 flex flex-wrap items-center gap-3">
           <li class="flex h-14 items-center rounded-[4px] border border-sand bg-surface px-6">
-            <img
-              src={assetUrl('/logos/microsoft.svg')}
-              alt={story.experience.logo_alt.microsoft}
-              width="131"
-              height="28"
-              class="h-7 w-auto grayscale"
-            />
+            <span
+              role="img"
+              aria-label={story.experience.logo_alt.microsoft}
+              data-logo="microsoft"
+              class="logo-mask block h-7 w-[131px] bg-charcoal"
+              style={`--logo: url(${assetUrl('/logos/microsoft.svg')})`}
+            ></span>
           </li>
           <li class="flex h-14 items-center rounded-[4px] border border-sand bg-surface px-6">
-            <img
-              src={assetUrl('/logos/oracle.svg')}
-              alt={story.experience.logo_alt.oracle}
-              width="216"
-              height="28"
-              class="h-7 w-auto grayscale"
-            />
+            <span
+              role="img"
+              aria-label={story.experience.logo_alt.oracle}
+              data-logo="oracle"
+              class="logo-mask block h-7 w-[216px] bg-charcoal"
+              style={`--logo: url(${assetUrl('/logos/oracle.svg')})`}
+            ></span>
           </li>
           <li class="flex h-14 items-center rounded-[4px] border border-sand bg-surface px-6 font-semibold text-charcoal">
             {story.experience.intel}
@@ -127,8 +118,27 @@ const mediaNames = [story.media['1'], story.media['2'], story.media['3'], story.
         <PendingBadge label={common.pending.badge} block="story.bio" />
         <span class="text-muted">{story.bio.placeholder}</span>
       </div>
+
+      <p class="mt-8">
+        <a
+          href={pageHref('resources', lang)}
+          class="font-semibold text-heritage-blue underline underline-offset-4"
+          data-testid="story-resources-link"
+        >
+          {common.cta.start_free}
+        </a>
+      </p>
     </div>
   </section>
 
   <VipBand lang={lang} />
 </BaseLayout>
+
+<style>
+  /* Monochrome charcoal logos (UX_UI_DIRECTION.md section 5.2): the logo file's
+     shape is a mask over a charcoal fill; the files themselves are unmodified. */
+  .logo-mask {
+    -webkit-mask: var(--logo) center / contain no-repeat;
+    mask: var(--logo) center / contain no-repeat;
+  }
+</style>

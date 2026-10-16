@@ -36,17 +36,24 @@ for (const lang of ['es', 'en'] as const) {
       await expect(experience.getByRole('img', { name: story.experience.logo_alt.microsoft })).toBeVisible();
       await expect(experience.getByRole('img', { name: story.experience.logo_alt.oracle })).toBeVisible();
       await expect(experience.getByText(story.experience.intel, { exact: true })).toBeVisible();
-      await expect(experience.locator('img')).toHaveCount(2);
+      await expect(experience.locator('[data-logo]')).toHaveCount(2);
     });
 
-    test('logo images load', async ({ page }) => {
-      const loaded = await page
-        .getByTestId('story-experience')
-        .locator('img')
-        .evaluateAll((images) =>
-          images.map((image) => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0),
-        );
-      expect(loaded).toEqual([true, true]);
+    test('logos are charcoal silhouettes of the supplied files', async ({ page, request }) => {
+      for (const name of ['microsoft', 'oracle']) {
+        const logo = page.locator(`[data-logo="${name}"]`);
+        const style = await logo.evaluate((element) => {
+          const computed = getComputedStyle(element);
+          return {
+            color: computed.backgroundColor,
+            mask: computed.maskImage || computed.webkitMaskImage,
+          };
+        });
+        expect(style.color, name).toBe('rgb(43, 43, 43)');
+        const url = style.mask.match(/url\("?([^")]+)"?\)/)?.[1];
+        expect(url, name).toContain(`/logos/${name}.svg`);
+        expect((await request.get(url!)).ok(), name).toBe(true);
+      }
     });
 
     test('marks the photo and bio spaces as pending', async ({ page }) => {
@@ -55,6 +62,21 @@ for (const lang of ['es', 'en'] as const) {
       }
       await expect(page.getByText(story.photo.placeholder)).toBeVisible();
       await expect(page.getByText(story.bio.placeholder)).toBeVisible();
+    });
+
+    test('the resources link follows the bio card and precedes the VIP band', async ({ page }) => {
+      const order = await page.evaluate(() => {
+        const position = (selector: string) => {
+          const element = document.querySelector(selector)!;
+          return element.getBoundingClientRect().top + window.scrollY;
+        };
+        return [
+          position('[data-testid="story-bio-placeholder"]'),
+          position('[data-testid="story-resources-link"]'),
+          position('main > section:last-child'),
+        ];
+      });
+      expect(order).toEqual([...order].sort((a, b) => a - b));
     });
 
     test('links to the resources', async ({ page }) => {
