@@ -10,7 +10,7 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
 - Sources: Gaby's brief (`docs/ux/BRIEF_2026-10-15.md`) for the Spanish copy she wrote, quoted verbatim; the phase 1 form copy (`UX_UI_DIRECTION.md` v0.8 §4, sections 7–8, kept unchanged); proposals by the project team where the brief has no copy.
 - Rules: no guaranteed outcomes (BR-003); gender-neutral, inclusive language toward the visitor in both languages (BR-005; Gaby's first-person story may describe herself); the initial call is free, the mentorship is not (BR-008); "Gaby Kelly", "Método Polaris" / "Polaris Method", "Wealth Mastery" (BR-009); no invented testimonials, logos, files or figures (BR-011).
 - **Status column:**
-  - `approved`: the Spanish is Gaby's (from her brief) or was approved earlier; the English is a translation.
+  - `approved`: the Spanish is Gaby's (from her brief), was approved earlier, or was decided by the human owner (dated note next to the key, e.g. `form.submit`); the English is a translation.
   - `provisional`: proposed by the team, or a placeholder in the brief itself (`[...]` there); shown with the pending badge in preview builds.
   - **All English values are provisional** until Gaby validates them (one review of the English as a whole); that does not add badges.
 - Values are copied verbatim and never contain markers. The code keeps the list of provisional keys next to the strings (`UX_UI_DIRECTION.md` §7).

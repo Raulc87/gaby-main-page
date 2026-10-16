@@ -143,7 +143,9 @@ Order of work:
    - After 201: qualified → thank-you and Calendly (US-007, fallback included); not ready →
      the not-ready screen with the minicourse-debt card (pending until its file exists) and no
      Calendly loaded (§6.4).
-   - Dictionaries: src/i18n/{es,en}/form.ts updated to CONTENT.md §8.3–8.5, vip.ts new.
+   - Dictionaries: src/i18n/{es,en}/form.ts updated to CONTENT.md §8.3–8.5 (including the new
+     submit label "Enviar mi aplicación" / "Submit my application"; update the unit-test fixtures
+     that still use the old label, e.g. tests/unit/lead/leadFormController.test.ts), vip.ts new.
    - Move the e2e suite to the VIP page in this same PR; add e2e for one qualified and one
      not-ready answer in both languages. The Home keeps its form until Agent 1's
      GK-021-home; both must pass.
