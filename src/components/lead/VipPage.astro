@@ -1,0 +1,84 @@
+---
+// VIP mentorship page (US-023, UX_UI_DIRECTION.md section 5.4, CONTENT.md section 8):
+// intro with the three steps (no button: the only gold button on this page is the
+// form submit), the video placeholder module (loads nothing), and the application
+// form (#aplicar). The page files in src/pages/{es,en} only pass the language.
+import PolarStar from '../layout/PolarStar.astro';
+import PendingBadge from '../sections/PendingBadge.astro';
+import { getCommon, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import { getVip } from '../../lib/lead/dictionaries';
+import { parseEmphasis } from '../../lib/site/emphasis';
+import LeadForm from './LeadForm.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const vip = getVip(lang);
+const common = getCommon(lang);
+const title = parseEmphasis(vip.title);
+---
+
+<section class="bg-ivory py-12 lg:py-20">
+  <div class="mx-auto max-w-[1160px] px-4">
+    <div class="max-w-[44rem]">
+      <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">{vip.eyebrow}</p>
+      <h1 class="mt-3 text-[clamp(2rem,1.4rem+2.4vw,3.25rem)] leading-tight">
+        {
+          title.map((segment) =>
+            segment.emphasis ? (
+              <em class="italic text-heritage-blue">{segment.text}</em>
+            ) : (
+              segment.text
+            ),
+          )
+        }
+      </h1>
+      <p class="mt-5 max-w-[65ch] text-charcoal">{common.vip_band.body}</p>
+    </div>
+
+    <div class="mt-8">
+      <ol class="grid gap-4 sm:grid-cols-3" data-testid="vip-steps">
+        {
+          vip.steps.map((step, index) => (
+            <li class="flex items-start gap-3 rounded-[4px] border border-sand bg-surface p-4">
+              <span
+                aria-hidden="true"
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-heritage-blue font-bold text-surface"
+              >
+                {index + 1}
+              </span>
+              <span class="pt-1 text-base font-semibold text-charcoal">{step}</span>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="mt-3">
+        <PendingBadge label={common.pending.badge} block="vip.steps" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-ivory pb-4" aria-labelledby="vip-video-title">
+  <div class="mx-auto max-w-[1160px] px-4">
+    <h2 id="vip-video-title" class="text-2xl">{vip.video.title}</h2>
+    <!-- Video module (FR-026): a placeholder frame; nothing is loaded from a third party. -->
+    <div
+      data-testid="vip-video"
+      class="on-blue relative mt-4 flex aspect-video max-w-[48rem] flex-col items-center justify-center gap-4 overflow-hidden rounded-[4px] bg-heritage-blue p-6 text-center"
+    >
+      <PolarStar tone="gold" size={96} class="h-24 w-24" />
+      <p class="text-base font-semibold text-ivory">{vip.video.placeholder}</p>
+    </div>
+    <div class="mt-3">
+      <PendingBadge label={common.pending.badge} block="vip.video" />
+    </div>
+  </div>
+</section>
+
+<div class="bg-ivory">
+  <LeadForm id={ANCHORS.vip.apply} lang={lang} />
+</div>

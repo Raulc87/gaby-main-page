@@ -1,23 +1,37 @@
 ---
-// Owned by Implementation Agent 2 (see SPRINT_001.md file ownership map).
-// Built incrementally: GK-004-lead-form (name/email/phone + submission
-// handling), GK-005-pre-screening (screening question), GK-011-privacy-
-// consent (consent checkbox + privacy notice), GK-007-calendly (thank-you +
-// inline Calendly hand-off). Resolves its own language from the URL because
-// pages/{es,en}/index.astro (Agent 1) compose <LeadForm /> with no props.
-import { SECTION_IDS } from '../../i18n';
-import { form as enForm } from '../../i18n/en/form';
-import { form as esForm } from '../../i18n/es/form';
+// Owned by Implementation Agent 2. The application form (US-004, US-005, US-011,
+// US-013 behavior unchanged; US-023 skin and routing). Used on the VIP page
+// (`id="aplicar"`, `lang` passed) and, until GK-021-home, on the phase 1 Home
+// (no props: `id` defaults to the `lead-form` anchor and the language comes from
+// the URL). After a 201 the card is replaced in place by the qualified screen
+// (thank-you + scheduler) or the not-ready screen, per src/lib/lead/routing.ts.
+import { SECTION_IDS, type Language } from '../../i18n';
+import { getCommon } from '../../i18n';
+import { FEATURED_RESOURCE_ID, getResource } from '../../data/resources';
 import { CONTACT_EMAIL } from '../../lib/lead/config';
+import { getForm } from '../../lib/lead/dictionaries';
 import { detectPageLanguage } from '../../lib/lead/language';
 import { splitTemplate } from '../../lib/lead/format';
+import { pageHref } from '../../lib/site/links';
+import Button from '../layout/Button.astro';
+import PendingBadge from '../sections/PendingBadge.astro';
+import ResourceCard from '../resources/ResourceCard.astro';
 import ConsentField from './ConsentField.astro';
 import PrivacyNotice from './PrivacyNotice.astro';
 import ThankYou from './ThankYou.astro';
 import Scheduling from './Scheduling.astro';
 
-const lang = detectPageLanguage(Astro.url.pathname);
-const form = lang === 'en' ? enForm : esForm;
+interface Props {
+  /** Section anchor id. Default: the phase 1 Home anchor (`lead-form`). */
+  id?: string;
+  /** Page language. Default: resolved from the URL. */
+  lang?: Language;
+}
+
+const { id = SECTION_IDS.leadForm, lang: langProp } = Astro.props;
+const lang = langProp ?? detectPageLanguage(Astro.url.pathname);
+const form = getForm(lang);
+const common = getCommon(lang);
 
 const submissionErrorParts = splitTemplate(form.submissionError, 'contact_email');
 const rateLimitedParts = splitTemplate(form.rateLimited, 'contact_email');
@@ -31,7 +45,12 @@ const scriptCopy = {
 };
 ---
 
-<section id={SECTION_IDS.leadForm} class="mx-auto max-w-xl px-4 py-12" data-copy={JSON.stringify(scriptCopy)}>
+<section
+  id={id}
+  data-lead-form
+  class="mx-auto max-w-xl scroll-mt-24 px-4 py-12"
+  data-copy={JSON.stringify(scriptCopy)}
+>
   <!--
     Honeypot (US-013 AC1, UX_UI_DIRECTION.md v0.8 section 4 Section 7): its
     own <form>, entirely outside #lead-form-form. Browser autofill and
@@ -65,12 +84,12 @@ const scriptCopy = {
     />
   </form>
 
-  <div id="lead-form-container" class="rounded-md border-t-4 border-navy bg-surface p-6 shadow-sm sm:p-8">
-    <h2 class="text-2xl font-semibold text-navy">{form.formTitle}</h2>
+  <div id="lead-form-container" class="rounded-[4px] border-t-4 border-heritage-blue bg-surface p-6 shadow-sm sm:p-8">
+    <h2 class="text-2xl text-charcoal">{form.formTitle}</h2>
 
     <form id="lead-form-form" novalidate class="mt-6 space-y-5">
       <div>
-        <label for="lead-name" class="block text-sm font-medium text-ink">{form.name.label}</label>
+        <label for="lead-name" class="block text-sm font-semibold text-charcoal">{form.name.label}</label>
         <input
           id="lead-name"
           name="name"
@@ -79,14 +98,14 @@ const scriptCopy = {
           required
           aria-required="true"
           aria-describedby="lead-name-hint lead-name-error"
-          class="mt-1 block min-h-11 w-full rounded-md border border-field-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
+          class="mt-1 block min-h-12 w-full rounded-[2px] border border-field-line bg-ivory px-3 py-2 text-charcoal placeholder:text-muted focus:border-heritage-blue focus:ring-2 focus:ring-heritage-blue focus:outline-none"
         />
-        <p id="lead-name-hint" class="mt-1 text-xs text-muted">{form.name.hint}</p>
+        <p id="lead-name-hint" class="mt-1 text-sm text-muted">{form.name.hint}</p>
         <p id="lead-name-error" role="alert" class="mt-1 text-sm text-red-700"></p>
       </div>
 
       <div>
-        <label for="lead-email" class="block text-sm font-medium text-ink">{form.email.label}</label>
+        <label for="lead-email" class="block text-sm font-semibold text-charcoal">{form.email.label}</label>
         <input
           id="lead-email"
           name="email"
@@ -95,13 +114,13 @@ const scriptCopy = {
           required
           aria-required="true"
           aria-describedby="lead-email-error"
-          class="mt-1 block min-h-11 w-full rounded-md border border-field-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
+          class="mt-1 block min-h-12 w-full rounded-[2px] border border-field-line bg-ivory px-3 py-2 text-charcoal placeholder:text-muted focus:border-heritage-blue focus:ring-2 focus:ring-heritage-blue focus:outline-none"
         />
         <p id="lead-email-error" role="alert" class="mt-1 text-sm text-red-700"></p>
       </div>
 
       <div>
-        <label for="lead-phone" class="block text-sm font-medium text-ink">{form.phone.label}</label>
+        <label for="lead-phone" class="block text-sm font-semibold text-charcoal">{form.phone.label}</label>
         <input
           id="lead-phone"
           name="phone"
@@ -110,23 +129,23 @@ const scriptCopy = {
           required
           aria-required="true"
           aria-describedby="lead-phone-hint lead-phone-error"
-          class="mt-1 block min-h-11 w-full rounded-md border border-field-line bg-paper px-3 py-2 text-ink placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-gold focus:outline-none"
+          class="mt-1 block min-h-12 w-full rounded-[2px] border border-field-line bg-ivory px-3 py-2 text-charcoal placeholder:text-muted focus:border-heritage-blue focus:ring-2 focus:ring-heritage-blue focus:outline-none"
         />
-        <p id="lead-phone-hint" class="mt-1 text-xs text-muted">{form.phone.hint}</p>
+        <p id="lead-phone-hint" class="mt-1 text-sm text-muted">{form.phone.hint}</p>
         <p id="lead-phone-error" role="alert" class="mt-1 text-sm text-red-700"></p>
       </div>
 
       <fieldset id="lead-screening" aria-describedby="lead-screening-error" class="space-y-2">
-        <legend class="block text-sm font-medium text-ink">{form.screening.prompt}</legend>
+        <legend class="block text-sm font-semibold text-charcoal">{form.screening.prompt}</legend>
         {
           form.screening.options.map((option, index) => (
-            <label class="flex min-h-11 items-center gap-3 rounded-md border border-field-line bg-paper px-4 py-3 text-sm text-ink transition-colors has-[:checked]:border-brand has-[:checked]:bg-brand/5 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-gold">
+            <label class="flex min-h-14 cursor-pointer items-center gap-3 rounded-[2px] border border-field-line bg-ivory px-4 py-3 text-base text-charcoal transition-colors has-[:checked]:border-heritage-blue has-[:checked]:bg-heritage-blue/10 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-heritage-blue">
               <input
                 type="radio"
                 name="screening_answer"
                 value={option.code}
                 required={index === 0}
-                class="h-4 w-4 shrink-0 accent-brand"
+                class="h-4 w-4 shrink-0 accent-heritage-blue"
               />
               {option.label}
             </label>
@@ -139,28 +158,44 @@ const scriptCopy = {
 
       <p id="lead-submission-error" role="alert" hidden class="text-sm text-red-700"></p>
 
-      <button
-        id="lead-submit"
-        type="submit"
-        class="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-md bg-navy px-6 py-3 font-medium text-white transition hover:-translate-y-0.5 hover:bg-brand disabled:pointer-events-none disabled:opacity-60 disabled:hover:translate-y-0"
-      >
-        <span data-submit-label>{form.submit.idle}</span>
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 20 20"
-          class="h-4 w-4 shrink-0 stroke-current transition-transform group-hover:translate-x-0.5"
-          fill="none"
-          stroke-width="1.6"
-        >
-          <path d="M4 10h12M11 5l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg>
-      </button>
+      <div>
+        <Button id="lead-submit" variant="gold" type="submit" label={form.submit.idle} class="w-full" />
+        <p class="mt-3 text-center text-sm text-muted">{form.trust}</p>
+      </div>
     </form>
   </div>
 
-  <div id="lead-success-container" class="rounded-md border-t-4 border-navy bg-surface p-6 shadow-sm sm:p-8" hidden>
+  <!-- Qualified screen (US-023 AC4): thank-you, then the scheduler (US-007). -->
+  <div
+    id="lead-success-container"
+    class="rounded-[4px] border-t-4 border-heritage-blue bg-surface p-6 shadow-sm sm:p-8"
+    hidden
+  >
     <ThankYou thankYou={form.thankYou} />
     <Scheduling calendlyFallback={form.calendlyFallback} />
+  </div>
+
+  <!-- Not-ready screen (US-023 AC5, UX_UI_DIRECTION.md section 6.4): no scheduler, no gold button. -->
+  <div
+    id="lead-not-ready-container"
+    class="rounded-[4px] border-t-4 border-heritage-blue bg-surface p-6 shadow-sm sm:p-8"
+    hidden
+  >
+    <h2
+      id="lead-not-ready-title"
+      tabindex="-1"
+      class="text-2xl text-charcoal outline-none"
+    >
+      {form.notReady.title}
+    </h2>
+    <p class="mt-3 text-base text-charcoal">{form.notReady.text}</p>
+    <div class="mt-3">
+      <PendingBadge label={common.pending.badge} block="thanks.not_ready" />
+    </div>
+    <ResourceCard resource={getResource(FEATURED_RESOURCE_ID)} lang={lang} class="mt-6" />
+    <div class="mt-6">
+      <Button variant="blue" href={pageHref('resources', lang)} label={common.cta.all_resources} />
+    </div>
   </div>
 
   <PrivacyNotice privacyNotice={form.privacyNotice} contactEmail={CONTACT_EMAIL} />
@@ -169,6 +204,5 @@ const scriptCopy = {
 <script>
   import { initLeadForm } from './leadFormController';
 
-  const root = document.getElementById('lead-form');
-  if (root) initLeadForm(root);
+  document.querySelectorAll<HTMLElement>('[data-lead-form]').forEach((root) => initLeadForm(root));
 </script>

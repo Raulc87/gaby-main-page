@@ -14,7 +14,7 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
 ---
 
 <div>
-  <label class="flex min-h-11 items-start gap-2 text-sm text-ink">
+  <label class="flex min-h-11 items-start gap-2 text-sm text-charcoal">
     <!--
       `outline`, not `border` (US-015 AC6, field-line 3:1 boundary):
       Chromium's native, appearance:auto checkbox widget ignores author
@@ -27,13 +27,13 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
       `outline`, an unconditional field-line outline silently replaces the
       browser's native focus indicator, leaving a keyboard-focused checkbox
       looking identical to an unfocused one. `focus-visible:` swaps it to a
-      `brand` outline — not `gold`: on its own, gold is only ~1.7:1 against
+      `heritage-blue` outline — not `soft-gold`: on its own, gold is only ~1.7:1 against
       white/paper, well under the 3:1 WCAG 1.4.11 non-text contrast a focus
-      indicator needs, whereas `brand` reaches 6.1–6.5:1 (human owner
-      review on #43). No paired `gold` ring here, unlike the inputs: the
+      indicator needs, whereas `heritage-blue` reaches 6.1–6.5:1 (human owner
+      review on #43). No paired `soft-gold` ring here, unlike the inputs: the
       outline and a same-position `ring` (box-shadow) paint in the same
-      1–3px band and outlines paint above box-shadows, so a `gold` ring
-      tried here was fully hidden behind the `brand` outline — confirmed
+      1–3px band and outlines paint above box-shadows, so a `soft-gold` ring
+      tried here was fully hidden behind the `heritage-blue` outline — confirmed
       by pixel-sampling the rendered page (human owner review on #43) —
       and would have been dead weight.
     -->
@@ -44,7 +44,7 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
       required
       aria-required="true"
       aria-describedby="lead-consent-error"
-      class="mt-0.5 h-4 w-4 shrink-0 rounded-sm outline-1 -outline-offset-1 outline-field-line accent-brand focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand"
+      class="mt-0.5 h-4 w-4 shrink-0 rounded-sm outline-1 -outline-offset-1 outline-field-line accent-heritage-blue focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-heritage-blue"
     />
     <span>
       {before}
@@ -53,7 +53,7 @@ const { before, after } = splitTemplate(consent.text, 'privacy_notice_link');
         id="privacy-notice-trigger"
         aria-haspopup="dialog"
         aria-controls="privacy-notice-dialog"
-        class="inline-flex min-h-11 items-center text-brand underline underline-offset-2 hover:text-navy"
+        class="inline-flex min-h-11 items-center text-heritage-blue underline underline-offset-2 hover:text-charcoal"
       >
         {consent.linkLabel}
       </button>

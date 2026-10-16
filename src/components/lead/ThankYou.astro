@@ -1,6 +1,7 @@
 ---
-// Shown only after a real 201 (US-007 AC1), replacing the form inside
-// #lead-success-container (see leadFormController.ts `onSuccess`).
+// Qualified screen heading (US-023 AC4), shown only after a real 201 with a
+// qualified screening answer (see leadFormController.ts `onSuccess`). Focus moves
+// to the title when the screen appears (UX_UI_DIRECTION.md section 6.4).
 import type { FormDictionary } from '../../lib/lead/types';
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 const { thankYou } = Astro.props;
 ---
 
-<div class="text-center">
-  <h2 class="text-2xl font-semibold text-navy">{thankYou.title}</h2>
-  <p class="mt-2 text-muted">{thankYou.text}</p>
+<div>
+  <h2 id="lead-success-title" tabindex="-1" class="text-2xl text-charcoal outline-none">{thankYou.title}</h2>
+  <p class="mt-3 text-base text-charcoal">{thankYou.text}</p>
 </div>
