@@ -82,6 +82,7 @@ for (const lang of ['es', 'en'] as const) {
     test('links to the resources', async ({ page }) => {
       const link = page.getByTestId('story-resources-link');
       await expect(link).toHaveText(common.cta.start_free);
+      expect((await link.boundingBox())!.height).toBeGreaterThanOrEqual(44);
       await link.click();
       await expect(page).toHaveURL(new RegExp(`${routePath('resources', lang)}$`));
     });
