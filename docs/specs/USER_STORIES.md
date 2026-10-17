@@ -546,7 +546,7 @@ so that my calls go to qualified applicants and everyone else still gets somethi
 2. The form keeps the fields, validation, honeypot, consent and error handling of US-004, US-005, US-011 and US-013, restyled per US-019: fields on Marfil with the border token from `UX_UI_DIRECTION.md` (at least 3:1, US-019 AC7) and an Azul Patrimonio focus; screening options as large cards at least 44 px high; the gold submit button (the only gold button in its viewport); the line "Llamada inicial sin costo · Tus datos protegidos (Ley 8968)" below it.
 3. The request to `POST /api/save-lead` is unchanged (`LEAD_API_CONTRACT.md` v1.1).
 4. After `201` with `ready_to_invest` or `needs_investment_info`: thank-you and the inline Calendly with name and email pre-filled, as in US-007 (including the fallback).
-5. After `201` with `no_capacity_now` or `exploring`: a warm thank-you screen without Calendly, offering the featured free mini-course (shown as pending until its file exists, US-024 AC4; after US-025, requested by email); Calendly is not loaded.
+5. After `201` with `no_capacity_now` or `exploring`: a warm thank-you screen without Calendly, offering the featured free mini-course (an email-delivered resource: shown as "coming soon" with `resource.email.coming_soon` until US-025, per US-024 AC4; after US-025, requested by email); Calendly is not loaded.
 6. Unit tests cover the routing for all four codes; e2e covers one qualified and one not-ready answer in both languages.
 
 **Dependencies**

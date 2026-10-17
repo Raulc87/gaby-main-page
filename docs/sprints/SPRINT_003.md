@@ -173,7 +173,7 @@ All planned stories were merged on 2026-10-16, in the planned order (`GK-027-pre
 - #53, relayed 2026-10-16: Agent 1 may update the e2e expectations in `tests/e2e/form-field-outline.spec.ts` (Agent 2's file) for the new `field-line` and focus colours.
 - #61, relayed 2026-10-16 (comment `6226900084`): ownership exception for Agent 1's removal of the Home-form e2e (`tests/e2e/home-form.spec.ts` deleted, `gotoHomeForm` removed from `tests/e2e/support/lead-form.ts`, Home entries dropped from `tests/e2e/preview-forms.spec.ts`), as Agent 2's comments asked for in `GK-021-home`.
 
-**Owner decision, 2026-10-17 (given to the coordinator):** keep the current provisional photo for now and replace it later with a better one in a small PR. `public/gabriela-provisional.jpg` is 352×352 px and is shown at 288 px (Home hero, desktop) and 224 px (story teaser), so it is upscaled on 2× screens, below US-015 AC4 ("at least 2× the displayed size"). The owner accepts this as a known, non-critical regression until the better photo arrives (US-017).
+**Owner decision, 2026-10-17** (given to the coordinator in its session, not written by the owner on a PR; merging this docs PR confirms it in the owner's name): keep the current provisional photo for now and replace it later with a better one in a small PR. `public/gabriela-provisional.jpg` is 352×352 px and is shown at 288 px (Home hero, desktop) and 224 px (story teaser), so it is upscaled on 2× screens, below US-015 AC4 ("at least 2× the displayed size"). The owner accepts this as a known, non-critical regression until the better photo arrives (US-017).
 
 **Sprint Definition of Done — still with the human owner:**
 - [ ] Preview reviewed by the human owner and shared with Gaby (Sprint Review, planned 2026-10-28).
@@ -190,6 +190,8 @@ All planned stories were merged on 2026-10-16, in the planned order (`GK-027-pre
 - Agent 2: `LeadForm` defaults (`submitVariant = 'blue'`, `id = SECTION_IDS.leadForm`) only served the phase 1 Home; make `gold` the default and drop `SECTION_IDS`.
 - Agent 1: move `PendingBadge` out of `src/components/sections/` (now its only file) and update the importers.
 - Resource filters: a live "n resources" status after filtering needs a new `CONTENT.md` string first (accessibility nit from the #60 review).
+- Agent 2, `tests/e2e/preview-forms.spec.ts`: an e2e for the root-page preview marker (#64, US-027 AC2), as the #64 PR body describes. With JavaScript off, `/` in the preview build shows two `[data-preview-bar]` with the es and en `preview.banner`, and `robots` matches `noindex`. In the normal build, `/` has no bar.
+- Optional, Agent 2, `tests/e2e/resources.spec.ts`: the per-id `.all()` loop could assert at least one card per id (nit from the #63 review).
 
 **Still owed by Gaby (US-017, backlog):** session photos, testimonials, resource names and files, official Método Polaris steps, bio and credentials, the video, media logo permissions, and the English validation of the provisional keys. Until then the preview shows the pending badges (BR-011).
 
