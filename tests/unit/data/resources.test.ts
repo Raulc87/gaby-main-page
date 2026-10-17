@@ -7,6 +7,7 @@ import {
   FEATURED_RESOURCE_ID,
   getResource,
   isResourcePending,
+  resourceState,
   RESOURCES,
   RESOURCE_TOPICS,
   RESOURCE_TYPES,
@@ -67,3 +68,38 @@ describe('resource list (CONTENT.md section 7.3)', () => {
     expect(RESOURCES.every((resource) => resource.file === undefined)).toBe(true);
   });
 });
+
+describe('resourceState (US-024 AC4, CONTENT.md section 7.2)', () => {
+  const emailResource = RESOURCES.find((resource) => resource.access === 'email')!;
+  const downloadResource = RESOURCES.find((resource) => resource.access === 'download')!;
+
+  it('shows "coming soon by email" for an email resource without a file', () => {
+    expect(emailResource.file).toBeUndefined();
+    expect(resourceState(emailResource, 'es')).toBe('email_coming_soon');
+    expect(resourceState(emailResource, 'en')).toBe('email_coming_soon');
+  });
+
+  it('keeps "coming soon by email" for an email resource even with a file (no form until US-025)', () => {
+    const withFile = { ...emailResource, file: { es: '/resources/x.pdf', en: '/resources/x.pdf' } };
+    expect(resourceState(withFile, 'es')).toBe('email_coming_soon');
+  });
+
+  it('shows "pending" for a download resource without a file', () => {
+    expect(downloadResource.file).toBeUndefined();
+    expect(resourceState(downloadResource, 'es')).toBe('pending');
+  });
+
+  it('offers the download only for a download resource whose file exists, per language', () => {
+    const withFile = { ...downloadResource, file: { es: '/resources/x-es.pdf' } };
+    expect(resourceState(withFile, 'es')).toBe('download');
+    expect(resourceState(withFile, 'en')).toBe('pending');
+  });
+
+  it('maps every resource of the list to exactly one state', () => {
+    for (const resource of RESOURCES) {
+      const expected = resource.access === 'email' ? 'email_coming_soon' : 'pending';
+      expect(resourceState(resource, 'es'), resource.id).toBe(expected);
+    }
+  });
+});
+

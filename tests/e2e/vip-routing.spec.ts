@@ -5,7 +5,7 @@
 // against the real backend (LEADS_STORAGE=memory).
 import { expect, test } from '@playwright/test';
 import { getCommon } from '../../src/i18n';
-import { getForm } from '../../src/lib/lead/dictionaries';
+import { getForm, getResources } from '../../src/lib/lead/dictionaries';
 import { fillLeadForm, gotoVip, SELECTORS } from './support/lead-form';
 
 for (const lang of ['es', 'en'] as const) {
@@ -50,6 +50,9 @@ for (const lang of ['es', 'en'] as const) {
     const card = page.locator('#lead-not-ready-container [data-resource-id="minicourse-debt"]');
     await expect(card).toBeVisible();
     await expect(card).not.toContainText('{');
+    // The mini-course is delivered by email: `resource.email.coming_soon`, not `resource.pending`.
+    await expect(card).toContainText(getResources(lang).resource.email.coming_soon);
+    await expect(card).not.toContainText(getResources(lang).resource.pending);
     await expect(card.locator('a')).toHaveCount(0);
 
     // The blue link to the library; no gold button on this screen.
