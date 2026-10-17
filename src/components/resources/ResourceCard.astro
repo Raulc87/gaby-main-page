@@ -3,19 +3,21 @@
 // with a 1 px `sand` border and 4 px radius; a 4:3 `sand` cover with the type label
 // and a small polar star (until real covers exist); type label + "free", access
 // label, title, description, topic, and the action:
-//   file delivered, download   blue button
-//   file delivered, email      `resource.email.coming_soon`, no form until US-025
-//   file not delivered         `resource.pending` as plain text, no link, plus the
-//                              pending badge (a placeholder: shown in every build)
-// A delivered resource carries the provisional-title badge instead (preview and
-// development builds only), so a card never shows two badges.
+//   email-delivered           `resource.email.coming_soon`, no form and no link until
+//                             US-025, whether or not a file exists (US-024 AC4)
+//   download, file delivered  blue button
+//   download, no file         `resource.pending` as plain text, no link
+// The state is decided by `resourceState` (src/data/resources.ts). A card without a
+// file carries the pending badge (a placeholder: shown in every build); with a file it
+// carries the provisional-title badge instead (preview and development builds only),
+// so a card never shows two badges.
 import Button from '../layout/Button.astro';
 import PolarStar from '../layout/PolarStar.astro';
 import PendingBadge from '../sections/PendingBadge.astro';
 import { getCommon, type Language } from '../../i18n';
 import { getResources } from '../../lib/lead/dictionaries';
 import { assetUrl } from '../../lib/site/links';
-import { resourceFile, type Resource } from '../../data/resources';
+import { resourceFile, resourceState, type Resource } from '../../data/resources';
 
 interface Props {
   resource: Resource;
@@ -31,6 +33,7 @@ const { resource, lang, headingLevel = 3, featured = false, class: className } =
 const t = getResources(lang);
 const common = getCommon(lang);
 const file = resourceFile(resource, lang);
+const state = resourceState(resource, lang);
 const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const badgeBlock = file === undefined ? 'resource.file_pending' : 'resource.provisional_title';
 ---
@@ -75,19 +78,16 @@ const badgeBlock = file === undefined ? 'resource.file_pending' : 'resource.prov
     <p class="text-sm text-muted">{t.resources.topic[resource.topic]}</p>
     <div class="mt-auto flex flex-col items-start gap-3 pt-2">
       {
-        file === undefined ? (
-          <>
-            <p class="text-base font-semibold text-charcoal">{t.resource.pending}</p>
-            <PendingBadge label={common.pending.badge} block={badgeBlock} />
-          </>
-        ) : resource.access === 'download' ? (
+        state === 'download' && file !== undefined ? (
           <>
             <Button variant="blue" href={assetUrl(file)} label={t.resource.cta.download} download />
             <PendingBadge label={common.pending.badge} block={badgeBlock} />
           </>
         ) : (
           <>
-            <p class="text-sm text-muted">{t.resource.email.coming_soon}</p>
+            <p class:list={['text-base', state === 'pending' ? 'font-semibold text-charcoal' : 'text-muted']}>
+              {state === 'pending' ? t.resource.pending : t.resource.email.coming_soon}
+            </p>
             <PendingBadge label={common.pending.badge} block={badgeBlock} />
           </>
         )

@@ -39,11 +39,21 @@ for (const lang of ['es', 'en'] as Language[]) {
   test(`library (${lang}): every card is pending, with no link, and the page ends with the short VIP band`, async ({ page }) => {
     await page.goto(routePath('resources', lang));
 
-    // No file has been delivered (US-024 AC4, BR-011): "coming soon", no link, a pending badge.
-    for (const card of await page.locator('[data-resource-library] article').all()) {
-      await expect(card).toContainText(t.resource.pending);
-      await expect(card.locator('a')).toHaveCount(0);
-      await expect(card).toContainText(common.pending.badge);
+    // No file has been delivered (US-024 AC4, BR-011): email-delivered resources say
+    // `resource.email.coming_soon`, downloads say `resource.pending`; never a link,
+    // always a pending badge.
+    for (const resource of RESOURCES) {
+      for (const card of await page.locator(`[data-resource-library] [data-resource-id="${resource.id}"]`).all()) {
+        if (resource.access === 'email') {
+          await expect(card).toContainText(t.resource.email.coming_soon);
+          await expect(card).not.toContainText(t.resource.pending);
+        } else {
+          await expect(card).toContainText(t.resource.pending);
+          await expect(card).not.toContainText(t.resource.email.coming_soon);
+        }
+        await expect(card.locator('a')).toHaveCount(0);
+        await expect(card).toContainText(common.pending.badge);
+      }
     }
 
     const band = page.locator('[data-resource-library] > section').last();
