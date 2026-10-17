@@ -322,7 +322,7 @@ so that real visitors can use it.
 ## US-015 — Apply the approved visual identity
 - Priority: High
 - Story Points: 5
-- Status: Done — Sprint 002 (#29, #32, #34, #36, #42, #43); phase 2: the Proposal A look is replaced by the official brand (US-019)
+- Status: Done — Sprint 002 (#29, #32, #34, #36, #42, #43); phase 2: the Proposal A look is replaced by the official brand (US-019); AC4: since #61 the provisional portrait is shown larger than half its source size, accepted by the owner on 2026-10-17 until a better photo replaces it in a small PR (`SPRINT_003.md` → Close-out)
 - Related Requirements: NFR-001, NFR-003, BR-004, BR-008
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` section 2.1 (Proposal A)
 
@@ -557,7 +557,7 @@ so that my calls go to qualified applicants and everyone else still gets somethi
 ## US-024 — Free resource library
 - Priority: High
 - Story Points: 5
-- Status: Merged in Sprint 003 (#60); not Done: AC4 gap, email-delivered resources show `resource.pending` instead of `resource.email.coming_soon` (fix: Agent 2, `SPRINT_003.md` → Close-out)
+- Status: Done — Sprint 003 (#60; AC4 fix #63)
 - Related Requirements: FR-023, FR-024, BR-011
 
 **User Story**
@@ -624,7 +624,7 @@ so that visitors find useful content and get to know my approach.
 ## US-027 — Preview on GitHub Pages
 - Priority: High
 - Story Points: 3
-- Status: Merged in Sprint 003 (#55: workflow and `RELEASE.md`; #58: preview mode of the form); not Done: AC2 gap, the root page `/` has no visible preview marker (fix: Agent 1, `SPRINT_003.md` → Close-out)
+- Status: Done — Sprint 003 (#55: workflow and `RELEASE.md`; #58: preview mode of the form; #64: AC2 fix, preview marker on `/`)
 - Related Requirements: FR-030
 - Related ADR: ADR-005 (branching, preview and release)
 
