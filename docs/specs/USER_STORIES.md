@@ -322,7 +322,7 @@ so that real visitors can use it.
 ## US-015 — Apply the approved visual identity
 - Priority: High
 - Story Points: 5
-- Status: Done — Sprint 002 (#29, #32, #34, #36, #42, #43); phase 2: the Proposal A look is replaced by the official brand (US-019)
+- Status: Done — Sprint 002 (#29, #32, #34, #36, #42, #43); phase 2: the Proposal A look is replaced by the official brand (US-019); AC4: since #61 the provisional portrait is shown larger than half its source size, accepted by the owner on 2026-10-17 until a better photo replaces it in a small PR (`SPRINT_003.md` → Close-out)
 - Related Requirements: NFR-001, NFR-003, BR-004, BR-008
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` section 2.1 (Proposal A)
 
@@ -546,7 +546,7 @@ so that my calls go to qualified applicants and everyone else still gets somethi
 2. The form keeps the fields, validation, honeypot, consent and error handling of US-004, US-005, US-011 and US-013, restyled per US-019: fields on Marfil with the border token from `UX_UI_DIRECTION.md` (at least 3:1, US-019 AC7) and an Azul Patrimonio focus; screening options as large cards at least 44 px high; the gold submit button (the only gold button in its viewport); the line "Llamada inicial sin costo · Tus datos protegidos (Ley 8968)" below it.
 3. The request to `POST /api/save-lead` is unchanged (`LEAD_API_CONTRACT.md` v1.1).
 4. After `201` with `ready_to_invest` or `needs_investment_info`: thank-you and the inline Calendly with name and email pre-filled, as in US-007 (including the fallback).
-5. After `201` with `no_capacity_now` or `exploring`: a warm thank-you screen without Calendly, offering the featured free mini-course (shown as pending until its file exists, US-024 AC4; after US-025, requested by email); Calendly is not loaded.
+5. After `201` with `no_capacity_now` or `exploring`: a warm thank-you screen without Calendly, offering the featured free mini-course (an email-delivered resource: shown as "coming soon" with `resource.email.coming_soon` until US-025, per US-024 AC4; after US-025, requested by email); Calendly is not loaded.
 6. Unit tests cover the routing for all four codes; e2e covers one qualified and one not-ready answer in both languages.
 
 **Dependencies**
@@ -557,7 +557,7 @@ so that my calls go to qualified applicants and everyone else still gets somethi
 ## US-024 — Free resource library
 - Priority: High
 - Story Points: 5
-- Status: Merged in Sprint 003 (#60); not Done: AC4 gap, email-delivered resources show `resource.pending` instead of `resource.email.coming_soon` (fix: Agent 2, `SPRINT_003.md` → Close-out)
+- Status: Done — Sprint 003 (#60; AC4 fix #63)
 - Related Requirements: FR-023, FR-024, BR-011
 
 **User Story**
@@ -624,7 +624,7 @@ so that visitors find useful content and get to know my approach.
 ## US-027 — Preview on GitHub Pages
 - Priority: High
 - Story Points: 3
-- Status: Merged in Sprint 003 (#55: workflow and `RELEASE.md`; #58: preview mode of the form); not Done: AC2 gap, the root page `/` has no visible preview marker (fix: Agent 1, `SPRINT_003.md` → Close-out)
+- Status: Done — Sprint 003 (#55: workflow and `RELEASE.md`; #58: preview mode of the form; #64: AC2 fix, preview marker on `/`)
 - Related Requirements: FR-030
 - Related ADR: ADR-005 (branching, preview and release)
 
