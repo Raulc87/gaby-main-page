@@ -176,7 +176,7 @@ so that I can complete the flow without friction.
 2. Form fields and the consent checkbox are usable at common mobile widths; touch targets are at least 44×44 px.
 3. Content hierarchy remains clear.
 4. The 3-step roadmap stacks on narrow screens.
-5. The language toggle remains visible and usable on mobile.
+5. The language toggle remains usable on mobile: in phase 2 it sits in the menu panel below 1024 px (`UX_UI_DIRECTION.md` §4.1, US-020).
 
 ---
 
@@ -215,7 +215,7 @@ so that I can understand the offer comfortably.
 **Acceptance Criteria**
 1. Spanish content is served at `/es/` and English content at `/en/`, each with the correct `<html lang>`.
 2. On `/`, a visitor with no saved choice is sent to `/es/` when the browser's first preferred language starts with `es` (e.g. `es`, `es-CR`, `es-MX`), and to `/en/` otherwise.
-3. A language toggle (`ES | EN`) is visible at the top of the page on all widths and switches to the same section in the other language.
+3. A language toggle (`ES | EN`) is available at all widths and switches to the same section in the other language. In phase 2 it is in the header from 1024 px and in the menu panel below that (`UX_UI_DIRECTION.md` §4.1, US-020).
 4. The choice made with the toggle is remembered on the device and overrides browser detection on later visits.
 5. Every visitor-facing string (content, form labels, hints, errors, success message, consent, privacy notice, Calendly fallback) exists in both languages; no string is hard-coded outside the translation files.
 6. Without JavaScript, `/` shows links to both language versions.
@@ -428,7 +428,7 @@ so that the public form complies with Costa Rica's Ley N.° 8968.
 ## US-019 — Official brand skin
 - Priority: Critical
 - Story Points: 5
-- Status: Planned — Sprint 003 (phase 2a)
+- Status: Done — Sprint 003 (#53)
 - Related Requirements: FR-019, NFR-003, BR-005, BR-010
 - Related Spec: `UX_UI_DIRECTION.md` (brand section, phase 2)
 
@@ -455,7 +455,7 @@ so that visitors see the same Gaby Kelly they know from my other channels.
 ## US-020 — Multipage site and navigation
 - Priority: Critical
 - Story Points: 5
-- Status: Planned — Sprint 003 (phase 2a)
+- Status: Done — Sprint 003 (#54, privacy page #59)
 - Related Requirements: FR-017, FR-018, FR-020, FR-012, FR-011
 - Related ADR: ADR-003 (updated for multiple pages)
 
@@ -482,7 +482,7 @@ so that I can find the story, the resources or the VIP path without getting lost
 ## US-021 — Home for corporate professionals
 - Priority: Critical
 - Story Points: 8
-- Status: Planned — Sprint 003 (phase 2a)
+- Status: Done — Sprint 003 (#61)
 - Related Requirements: FR-001, FR-002, FR-004, FR-005, FR-021, FR-022, BR-003, BR-005, BR-009, BR-011
 - Related Spec: `CONTENT.md` (Home), `UX_UI_DIRECTION.md` (Home layout)
 
@@ -507,7 +507,7 @@ so that I decide whether to start free or apply to work with Gaby.
 ## US-022 — My story page
 - Priority: High
 - Story Points: 3
-- Status: Planned — Sprint 003 (phase 2a)
+- Status: Done — Sprint 003 (#56)
 - Related Requirements: FR-003, FR-029, BR-011
 
 **User Story**
@@ -531,7 +531,7 @@ so that I understand why she can guide me.
 ## US-023 — VIP mentorship page and screening-based routing
 - Priority: Critical
 - Story Points: 5
-- Status: Planned — Sprint 003 (phase 2a)
+- Status: Done — Sprint 003 (#57)
 - Related Requirements: FR-006 to FR-010, FR-014, FR-015, FR-026, BR-001, BR-002, BR-006, BR-008
 - Related Spec: `LEAD_API_CONTRACT.md` (unchanged), `CONTENT.md` (VIP)
 
@@ -557,7 +557,7 @@ so that my calls go to qualified applicants and everyone else still gets somethi
 ## US-024 — Free resource library
 - Priority: High
 - Story Points: 5
-- Status: Planned — Sprint 003 (phase 2a)
+- Status: Done — Sprint 003 (#60)
 - Related Requirements: FR-023, FR-024, BR-011
 
 **User Story**
@@ -624,7 +624,7 @@ so that visitors find useful content and get to know my approach.
 ## US-027 — Preview on GitHub Pages
 - Priority: High
 - Story Points: 3
-- Status: Planned — Sprint 003 (phase 2a)
+- Status: Done — Sprint 003 (#55: workflow and `RELEASE.md`; #58: preview mode of the form)
 - Related Requirements: FR-030
 - Related ADR: ADR-005 (branching, preview and release)
 

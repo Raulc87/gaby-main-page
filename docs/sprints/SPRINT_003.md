@@ -1,7 +1,7 @@
-# SPRINT 003 — ACTIVE
+# SPRINT 003 — DELIVERED
 
 ## Metadata
-- Status: ACTIVE — go-ahead given by the human owner on 2026-10-16 (entry gate 14)
+- Status: DELIVERED on 2026-10-16 — every planned story merged (go-ahead 2026-10-16, entry gate 14); closes after the Sprint Review, see Close-out
 - Duration: 8 business days
 - Saturdays and Sundays excluded
 - Start: 2026-10-19 (Monday), or the first business day after the go-ahead
@@ -48,15 +48,15 @@ Non-blocking items, for the human owner:
 
 | Story | Points | Owner | Dependencies | Branch | Status |
 |---|---:|---|---|---|---|
-| US-019 Official brand skin | 5 | Agent 1 | — | `GK-019-brand-tokens` | Planned |
-| US-020 Multipage site and navigation (site shell) | 5 | Agent 1 | `GK-019-brand-tokens` | `GK-020-site-shell` | Planned |
-| US-023 VIP page and routing | 5 | Agent 2 | `GK-020-site-shell` | `GK-023-vip-page` | Planned |
-| US-020 AC1 (privacy notice page) | — | Agent 2 | `GK-020-site-shell` | `GK-020-privacy-page` | Planned |
-| US-024 Free resource library | 5 | Agent 2 | `GK-020-site-shell` | `GK-024-resource-library` | Planned |
-| US-027 AC3 (preview mode in forms) | — | Agent 2 | `GK-023-vip-page` | `GK-027-preview-forms` | Planned; merges **before** the preview workflow |
-| US-021 Home for corporate professionals | 8 | Agent 1 | `GK-020-site-shell`; `GK-023-vip-page` merged (the form leaves the Home); `GK-024-resource-library` merged (the teaser reads `src/data/resources.ts`) | `GK-021-home` | Planned |
-| US-027 Preview on GitHub Pages (workflow, `RELEASE.md`) | 3 | Agent 3 | `GK-020-site-shell` (base path); `GK-027-preview-forms` merged (no form may send data from the preview) | `GK-027-preview-workflow` | Planned |
-| US-022 My story page | 3 | Agent 3 | `GK-020-site-shell`; logo files (human owner) | `GK-022-my-story` | Planned |
+| US-019 Official brand skin | 5 | Agent 1 | — | `GK-019-brand-tokens` | Done (#53) |
+| US-020 Multipage site and navigation (site shell) | 5 | Agent 1 | `GK-019-brand-tokens` | `GK-020-site-shell` | Done (#54) |
+| US-023 VIP page and routing | 5 | Agent 2 | `GK-020-site-shell` | `GK-023-vip-page` | Done (#57) |
+| US-020 AC1 (privacy notice page) | — | Agent 2 | `GK-020-site-shell` | `GK-020-privacy-page` | Done (#59) |
+| US-024 Free resource library | 5 | Agent 2 | `GK-020-site-shell` | `GK-024-resource-library` | Done (#60) |
+| US-027 AC3 (preview mode in forms) | — | Agent 2 | `GK-023-vip-page` | `GK-027-preview-forms` | Done (#58), merged before the preview workflow |
+| US-021 Home for corporate professionals | 8 | Agent 1 | `GK-020-site-shell`; `GK-023-vip-page` merged (the form leaves the Home); `GK-024-resource-library` merged (the teaser reads `src/data/resources.ts`) | `GK-021-home` | Done (#61) |
+| US-027 Preview on GitHub Pages (workflow, `RELEASE.md`) | 3 | Agent 3 | `GK-020-site-shell` (base path); `GK-027-preview-forms` merged (no form may send data from the preview) | `GK-027-preview-workflow` | Done (#55) |
+| US-022 My story page | 3 | Agent 3 | `GK-020-site-shell`; logo files (human owner) | `GK-022-my-story` | Done (#56) |
 
 Total: 34 points. Not in this sprint: US-025, US-026, US-028 (phase 2b); US-014 (on hold); US-017 and US-018 (waiting on content and legal text, backlog); the Sprint 003 follow-up from Sprint 002 (`h1`–`h3` colour rule into `@layer base`) is absorbed by US-019 (the token rewrite replaces those rules).
 
@@ -157,3 +157,34 @@ Planned on 2026-10-16. Go-ahead given by the human owner on 2026-10-16 (entry ga
 GitHub Pages, 2026-10-16: the first automatic "pages build and deployment" (Jekyll, source "Deploy from a branch") failed on `main` at `b0da005`. The human owner switches Settings → Pages → Source to **GitHub Actions**; the preview is then published only by `.github/workflows/preview.yml` (US-027, ADR-005), after `GK-027-preview-forms`.
 
 Agent kickoff prompts and model assignments: `docs/sprints/SPRINT_003_AGENT_PROMPTS.md`.
+
+## Close-out (2026-10-17)
+
+All planned stories were merged on 2026-10-16, in the planned order (`GK-027-preview-forms` before `GK-027-preview-workflow`; `GK-021-home` after `GK-023-vip-page` and `GK-024-resource-library`). Each PR had a review-only agent review ("Ready for human approval") and a Codex review before the human owner merged it.
+
+**Done (34 points):** US-019 (#53), US-020 (#54, privacy page #59), US-023 (#57), US-027 (forms #58, workflow and `RELEASE.md` #55), US-022 (#56), US-024 (#60), US-021 (#61). CI green on `main`; the Preview workflow publishes `https://raulc87.github.io/gaby-main-page/` on every merge (noindex, preview bar, demonstration-mode forms).
+
+**Owner decisions recorded during the sprint:**
+- #53: the e2e expectations in `tests/e2e/form-field-outline.spec.ts` (Agent 2's file) updated by Agent 1 for the new `field-line` and focus colours; Agent 1 recorded the owner's approval on the PR, and the owner merged it.
+- #61: ownership exception approved for Agent 1's removal of the Home-form e2e (`tests/e2e/home-form.spec.ts` deleted, `gotoHomeForm` removed from `tests/e2e/support/lead-form.ts`, Home entries dropped from `tests/e2e/preview-forms.spec.ts`), as Agent 2's comments asked for in `GK-021-home`.
+
+**Sprint Definition of Done — still with the human owner:**
+- [ ] Preview reviewed by the human owner and shared with Gaby (Sprint Review, planned 2026-10-28).
+- [ ] Human reviewer approves the sprint.
+
+**Open owner decisions (not blocking; left as merged until decided):**
+- Resource library (#60): the featured mini-course also appears in the grid under "All". Kept so the topic filters stay complete; hiding it under "All" is a one-line change by Agent 2.
+- Home (#61): the Método Polaris steps carry one pending badge each (3 in preview and development). The alternative is one badge for the block.
+
+**Follow-ups (Sprint 004 candidates):**
+- Agent 2: `LeadForm` defaults (`submitVariant = 'blue'`, `id = SECTION_IDS.leadForm`) only served the phase 1 Home; make `gold` the default and drop `SECTION_IDS`.
+- Agent 1: move `PendingBadge` out of `src/components/sections/` (now its only file) and update the importers.
+- Resource filters: a live "n resources" status after filtering needs a new `CONTENT.md` string first (accessibility nit from the #60 review).
+- The hero portrait is the provisional photo, upscaled on 2× screens; replace it with the real photo (US-017, UX §8).
+
+**Still owed by Gaby (US-017, backlog):** session photos, testimonials, resource names and files, official Método Polaris steps, bio and credentials, the video, media logo permissions, and the English validation of the provisional keys. Until then the preview shows the pending badges (BR-011).
+
+**Retrospective (short):**
+- What worked: one scaffold PR first (brand, then site shell) unblocked three agents; the merge-order rule kept the first preview from ever having a live form; the review-only agent caught a CI-only failure (#61) and two ownership edits before merge.
+- What to keep: the owner's decisions written on the PR they apply to; a full re-review on the fixed head before merge.
+- What to change: tests that loop over scroll positions are slow on CI; measure positions in one evaluation instead (as #61 ended up doing).
