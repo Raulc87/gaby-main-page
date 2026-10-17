@@ -4,7 +4,7 @@
 - Status: DELIVERED on 2026-10-16 — every planned story merged (go-ahead 2026-10-16, entry gate 14); closes after the Sprint Review, see Close-out
 - Duration: 8 business days
 - Saturdays and Sundays excluded
-- Start: 2026-10-19 (Monday), or the first business day after the go-ahead
+- Start: 2026-10-19 (Monday), or the first business day after the go-ahead (actual: 2026-10-16, the day of the go-ahead)
 - End: 2026-10-28 (Wednesday) — Sprint Review with the preview
 - Final reviewer: Human project owner
 
@@ -164,9 +164,9 @@ All planned stories were merged on 2026-10-16, in the planned order (`GK-027-pre
 
 **Done (34 points):** US-019 (#53), US-020 (#54, privacy page #59), US-023 (#57), US-027 (forms #58, workflow and `RELEASE.md` #55), US-022 (#56), US-024 (#60), US-021 (#61). CI green on `main`; the Preview workflow publishes `https://raulc87.github.io/gaby-main-page/` on every merge (noindex, preview bar, demonstration-mode forms).
 
-**Owner decisions recorded during the sprint:**
-- #53: the e2e expectations in `tests/e2e/form-field-outline.spec.ts` (Agent 2's file) updated by Agent 1 for the new `field-line` and focus colours; Agent 1 recorded the owner's approval on the PR, and the owner merged it.
-- #61: ownership exception approved for Agent 1's removal of the Home-form e2e (`tests/e2e/home-form.spec.ts` deleted, `gotoHomeForm` removed from `tests/e2e/support/lead-form.ts`, Home entries dropped from `tests/e2e/preview-forms.spec.ts`), as Agent 2's comments asked for in `GK-021-home`.
+**Owner decisions recorded during the sprint** (both given by the owner in Agent 1's session and relayed by Agent 1 on the PR; no comment by the owner on either PR; merging this docs PR confirms them in the owner's name):
+- #53, relayed 2026-10-16: Agent 1 may update the e2e expectations in `tests/e2e/form-field-outline.spec.ts` (Agent 2's file) for the new `field-line` and focus colours.
+- #61, relayed 2026-10-16 (comment `6226900084`): ownership exception for Agent 1's removal of the Home-form e2e (`tests/e2e/home-form.spec.ts` deleted, `gotoHomeForm` removed from `tests/e2e/support/lead-form.ts`, Home entries dropped from `tests/e2e/preview-forms.spec.ts`), as Agent 2's comments asked for in `GK-021-home`.
 
 **Sprint Definition of Done — still with the human owner:**
 - [ ] Preview reviewed by the human owner and shared with Gaby (Sprint Review, planned 2026-10-28).
@@ -175,6 +175,8 @@ All planned stories were merged on 2026-10-16, in the planned order (`GK-027-pre
 **Open owner decisions (not blocking; left as merged until decided):**
 - Resource library (#60): the featured mini-course also appears in the grid under "All". Kept so the topic filters stay complete; hiding it under "All" is a one-line change by Agent 2.
 - Home (#61): the Método Polaris steps carry one pending badge each (3 in preview and development). The alternative is one badge for the block.
+- My story (#56): the Microsoft and Oracle logo files come from zonalogo.com, a third-party logo site, not the companies' official brand resources, and render as charcoal silhouettes (UX §5.2; FR-029 allows the logos as prior experience). The owner or Gaby decides whether this source and treatment are acceptable under each company's trademark guidelines; if not, only `public/logos/*.svg` or the one `.logo-mask` rule changes (Agent 3).
+- Privacy notice (#59): the visible notice text changed, but `PRIVACY_NOTICE_VERSION` in `api/.env.example` is still `2026-09-draft-1`, while paragraph 8 says each submission is tied to the version in effect. Either bump the draft id now (Agent 3, `api/**`) or leave it to US-018 AC3 with the final legal text.
 
 **Follow-ups (Sprint 004 candidates):**
 - Agent 2: `LeadForm` defaults (`submitVariant = 'blue'`, `id = SECTION_IDS.leadForm`) only served the phase 1 Home; make `gold` the default and drop `SECTION_IDS`.
@@ -185,6 +187,6 @@ All planned stories were merged on 2026-10-16, in the planned order (`GK-027-pre
 **Still owed by Gaby (US-017, backlog):** session photos, testimonials, resource names and files, official Método Polaris steps, bio and credentials, the video, media logo permissions, and the English validation of the provisional keys. Until then the preview shows the pending badges (BR-011).
 
 **Retrospective (short):**
-- What worked: one scaffold PR first (brand, then site shell) unblocked three agents; the merge-order rule kept the first preview from ever having a live form; the review-only agent caught a CI-only failure (#61) and two ownership edits before merge.
+- What worked: one scaffold PR first (brand, then site shell) unblocked three agents; the merge-order rule kept the first preview from ever having a live form; the review-only agent caught a CI-only failure (#61) and three cross-ownership edits before merge (#53, `src/env.d.ts` in #54, #61).
 - What to keep: the owner's decisions written on the PR they apply to; a full re-review on the fixed head before merge.
 - What to change: tests that loop over scroll positions are slow on CI; measure positions in one evaluation instead (as #61 ended up doing).
