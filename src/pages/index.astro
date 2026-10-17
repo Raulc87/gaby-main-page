@@ -2,7 +2,12 @@
 // Language detection per ADR-003 / US-010 and US-020 AC6: the saved toggle
 // choice first, otherwise the browser's preferred language, keeping the URL
 // hash, then the Home in that language (through the base path). The <noscript>
-// block is the fallback described in US-010 AC6.
+// block is the fallback described in US-010 AC6. In preview builds the page shows
+// the visible preview marker (UX_UI_DIRECTION.md section 6.6, US-027 AC2), in both
+// languages because the chooser serves both; with JavaScript off a visitor stays
+// here, so the marker must not depend on the redirect.
+import '../styles/global.css';
+import PreviewBar from '../components/layout/PreviewBar.astro';
 import { getCommon } from '../i18n';
 import { pageHref } from '../lib/site/links';
 import { IS_PREVIEW } from '../lib/site/preview';
@@ -39,8 +44,26 @@ const homeEn = pageHref('home', 'en');
     </script>
   </head>
   <body>
+    <PreviewBar lang="es" />
+    <div lang="en"><PreviewBar lang="en" /></div>
     <noscript>
-      <p><a href={homeEs}>Español</a> · <a href={homeEn}>English</a></p>
+      <p class="mx-auto flex max-w-[1160px] flex-wrap items-center gap-x-4 px-4 py-8 text-lg">
+        <a
+          href={homeEs}
+          lang="es"
+          class="inline-flex min-h-11 items-center font-semibold text-heritage-blue underline underline-offset-4"
+        >
+          Español
+        </a>
+        <span aria-hidden="true">·</span>
+        <a
+          href={homeEn}
+          lang="en"
+          class="inline-flex min-h-11 items-center font-semibold text-heritage-blue underline underline-offset-4"
+        >
+          English
+        </a>
+      </p>
     </noscript>
   </body>
 </html>
