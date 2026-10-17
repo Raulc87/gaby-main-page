@@ -140,3 +140,18 @@ export function resourceFile(resource: Resource, lang: Language): string | undef
 export function isResourcePending(resource: Resource, lang: Language): boolean {
   return resourceFile(resource, lang) === undefined;
 }
+
+/**
+ * What a resource card offers (CONTENT.md section 7.2, US-024 AC4):
+ *   email_coming_soon  delivered by email: `resource.email.coming_soon`, no form and no link
+ *                      until US-025, whether or not a file exists
+ *   download           free download whose file has been delivered: the blue button
+ *   pending            free download whose file has not been delivered: `resource.pending`,
+ *                      no link
+ */
+export type ResourceState = 'email_coming_soon' | 'download' | 'pending';
+
+export function resourceState(resource: Resource, lang: Language): ResourceState {
+  if (resource.access === 'email') return 'email_coming_soon';
+  return isResourcePending(resource, lang) ? 'pending' : 'download';
+}
