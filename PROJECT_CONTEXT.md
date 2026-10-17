@@ -5,7 +5,7 @@
 - Project key: `GK` (branches `GK-<NNN>-<slug>`, see `AGENTS.md`)
 - Repository: https://github.com/Raulc87/gaby-main-page
 - Starter Kit: https://github.com/Raulc87/sdd_starter_kit
-- Status: Phase 2. Sprint 003 (phase 2a) ACTIVE (go-ahead 2026-10-16). Sprint 002 closed 2026-10-16; Sprint 001 closed 2026-09-28. Production deploy (US-014) on hold until the domain and hosting are known; progress is shown on the GitHub Pages preview (ADR-005)
+- Status: Phase 2. Sprint 003 (phase 2a) DELIVERED 2026-10-16 (all stories merged; two acceptance gaps to fix, US-024 AC4 and US-027 AC2; closes after the fixes and the Sprint Review). Sprint 002 closed 2026-10-16; Sprint 001 closed 2026-09-28. Production deploy (US-014) on hold until the domain and hosting are known; progress is shown on the GitHub Pages preview (ADR-005)
 - Product owner / final reviewer: Human project owner
 
 ## Active documentation
@@ -32,7 +32,7 @@
 - End: 2026-10-28
 - Duration: 8 business days, excluding Saturday and Sunday
 - Deliverable: the preview at `https://raulc87.github.io/gaby-main-page/` with every phase 2a page in both languages; no production deployment
-- Status: ACTIVE — go-ahead given by the human owner on 2026-10-16
+- Status: DELIVERED — all stories merged on 2026-10-16; waiting on the Sprint Review (preview reviewed by the owner and shared with Gaby), see `SPRINT_003.md` → Close-out
 
 ## Agent allocation
 - Implementation Agent 1: brand tokens, site shell (routes, layout, header, footer, VIP band), Home

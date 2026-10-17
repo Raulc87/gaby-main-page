@@ -126,7 +126,7 @@ Alternate `ivory` and `surface` bands, with one `heritage-blue` band (the VIP ba
 
 ### 4.4 VIP band
 
-Full-width `heritage-blue` band, `ivory` text: eyebrow `vip_band.eyebrow` in `ivory` (13 px: `soft-gold` on blue is only 3.17:1), Playfair title `vip_band.title` (italic part in `soft-gold`, large text, 3.17:1 allowed for large text), `vip_band.body`, and the gold `cta.vip_apply` button to the VIP page. A `soft-gold` polar star at one side. The resource library uses the short variant (`vip_band.short_title`, no body).
+Full-width `heritage-blue` band, `ivory` text: eyebrow `vip_band.eyebrow` in `ivory` (13 px: `soft-gold` on blue is only 3.17:1), Playfair title `vip_band.title` (italic part in `soft-gold`, large text, 3.17:1 allowed for large text), `vip_band.body`, and the gold `cta.vip_apply` button to the VIP page. A `soft-gold` polar star at one side. The resource library uses the short variant (`vip_band.short_title`, no eyebrow, no body).
 
 ## 5. Pages
 

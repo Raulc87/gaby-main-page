@@ -1,11 +1,12 @@
-# SPRINT 003 — ACTIVE
+# SPRINT 003 — DELIVERED
 
 ## Metadata
-- Status: ACTIVE — go-ahead given by the human owner on 2026-10-16 (entry gate 14)
+- Status: DELIVERED on 2026-10-16 — every planned story merged (go-ahead 2026-10-16, entry gate 14); closes after the Sprint Review, see Close-out
 - Duration: 8 business days
 - Saturdays and Sundays excluded
-- Start: 2026-10-19 (Monday), or the first business day after the go-ahead
-- End: 2026-10-28 (Wednesday) — Sprint Review with the preview
+- Start: planned 2026-10-19 (Monday), or the first business day after the go-ahead; actual 2026-10-16, the day of the go-ahead
+- Delivered: 2026-10-16 (every planned branch merged)
+- End: 2026-10-28 (Wednesday) — Sprint Review with the preview (planned; the owner may hold it earlier)
 - Final reviewer: Human project owner
 
 ## Sprint Goal
@@ -48,15 +49,15 @@ Non-blocking items, for the human owner:
 
 | Story | Points | Owner | Dependencies | Branch | Status |
 |---|---:|---|---|---|---|
-| US-019 Official brand skin | 5 | Agent 1 | — | `GK-019-brand-tokens` | Planned |
-| US-020 Multipage site and navigation (site shell) | 5 | Agent 1 | `GK-019-brand-tokens` | `GK-020-site-shell` | Planned |
-| US-023 VIP page and routing | 5 | Agent 2 | `GK-020-site-shell` | `GK-023-vip-page` | Planned |
-| US-020 AC1 (privacy notice page) | — | Agent 2 | `GK-020-site-shell` | `GK-020-privacy-page` | Planned |
-| US-024 Free resource library | 5 | Agent 2 | `GK-020-site-shell` | `GK-024-resource-library` | Planned |
-| US-027 AC3 (preview mode in forms) | — | Agent 2 | `GK-023-vip-page` | `GK-027-preview-forms` | Planned; merges **before** the preview workflow |
-| US-021 Home for corporate professionals | 8 | Agent 1 | `GK-020-site-shell`; `GK-023-vip-page` merged (the form leaves the Home); `GK-024-resource-library` merged (the teaser reads `src/data/resources.ts`) | `GK-021-home` | Planned |
-| US-027 Preview on GitHub Pages (workflow, `RELEASE.md`) | 3 | Agent 3 | `GK-020-site-shell` (base path); `GK-027-preview-forms` merged (no form may send data from the preview) | `GK-027-preview-workflow` | Planned |
-| US-022 My story page | 3 | Agent 3 | `GK-020-site-shell`; logo files (human owner) | `GK-022-my-story` | Planned |
+| US-019 Official brand skin | 5 | Agent 1 | — | `GK-019-brand-tokens` | Done (#53) |
+| US-020 Multipage site and navigation (site shell) | 5 | Agent 1 | `GK-019-brand-tokens` | `GK-020-site-shell` | Done (#54) |
+| US-023 VIP page and routing | 5 | Agent 2 | `GK-020-site-shell` | `GK-023-vip-page` | Done (#57) |
+| US-020 AC1 (privacy notice page) | — | Agent 2 | `GK-020-site-shell` | `GK-020-privacy-page` | Done (#59) |
+| US-024 Free resource library | 5 | Agent 2 | `GK-020-site-shell` | `GK-024-resource-library` | Merged (#60); AC4 gap, see Close-out |
+| US-027 AC3 (preview mode in forms) | — | Agent 2 | `GK-023-vip-page` | `GK-027-preview-forms` | Done (#58), merged before the preview workflow |
+| US-021 Home for corporate professionals | 8 | Agent 1 | `GK-020-site-shell`; `GK-023-vip-page` merged (the form leaves the Home); `GK-024-resource-library` merged (the teaser reads `src/data/resources.ts`) | `GK-021-home` | Done (#61) |
+| US-027 Preview on GitHub Pages (workflow, `RELEASE.md`) | 3 | Agent 3 | `GK-020-site-shell` (base path); `GK-027-preview-forms` merged (no form may send data from the preview) | `GK-027-preview-workflow` | Merged (#55); AC2 gap, see Close-out |
+| US-022 My story page | 3 | Agent 3 | `GK-020-site-shell`; logo files (human owner) | `GK-022-my-story` | Done (#56) |
 
 Total: 34 points. Not in this sprint: US-025, US-026, US-028 (phase 2b); US-014 (on hold); US-017 and US-018 (waiting on content and legal text, backlog); the Sprint 003 follow-up from Sprint 002 (`h1`–`h3` colour rule into `@layer base`) is absorbed by US-019 (the token rewrite replaces those rules).
 
@@ -157,3 +158,40 @@ Planned on 2026-10-16. Go-ahead given by the human owner on 2026-10-16 (entry ga
 GitHub Pages, 2026-10-16: the first automatic "pages build and deployment" (Jekyll, source "Deploy from a branch") failed on `main` at `b0da005`. The human owner switches Settings → Pages → Source to **GitHub Actions**; the preview is then published only by `.github/workflows/preview.yml` (US-027, ADR-005), after `GK-027-preview-forms`.
 
 Agent kickoff prompts and model assignments: `docs/sprints/SPRINT_003_AGENT_PROMPTS.md`.
+
+## Close-out (2026-10-17)
+
+All planned stories were merged on 2026-10-16, in the planned order (`GK-027-preview-forms` before `GK-027-preview-workflow`; `GK-021-home` after `GK-023-vip-page` and `GK-024-resource-library`). Each PR had a review-only agent review ("Ready for human approval") and a Codex review before the human owner merged it. #55 merged at `31ee8c5`, which adds `577ef3e` (the two nits of its review) and a merge of `main` on top of the reviewed head `b3ea163`; the reviewer read that delta afterwards (#62 review) and found it correct.
+
+**Done (26 points):** US-019 (#53), US-020 (#54, privacy page #59), US-023 (#57), US-022 (#56), US-021 (#61). CI green on `main`; the Preview workflow publishes `https://raulc87.github.io/gaby-main-page/` on every merge (noindex, preview bar, demonstration-mode forms).
+
+**Merged with an acceptance gap (8 points; not Done until fixed, found by Codex on #62):**
+- US-024 (#60), AC4: email-delivered resources whose file is not delivered show `resource.pending` ("Disponible pronto" / "Coming soon"), not `resource.email.coming_soon` as AC4 and `CONTENT.md` §7.2 require; `ResourceCard.astro` reaches the email message only when a file exists. Fix: Agent 2, `GK-024-fix-email-state` (`src/components/resources/ResourceCard.astro` and its tests).
+- US-027 (#55, #58), AC2: the root page `/` (`src/pages/index.astro`) has `noindex` in preview but no visible "Preview" marker; with JavaScript off a visitor stays on its language chooser without the marker. Fix: Agent 1, `GK-027-fix-root-marker` (`src/pages/index.astro`), plus Agent 2 for any e2e change.
+
+**Owner decisions recorded during the sprint** (both given by the owner in Agent 1's session and relayed by Agent 1 on the PR; no comment by the owner on either PR; merging this docs PR confirms them in the owner's name):
+- #53, relayed 2026-10-16: Agent 1 may update the e2e expectations in `tests/e2e/form-field-outline.spec.ts` (Agent 2's file) for the new `field-line` and focus colours.
+- #61, relayed 2026-10-16 (comment `6226900084`): ownership exception for Agent 1's removal of the Home-form e2e (`tests/e2e/home-form.spec.ts` deleted, `gotoHomeForm` removed from `tests/e2e/support/lead-form.ts`, Home entries dropped from `tests/e2e/preview-forms.spec.ts`), as Agent 2's comments asked for in `GK-021-home`.
+
+**Sprint Definition of Done — still with the human owner:**
+- [ ] Preview reviewed by the human owner and shared with Gaby (Sprint Review, planned 2026-10-28).
+- [ ] Human reviewer approves the sprint.
+
+**Open owner decisions (not blocking; left as merged until decided):**
+- Resource library (#60): the featured mini-course also appears in the grid under "All". Kept so the topic filters stay complete; hiding it under "All" is a one-line change by Agent 2.
+- Home (#61): the Método Polaris steps carry one pending badge each (3 in preview and development). The alternative is one badge for the block.
+- My story (#56): the Microsoft and Oracle logo files come from zonalogo.com, a third-party logo site, not the companies' official brand resources, and render as charcoal silhouettes (UX §5.2; FR-029 allows the logos as prior experience). The owner or Gaby decides whether this source and treatment are acceptable under each company's trademark guidelines; if not, only `public/logos/*.svg` or the one `.logo-mask` rule changes (Agent 3).
+- Portrait resolution (#61): `public/gabriela-provisional.jpg` is 352×352 px and is shown at 288 px (Home hero, desktop) and 224 px (story teaser), so it is upscaled on 2× screens. This regresses US-015 AC4 ("at least 2× the displayed size"), accepted in Sprint 002; no larger source of the provisional photo is in the repository. The owner either accepts it until the session photos arrive (US-017) or asks for a larger source file. Not a critical regression.
+- Privacy notice (#59): the visible notice text changed, but `PRIVACY_NOTICE_VERSION` in `api/.env.example` is still `2026-09-draft-1`, while paragraph 8 says each submission is tied to the version in effect. Either bump the draft id now (Agent 3, `api/**`) or leave it to US-018 AC3 with the final legal text.
+
+**Follow-ups (Sprint 004 candidates):**
+- Agent 2: `LeadForm` defaults (`submitVariant = 'blue'`, `id = SECTION_IDS.leadForm`) only served the phase 1 Home; make `gold` the default and drop `SECTION_IDS`.
+- Agent 1: move `PendingBadge` out of `src/components/sections/` (now its only file) and update the importers.
+- Resource filters: a live "n resources" status after filtering needs a new `CONTENT.md` string first (accessibility nit from the #60 review).
+
+**Still owed by Gaby (US-017, backlog):** session photos, testimonials, resource names and files, official Método Polaris steps, bio and credentials, the video, media logo permissions, and the English validation of the provisional keys. Until then the preview shows the pending badges (BR-011).
+
+**Retrospective (short):**
+- What worked: one scaffold PR first (brand, then site shell) unblocked three agents; the merge-order rule kept the first preview from ever having a live form; the review-only agent caught a CI-only failure (#61) and three cross-ownership edits before merge (#53, `src/env.d.ts` in #54, #61).
+- What to keep: the owner's decisions written on the PR they apply to; a full re-review on the fixed head before merge.
+- What to change: tests that loop over scroll positions are slow on CI; measure positions in one evaluation instead (as #61 ended up doing).
