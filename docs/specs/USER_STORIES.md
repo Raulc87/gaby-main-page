@@ -557,7 +557,7 @@ so that my calls go to qualified applicants and everyone else still gets somethi
 ## US-024 — Free resource library
 - Priority: High
 - Story Points: 5
-- Status: Done — Sprint 003 (#60)
+- Status: Merged in Sprint 003 (#60); not Done: AC4 gap, email-delivered resources show `resource.pending` instead of `resource.email.coming_soon` (fix: Agent 2, `SPRINT_003.md` → Close-out)
 - Related Requirements: FR-023, FR-024, BR-011
 
 **User Story**
@@ -624,7 +624,7 @@ so that visitors find useful content and get to know my approach.
 ## US-027 — Preview on GitHub Pages
 - Priority: High
 - Story Points: 3
-- Status: Done — Sprint 003 (#55: workflow and `RELEASE.md`; #58: preview mode of the form)
+- Status: Merged in Sprint 003 (#55: workflow and `RELEASE.md`; #58: preview mode of the form); not Done: AC2 gap, the root page `/` has no visible preview marker (fix: Agent 1, `SPRINT_003.md` → Close-out)
 - Related Requirements: FR-030
 - Related ADR: ADR-005 (branching, preview and release)
 
