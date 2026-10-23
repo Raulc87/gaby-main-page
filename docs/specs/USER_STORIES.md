@@ -300,7 +300,7 @@ so that the lead sheet stays clean and the endpoint cannot be abused.
   - AC4 production sheet: waits on Gabriela's Google account, sheet and service account.
   - AC5 smoke test: waits on AC3 and AC4.
   - AC6 go-live: waits on AC5, US-018 done, US-017 content approved, and the go-live gate in `SPRINT_002.md`.
-  - Kit v1.1.0 sync (2026-10-23): go-live also waits on the PTES penetration test that US-029 AC5 plans, and on its security gate: no open critical or high finding (the kit's `RELEASE_TEMPLATE.md` security gate, added to `docs/runbooks/RELEASE.md` with its release sections).
+  - Kit v1.1.0 sync (2026-10-23): AC6 go-live also waits on the PTES penetration test that US-029 AC5 plans, with no open critical or high finding.
 - Phase 2 (2026-10-15): **on hold** until Gaby's production domain and its hosting capabilities are known (human owner). The runbook (AC1) stays; AC2–AC6 wait. The GitHub Pages preview (US-027) is not this story
 - Related ADR: ADR-001, ADR-002
 
@@ -316,7 +316,7 @@ so that real visitors can use it.
 3. The site is served only over HTTPS on the final domain (HTTP redirects to HTTPS).
 4. Production uses the Google Sheet and service account in Gabriela's Google account (set up by the human owner at deploy time); development and CI keep using the owner's development sheet or memory mode.
 5. A post-deploy smoke test in the runbook passes on the live site: both languages load, a test lead lands in the production sheet with the right columns, the thank-you and the real Calendly appear, a filled honeypot stores nothing, and the test row is then deleted.
-6. Until the go-live gate in `SPRINT_002.md` passes, the whole site, including `/api`, is password-protected (cPanel Directory Privacy), so it cannot collect real leads under a draft notice; the runbook checks that `/` and `POST /api/save-lead` return `401` without credentials. Going live means removing the protection, only after US-013, US-016, and US-018 are done and the US-017 content is approved.
+6. Until the go-live gate in `SPRINT_002.md` passes, the whole site, including `/api`, is password-protected (cPanel Directory Privacy), so it cannot collect real leads under a draft notice; the runbook checks that `/` and `POST /api/save-lead` return `401` without credentials. Going live means removing the protection, only after US-013, US-016, and US-018 are done, the US-017 content is approved, and the PTES penetration test planned in US-029 AC5 has run with no open critical or high finding (the security gate in `docs/runbooks/RELEASE.md`, added with its release sections).
 
 ---
 
