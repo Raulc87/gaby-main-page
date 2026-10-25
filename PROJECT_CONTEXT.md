@@ -11,7 +11,7 @@
 
 ## Active documentation
 - Project spec: [`docs/specs/PROJECT_SPEC.md`](docs/specs/PROJECT_SPEC.md) (v0.5, phase 2; source: Gaby's visual brief, https://claude.ai/artifact/LeuEgX7HC2otdkLEhcJM5j)
-- User stories: [`docs/specs/USER_STORIES.md`](docs/specs/USER_STORIES.md) (phase 2: US-019 to US-028)
+- User stories: [`docs/specs/USER_STORIES.md`](docs/specs/USER_STORIES.md) (phase 2: US-019 to US-028; Sprint 004 candidates from the kit v1.2.0 sync: US-029, US-030)
 - Phase 2 brief (text export): [`docs/ux/BRIEF_2026-10-15.md`](docs/ux/BRIEF_2026-10-15.md)
 - Integration contracts: [`docs/specs/LEAD_API_CONTRACT.md`](docs/specs/LEAD_API_CONTRACT.md) (v1.1, locked for Sprint 002)
 - Feature specs: Not required for the current simple scope
