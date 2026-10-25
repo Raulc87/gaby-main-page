@@ -76,7 +76,7 @@ Total: 34 points. Not in this sprint: US-025, US-026, US-028 (phase 2b); US-014 
 - Keeps the cross-cutting e2e suite green.
 
 ### Agent 3 — Preview, My story
-- `GK-027-preview-workflow`: `.github/workflows/preview.yml` (ADR-005: build with `PUBLIC_PREVIEW=true` and the Pages base path on push to `main`, publish with the official Pages actions) and `docs/runbooks/RELEASE.md` (preview section: where it is, what it does not do, how to check it; written per `docs/process/RUNBOOK_STYLE.md`).
+- `GK-027-preview-workflow`: `.github/workflows/preview.yml` (ADR-005: build with `PUBLIC_PREVIEW=true` and the Pages base path on push to `main`, publish with the official Pages actions) and `docs/runbooks/RELEASE.md` (preview section: where it is, what it does not do, how to check it; written per the kit's `docs/process/RUNBOOK_STYLE.md`).
 - `GK-022-my-story`: the My story page (`CONTENT.md` §6, `UX_UI_DIRECTION.md` §5.2), media names row, experience logos.
 
 ## File Ownership Map
@@ -191,6 +191,8 @@ All planned stories were merged on 2026-10-16, in the planned order (`GK-027-pre
 - Agent 1: move `PendingBadge` out of `src/components/sections/` (now its only file) and update the importers.
 - Resource filters: a live "n resources" status after filtering needs a new `CONTENT.md` string first (accessibility nit from the #60 review).
 - Agent 2, `tests/e2e/preview-forms.spec.ts`: an e2e for the root-page preview marker (#64, US-027 AC2), as the #64 PR body describes. With JavaScript off, `/` in the preview build shows two `[data-preview-bar]` with the es and en `preview.banner`, and `robots` matches `noindex`. In the normal build, `/` has no bar.
+- Kit v1.2.0 sync (kit issue Raulc87/sdd_starter_kit#62, added 2026-10-25): US-029 security baseline (5 points) and US-030 developer guide `CONTRIBUTING.md` (2 points). Both are due in Sprint 004 under [`AGENTS.md`](../../AGENTS.md) → Document map; the Sprint 004 readiness checklist checks them.
+- Optional, docs: convert the remaining file references in this project's own documents into Markdown links ([`AGENTS.md`](../../AGENTS.md) → References to files). This sync converted [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md) and the new stories.
 - Optional, Agent 2, `tests/e2e/resources.spec.ts`: the per-id `.all()` loop could assert at least one card per id (nit from the #63 review).
 
 **Still owed by Gaby (US-017, backlog):** session photos, testimonials, resource names and files, official Método Polaris steps, bio and credentials, the video, media logo permissions, and the English validation of the provisional keys. Until then the preview shows the pending badges (BR-011).
