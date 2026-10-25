@@ -76,7 +76,7 @@ Total: 34 points. Not in this sprint: US-025, US-026, US-028 (phase 2b); US-014 
 - Keeps the cross-cutting e2e suite green.
 
 ### Agent 3 — Preview, My story
-- `GK-027-preview-workflow`: `.github/workflows/preview.yml` (ADR-005: build with `PUBLIC_PREVIEW=true` and the Pages base path on push to `main`, publish with the official Pages actions) and `docs/runbooks/RELEASE.md` (preview section: where it is, what it does not do, how to check it; written per `docs/process/RUNBOOK_STYLE.md`).
+- `GK-027-preview-workflow`: `.github/workflows/preview.yml` (ADR-005: build with `PUBLIC_PREVIEW=true` and the Pages base path on push to `main`, publish with the official Pages actions) and `docs/runbooks/RELEASE.md` (preview section: where it is, what it does not do, how to check it; written per the kit's `docs/process/RUNBOOK_STYLE.md`).
 - `GK-022-my-story`: the My story page (`CONTENT.md` §6, `UX_UI_DIRECTION.md` §5.2), media names row, experience logos.
 
 ## File Ownership Map

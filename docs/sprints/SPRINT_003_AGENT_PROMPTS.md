@@ -186,7 +186,7 @@ Order of work:
      with PUBLIC_PREVIEW=true and the base /gaby-main-page/, upload with
      actions/upload-pages-artifact and publish with actions/deploy-pages (environment
      github-pages; permissions pages: write, id-token: write, contents: read). No secrets.
-   - docs/runbooks/RELEASE.md, preview section only, per docs/process/RUNBOOK_STYLE.md: the
+   - docs/runbooks/RELEASE.md, preview section only, per the kit's docs/process/RUNBOOK_STYLE.md: the
      one-time setting (Settings → Pages → Source: GitHub Actions, done by me), where the
      preview is, what it does not do (no backend, forms send nothing, not indexed), how to
      check a publish (workflow run, the commit shown, noindex, preview bar), troubleshooting.

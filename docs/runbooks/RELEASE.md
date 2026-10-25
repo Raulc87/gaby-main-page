@@ -2,7 +2,7 @@
 
 - Version: 0.1 (preview section only)
 - Last updated: 2026-10-16
-- Related: `docs/decisions/ADR-005_BRANCHING_AND_RELEASE_MODEL.md`, `docs/specs/USER_STORIES.md` (US-027), `docs/process/RUNBOOK_STYLE.md`
+- Related: `docs/decisions/ADR-005_BRANCHING_AND_RELEASE_MODEL.md`, `docs/specs/USER_STORIES.md` (US-027), the kit's [`docs/process/RUNBOOK_STYLE.md`](https://github.com/Raulc87/sdd_starter_kit/blob/v1.2.0/docs/process/RUNBOOK_STYLE.md)
 
 This runbook has one section today: the **preview**. The production release, smoke-test and rollback sections come with the hosting decision (ADR-005 decision 4) and are added before the first production release.
 
