@@ -300,6 +300,7 @@ so that the lead sheet stays clean and the endpoint cannot be abused.
   - AC4 production sheet: waits on Gabriela's Google account, sheet and service account.
   - AC5 smoke test: waits on AC3 and AC4.
   - AC6 go-live: waits on AC5, US-018 done, US-017 content approved, and the go-live gate in `SPRINT_002.md`.
+  - Kit v1.2.0 sync (2026-10-25): AC6 go-live also waits on the PTES penetration test that US-029 AC5 plans, with no open critical or high finding.
 - Phase 2 (2026-10-15): **on hold** until Gaby's production domain and its hosting capabilities are known (human owner). The runbook (AC1) stays; AC2–AC6 wait. The GitHub Pages preview (US-027) is not this story
 - Related ADR: ADR-001, ADR-002
 
@@ -315,7 +316,7 @@ so that real visitors can use it.
 3. The site is served only over HTTPS on the final domain (HTTP redirects to HTTPS).
 4. Production uses the Google Sheet and service account in Gabriela's Google account (set up by the human owner at deploy time); development and CI keep using the owner's development sheet or memory mode.
 5. A post-deploy smoke test in the runbook passes on the live site: both languages load, a test lead lands in the production sheet with the right columns, the thank-you and the real Calendly appear, a filled honeypot stores nothing, and the test row is then deleted.
-6. Until the go-live gate in `SPRINT_002.md` passes, the whole site, including `/api`, is password-protected (cPanel Directory Privacy), so it cannot collect real leads under a draft notice; the runbook checks that `/` and `POST /api/save-lead` return `401` without credentials. Going live means removing the protection, only after US-013, US-016, and US-018 are done and the US-017 content is approved.
+6. Until the go-live gate in `SPRINT_002.md` passes, the whole site, including `/api`, is password-protected (cPanel Directory Privacy), so it cannot collect real leads under a draft notice; the runbook checks that `/` and `POST /api/save-lead` return `401` without credentials. Going live means removing the protection, only after US-013, US-016, and US-018 are done, the US-017 content is approved, and the PTES penetration test planned in US-029 AC5 has run with no open critical or high finding (the security gate in [`docs/runbooks/RELEASE.md`](../runbooks/RELEASE.md), added with its release sections).
 
 ---
 
@@ -659,3 +660,60 @@ so that I understand how Gaby works before applying.
 1. A Método Polaris page exists in both languages at the path in `UX_UI_DIRECTION.md`, with the official steps from `CONTENT.md`.
 2. The header navigation item and the Home section's link lead to the page; the Home keeps a short summary.
 3. The page ends with a VIP band; existing tests stay green and e2e covers the navigation in both languages.
+
+---
+
+## US-029 — Security baseline
+- Priority: High
+- Story Points: 5
+- Status: Proposed — Sprint 004 candidate (kit v1.2.0 sync, kit issue Raulc87/sdd_starter_kit#62). The project already writes code, so the baseline is a story in its next sprint and is approved by that sprint's end ([`AGENTS.md`](../../AGENTS.md) → Security baseline; [readiness checklist](../checklists/SPRINT_READINESS_CHECKLIST.md) → Security)
+- Related Requirements: NFR-007, NFR-008, FR-013, BR-006
+- Related ADR: ADR-001, ADR-002, ADR-004, ADR-005
+
+**User Story**
+
+As the project owner,
+I want the site's security baseline written and approved,
+so that every later story and the first production release are checked against OWASP, not against memory.
+
+**Acceptance Criteria**
+1. `docs/security/SECURITY_BASELINE.md` exists, written from the kit's `docs/security/SECURITY_BASELINE_TEMPLATE.md` at the kit ref in [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md) (the template is read from the kit, not copied into this repository). Its classification records that the site stores personal data (the lead form, Ley N.° 8968), has no authentication or payments, and is a public site with one public endpoint (`POST /api/save-lead`) plus the static GitHub Pages preview; and whether it is high-risk or complex, with the reason.
+2. It names the OWASP ASVS 5.0.0 level and why. Because the site handles personal data, the ASVS inventory lists every requirement of that level, each covered (an acceptance criterion, a test or a configuration check, named) or marked not applicable with the reason.
+3. It lists the OWASP Top 10 (2025) and API Security Top 10 (2023) risks that apply to the site and the endpoint. For each one, the stories that touch it (at least US-004, US-006, US-011, US-013, US-014, US-023) are named, with the acceptance criterion that verifies it; a risk with no verifying criterion is added to this file in this story's PR, or recorded as an open item in the baseline with a story to fix it.
+4. Secret scanning and dependency scanning are set up, or planned as stories: GitHub secret scanning with push protection on this public repository (a repository setting the human owner turns on), and dependency scanning for `package.json` and `api/requirements.txt` (for example Dependabot alerts and an audit step in CI). The baseline (§6) records which are on and since when. It also maps the SDD workflow to the NIST SSDF 1.1 practice groups (PO, PS, PW, RV) and says how a vulnerability is reported and fixed.
+5. The penetration-test section records a PTES test before the first production release (US-014 AC6, go-live), because the site stores personal data, and whether OSSTMM 3 also applies (only if the baseline classifies the site as high-risk). `docs/security/PENTEST_PLAN.md` (from the kit's `PENTEST_PLAN_TEMPLATE.md`) is written and approved before the go-live sprint starts. The test is run only by people the human owner authorizes in writing, under a written scope; no agent runs a penetration test, attack tools or scans against production. The site is not in production today (only the preview, ADR-005), so no deadline applies; if it goes live before the test, the baseline records a dated deadline instead.
+6. No document, copy or PR says the site is certified, compliant or secure; the baseline says which requirements were verified, how and when.
+7. The human owner approves the baseline (§8) by the end of the sprint that carries this story.
+
+**Security**
+- This story writes the baseline; it verifies no OWASP reference itself.
+
+**Dependencies**
+- None. US-014 (go-live, AC6) depends on this story's AC5.
+
+---
+
+## US-030 — Developer guide (`CONTRIBUTING.md`)
+- Priority: Medium
+- Story Points: 2
+- Status: Proposed — Sprint 004 candidate (kit v1.2.0 sync, kit issue Raulc87/sdd_starter_kit#62). Due by the end of the first sprint that runs code; that sprint has passed, so it goes in the next one ([`AGENTS.md`](../../AGENTS.md) → Document map)
+- Related Requirements: none (process)
+
+**User Story**
+
+As a developer or agent new to the project,
+I want one guide that says how to set up, run, test and change the site,
+so that I can make a correct change without reading every runbook first.
+
+**Acceptance Criteria**
+1. `CONTRIBUTING.md` exists at the repository root, written from the kit's `docs/DEVELOPER_GUIDE_TEMPLATE.md` at the kit ref in [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md) (read from the kit, not copied in), with every section of the template filled in or marked not applicable with the reason.
+2. Set up, run and test give the real commands from `package.json`, `api/` and the CI workflows (`frontend.yml`, `backend.yml`, `preview.yml`, `docs-link-check.yml`), and link to [`docs/runbooks/LOCAL_DEVELOPMENT.md`](../runbooks/LOCAL_DEVELOPMENT.md) instead of repeating it.
+3. "Values to have ready" lists every variable a developer needs (the `PUBLIC_*` values and `api/.env.example`), without any real value or secret.
+4. "How to make a change" links to [`AGENTS.md`](../../AGENTS.md) (branches, PRs, the review flow, Code readability) instead of restating it.
+5. Following the guide from a fresh clone, the reviewer can install, run the site locally and run the checks CI runs; any step that fails is fixed in the guide in the same PR.
+
+**Security**
+- None: a documentation story. AC3 keeps secrets out of the guide (NFR-007).
+
+**Dependencies**
+- None.
