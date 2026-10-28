@@ -27,7 +27,7 @@
 - Readiness checklist: [`docs/checklists/SPRINT_READINESS_CHECKLIST.md`](docs/checklists/SPRINT_READINESS_CHECKLIST.md)
 - Security baseline: `docs/security/SECURITY_BASELINE.md`, not written yet: planned as US-029 for Sprint 004 (the project already writes code, so [`AGENTS.md`](AGENTS.md) → Security baseline lets it be a story in the next sprint)
 - Penetration-test plan: `docs/security/PENTEST_PLAN.md`, required: the lead form stores personal data, so a PTES test runs on production right after the first production release (US-014). The pre-release security agent drafts it, and it is approved before the go-live sprint starts (US-031)
-- Pre-release security agent: its own session runs the kit's `/release-security` for the first production release (US-031). GK is not in production yet: only the GitHub Pages preview is public, so its staging scan is a passive baseline only (US-029 AC8)
+- Pre-release security agent: its own session runs the kit's `/release-security` for the first production release (US-031). GK is not in production yet (owner, 2026-10-28): only the GitHub Pages preview is public, so its staging scan is a passive baseline only (US-029 AC8)
 - Developer guide: `CONTRIBUTING.md`, not written yet: planned as US-030 for Sprint 004
 
 ## Current sprint

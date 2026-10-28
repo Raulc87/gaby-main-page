@@ -300,7 +300,7 @@ so that the lead sheet stays clean and the endpoint cannot be abused.
   - AC4 production sheet: waits on Gabriela's Google account, sheet and service account.
   - AC5 smoke test: waits on AC3 and AC4.
   - AC6 go-live: waits on AC5, US-018 done, US-017 content approved, and the go-live gate in `SPRINT_002.md`.
-  - Kit v1.2.0 sync (2026-10-25), updated in the kit v1.3.0 sync (2026-10-28): AC6 go-live also waits on the post-release security step of the first production release (US-031), run while the site is still password-protected, with no open critical or high finding.
+  - Kit v1.2.0 sync (2026-10-25), updated in the kit v1.3.0 sync (2026-10-28): AC6 go-live also waits on the post-release security step of the first production release (US-031), run while the site is still password-protected, with no open critical or high finding. Owner decision, 2026-10-28, given in the coordinator's session: "A, not in production yet". The password-protected deploy is the first production release, go-live is an extra gate, and GK isn't in production yet.
 - Phase 2 (2026-10-15): **on hold** until Gaby's production domain and its hosting capabilities are known (human owner). The runbook (AC1) stays; AC2–AC6 wait. The GitHub Pages preview (US-027) is not this story
 - Related ADR: ADR-001, ADR-002
 
