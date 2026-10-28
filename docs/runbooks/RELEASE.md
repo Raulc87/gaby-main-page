@@ -1,10 +1,10 @@
 # RELEASE — Gabriela Kelly website
 
-- Version: 0.1 (preview section only)
-- Last updated: 2026-10-16
-- Related: `docs/decisions/ADR-005_BRANCHING_AND_RELEASE_MODEL.md`, `docs/specs/USER_STORIES.md` (US-027), the kit's [`docs/process/RUNBOOK_STYLE.md`](https://github.com/Raulc87/sdd_starter_kit/blob/v1.2.0/docs/process/RUNBOOK_STYLE.md)
+- Version: 0.2 (preview section only; security notes from the kit v1.3.0 sync)
+- Last updated: 2026-10-28
+- Related: `docs/decisions/ADR-005_BRANCHING_AND_RELEASE_MODEL.md`, `docs/specs/USER_STORIES.md` (US-027), the kit's [`docs/process/RUNBOOK_STYLE.md`](https://github.com/Raulc87/sdd_starter_kit/blob/v1.3.0/docs/process/RUNBOOK_STYLE.md)
 
-This runbook has one section today: the **preview**. The production release, smoke-test and rollback sections come with the hosting decision (ADR-005 decision 4) and are added before the first production release.
+This runbook has one section today: the **preview**. The production release, smoke-test and rollback sections come with the hosting decision (ADR-005 decision 4) and are added before the first production release (US-032), from the kit's `docs/runbooks/RELEASE_TEMPLATE.md` at the kit ref in [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md). They include the template's security gate (section 3) and its **post-release security** step (section 4.1): the pre-release security agent's production scan and the human PTES test start when the release's production smoke test passes ([`AGENTS.md`](../../AGENTS.md) → Security baseline).
 
 ## Values to have ready
 
@@ -114,3 +114,12 @@ Success: the demonstration screen with the "nothing was sent" note appears, and 
 | `noindex` missing | Same as above | Same as above |
 | The form sends a request to `/api` or loads Calendly | Forms are not in preview mode | Stop sharing the link and tell the project owner and the agent that owns the form: this is a blocker for the preview |
 | The workflow does not start after a merge | Actions are disabled, or the workflow file is not on `main` | Open the repository's **Actions** tab and enable workflows; check that `.github/workflows/preview.yml` exists on `main` |
+
+## 7. Security scans of the preview
+
+The preview runs on GitHub Pages, a third party's host whose terms do not expressly allow security testing ([`AGENTS.md`](../../AGENTS.md) → Security baseline, Agent scans).
+
+- Only the pre-release security agent scans it, and only a passive, rate-limited baseline scan of this site, under the owner's written approval for that run (US-031). Never an active scan, even with an approval.
+- No other agent runs scans, attack tools or penetration tests against it. The human PTES test's scope is production, not the preview (US-031), so GK doesn't plan human testing of the preview either.
+- The preview is static, with no `/api`, so its scan doesn't cover `POST /api/save-lead`; only the production scan does.
+- The security baseline records this case, the GitHub terms checked and the date (`docs/security/SECURITY_BASELINE.md` §5.1, US-029 AC8).

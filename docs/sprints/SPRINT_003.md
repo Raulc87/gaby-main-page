@@ -192,6 +192,10 @@ All planned stories were merged on 2026-10-16, in the planned order (`GK-027-pre
 - Resource filters: a live "n resources" status after filtering needs a new `CONTENT.md` string first (accessibility nit from the #60 review).
 - Agent 2, `tests/e2e/preview-forms.spec.ts`: an e2e for the root-page preview marker (#64, US-027 AC2), as the #64 PR body describes. With JavaScript off, `/` in the preview build shows two `[data-preview-bar]` with the es and en `preview.banner`, and `robots` matches `noindex`. In the normal build, `/` has no bar.
 - Kit v1.2.0 sync (kit issue Raulc87/sdd_starter_kit#62, added 2026-10-25): US-029 security baseline (5 points) and US-030 developer guide `CONTRIBUTING.md` (2 points). Both are due in Sprint 004 under [`AGENTS.md`](../../AGENTS.md) → Document map; the Sprint 004 readiness checklist checks them.
+- Kit v1.3.0 sync (kit issue Raulc87/sdd_starter_kit#72, added 2026-10-28): the security gaps it found become stories.
+  - Sprint 004: US-033 secret and dependency scanning (2 points), alongside US-029 (now with the GitHub Pages staging case, AC8) and US-030.
+  - Go-live sprint, when US-014's domain and hosting are known: US-031, the pre-release security agent's run (5 points; steps 1–3 while that sprint is planned), and US-032, the release runbook's production sections with the security gate and post-release security step (3 points).
+- At the start of Sprint 004, the coordinator archives the Sprint 003 agent sessions (Agents 1–3, the Agent 1 fix session and the review-only agents, including the v1.2.0 sync reviewer) and records which ones it archived ([`AGENTS.md`](../../AGENTS.md) → Coordinator session).
 - Optional, docs: convert the remaining file references in this project's own documents into Markdown links ([`AGENTS.md`](../../AGENTS.md) → References to files). This sync converted [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md) and the new stories.
 - Optional, Agent 2, `tests/e2e/resources.spec.ts`: the per-id `.all()` loop could assert at least one card per id (nit from the #63 review).
 

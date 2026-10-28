@@ -4,21 +4,21 @@
 - Name: Gaby Kelly — website (phase 1: financial health one-page pilot; phase 2: brand redesign and multipage site)
 - Project key: `GK` (branches `GK-<NNN>-<slug>`, see [`AGENTS.md`](AGENTS.md))
 - Repository: https://github.com/Raulc87/gaby-main-page
-- Starter Kit: https://github.com/Raulc87/sdd_starter_kit (private: attach it to the sessions that read its templates, guides and skills) · Edition: Full · Synced to kit v1.2.0 (tag on `bd756f9`). This is the project's only record of its kit version: templates, guides and kit skills are read at this ref, and each kit sync PR updates it.
+- Starter Kit: https://github.com/Raulc87/sdd_starter_kit (private: attach it to the sessions that read its templates, guides and skills) · Edition: Full · Synced to kit v1.3.0 (tag on `c01c098`). This is the project's only record of its kit version: templates, guides and kit skills are read at this ref, and each kit sync PR updates it.
 - Repository visibility: public, as the owner's portfolio (owner decision, kit issue Raulc87/sdd_starter_kit#16) · current setting public (only the owner changes it)
 - Status: Phase 2. Sprint 003 (phase 2a) DELIVERED 2026-10-16 (all stories Done, 34 points; the close-out gaps in US-024 AC4 and US-027 AC2 fixed 2026-10-17; closes after the Sprint Review). Sprint 002 closed 2026-10-16; Sprint 001 closed 2026-09-28. Production deploy (US-014) on hold until the domain and hosting are known; progress is shown on the GitHub Pages preview (ADR-005)
 - Product owner / final reviewer: Human project owner
 
 ## Active documentation
 - Project spec: [`docs/specs/PROJECT_SPEC.md`](docs/specs/PROJECT_SPEC.md) (v0.5, phase 2; source: Gaby's visual brief, https://claude.ai/artifact/LeuEgX7HC2otdkLEhcJM5j)
-- User stories: [`docs/specs/USER_STORIES.md`](docs/specs/USER_STORIES.md) (phase 2: US-019 to US-028; Sprint 004 candidates from the kit v1.2.0 sync: US-029, US-030)
+- User stories: [`docs/specs/USER_STORIES.md`](docs/specs/USER_STORIES.md) (phase 2: US-019 to US-028; Sprint 004 candidates from the kit v1.2.0 and v1.3.0 syncs: US-029, US-030, US-033; go-live sprint: US-031, US-032)
 - Phase 2 brief (text export): [`docs/ux/BRIEF_2026-10-15.md`](docs/ux/BRIEF_2026-10-15.md)
 - Integration contracts: [`docs/specs/LEAD_API_CONTRACT.md`](docs/specs/LEAD_API_CONTRACT.md) (v1.1, locked for Sprint 002)
 - Feature specs: Not required for the current simple scope
 - Architecture spec: Not required for the current simple scope (covered by ADRs)
 - UX/UI direction: [`docs/ux/UX_UI_DIRECTION.md`](docs/ux/UX_UI_DIRECTION.md) (v1.0, phase 2)
 - Content (visitor-facing copy): [`docs/ux/CONTENT.md`](docs/ux/CONTENT.md) (v0.1, phase 2), the only copy source ([`AGENTS.md`](AGENTS.md) → Before implementing, step 5). The phase 1 copy (`UX_UI_DIRECTION.md` v0.8 §4) is retired; it stays in the history at commit `09d6ca6`.
-- Runbooks: [`docs/runbooks/`](docs/runbooks/) (`LOCAL_DEVELOPMENT.md`, `DEPLOYMENT.md`, `GOOGLE_SHEETS_SETUP.md`; `RELEASE.md` written in Sprint 003 with the preview, US-027, and completed with the release sections before the first production release, ADR-005), written per the kit's [`docs/process/RUNBOOK_STYLE.md`](https://github.com/Raulc87/sdd_starter_kit/blob/v1.2.0/docs/process/RUNBOOK_STYLE.md) (read from the kit at the kit ref above; owner decision 2026-10-25, kit v1.2.0 sync) (the existing ones predate it; restyling them is an optional Agent 3 chore)
+- Runbooks: [`docs/runbooks/`](docs/runbooks/) (`LOCAL_DEVELOPMENT.md`, `DEPLOYMENT.md`, `GOOGLE_SHEETS_SETUP.md`; `RELEASE.md` written in Sprint 003 with the preview, US-027, and completed with the release sections before the first production release, ADR-005), written per the kit's [`docs/process/RUNBOOK_STYLE.md`](https://github.com/Raulc87/sdd_starter_kit/blob/v1.3.0/docs/process/RUNBOOK_STYLE.md) (read from the kit at the kit ref above; owner decision 2026-10-25, kit v1.2.0 sync) (the existing ones predate it; restyling them is an optional Agent 3 chore)
 - Tech stack: [`TECH_STACK.md`](TECH_STACK.md) (v0.4)
 - ADRs: [`docs/decisions/`](docs/decisions/) — ADR-001 backend hosting (working assumption), ADR-002 Google Sheets access, ADR-003 i18n routing (multipage update), ADR-004 spam protection, ADR-005 branching, preview and release
 - Implementation plan: [`docs/plans/IMPLEMENTATION_PLAN.md`](docs/plans/IMPLEMENTATION_PLAN.md) (v0.5)
@@ -26,7 +26,8 @@
 - Previous sprints: [`docs/sprints/SPRINT_002.md`](docs/sprints/SPRINT_002.md) (closed 2026-10-16), [`docs/sprints/SPRINT_001.md`](docs/sprints/SPRINT_001.md) (closed 2026-09-28), each with a close-out
 - Readiness checklist: [`docs/checklists/SPRINT_READINESS_CHECKLIST.md`](docs/checklists/SPRINT_READINESS_CHECKLIST.md)
 - Security baseline: `docs/security/SECURITY_BASELINE.md`, not written yet: planned as US-029 for Sprint 004 (the project already writes code, so [`AGENTS.md`](AGENTS.md) → Security baseline lets it be a story in the next sprint)
-- Penetration-test plan: `docs/security/PENTEST_PLAN.md`, required (the lead form stores personal data, so a PTES test runs before the first production release, US-014); written and approved before the go-live sprint starts (US-029 AC5)
+- Penetration-test plan: `docs/security/PENTEST_PLAN.md`, required: the lead form stores personal data, so a PTES test runs on production right after the first production release (US-014). The pre-release security agent drafts it, and it is approved before the go-live sprint starts (US-031)
+- Pre-release security agent: its own session runs the kit's `/release-security` for the first production release (US-031). GK is not in production yet (owner, 2026-10-28): only the GitHub Pages preview is public, so its staging scan is a passive baseline only (US-029 AC8)
 - Developer guide: `CONTRIBUTING.md`, not written yet: planned as US-030 for Sprint 004
 
 ## Current sprint
