@@ -300,7 +300,7 @@ so that the lead sheet stays clean and the endpoint cannot be abused.
   - AC4 production sheet: waits on Gabriela's Google account, sheet and service account.
   - AC5 smoke test: waits on AC3 and AC4.
   - AC6 go-live: waits on AC5, US-018 done, US-017 content approved, and the go-live gate in `SPRINT_002.md`.
-  - Kit v1.2.0 sync (2026-10-25): AC6 go-live also waits on the PTES penetration test that US-029 AC5 plans, with no open critical or high finding.
+  - Kit v1.2.0 sync (2026-10-25), updated in the kit v1.3.0 sync (2026-10-28): AC6 go-live also waits on the post-release security step of the first production release (US-031), run while the site is still password-protected, with no open critical or high finding.
 - Phase 2 (2026-10-15): **on hold** until Gaby's production domain and its hosting capabilities are known (human owner). The runbook (AC1) stays; AC2–AC6 wait. The GitHub Pages preview (US-027) is not this story
 - Related ADR: ADR-001, ADR-002
 
@@ -316,7 +316,7 @@ so that real visitors can use it.
 3. The site is served only over HTTPS on the final domain (HTTP redirects to HTTPS).
 4. Production uses the Google Sheet and service account in Gabriela's Google account (set up by the human owner at deploy time); development and CI keep using the owner's development sheet or memory mode.
 5. A post-deploy smoke test in the runbook passes on the live site: both languages load, a test lead lands in the production sheet with the right columns, the thank-you and the real Calendly appear, a filled honeypot stores nothing, and the test row is then deleted.
-6. Until the go-live gate in `SPRINT_002.md` passes, the whole site, including `/api`, is password-protected (cPanel Directory Privacy), so it cannot collect real leads under a draft notice; the runbook checks that `/` and `POST /api/save-lead` return `401` without credentials. Going live means removing the protection, only after US-013, US-016, and US-018 are done, the US-017 content is approved, and the PTES penetration test planned in US-029 AC5 has run with no open critical or high finding (this criterion is the gate until [`docs/runbooks/RELEASE.md`](../runbooks/RELEASE.md) gets its release sections; whoever writes them copies this gate into them, per ADR-005).
+6. Until the go-live gate in `SPRINT_002.md` passes, the whole site, including `/api`, is password-protected (cPanel Directory Privacy), so it cannot collect real leads under a draft notice; the runbook checks that `/` and `POST /api/save-lead` return `401` without credentials. Going live means removing the protection, only after US-013, US-016, and US-018 are done, the US-017 content is approved, and the post-release security step of the first production release has left no open critical or high finding, with every critical and high fix re-checked. That step is the pre-release security agent's production scan and the human PTES test (US-031). Both run on the password-protected production right after its smoke test passes; the tester and the agent get the credentials under their written scope. GK keeps this rule, which is stricter than the kit's default of testing after go-live, so that no real lead is collected before the test (`AGENTS.md` → Security baseline lets a project be stricter). This criterion is the gate until [`docs/runbooks/RELEASE.md`](../runbooks/RELEASE.md) gets its release sections (US-032), which copy it.
 
 ---
 
@@ -666,7 +666,7 @@ so that I understand how Gaby works before applying.
 ## US-029 — Security baseline
 - Priority: High
 - Story Points: 5
-- Status: Proposed — Sprint 004 candidate (kit v1.2.0 sync, kit issue Raulc87/sdd_starter_kit#62). The project already writes code, so the baseline is a story in its next sprint and is approved by that sprint's end ([`AGENTS.md`](../../AGENTS.md) → Security baseline; [readiness checklist](../checklists/SPRINT_READINESS_CHECKLIST.md) → Security)
+- Status: Proposed — Sprint 004 candidate (kit v1.2.0 sync, kit issue Raulc87/sdd_starter_kit#62; updated for kit v1.3.0, kit issue Raulc87/sdd_starter_kit#72). The project already writes code, so the baseline is a story in its next sprint and is approved by that sprint's end ([`AGENTS.md`](../../AGENTS.md) → Security baseline; [readiness checklist](../checklists/SPRINT_READINESS_CHECKLIST.md) → Security)
 - Related Requirements: NFR-007, NFR-008, FR-013, BR-006
 - Related ADR: ADR-001, ADR-002, ADR-004, ADR-005
 
@@ -680,16 +680,18 @@ so that every later story and the first production release are checked against O
 1. `docs/security/SECURITY_BASELINE.md` exists, written from the kit's `docs/security/SECURITY_BASELINE_TEMPLATE.md` at the kit ref in [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md) (the template is read from the kit, not copied into this repository). Its classification records that the site stores personal data (the lead form, Ley N.° 8968), has no authentication or payments, and is a public site with one public endpoint (`POST /api/save-lead`) plus the static GitHub Pages preview; and whether it is high-risk or complex, with the reason.
 2. It names the OWASP ASVS 5.0.0 level and why. Because the site handles personal data, the ASVS inventory lists every requirement of that level, each covered (an acceptance criterion, a test or a configuration check, named) or marked not applicable with the reason.
 3. It lists the OWASP Top 10 (2025) and API Security Top 10 (2023) risks that apply to the site and the endpoint. For each one, the stories that touch it (at least US-004, US-006, US-011, US-013, US-014, US-023) are named, with the acceptance criterion that verifies it; when a story that touches an applicable risk has no criterion that verifies it, this story's PR adds a testable acceptance criterion to that story in this file; only a risk that no existing story can verify is recorded as an open item in the baseline (§7), with a new story to cover it.
-4. Secret scanning and dependency scanning are set up, or planned as stories: GitHub secret scanning with push protection on this public repository (a repository setting the human owner turns on), and dependency scanning for `package.json` and `api/requirements.txt` (for example Dependabot alerts and an audit step in CI). The baseline (§6) records which are on and since when. It also maps the SDD workflow to the NIST SSDF 1.1 practice groups (PO, PS, PW, RV) and says how a vulnerability is reported and fixed.
-5. The penetration-test section records a PTES test before the first production release (US-014 AC6, go-live), because the site stores personal data, and whether OSSTMM 3 also applies (only if the baseline classifies the site as high-risk). `docs/security/PENTEST_PLAN.md` (from the kit's `PENTEST_PLAN_TEMPLATE.md`) is written and approved before the go-live sprint starts. The test is run only by people the human owner authorizes in writing, under a written scope; no agent runs a penetration test, attack tools or scans against production. The site is not in production today (only the preview, ADR-005), so the dated-deadline exception for projects already in production does not apply: the test gates the first production release.
+4. The baseline (§6) records the secret scanning and dependency scanning that US-033 sets up, and since when (until US-033 is done, as planned). It also maps the SDD workflow to the NIST SSDF 1.1 practice groups (PO, PS, PW, RV) and says how a vulnerability is reported and fixed.
+5. The penetration-test section (§5) records a PTES test on production right after the first production release, because the site stores personal data, and whether OSSTMM 3 also applies (only if the baseline classifies the site as high-risk). It records GK's stricter timing from US-014 AC6: the release is deployed behind the cPanel password protection, the test runs then, and go-live waits on its result. "Already in production when this baseline was adopted": no (only the preview, ADR-005), so no deadline applies. `docs/security/PENTEST_PLAN.md` is drafted by the pre-release security agent and approved before the go-live sprint starts (US-031). The authorized external tester runs the test and writes a report; only people the human owner authorizes in writing, under a written scope, run it.
 6. No document, copy or PR says the site is certified, compliant or secure; the baseline says which requirements were verified, how and when.
 7. The human owner approves the baseline (§8) by the end of the sprint that carries this story.
+8. The agent-scans section (§5.1) records the staging case. Staging is the GitHub Pages preview (`https://raulc87.github.io/gaby-main-page/`), the project's own site on a third party's host. GitHub's terms don't expressly allow security testing, so it may get a passive, rate-limited baseline scan only, never an active scan, even with an approval. The section cites the GitHub terms the author checked and the date (the kit checked them on 2026-10-27: Acceptable Use Policies sections 4 and 5, and the GitHub Pages limits). Production is the GoDaddy cPanel host (ADR-001, working assumption); its case is recorded when the host is decided. The safeguards list is filled in as far as it is known; the named person who can stop a scan is the human owner unless they name someone else.
+9. Only the pre-release security agent scans the running site (US-031). The agent writing this story's docs runs no scans, attack tools or penetration tests, in any environment.
 
 **Security**
 - This story writes the baseline; it verifies no OWASP reference itself.
 
 **Dependencies**
-- None. US-014 (go-live, AC6) depends on this story's AC5.
+- None. US-031 starts from this baseline; US-014 (go-live, AC6) depends on US-031.
 
 ---
 
@@ -717,3 +719,88 @@ so that I can make a correct change without reading every runbook first.
 
 **Dependencies**
 - None.
+
+---
+
+## US-031 — Pre-release security agent run for the first production release
+- Priority: High
+- Story Points: 5
+- Status: Proposed — go-live sprint (kit v1.3.0 sync, kit issue Raulc87/sdd_starter_kit#72). Steps 1–3 start while the go-live sprint is planned, which waits on US-014 (domain and hosting); steps 4–5 run around the release. Not Sprint 004 unless the go-live sprint is planned then
+- Related Requirements: NFR-007, NFR-008, FR-013, BR-006
+- Related ADR: ADR-001, ADR-005
+
+**User Story**
+
+As the project owner,
+I want a separate security agent to review, scan and re-check the site around its first production release,
+so that the human penetration test finds as little as possible and go-live waits on a clean result.
+
+**Acceptance Criteria**
+1. The owner, or the coordinator for the owner, starts the pre-release security agent in its own session while the go-live sprint is planned ([`AGENTS.md`](../../AGENTS.md) → Pre-release security agent). It runs the kit's `/release-security` from the kit attached to its session, at the kit ref in [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md). No session that has written GK code runs it.
+2. Step 1: it updates `docs/security/SECURITY_BASELINE.md` (US-029), including the staging case in §5.1 and the production host once it is decided.
+3. Step 2: it does a security code review of the site and `api/` against the baseline while the go-live sprint is planned. Before the release is cut, it reviews every change merged since, up to the commit to be released.
+4. Step 3: it drafts `docs/security/PENTEST_PLAN.md` and the tester's written scope (PTES; OSSTMM 3 only if the baseline classifies the site as high-risk). The owner approves both before the go-live sprint starts. Steps 1 and 3 land in a docs PR that the owner merges.
+5. Step 4, staging: before the release, a passive, rate-limited baseline scan of the GitHub Pages preview only, never an active scan, even with an approval (US-029 AC8). Step 4, production: right after the release, when its smoke test passes and while the site is still password-protected (US-014 AC6), together with the human PTES test. Each scan has the owner's written approval and scope for that run, with its time window, and a named person who can stop it. It follows every safeguard in `AGENTS.md` → Security baseline: passive by default, non-destructive, rate-limited, owned systems only, no real users' personal data, and a rollback plan.
+6. Findings go to the coordinator, which creates the remediation stories (Sprint 004 or later, or a hotfix for a critical finding); implementation agents fix them. GK's repository is public, so an unfixed, exploitable finding is never written in a tracked file, issue or PR: it is tracked privately (`SECURITY_BASELINE.md` §7). The stories name the fix, not the exploit.
+7. Step 5: it re-checks the fixes after the remediation stories land and after the human tester's report. Go-live (US-014 AC6) waits until no critical or high finding is open and every critical and high fix is re-checked.
+8. The agent never changes code. It never merges, approves or enables auto-merge, and it ends what it posts with an attribution line.
+
+**Security**
+- This story verifies the baseline's applicable OWASP references through review and scans; it adds no acceptance criteria of its own to other stories.
+
+**Dependencies**
+- US-029 (the baseline), US-032 (the release runbook's security steps), US-014 (domain and hosting decided).
+
+---
+
+## US-032 — Release runbook: production sections with the security steps
+- Priority: High
+- Story Points: 3
+- Status: Proposed — go-live sprint, ordered before US-014's release (kit v1.3.0 sync, kit issue Raulc87/sdd_starter_kit#72; ADR-005 decision 4)
+- Related ADR: ADR-001, ADR-005
+
+**User Story**
+
+As the human owner,
+I want the release runbook to cover the production release step by step, including its security steps,
+so that the first release follows the security gate and the post-release security step without anyone improvising.
+
+**Acceptance Criteria**
+1. [`docs/runbooks/RELEASE.md`](../runbooks/RELEASE.md) gains the production sections from the kit's `docs/runbooks/RELEASE_TEMPLATE.md` at the kit ref in [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md): cut a release, production smoke test, rollback and urgent fix. They are adapted to the chosen host and written per the kit's runbook style guide.
+2. Its security gate (template section 3) blocks the release unless the pre-release security agent's code review covers the commit being released, and the owner's written approval and scope for the production scan and the tester's authorization and scope are signed, with time windows that open right after the release, and the person who can stop each one is named.
+3. Its post-release security step (template section 4.1) starts the production scan and the PTES test when the smoke test passes. It includes GK's stricter rule from US-014 AC6: both run while the site is still password-protected, and go-live waits on their result.
+4. The release description records the dates of the scan and the test report, never their content. The runbook never says the release was "certified".
+
+**Security**
+- Verifies the release gate in `AGENTS.md` → Security baseline; no OWASP risk of its own.
+
+**Dependencies**
+- US-014 (the host), US-029.
+
+---
+
+## US-033 — Secret and dependency scanning
+- Priority: High
+- Story Points: 2
+- Status: Proposed — Sprint 004 candidate (security gap found in the kit v1.3.0 sync: GK has neither; split out of US-029 AC4)
+- Related Requirements: NFR-007
+
+**User Story**
+
+As the project owner,
+I want secrets and vulnerable dependencies caught before they reach `main`,
+so that a public repository never leaks a credential and known vulnerabilities are fixed early.
+
+**Acceptance Criteria**
+1. GitHub secret scanning and push protection are on for this public repository. They are repository settings the human owner turns on; the PR records the date and who turned them on.
+2. Dependency scanning covers `package.json` and `api/requirements.txt`: Dependabot alerts (an owner setting), plus an audit step in CI (for example `npm audit --audit-level=high` and `pip-audit`) that fails the build on a high or critical advisory.
+3. A known advisory that can't be fixed yet has an accepted risk signed by the owner, recorded privately if it is exploitable (`SECURITY_BASELINE.md` §7), instead of being skipped silently.
+4. `SECURITY_BASELINE.md` §6 and `CONTRIBUTING.md` (US-030) say what runs and how to read a failure.
+5. These are code checks, not scans of a running system; no agent runs scans, attack tools or penetration tests against the preview or production.
+
+**Security**
+- OWASP Top 10 (2025) A03 Software Supply Chain Failures; leaked credentials as the baseline maps them (`SECURITY_BASELINE.md` §3).
+
+**Dependencies**
+- None. Can run in parallel with US-029.
+
