@@ -120,5 +120,6 @@ Success: the demonstration screen with the "nothing was sent" note appears, and 
 The preview runs on GitHub Pages, a third party's host whose terms do not expressly allow security testing ([`AGENTS.md`](../../AGENTS.md) → Security baseline, Agent scans).
 
 - Only the pre-release security agent scans it, and only a passive, rate-limited baseline scan of this site, under the owner's written approval for that run (US-031). Never an active scan, even with an approval.
-- No other agent, and no one else, runs scans, attack tools or penetration tests against it.
+- No other agent runs scans, attack tools or penetration tests against it. The human PTES test's scope is production, not the preview (US-031), so GK doesn't plan human testing of the preview either.
+- The preview is static, with no `/api`, so its scan doesn't cover `POST /api/save-lead`; only the production scan does.
 - The security baseline records this case, the GitHub terms checked and the date (`docs/security/SECURITY_BASELINE.md` §5.1, US-029 AC8).
