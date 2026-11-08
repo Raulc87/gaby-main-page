@@ -7,14 +7,14 @@ The copy for phase 2c, from Gaby's review of 2026-11-08 ([`BRIEF_2026-11-08_STOR
 | Part | Moved into `CONTENT.md` by |
 |---|---|
 | A.1 Metadata: pending-badge lists | the story whose blocks they list (US-034, US-035, US-028) |
-| A.2 §1 page metadata | US-034 (`meta.home.description`), US-035 (`meta.calculator.*`), US-028 (`meta.method.*`) |
-| A.3 §2 navigation | US-034 |
+| A.2 §1 page metadata | US-034's scaffold, `GK-034-site-scaffold` (all rows; Sprint 004 plan) |
+| A.3 §2 navigation | US-034's scaffold, `GK-034-site-scaffold` |
 | A.4 §4 VIP band note | US-034 |
 | A.5 §7.3 two resources | US-034 |
 | A.6 §8.2 VSL note | US-034 (or any content PR) |
 | A.6b §6 `story.media.label` status | US-034 |
 | A.7 §8.5 scheduler fallback key | US-037 |
-| A.8 §9 privacy notice | US-036 (calculator data: `privacy.p2`, `privacy.p3`, `privacy.p5`) and US-037 (GoHighLevel: `privacy.p4`) |
+| A.8 §9 privacy notice | US-035 (calculator data: `privacy.p2`, `privacy.p3`, `privacy.p5`; `privacy.ts` is Agent 2's) and US-037 (GoHighLevel: `privacy.p4`). US-036 bumps `PRIVACY_NOTICE_VERSION` for the calculator text |
 | §5 Home | US-034 (replaces `CONTENT.md` §5) |
 | §11 Calculator | US-035 (new section) |
 | §12 Método Polaris page | US-028 (new section) |
@@ -103,7 +103,7 @@ The module holds Gaby's VSL (her sales video), which she will record again for t
 
 | `privacy.p5` | Carácter voluntario: brindar tus datos es opcional. Sin ellos no podemos procesar tu aplicación, agendar tu llamada ni mostrarte el resultado de la calculadora desde este sitio. | Voluntary nature: providing your data is optional. Without it, we cannot process your application, schedule your call or show you the calculator's result from this site. | provisional |
 
-They replace the current rows (`privacy.p5` moves with US-036). Add to the note under the table: v0.2 adds the calculator (US-035, US-036) and replaces Calendly with GoHighLevel (US-037, ADR-006). If ADR-007 adds an email provider, it is named in `privacy.p4` in the same PR that adds it. Bump `PRIVACY_NOTICE_VERSION` when this text changes.
+They replace the current rows (`privacy.p2`, `privacy.p3` and `privacy.p5` move with US-035, `privacy.p4` with US-037). Add to the note under the table: v0.2 adds the calculator (US-035, US-036) and replaces Calendly with GoHighLevel (US-037, ADR-006). If ADR-007 adds an email provider, it is named in `privacy.p4` in the same PR that adds it. Bump `PRIVACY_NOTICE_VERSION` when this text changes.
 
 ## 5. Home (`/es/`, `/en/`)
 
