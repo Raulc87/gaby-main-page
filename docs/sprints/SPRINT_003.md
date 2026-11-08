@@ -1,7 +1,7 @@
-# SPRINT 003 — DELIVERED
+# SPRINT 003 — CLOSED
 
 ## Metadata
-- Status: DELIVERED on 2026-10-16 — every planned story merged (go-ahead 2026-10-16, entry gate 14); closes after the Sprint Review, see Close-out
+- Status: CLOSED on 2026-11-08 — every planned story merged on 2026-10-16 (go-ahead 2026-10-16, entry gate 14); Sprint Review done with Gaby's review of the preview, sprint approved by the human owner on 2026-11-08 (see Close-out → Sprint Review)
 - Duration: 8 business days
 - Saturdays and Sundays excluded
 - Start: planned 2026-10-19 (Monday), or the first business day after the go-ahead; actual 2026-10-16, the day of the go-ahead
@@ -175,9 +175,9 @@ All planned stories were merged on 2026-10-16, in the planned order (`GK-027-pre
 
 **Owner decision, 2026-10-17** (given to the coordinator in its session, not written by the owner on a PR; merging this docs PR confirms it in the owner's name): keep the current provisional photo for now and replace it later with a better one in a small PR. `public/gabriela-provisional.jpg` is 352×352 px and is shown at 288 px (Home hero, desktop) and 224 px (story teaser), so it is upscaled on 2× screens, below US-015 AC4 ("at least 2× the displayed size"). The owner accepts this as a known, non-critical regression until the better photo arrives (US-017).
 
-**Sprint Definition of Done — still with the human owner:**
-- [ ] Preview reviewed by the human owner and shared with Gaby (Sprint Review, planned 2026-10-28).
-- [ ] Human reviewer approves the sprint.
+**Sprint Definition of Done:**
+- [x] Preview reviewed by the human owner and shared with Gaby: Gaby sent her review on 2026-11-08 (Sprint Review below).
+- [x] Human reviewer approves the sprint: the human owner, 2026-11-08 (below).
 
 **Open owner decisions (not blocking; left as merged until decided):**
 - Resource library (#60): the featured mini-course also appears in the grid under "All". Kept so the topic filters stay complete; hiding it under "All" is a one-line change by Agent 2.
@@ -196,6 +196,18 @@ All planned stories were merged on 2026-10-16, in the planned order (`GK-027-pre
 - Optional, Agent 2, `tests/e2e/resources.spec.ts`: the per-id `.all()` loop could assert at least one card per id (nit from the #63 review).
 
 **Still owed by Gaby (US-017, backlog):** session photos, testimonials, resource names and files, official Método Polaris steps, bio and credentials, the video, media logo permissions, and the English validation of the provisional keys. Until then the preview shows the pending badges (BR-011).
+
+**Sprint Review (2026-11-08).** Gaby reviewed the preview and sent, through the human owner, a StoryBrand proposal for the Home, her funnel document and four review notes (text export: [`docs/ux/BRIEF_2026-11-08_STORYBRAND.md`](../ux/BRIEF_2026-11-08_STORYBRAND.md)). The human owner turned them into phase 2c, merged in #69 ([`PROJECT_SPEC.md`](../specs/PROJECT_SPEC.md) v0.6, ADR-006, ADR-007 proposed, US-034 to US-039). Her notes on this sprint's work are all planned there:
+- the redundant phrase in "Subiste la escalera" → US-034 (`home.ladder.p2`);
+- the VIP banner before the free resources → covered by the new Home's VIP calls to action (brief §5);
+- the GoHighLevel calendar instead of Calendly → ADR-006, US-037;
+- the VSL in the VIP page's video module → US-017 (Gaby records it).
+
+The human owner approved the sprint on 2026-11-08, in the coordinator's session (verbatim): "yes, go ahead with the close-out and Sprint 004 plan".
+
+**Open owner decisions, carried to Sprint 004** ([`SPRINT_004.md`](SPRINT_004.md) → Entry Gates): the featured mini-course in the grid (#60), one badge per Método Polaris step or per block (#61; the steps stay on the new Home, US-034), and the logo source for My story (#56). `PRIVACY_NOTICE_VERSION` (#59) is settled by Sprint 004: the notice text changes with the calculator (US-035), and the version is bumped with it.
+
+**Follow-ups:** each is either in Sprint 004 or stays in the backlog, as [`SPRINT_004.md`](SPRINT_004.md) → Planned Stories and Not in this sprint list.
 
 **Retrospective (short):**
 - What worked: one scaffold PR first (brand, then site shell) unblocked three agents; the merge-order rule kept the first preview from ever having a live form; the review-only agent caught a CI-only failure (#61) and three cross-ownership edits before merge (#53, `src/env.d.ts` in #54, #61).
