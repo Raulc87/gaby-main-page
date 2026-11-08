@@ -160,7 +160,9 @@ test.describe('root page, JavaScript off', () => {
 
     const bars = page.locator('[data-preview-bar]');
     await expect(bars).toHaveCount(2);
+    await expect(bars.nth(0)).toBeVisible();
     await expect(bars.nth(0)).toContainText(getCommon('es').preview.banner);
+    await expect(bars.nth(1)).toBeVisible();
     await expect(bars.nth(1)).toContainText(getCommon('en').preview.banner);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
   });
