@@ -9,6 +9,7 @@ privacy_notice_version, status).
 from __future__ import annotations
 
 import re
+from decimal import Decimal, InvalidOperation
 
 NAME_MIN_LENGTH = 3
 NAME_MAX_LENGTH = 100
@@ -34,6 +35,12 @@ SCREENING_ANSWER_CODES = frozenset(
 )
 LANGUAGE_CODES = frozenset({"es", "en"})
 
+# LEAD_API_CONTRACT.md section 11.2: zones and the months that bound them.
+ZONE_CODES = frozenset({"alert", "building", "freedom"})
+BUILDING_ZONE_MIN_MONTHS = Decimal(6)
+FREEDOM_ZONE_MIN_MONTHS = Decimal(12)
+MONTHS_MAX_DECIMAL_PLACES = 1
+
 
 def validate_lead(payload: dict) -> tuple[dict, dict]:
     normalized: dict = {}
@@ -45,6 +52,27 @@ def validate_lead(payload: dict) -> tuple[dict, dict]:
     _validate_choice(payload, normalized, errors, "screening_answer", SCREENING_ANSWER_CODES)
     _validate_choice(payload, normalized, errors, "language", LANGUAGE_CODES)
     _validate_consent(payload, normalized, errors)
+
+    return normalized, errors
+
+
+def validate_calculator_lead(payload: dict) -> tuple[dict, dict]:
+    """Validate a calculator lead (LEAD_API_CONTRACT.md sections 11.2, 11.3).
+
+    Fields outside the contract (such as the five figures the visitor typed)
+    are never copied into `normalized`, so they can never be stored.
+    """
+    normalized: dict = {}
+    errors: dict = {}
+
+    _validate_name(payload, normalized, errors)
+    _validate_email(payload, normalized, errors)
+    _validate_phone(payload, normalized, errors, required=False)
+    _validate_choice(payload, normalized, errors, "language", LANGUAGE_CODES)
+    _validate_consent(payload, normalized, errors)
+    _validate_marketing_consent(payload, normalized, errors)
+    months = _validate_months(payload, normalized, errors)
+    _validate_zone(payload, normalized, errors, months)
 
     return normalized, errors
 
@@ -109,7 +137,13 @@ def _validate_email(payload: dict, normalized: dict, errors: dict) -> None:
     normalized["email"] = candidate
 
 
-def _validate_phone(payload: dict, normalized: dict, errors: dict) -> None:
+def _validate_phone(
+    payload: dict, normalized: dict, errors: dict, required: bool = True
+) -> None:
+    if not required and _is_blank_optional_string(payload.get("phone")):
+        normalized["phone"] = ""
+        return
+
     value = _get_required_string(payload, "phone", errors)
     if value is None:
         return
@@ -148,3 +182,76 @@ def _validate_consent(payload: dict, normalized: dict, errors: dict) -> None:
         return
 
     normalized["consent"] = True
+
+
+def _is_blank_optional_string(value: object) -> bool:
+    """True for an optional string field left empty: null or blank text."""
+    return value is None or (isinstance(value, str) and value.strip() == "")
+
+
+def _validate_marketing_consent(payload: dict, normalized: dict, errors: dict) -> None:
+    value = payload.get("marketing_consent", False)
+    if not isinstance(value, bool):
+        errors["marketing_consent"] = "invalid_type"
+        return
+    normalized["marketing_consent"] = value
+
+
+def _validate_months(payload: dict, normalized: dict, errors: dict) -> Decimal | None:
+    """Validate `months`; returns it as a Decimal, or None when it is null or invalid.
+
+    `normalized["months"]` is the text to store: one decimal and a point
+    (section 11.2), or "" when the months are null ("covered").
+    """
+    if "months" not in payload:
+        errors["months"] = "required"
+        return None
+
+    value = payload["months"]
+    if value is None:
+        normalized["months"] = ""
+        return None
+    # bool is an int in Python, but JSON true/false is not a number.
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        errors["months"] = "invalid_type"
+        return None
+
+    try:
+        months = Decimal(repr(value)).normalize()
+    except InvalidOperation:
+        errors["months"] = "invalid_format"
+        return None
+    if not months.is_finite() or months < 0:
+        errors["months"] = "invalid_format"
+        return None
+    if months.as_tuple().exponent < -MONTHS_MAX_DECIMAL_PLACES:
+        errors["months"] = "invalid_format"
+        return None
+
+    if months.is_zero():
+        months = Decimal(0)  # JSON -0.0 would otherwise be stored as "-0.0"
+    normalized["months"] = f"{months:.{MONTHS_MAX_DECIMAL_PLACES}f}"
+    return months
+
+
+def _expected_zone(months: Decimal | None) -> str:
+    if months is None or months >= FREEDOM_ZONE_MIN_MONTHS:
+        return "freedom"
+    if months >= BUILDING_ZONE_MIN_MONTHS:
+        return "building"
+    return "alert"
+
+
+def _validate_zone(
+    payload: dict, normalized: dict, errors: dict, months: Decimal | None
+) -> None:
+    _validate_choice(payload, normalized, errors, "zone", ZONE_CODES)
+    if "zone" not in normalized:
+        return
+    # `months` that failed its own validation has no zone to compare with;
+    # null months mean "covered", which is the freedom zone.
+    if "months" in errors:
+        return
+    if normalized["zone"] != _expected_zone(months):
+        errors["zone"] = "zone_mismatch"
+        del normalized["zone"]

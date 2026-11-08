@@ -8,7 +8,7 @@ from __future__ import annotations
 import pytest
 
 from storage.base import StorageError
-from storage.google_sheets import COLUMN_ORDER, GoogleSheetsLeadStorage
+from storage.google_sheets import CALCULATOR_COLUMN_ORDER, COLUMN_ORDER, GoogleSheetsLeadStorage
 
 LEAD = {
     "submitted_at": "23/09/2026 14:05:31",
@@ -109,3 +109,70 @@ def test_save_wraps_worksheet_lookup_failure_in_storage_error():
 
     with pytest.raises(StorageError):
         storage.save(LEAD)
+
+
+# --- calculator tab (LEAD_API_CONTRACT.md section 11.5) ---------------------
+
+CALCULATOR_LEAD = {
+    "submitted_at": "08/11/2026 09:00:00",
+    "name": "Ana María Pérez Soto",
+    "email": "ana.perez@example.com",
+    "phone": "",
+    "language": "es",
+    "months": "4.4",
+    "zone": "alert",
+    "consent": True,
+    "marketing_consent": False,
+    "source": "calculator",
+    "privacy_notice_version": "2026-09-draft-1",
+    "status": "started",
+}
+
+
+def test_calculator_columns_match_the_contract():
+    assert CALCULATOR_COLUMN_ORDER == (
+        "submitted_at",
+        "name",
+        "email",
+        "phone",
+        "language",
+        "months",
+        "zone",
+        "consent",
+        "marketing_consent",
+        "source",
+        "privacy_notice_version",
+        "status",
+    )
+
+
+def test_calculator_row_goes_to_its_tab_in_its_column_order_with_raw_input():
+    worksheet = _FakeWorksheet()
+    spreadsheet = _FakeSpreadsheet(worksheet, expected_tab="calculator")
+    client = _FakeClient(spreadsheet, expected_sheet_id="sheet-123")
+    storage = GoogleSheetsLeadStorage(
+        service_account_file="/secure/service-account.json",
+        sheet_id="sheet-123",
+        sheet_tab="calculator",
+        client_factory=lambda: client,
+        columns=CALCULATOR_COLUMN_ORDER,
+    )
+
+    storage.save(CALCULATOR_LEAD)
+
+    row, value_input_option = worksheet.append_row_calls[0]
+    assert value_input_option == "RAW"
+    assert row == [
+        "08/11/2026 09:00:00",
+        "Ana María Pérez Soto",
+        "ana.perez@example.com",
+        "",
+        "es",
+        "4.4",
+        "alert",
+        True,
+        False,
+        "calculator",
+        "2026-09-draft-1",
+        "started",
+    ]

@@ -1,11 +1,11 @@
-# SPRINT 004 — PLANNED
+# SPRINT 004 — ACTIVE
 
 ## Metadata
-- Status: PLANNED — waiting for the human owner's go-ahead (Entry Gates, gate 15)
+- Status: ACTIVE — the human owner gave the go-ahead on 2026-11-08 (Entry Gates, gate 15)
 - Duration: 8 business days
 - Saturdays and Sundays excluded
-- Start: the first business day after the go-ahead (earliest Monday 2026-11-09)
-- End: 8 business days after the start (earliest Wednesday 2026-11-18), with the Sprint Review on the preview
+- Start: Monday 2026-11-09, the first business day after the go-ahead (the agents started on 2026-11-08)
+- End: Wednesday 2026-11-18, with the Sprint Review on the preview
 - Final reviewer: Human project owner
 
 ## Sprint Goal
@@ -49,7 +49,7 @@ Readiness checklist run on 2026-11-08 on the documents as this planning PR merge
 | 12 | Secret and dependency scanning set up, or planned as a story in this sprint (§5) | Planned: US-029 AC4 |
 | 13 | Developer guide (§6, blocking for the first sprint that runs code; the project runs code) | Planned: US-030 in this sprint, so it exists by the sprint's end |
 | 14 | Workstreams, ownership map, scaffold-first merge order with no dependency cycle, conflict rule, agent prompts with the merge, review-flow, attribution and reviewer-independence rules (§7, §7.1, blocking) | Done in this PR ([`SPRINT_004_AGENT_PROMPTS.md`](SPRINT_004_AGENT_PROMPTS.md)) |
-| 15 | Go-ahead from the human owner (§8, blocking) | Pending |
+| 15 | Go-ahead from the human owner (§8, blocking) | Done: "merged, go ahead with Sprint 004" (human owner, 2026-11-08) |
 
 Non-blocking items, for the human owner:
 - **Formatter (§6):** [`TECH_STACK.md`](../../TECH_STACK.md) names ESLint, but no formatter. Adding one (for example Prettier) reformats every file, which would clash with three agents working in parallel. It is proposed as the first change of Sprint 005, and is not a gate here.
@@ -225,3 +225,5 @@ Planned on 2026-11-08 by the coordinator, after the human owner's "yes, go ahead
 1. archives the Sprint 003 sessions;
 2. launches the agents and the review-only agent with the prompts in [`docs/sprints/SPRINT_004_AGENT_PROMPTS.md`](SPRINT_004_AGENT_PROMPTS.md);
 3. records the session IDs there.
+
+Done on 2026-11-08: the Sprint 003 sessions are archived, and the review-only agent and the three implementation agents are running; their session IDs are in [`SPRINT_004_AGENT_PROMPTS.md`](SPRINT_004_AGENT_PROMPTS.md) → Session IDs.
