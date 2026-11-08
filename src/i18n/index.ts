@@ -121,41 +121,206 @@ export function getCommon(lang: Language): CommonContent {
   return lang === 'es' ? commonEs : commonEn;
 }
 
-/** A numbered card of the Home: title and body. */
-export interface HomeCard {
-  title: string;
-  body: string;
-}
-
 /** Home copy (CONTENT.md section 5 and the testimonial placeholders), keyed as in CONTENT.md. */
 export interface HomeDictionary {
   home: {
-    hero: { eyebrow: string; title: string; lead: string; trust: string; photo_alt: string };
-    ladder: { title: string; p1: string; p2: string; p3: string; closing: string };
+    hero: {
+      eyebrow: string;
+      title: string;
+      lead: string;
+      cta: string;
+      secondary: string;
+      trust: string;
+      photo: {
+        placeholder: string;
+      };
+      photo_alt: string;
+    };
+    ladder: {
+      title: string;
+      p1: string;
+      p2: string;
+      p3: string;
+      closing: string;
+    };
+    stakes: {
+      title: string;
+      '1': {
+        title: string;
+        body: string;
+      };
+      '2': {
+        title: string;
+        body: string;
+      };
+      '3': {
+        title: string;
+        body: string;
+      };
+      closing: string;
+      cta: string;
+    };
+    story: {
+      eyebrow: string;
+      title: string;
+      p1: string;
+      p2: string;
+      stat: {
+        '1': {
+          value: string;
+          label: string;
+        };
+        '2': {
+          value: string;
+          label: string;
+        };
+        '3': {
+          value: string;
+          label: string;
+        };
+      };
+      portrait_alt: string;
+    };
     opportunity: {
       eyebrow: string;
       title: string;
       lead: string;
-      '1': HomeCard;
-      '2': HomeCard;
-      '3': HomeCard;
-      '4': HomeCard;
-      '5': HomeCard;
-      '6': HomeCard;
+      '1': {
+        title: string;
+        body: string;
+      };
+      '2': {
+        title: string;
+        body: string;
+      };
+      '3': {
+        title: string;
+        body: string;
+      };
+      '4': {
+        title: string;
+        body: string;
+      };
+      '5': {
+        title: string;
+        body: string;
+      };
+      '6': {
+        title: string;
+        body: string;
+      };
     };
     method: {
       eyebrow: string;
       title: string;
-      '1': HomeCard;
-      '2': HomeCard;
-      '3': HomeCard;
+      '1': {
+        title: string;
+        body: string;
+      };
+      '2': {
+        title: string;
+        body: string;
+      };
+      '3': {
+        title: string;
+        body: string;
+      };
+      cta: string;
     };
-    resources: { eyebrow: string; title: string };
-    story: { eyebrow: string; title: string };
-    testimonials: { title: string };
+    mastery: {
+      title: string;
+      lead: string;
+      '1': {
+        title: string;
+        body: string;
+      };
+      '2': {
+        title: string;
+        body: string;
+      };
+      '3': {
+        title: string;
+        body: string;
+      };
+      '4': {
+        title: string;
+        body: string;
+      };
+      '5': {
+        title: string;
+        body: string;
+      };
+      '6': {
+        title: string;
+        body: string;
+      };
+      '7': {
+        title: string;
+        body: string;
+      };
+    };
+    change: {
+      title: string;
+      before: {
+        label: string;
+        '1': string;
+        '2': string;
+        '3': string;
+        '4': string;
+        '5': string;
+      };
+      after: {
+        label: string;
+        '1': string;
+        '2': string;
+        '3': string;
+        '4': string;
+        '5': string;
+      };
+    };
+    testimonials: {
+      title: string;
+      cta: string;
+    };
+    calculator: {
+      eyebrow: string;
+      title: string;
+      lead: string;
+      receive: string;
+      receive_with_guide: string;
+      cta: string;
+      example: {
+        label: string;
+        value: string;
+        zone: string;
+      };
+      more: string;
+    };
+    vip: {
+      body: string;
+      step: {
+        '1': {
+          title: string;
+          body: string;
+        };
+        '2': {
+          title: string;
+          body: string;
+        };
+        '3': {
+          title: string;
+          body: string;
+        };
+      };
+    };
   };
   testimonial: {
-    placeholder: { text: string; video: string; attribution: string };
+    placeholder: {
+      text: string;
+      video: string;
+      photo: string;
+      attribution: string;
+    };
   };
 }
 

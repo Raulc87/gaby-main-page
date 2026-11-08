@@ -1,13 +1,16 @@
 ---
-// Método Polaris `#metodo` (UX_UI_DIRECTION.md section 5.1 item 4): surface; eyebrow,
+// Método Polaris `#metodo` (UX_UI_DIRECTION.md section 5.1 item 6): surface; eyebrow,
 // title and three numbered steps ("01", "02", "03" in Playfair, heritage-blue) in a
 // row on desktop, stacked on mobile; the polar star beside the title. The steps are
 // provisional copy (the official steps are still to come, US-028): each shows the
-// pending badge in preview and development builds.
+// pending badge in preview and development builds. The blue `home.method.cta` leads
+// to the VIP page (blue, never gold: BR-010).
+import Button from '../layout/Button.astro';
 import PolarStar from '../layout/PolarStar.astro';
 import PendingBadge from '../sections/PendingBadge.astro';
 import { getCommon, getHome, type Language } from '../../i18n';
 import { ANCHORS } from '../../i18n/routes';
+import { pageHref } from '../../lib/site/links';
 import Emphasized from './Emphasized.astro';
 
 interface Props {
@@ -49,5 +52,8 @@ const steps = [method['1'], method['2'], method['3']];
         ))
       }
     </ol>
+    <div class="mt-12">
+      <Button variant="blue" href={pageHref('vip', lang)} label={method.cta} class="w-full sm:w-auto" />
+    </div>
   </div>
 </section>

@@ -1,0 +1,89 @@
+---
+// The guide `#historia` (UX_UI_DIRECTION.md section 5.1 item 4): surface; terracotta
+// only as an accent (the portrait frame and a 4 px rule on the title block). The studio
+// portrait appears only here (the provisional phase 1 photo until Gaby's arrive).
+// Eyebrow, title, two paragraphs, three figures (the third is provisional: a pending
+// badge in preview and development builds), the media names as text (no logos, FR-029)
+// and the text link to the story page.
+import PendingBadge from '../sections/PendingBadge.astro';
+import { getCommon, getHome, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import { story as storyEn } from '../../i18n/en/story';
+import { story as storyEs } from '../../i18n/es/story';
+import { assetUrl, pageHref } from '../../lib/site/links';
+import Emphasized from './Emphasized.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { story: copy } = getHome(lang).home;
+const story = lang === 'es' ? storyEs : storyEn;
+const { cta, pending } = getCommon(lang);
+const stats = [copy.stat['1'], copy.stat['2'], copy.stat['3']];
+const mediaNames = [story.media['1'], story.media['2'], story.media['3']];
+---
+
+<section id={ANCHORS.home.story} tabindex="-1" class="scroll-mt-16 outline-none bg-surface">
+  <div class="mx-auto grid max-w-[1160px] gap-10 px-4 py-16 lg:grid-cols-[auto_1fr] lg:gap-16 lg:py-24">
+    <div class="flex lg:justify-center">
+      <img
+        src={assetUrl('/gabriela-provisional.jpg')}
+        alt={copy.portrait_alt}
+        width="352"
+        height="352"
+        class="h-40 w-40 rounded-full border-4 border-terracotta object-cover lg:h-56 lg:w-56"
+      />
+    </div>
+    <div class="max-w-[44rem]">
+      <div class="border-l-4 border-terracotta pl-5">
+        <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+          {copy.eyebrow}
+        </p>
+        <h2 class="mt-3 text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">
+          <Emphasized text={copy.title} />
+        </h2>
+      </div>
+      <p class="mt-8 text-charcoal">{copy.p1}</p>
+      <p class="mt-6 text-charcoal">{copy.p2}</p>
+      <ul class="mt-8 grid grid-cols-3 gap-4 max-[389px]:grid-cols-1" data-guide-stats>
+        {
+          stats.map((stat, index) => (
+            <li data-guide-stat>
+              <p class="font-serif text-4xl font-medium text-heritage-blue">{stat.value}</p>
+              <p class="mt-1 text-sm text-muted">{stat.label}</p>
+              {index === 2 && (
+                <p class="mt-2">
+                  <PendingBadge label={pending.badge} block="home.guide_stat" />
+                </p>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-8" data-home-media>
+        <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+          {story.media.label}
+        </p>
+        <ul class="mt-3 flex flex-wrap gap-3">
+          {
+            mediaNames.map((name) => (
+              <li class="flex h-14 items-center rounded-[4px] border border-sand bg-ivory px-6 font-semibold text-charcoal">
+                {name}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <p class="mt-8">
+        <a
+          href={pageHref('story', lang)}
+          class="inline-flex min-h-11 items-center font-semibold text-heritage-blue underline-offset-4 hover:underline"
+        >
+          {cta.read_story}
+        </a>
+      </p>
+    </div>
+  </div>
+</section>

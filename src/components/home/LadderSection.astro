@@ -1,8 +1,11 @@
 ---
-// The corporate ladder `#escalera` (UX_UI_DIRECTION.md section 5.1 item 2): surface,
-// a narrow text column; `home.ladder.closing` as an editorial Playfair italic line
-// with a terracotta left rule (the rule is the only terracotta, no text on it).
-import { getHome, type Language } from '../../i18n';
+// The problem `#escalera` (UX_UI_DIRECTION.md section 5.1 item 2): surface, a narrow
+// text column; `home.ladder.closing` as an editorial Playfair italic line with a
+// terracotta left rule (the rule is the only terracotta, no text on it). The second
+// paragraph is provisional copy (CONTENT.md section 5.2): a pending badge in preview
+// and development builds.
+import PendingBadge from '../sections/PendingBadge.astro';
+import { getCommon, getHome, type Language } from '../../i18n';
 import { ANCHORS } from '../../i18n/routes';
 import Emphasized from './Emphasized.astro';
 
@@ -12,6 +15,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const { ladder } = getHome(lang).home;
+const { pending } = getCommon(lang);
 ---
 
 <section id={ANCHORS.home.ladder} tabindex="-1" class="scroll-mt-16 outline-none bg-surface">
@@ -21,6 +25,7 @@ const { ladder } = getHome(lang).home;
     </h2>
     <p class="mt-8 text-charcoal">{ladder.p1}</p>
     <p class="mt-6 text-charcoal"><Emphasized text={ladder.p2} /></p>
+    <p class="mt-2"><PendingBadge label={pending.badge} block="home.ladder_p2" /></p>
     <p class="mt-6 text-charcoal">{ladder.p3}</p>
     <p class="mt-10 border-l-4 border-terracotta pl-5 font-serif text-2xl italic leading-snug text-charcoal lg:text-3xl">
       {ladder.closing}

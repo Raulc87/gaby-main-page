@@ -1,0 +1,48 @@
+---
+// What is at stake `#en-juego` (UX_UI_DIRECTION.md section 5.1 item 3): ivory; Playfair
+// title; three cards (surface, sand border), each a bold title and a body, in three
+// columns on desktop and stacked below 768 px; `home.stakes.closing` as an editorial
+// italic line; the text link `home.stakes.cta` to the calculator (the arrow is drawn here).
+import { getHome, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import { pageHref } from '../../lib/site/links';
+import Emphasized from './Emphasized.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { stakes } = getHome(lang).home;
+const cards = [stakes['1'], stakes['2'], stakes['3']];
+---
+
+<section id={ANCHORS.home.stakes} tabindex="-1" class="scroll-mt-16 outline-none bg-ivory">
+  <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
+    <h2 class="max-w-[44rem] text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">
+      <Emphasized text={stakes.title} />
+    </h2>
+    <ul class="mt-12 grid gap-6 md:grid-cols-3">
+      {
+        cards.map((card) => (
+          <li class="rounded-[4px] border border-sand bg-surface p-6" data-stakes-card>
+            <h3 class="text-[1.1875rem] font-bold leading-snug text-charcoal">{card.title}</h3>
+            <p class="mt-3 text-base text-charcoal">{card.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-12 max-w-[44rem] font-serif text-2xl italic leading-snug text-charcoal lg:text-3xl">
+      {stakes.closing}
+    </p>
+    <p class="mt-6">
+      <a
+        href={pageHref('calculator', lang)}
+        class="inline-flex min-h-11 items-center gap-2 font-semibold text-heritage-blue underline-offset-4 hover:underline"
+      >
+        {stakes.cta}
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </p>
+  </div>
+</section>
