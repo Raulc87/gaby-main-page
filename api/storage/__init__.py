@@ -6,7 +6,7 @@ import os
 from config import Config
 
 from .base import LeadStorage, StorageError
-from .google_sheets import GoogleSheetsLeadStorage
+from .google_sheets import CALCULATOR_COLUMN_ORDER, GoogleSheetsLeadStorage
 from .memory import MemoryLeadStorage
 
 logger = logging.getLogger(__name__)
@@ -51,10 +51,36 @@ def create_storage(config: Config) -> LeadStorage:
     raise ValueError(f"Unsupported LEADS_STORAGE value: {config.LEADS_STORAGE!r}")
 
 
+def create_calculator_storage(config: Config) -> LeadStorage:
+    """Storage for calculator leads (LEAD_API_CONTRACT.md section 11.5).
+
+    Same backend as `create_storage`, another tab and column order. The
+    startup summary and the memory warning are logged once, by
+    `create_storage`.
+    """
+    if config.LEADS_STORAGE == "memory":
+        return MemoryLeadStorage()
+
+    if config.LEADS_STORAGE == "google_sheets":
+        logger.info(
+            "Calculator lead storage: google_sheets (sheet_tab=%r)",
+            config.GOOGLE_SHEET_CALCULATOR_TAB,
+        )
+        return GoogleSheetsLeadStorage(
+            service_account_file=config.GOOGLE_SERVICE_ACCOUNT_FILE,
+            sheet_id=config.GOOGLE_SHEET_ID,
+            sheet_tab=config.GOOGLE_SHEET_CALCULATOR_TAB,
+            columns=CALCULATOR_COLUMN_ORDER,
+        )
+
+    raise ValueError(f"Unsupported LEADS_STORAGE value: {config.LEADS_STORAGE!r}")
+
+
 __all__ = [
     "LeadStorage",
     "StorageError",
     "MemoryLeadStorage",
     "GoogleSheetsLeadStorage",
     "create_storage",
+    "create_calculator_storage",
 ]
