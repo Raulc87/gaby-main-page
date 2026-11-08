@@ -4,6 +4,8 @@
 // the pending badge (preview and development builds); the placeholder block for the
 // official steps (a sand card with the polar star, badge in every build, BR-011); and
 // the VIP band. The official steps replace the provisional ones when Gaby sends them.
+// The step titles are h2 (the page's outline under its h1) styled like the Home's h3
+// card titles, Manrope 700 (UX_UI_DIRECTION.md section 2.3).
 import PolarStar from '../layout/PolarStar.astro';
 import VipBand from '../layout/VipBand.astro';
 import PendingBadge from '../sections/PendingBadge.astro';
@@ -39,7 +41,7 @@ const steps = [homeMethod['1'], homeMethod['2'], homeMethod['3']];
             <span aria-hidden="true" class="font-serif text-5xl font-medium text-heritage-blue">
               {`0${index + 1}`}
             </span>
-            <h2 class="mt-3 text-[1.1875rem] leading-snug text-charcoal">{step.title}</h2>
+            <h2 class="mt-3 font-sans text-[1.1875rem] font-bold leading-snug text-charcoal">{step.title}</h2>
             <p class="mt-2 text-base text-charcoal">{step.body}</p>
             <p class="mt-3">
               <PendingBadge label={pending.badge} block="home.method" />

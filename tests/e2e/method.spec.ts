@@ -58,6 +58,15 @@ for (const lang of LANGUAGES) {
         await expect(steps.nth(index)).toContainText(home.method[n].title);
         await expect(steps.nth(index)).toContainText(home.method[n].body);
       }
+      // The step titles look as on the Home: Manrope 700, not the Playfair of h1-h2 (section 2.3).
+      for (const title of await steps.locator('h2').all()) {
+        const style = await title.evaluate((el) => {
+          const { fontFamily, fontWeight } = getComputedStyle(el);
+          return { fontFamily, fontWeight };
+        });
+        expect(style.fontFamily).toContain('Manrope');
+        expect(style.fontWeight).toBe('700');
+      }
       const placeholder = page.locator('[data-method-placeholder]');
       await expect(placeholder).toContainText(method.steps.placeholder);
       // The placeholder's badge shows in every build; the provisional steps' badges only in
