@@ -1,11 +1,12 @@
 # LEAD_API_CONTRACT — Save Lead
 
 ## Metadata
-- Version: 1.1
-- Status: Approved — LOCKED for Sprint 002
+- Version: 1.2
+- Status: v1.2 proposed in the Sprint 004 planning PR, LOCKED for Sprint 004 on merge; v1.1 approved and locked for Sprint 002
+- Changes in 1.2 (2026-11-08, US-036, [`PROJECT_SPEC.md`](PROJECT_SPEC.md) v0.6 FR-035, FR-039): a second endpoint, `POST /api/save-calculator-lead`, for calculator leads (section 11), with its own sheet tab; the VIP endpoint (sections 2–10) is unchanged. Frontend configuration: `PUBLIC_SCHEDULER_URL` replaces `PUBLIC_CALENDLY_URL` (US-037, ADR-006).
 - Changes in 1.1 (2026-09-28, US-013, ADR-004): honeypot field `website` (sections 3 and 3.1); `429` / `rate_limited` is now emitted (sections 3.2 and 7); rate-limit configuration (section 9).
 - Related spec: `docs/specs/PROJECT_SPEC.md` (FR-006 to FR-010, FR-013, NFR-005, NFR-006)
-- Related stories: US-004, US-005, US-006, US-007, US-011
+- Related stories: US-004, US-005, US-006, US-007, US-011; v1.2: US-035, US-036
 - Related ADRs: ADR-001 (backend hosting), ADR-002 (Google Sheets access)
 - Consumers: frontend lead form (Agent 2)
 - Provider: Python endpoint (Agent 3)
@@ -194,6 +195,7 @@ Backend (environment variables; never committed; see `.env.example` once created
 | `GOOGLE_SERVICE_ACCOUNT_FILE` | Absolute path to the service-account JSON key, stored outside the web root |
 | `GOOGLE_SHEET_ID` | Target spreadsheet ID |
 | `GOOGLE_SHEET_TAB` | Worksheet name (default `leads`) |
+| `GOOGLE_SHEET_CALCULATOR_TAB` | Worksheet for calculator leads (default `calculator`; section 11.5) |
 | `PRIVACY_NOTICE_VERSION` | Identifier of the current privacy notice (e.g. `2026-09-draft-1`) |
 | `RATE_LIMIT_MAX_REQUESTS` | Requests allowed per IP per window (default `5`; `0` disables the limit, for tests and local development only) |
 | `RATE_LIMIT_WINDOW_SECONDS` | Length of the rate-limit window in seconds (default `600`) |
@@ -203,7 +205,8 @@ Frontend (Astro public build-time variables):
 | Variable | Purpose |
 |---|---|
 | `PUBLIC_LEAD_ENDPOINT` | Defaults to `/api/save-lead` |
-| `PUBLIC_CALENDLY_URL` | Calendly scheduling URL (placeholder until provided) |
+| `PUBLIC_CALENDLY_URL` | Calendly scheduling URL (placeholder until provided). Replaced by `PUBLIC_SCHEDULER_URL`, Gaby's GoHighLevel booking widget URL, when US-037 lands (ADR-006) |
+| `PUBLIC_CALCULATOR_ENDPOINT` | Defaults to `/api/save-calculator-lead` (section 11) |
 | `PUBLIC_CONTACT_EMAIL` | Fallback contact email, currently `gkelly@poliartcr.com` |
 
 Local development: the Astro dev server proxies `/api/*` to the local Python server (default `http://127.0.0.1:5000`), so the frontend always calls the same relative path.
@@ -216,3 +219,87 @@ Local development: the Astro dev server proxies `/api/*` to the local Python ser
 - Backend tests must cover the rate limit (section 3.2) with an injected clock: the request over the limit gets `429` and is not counted; a retry after `Retry-After` seconds is accepted; limiter entries are dropped after the window.
 - Frontend tests must cover the `429` message and that the hidden `website` field is sent.
 - The end-to-end test (Playwright) must cover: landing → form → `201` → success message → Calendly visible; and a failure path where Calendly stays hidden.
+
+## 11. Calculator leads (v1.2)
+
+The calculator (US-035, [`PROJECT_SPEC.md`](PROJECT_SPEC.md) FR-034, FR-035) stores a lead before showing its result. It is a second endpoint on the same application, with the same conventions (section 1), limits, honeypot, rate limit, responses and server-generated fields as `/api/save-lead`, except where this section says otherwise.
+
+### 11.1 Endpoint
+
+| Item | Value |
+|---|---|
+| Method | `POST` |
+| Path | `/api/save-calculator-lead` (application route `/save-calculator-lead`) |
+| Request and response content type | `application/json` |
+| Max request body | 10 KB |
+| Authentication | None. Honeypot `website` (section 3.1) as for `/api/save-lead`, and a rate limit that works as section 3.2 but with **its own budget**: the calculator's requests are counted separately from the VIP endpoint's, so using the calculator (or recalculating) never makes a VIP application return `429`. Same configuration (`RATE_LIMIT_MAX_REQUESTS`, `RATE_LIMIT_WINDOW_SECONDS`), applied to each endpoint on its own. Section 3.2 is unchanged for `/api/save-lead`. |
+
+### 11.2 Request body
+
+```json
+{
+  "name": "Ana María Pérez Soto",
+  "email": "ana.perez@example.com",
+  "phone": null,
+  "language": "es",
+  "consent": true,
+  "marketing_consent": false,
+  "months": 4.4,
+  "zone": "alert"
+}
+```
+
+| Field | Type | Required | Rules (client AND server) | Stored as |
+|---|---|---|---|---|
+| `name` | string | yes | As in section 3. | normalized value |
+| `email` | string | yes | As in section 3. | normalized value |
+| `phone` | string or `null` | no | Absent, `null`, or empty after trimming: no phone. Otherwise the section 3 rules (E.164). | normalized value, or empty |
+| `language` | string (enum) | yes | `es` or `en`. | code |
+| `consent` | boolean | yes | Must be JSON `true` (the required calculator consent, [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) §11.2). | `TRUE` |
+| `marketing_consent` | boolean | no | JSON `true` or `false`; absent means `false`. The optional consent to Gaby's follow-up emails (FR-035, BR-012). | `TRUE` or `FALSE` |
+| `months` | number or `null` | yes | `null` only when the zone is `freedom` because other income covers the monthly outflow (FR-034, "covered"). Otherwise a number ≥ 0 with at most one decimal place. No upper limit. | written with exactly one decimal and a point (`6` → `6.0`, `4.4` → `4.4`), or empty when `null` |
+| `zone` | string (enum) | yes | `alert`, `building` or `freedom`, and consistent with `months`: `null` → `freedom`; below 6 → `alert`; 6 to below 12 → `building`; 12 or more → `freedom`. | code |
+
+The five figures the visitor typed into the calculator are never sent (FR-035); a request that carries extra fields has them ignored and never stored. The frontend rounds the months down to one decimal and derives the zone from the unrounded value (FR-034), so a correct client always sends a consistent pair.
+
+### 11.3 Field error codes
+
+The codes of section 8, plus:
+
+| Code | Field | Meaning |
+|---|---|---|
+| `invalid_format` | `months` | Negative, not finite, or more than one decimal place |
+| `invalid_option` | `zone` | Not one of `alert`, `building`, `freedom` |
+| `zone_mismatch` | `zone` | The zone does not match `months` (section 11.2) |
+
+`consent_required` applies to `consent`; `marketing_consent` has only `invalid_type`.
+
+### 11.4 Responses
+
+As in section 7. `201` means the row was appended (or a honeypot decoy). The frontend shows the result only after a `201` (US-035 AC4); on any other outcome it shows the error and keeps the result hidden (NFR-006).
+
+### 11.5 Google Sheets row
+
+One row per successful request, in the tab named by `GOOGLE_SHEET_CALCULATOR_TAB` (default `calculator`), in this column order:
+
+| Column | Source |
+|---|---|
+| `submitted_at` | server (section 5) |
+| `name` | request |
+| `email` | request |
+| `phone` | request, or empty |
+| `language` | request |
+| `months` | request, or empty when covered |
+| `zone` | request (code) |
+| `consent` | request (`TRUE`) |
+| `marketing_consent` | request (`TRUE` / `FALSE`) |
+| `source` | server, always `calculator` (FR-039) |
+| `privacy_notice_version` | server (section 5) |
+| `status` | server (`started`); same allowed values as section 6 |
+
+Values are written as raw strings, as in section 6.
+
+### 11.6 Test obligations
+
+As section 10, for this endpoint: every rule of section 11.2 with a valid and an invalid case (including `phone` absent, `null` and empty; `marketing_consent` absent; `months` `null` with `freedom`; a value above 1,000 accepted; each zone boundary: 5.9 → `alert`, 6 → `building`, 11.9 → `building`, 12 → `freedom`; each mismatch); the honeypot; the calculator's own rate-limit budget (requests to it do not count against `/api/save-lead`, and the reverse); a storage failure returning `503`; and that the row has no figures from the calculator. End-to-end (US-035): calculator → details → `201` → result shown; a failure path where the result stays hidden; and in a preview build, no request to `/api`.
+

@@ -4,7 +4,7 @@ First pilot project built with the [Spec-Driven Development Starter Kit](https:/
 
 ## Project status
 
-**Phase 2 (brand redesign and multipage site).** Sprints 001 and 002 are CLOSED (phase 1, one-page site). **Sprint 003 is DELIVERED** (phase 2a: every story merged 2026-10-16; the Sprint Review with the preview closes it). Production deployment is on hold until the domain and hosting are decided; progress is shown on a GitHub Pages preview.
+**Phase 2 (brand redesign and multipage site).** Sprints 001 and 002 are CLOSED (phase 1, one-page site); Sprint 003 is CLOSED (phase 2a, closed 2026-11-08 after Gaby's review). **Sprint 004 is PLANNED** (phase 2c: the StoryBrand Home, the calculator, the Método Polaris page, the security baseline), waiting for the go-ahead. Production deployment is on hold until the hosting is decided (the domain is gabykelly.com); progress is shown on a GitHub Pages preview.
 
 See `PROJECT_CONTEXT.md` for the document map and current status.
 
