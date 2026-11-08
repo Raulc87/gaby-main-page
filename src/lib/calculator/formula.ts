@@ -37,6 +37,17 @@ export function floorToOneDecimal(value: number): number {
   return Math.floor(Number((value * 10).toFixed(9))) / 10;
 }
 
+/**
+ * The displayed months never cross a zone limit the unrounded value did not cross
+ * (the server rejects an inconsistent pair, contract v1.2 section 11.2): a value
+ * within floating-point noise of a limit (5.9999999999) stays at 5.9, not 6.0.
+ */
+function clampToZone(months: number, zone: CalculatorZone): number {
+  if (zone === 'alert') return Math.min(months, 5.9);
+  if (zone === 'building') return Math.min(months, 11.9);
+  return months;
+}
+
 export function zoneForMonths(months: number): CalculatorZone {
   if (months < ZONE_BUILDING_FROM) return 'alert';
   if (months < ZONE_FREEDOM_FROM) return 'building';
@@ -49,5 +60,6 @@ export function calculateFreedom(figures: CalculatorFigures): CalculatorResult {
     return { covered: true, months: null, zone: 'freedom' };
   }
   const months = (figures.savings + figures.liquid_investments) / gap;
-  return { covered: false, months: floorToOneDecimal(months), zone: zoneForMonths(months) };
+  const zone = zoneForMonths(months);
+  return { covered: false, months: clampToZone(floorToOneDecimal(months), zone), zone };
 }

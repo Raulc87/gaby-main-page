@@ -9,7 +9,8 @@
 // (US-013 AC4: its own localized message, keep form data, no success, no
 // Calendly). Every other status (400/404/405/413/415/500/503, network
 // failure, or a non-JSON body) collapses into `generic_error`.
-import { LEAD_ENDPOINT } from './config';
+import type { CalculatorLeadPayload } from '../calculator/types';
+import { CALCULATOR_ENDPOINT, LEAD_ENDPOINT } from './config';
 import type { LeadApiResponseBody, LeadFieldErrors, LeadRequestPayload } from './types';
 
 export type SubmitLeadResult =
@@ -27,10 +28,8 @@ function isLeadApiResponseBody(value: unknown): value is LeadApiResponseBody {
   );
 }
 
-export async function submitLead(
-  payload: LeadRequestPayload,
-  endpoint: string = LEAD_ENDPOINT,
-): Promise<SubmitLeadResult> {
+/** Posts a JSON payload and maps the response; shared by the VIP form and the calculator (contract v1.2 section 11.4). */
+export async function postLead(payload: object, endpoint: string): Promise<SubmitLeadResult> {
   let response: Response;
   try {
     response = await fetch(endpoint, {
@@ -73,4 +72,19 @@ export async function submitLead(
   }
 
   return { kind: 'generic_error' };
+}
+
+export function submitLead(
+  payload: LeadRequestPayload,
+  endpoint: string = LEAD_ENDPOINT,
+): Promise<SubmitLeadResult> {
+  return postLead(payload, endpoint);
+}
+
+/** POST /api/save-calculator-lead (contract v1.2 section 11): the same outcomes as the VIP endpoint. */
+export function submitCalculatorLead(
+  payload: CalculatorLeadPayload,
+  endpoint: string = CALCULATOR_ENDPOINT,
+): Promise<SubmitLeadResult> {
+  return postLead(payload, endpoint);
 }

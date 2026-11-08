@@ -76,6 +76,12 @@ describe('calculateFreedom', () => {
     expect(calculateFreedom(figures({ savings: 4490 })).months).toBe(4.4);
   });
 
+  it('never shows a rounded value past the zone limit the real value did not reach', () => {
+    // 5.9999999999 months: alert, shown as 5.9 (not 6.0, which would be the building zone)
+    expect(calculateFreedom(figures({ savings: 5999.9999999 }))).toEqual({ covered: false, months: 5.9, zone: 'alert' });
+    expect(calculateFreedom(figures({ savings: 11999.9999999 }))).toEqual({ covered: false, months: 11.9, zone: 'building' });
+  });
+
   it('handles zero savings (0 months, alert)', () => {
     expect(calculateFreedom(figures())).toEqual({ covered: false, months: 0, zone: 'alert' });
   });

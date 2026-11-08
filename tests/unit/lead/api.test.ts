@@ -6,7 +6,8 @@
 // outcome, so this suite asserts the collapsed `generic_error` kind for all
 // of them.
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { submitLead } from '../../../src/lib/lead/api';
+import { submitCalculatorLead, submitLead } from '../../../src/lib/lead/api';
+import type { CalculatorLeadPayload } from '../../../src/lib/calculator/types';
 import type { LeadRequestPayload } from '../../../src/lib/lead/types';
 
 const payload: LeadRequestPayload = {
@@ -161,5 +162,55 @@ describe('submitLead', () => {
     const [, requestInit] = fetchMock.mock.calls[0] as [string, RequestInit];
     const sentBody = JSON.parse(requestInit.body as string);
     expect(sentBody).toHaveProperty('website', '');
+  });
+});
+
+describe('submitCalculatorLead (contract v1.2 section 11.4)', () => {
+  const calculatorPayload: CalculatorLeadPayload = {
+    name: 'Ana María Pérez Soto',
+    email: 'ana.perez@example.com',
+    phone: null,
+    language: 'es',
+    consent: true,
+    marketing_consent: false,
+    months: 4.4,
+    zone: 'alert',
+    website: '',
+  };
+
+  it('posts the payload as JSON to the calculator endpoint and returns success on 201', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue(jsonResponse(201, { success: true, message: 'Lead saved.', error_code: null, field_errors: null }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    await expect(submitCalculatorLead(calculatorPayload, '/api/save-calculator-lead')).resolves.toEqual({
+      kind: 'success',
+    });
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api/save-calculator-lead',
+      expect.objectContaining({ method: 'POST', body: JSON.stringify(calculatorPayload) }),
+    );
+  });
+
+  it('maps 422, 429 and failures like the VIP endpoint', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        jsonResponse(422, { success: false, message: 'x', error_code: 'validation_error', field_errors: { zone: 'zone_mismatch' } }),
+      ),
+    );
+    await expect(submitCalculatorLead(calculatorPayload, '/x')).resolves.toMatchObject({ kind: 'validation_error' });
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        jsonResponse(429, { success: false, message: 'x', error_code: 'rate_limited', field_errors: null }),
+      ),
+    );
+    await expect(submitCalculatorLead(calculatorPayload, '/x')).resolves.toEqual({ kind: 'rate_limited' });
+
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')));
+    await expect(submitCalculatorLead(calculatorPayload, '/x')).resolves.toEqual({ kind: 'generic_error' });
   });
 });
