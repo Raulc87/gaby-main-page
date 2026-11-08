@@ -1,9 +1,10 @@
 ---
-// Stub page (GK-034-site-scaffold): the layout, title and description only. The
-// page's content arrives with its story.
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import MethodPage from '../../../components/method/MethodPage.astro';
 
 const lang = 'es' as const;
 ---
 
-<BaseLayout lang={lang} pageId="method" />
+<BaseLayout lang={lang} pageId="method">
+  <MethodPage lang={lang} />
+</BaseLayout>

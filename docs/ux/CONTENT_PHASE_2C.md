@@ -15,7 +15,6 @@ The copy for phase 2c, from Gaby's review of 2026-11-08 ([`BRIEF_2026-11-08_STOR
 | A.8 §9 privacy notice | US-035 (calculator data: `privacy.p2`, `privacy.p3`, `privacy.p5`; `privacy.ts` is Agent 2's) and US-037 (GoHighLevel: `privacy.p4`). US-035 and US-037 each bump `PRIVACY_NOTICE_VERSION` in the PR that changes the text |
 | §5 Home | US-034 (replaces `CONTENT.md` §5) |
 | §11 Calculator | US-035 (new section) |
-| §12 Método Polaris page | US-028 (new section) |
 
 No staged key is an alias (a value of the form "= `key`") of a key that another story moves, so each story's PR can merge on its own: `calc.eyebrow`, `calc.title` and `home.calculator.example.zone` repeat the same text instead (Sprint 004 plan review). Aliases point only at keys already in [`CONTENT.md`](CONTENT.md). The Método Polaris page (§12) shows the `home.method.*` steps as [`CONTENT.md`](CONTENT.md) has them when it merges; US-034 updates step 3's body for both pages.
 
@@ -31,7 +30,6 @@ Each story adds only its own blocks to the two lists in `CONTENT.md` → Metadat
 |---|---|---|
 | US-034 | the Home hero photo (§5.1) | the problem's second paragraph (§5.2), the third figure of the guide (§5.4), the Wealth Mastery modules (§5.7) |
 | US-035 | — | the calculator's questions, zones and result (§11, placeholder formula) |
-| US-028 | the Método Polaris page's steps placeholder (`method.steps.placeholder`, §12) | — |
 
 ### A.4 §4 VIP band
 
@@ -337,16 +335,3 @@ Name and email use `form.name.*` and `form.email.*`; the optional WhatsApp uses 
 | `calc.restart` | Calcular de nuevo | Calculate again | provisional |
 
 `{months}` has one decimal, with a decimal comma in Spanish ("4,4 meses") and a point in English ("4.4 months"). `calc.result.covered` replaces the months and the zone body when other income covers the monthly outflow; the zone is then "freedom". "Zona de alerta" is Gaby's label (her example result); the other zone names are the team's. `calc.result.email_note` is shown only once the guide is sent by email (US-038). In preview builds the capture step stores nothing and the result shows `preview.form_note` (§8.6).
-
-## 12. Método Polaris page (`/es/metodo-polaris/`, `/en/polaris-method/`)
-
-US-028, placeholder version (human owner, 2026-11-08: "in the meantime let's placeholder it").
-
-| Key | Español | English | Status |
-|---|---|---|---|
-| `method.eyebrow` | = `home.method.eyebrow` | = `home.method.eyebrow` | approved |
-| `method.title` | = `home.method.title` | = `home.method.title` | approved |
-| `method.lead` | Un camino simple para ordenar tu dinero, convertir tus beneficios en capital e invertir con claridad. | A simple path to organize your money, turn your benefits into capital and invest with clarity. | provisional |
-| `method.steps.placeholder` | Los pasos oficiales del Método Polaris: disponibles pronto | The official steps of the Polaris Method: coming soon | provisional |
-
-Until Gaby sends the official steps, the page shows the three provisional steps of §5.6 (same keys, with the pending badge) and, below them, `method.steps.placeholder` as a placeholder block (badge in every build). It ends with the VIP band (§4).
