@@ -135,7 +135,7 @@ Full-width `heritage-blue` band, `ivory` text: eyebrow `vip_band.eyebrow` in `iv
 
 ### 5.1 Home (US-034; replaces the US-021 order)
 
-Order and anchors (copy: `CONTENT.md` §5). Backgrounds alternate `ivory` and `surface`; the closing VIP section is the page's one `heritage-blue` band (§4.3).
+Order and anchors (copy: `CONTENT_PHASE_2C.md` §5). Backgrounds alternate `ivory` and `surface`; the closing VIP section is the page's one `heritage-blue` band (§4.3).
 
 1. **Hero `#hero`** (`ivory`): two columns on desktop. Left: eyebrow, H1 (italic second half), lead, the gold `home.hero.cta` (to the VIP page), the blue `home.hero.secondary` (to the calculator), and the trust line in `muted`. Right: the "desired state" photo (Gaby living her freedom, or a real client; not a studio portrait), in a rounded 4:5 frame with a `soft-gold` polar star; until it arrives, a `sand` frame with `home.hero.photo.placeholder` and the pending badge. Mobile: copy first, then the photo frame; the two buttons stack full width.
 2. **Problem `#escalera`** (`surface`): narrow text column; `home.ladder.closing` as an editorial Playfair italic line with a `terracotta` left rule.
@@ -145,7 +145,7 @@ Order and anchors (copy: `CONTENT.md` §5). Backgrounds alternate `ivory` and `s
 6. **Método Polaris `#metodo`** (`surface`): eyebrow, title; the three numbered steps (pending badge while provisional); the blue `home.method.cta` to the VIP page; the polar star beside the title.
 7. **Wealth Mastery `#wealth-mastery`** (`ivory`): eyebrow, title, lead; seven module cards (title and one line each; 4 + 3 on desktop, 2 columns at 768 px, 1 on mobile; pending badge on the block while provisional); the blue `home.mastery.cta`.
 8. **Before and after `#antes-despues`** (`surface`): title; two columns, "Hoy" (`muted` heading, a thin `sand` cross before each item) and "Con el Método Polaris" (`heritage-blue` heading, a `heritage-blue` check before each item), stacked on mobile with "Hoy" first. Icons are decorative (`aria-hidden`); each column is a list.
-9. **Proof `#testimonios`** (`ivory`): title; three cards (§6.3: two with a photo and text, one video) with the pending badge; the blue `home.testimonials.cta`, shown only once at least one real testimonial is published (`CONTENT.md` §5.9).
+9. **Proof `#testimonios`** (`ivory`): title; three cards (§6.3: two with a photo and text, one video) with the pending badge; the blue `home.testimonials.cta`, shown only once at least one real testimonial is published (`CONTENT_PHASE_2C.md` §5.9).
 10. **Calculator teaser `#calculadora`** (`surface`): two columns on desktop. Left: eyebrow, title, lead and the "receive" line, the blue `home.calculator.cta` to the calculator page. Right: an example result card (`ivory`, `sand` border): `home.calculator.example.label` in `muted`, the value in large Playfair, and the zone in a small pill (the alert zone colour, §6.7). Below both, `home.calculator.more` and the two library links as text links. Stacked on mobile, the example card after the button.
 11. **Work with me `#vip`** (§4.4): the blue band with `home.vip.body`, the three steps as a numbered row (`soft-gold` numbers, `ivory` text; stacked on mobile), and the gold `cta.vip_apply`.
 
@@ -180,7 +180,7 @@ Plain reading page: title, the notice text (`CONTENT.md` §9) in a narrow column
 
 ### 5.6 Calculator (US-035)
 
-Copy: `CONTENT.md` §11. One page, three steps in place (no page reloads), in a `surface` card on `ivory`, max width 640 px:
+Copy: `CONTENT_PHASE_2C.md` §11. One page, three steps in place (no page reloads), in a `surface` card on `ivory`, max width 640 px:
 
 1. **Questions:** eyebrow, title, lead; five number inputs (the §6.2 input style, `inputmode="decimal"`, a label and a hint each); `calc.next` (blue). Errors as in §6.2.
 2. **Your details:** `calc.capture.title` and `.body`; name, email, optional WhatsApp, the consent checkbox (with the privacy-dialog link); `calc.capture.submit` (blue). The same honeypot pattern as the VIP form (§6.2, contract `website` field), and the same submission error handling (NFR-006).
@@ -190,7 +190,7 @@ Focus moves to each step's title when it appears. Without JavaScript the page sh
 
 ### 5.7 Método Polaris page (US-028)
 
-Copy: `CONTENT.md` §12. Eyebrow, title, lead; the three provisional steps as on the Home (§5.1 item 6, with the pending badge); the `method.steps.placeholder` block (a `sand` card with the polar star, badge in every build); the VIP band. The header's `nav.method` now links here.
+Copy: `CONTENT_PHASE_2C.md` §12. Eyebrow, title, lead; the three provisional steps as on the Home (§5.1 item 6, with the pending badge); the `method.steps.placeholder` block (a `sand` card with the polar star, badge in every build); the VIP band. The header's `nav.method` now links here.
 
 ## 6. Components
 

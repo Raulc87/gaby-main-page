@@ -7,7 +7,7 @@ Sources, received by the human owner from Gaby Kelly and shared with the coordin
 3. **Review notes on the Sprint 003 preview**, sent over WhatsApp (screenshots). Section 3.
 4. **The page gabykelly.com serves today** (a GoHighLevel page), which the new site replaces. Section 4.
 
-This file keeps those sources in the repository so the source of `PROJECT_SPEC.md` v0.6 stays reviewable. It is a **reference**, not a source agents implement from: copy comes from [`CONTENT.md`](CONTENT.md), layout from [`UX_UI_DIRECTION.md`](UX_UI_DIRECTION.md). Text is verbatim (Spanish), one quoted line per text block, in reading order. Bracketed text (`[...]`) is a placeholder in the source itself. How each point was taken is in section 5.
+This file keeps those sources in the repository so the source of `PROJECT_SPEC.md` v0.6 stays reviewable. It is a **reference**, not a source agents implement from: copy comes from [`CONTENT.md`](CONTENT.md) (phase 2c copy staged in [`CONTENT_PHASE_2C.md`](CONTENT_PHASE_2C.md)), layout from [`UX_UI_DIRECTION.md`](UX_UI_DIRECTION.md). Text is verbatim (Spanish), one quoted line per text block, in reading order. Bracketed text (`[...]`) is a placeholder in the source itself. How each point was taken is in section 5.
 
 ## 1 · Home dummy (StoryBrand proposal)
 

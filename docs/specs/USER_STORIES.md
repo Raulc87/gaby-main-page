@@ -647,7 +647,7 @@ so that Gaby can follow progress without a production deployment.
 ## US-028 — Método Polaris page
 - Priority: Medium
 - Story Points: 3
-- Status: Proposed — phase 2c, Sprint 004 candidate, with placeholder steps (human owner, 2026-11-08: "in the meantime let's placeholder it"); AC1 is met with the provisional steps and the placeholder block of `CONTENT.md` §12, and the official steps replace them in a later content PR when Gaby sends them
+- Status: Proposed — phase 2c, Sprint 004 candidate, with placeholder steps (human owner, 2026-11-08: "in the meantime let's placeholder it"); AC1 is met with the provisional steps and the placeholder block of `CONTENT_PHASE_2C.md` §12, and the official steps replace them in a later content PR when Gaby sends them
 - Related Requirements: FR-017, FR-018, BR-009
 
 **User Story**
@@ -657,9 +657,10 @@ I want a page that explains the Método Polaris in full,
 so that I understand how Gaby works before applying.
 
 **Acceptance Criteria**
-1. A Método Polaris page exists in both languages at the path in `UX_UI_DIRECTION.md` (§5.7), with the steps and copy from `CONTENT.md` §12: until the official steps arrive, the three provisional steps with the pending badge and the placeholder block.
+1. A Método Polaris page exists in both languages at the path in `UX_UI_DIRECTION.md` (§5.7), with the steps and copy from `CONTENT_PHASE_2C.md` §12: until the official steps arrive, the three provisional steps with the pending badge and the placeholder block.
 2. The header navigation item (`nav.method`) leads to the page; the Home keeps its short Método Polaris section (US-034).
 3. The page ends with a VIP band; existing tests stay green and e2e covers the navigation in both languages.
+4. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §12 and `meta.method.*` (A.2).
 
 ---
 
@@ -738,7 +739,7 @@ I want the Home to show my problem, what is at stake, a guide who has been there
 so that I see myself in it and know my next step: apply, or find out where I stand with the calculator.
 
 **Acceptance Criteria**
-1. The Home has the eleven sections of `UX_UI_DIRECTION.md` §5.1, in that order, with the anchors of §3, in both languages, with the copy of `CONTENT.md` §5 copied verbatim. The free-resources teaser (`#recursos`) is gone.
+1. The Home has the eleven sections of `UX_UI_DIRECTION.md` §5.1, in that order, with the anchors of §3, in both languages, with the copy of `CONTENT_PHASE_2C.md` §5 copied verbatim. The free-resources teaser (`#recursos`) is gone.
 2. The hero has the gold `home.hero.cta` to the VIP page and the blue `home.hero.secondary` to the calculator page (US-035). Its image frame shows the "desired state" placeholder with the pending badge until the photo arrives; the studio portrait appears only in the guide section.
 3. The problem's second paragraph uses the corrected wording (`home.ladder.p2`, without "Cada vez más cosas dependen de ti, y").
 4. The stakes, guide, Wealth Mastery, before-and-after and VIP sections render as `UX_UI_DIRECTION.md` §5.1 says, with the three figures (the third, "200+", provisional), the media names as text (no logos, FR-029), and seven module cards.
@@ -746,6 +747,7 @@ so that I see myself in it and know my next step: apply, or find out where I sta
 6. The calculator teaser links to the calculator page, shows the example result, and shows `home.calculator.receive` (not `receive_with_guide`) until US-038 is done; its two library links go to the resource library, where both resources show as coming soon.
 7. Pending badges follow `CONTENT.md` → Metadata (the new provisional blocks in preview and development builds; the hero photo and testimonial placeholders in every build).
 8. Existing tests are updated for the new order and anchors; e2e covers both languages, the hero's two calls to action, the gold rule at the four widths, and that no link points at the removed `#recursos` anchor.
+9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: parts A.1 to A.6 and §5 (replacing `CONTENT.md` §5), and bumps `CONTENT.md` to v0.2.
 
 **Security**
 - None: static content. No new form or third party.
@@ -768,14 +770,15 @@ I want to find out how many months my money would last without my salary,
 so that I understand where I stand and whether I need a plan.
 
 **Acceptance Criteria**
-1. The calculator page exists in both languages at the paths in `UX_UI_DIRECTION.md` §3, with the three steps of §5.6 and the copy of `CONTENT.md` §11.
+1. The calculator page exists in both languages at the paths in `UX_UI_DIRECTION.md` §3, with the three steps of §5.6 and the copy of `CONTENT_PHASE_2C.md` §11.
 2. The five figures are required numbers of 0 or more, validated in the browser with the `CONTENT.md` errors; expenses plus debt payments must be above 0.
 3. The result follows the placeholder formula of FR-034 exactly, including the "covered" case and the zone limits (below 6, 6 to under 12, 12 or more, from the unrounded value), with one decimal in the language's format ("4,4 meses" / "4.4 months"). The formula lives in one function with unit tests for each zone, each boundary (5.99, 6, 11.99, 12), the covered case and rounding, so Gaby's version can replace it in one place.
-4. Before the result, the visitor gives name, email, optional WhatsApp and consent (`CONTENT.md` §11.2); the details are sent to the calculator-lead endpoint (US-036) with the months and the zone, never the five figures. The result appears only after a successful save; on an error the visitor sees the error message and can retry, and the result stays hidden (NFR-006).
+4. Before the result, the visitor gives name, email, optional WhatsApp and consent (`CONTENT_PHASE_2C.md` §11.2); the details are sent to the calculator-lead endpoint (US-036) with the months and the zone, never the five figures. The result appears only after a successful save; on an error the visitor sees the error message and can retry, and the result stays hidden (NFR-006).
 5. Preview builds store and send nothing: after the details step the result appears with `preview.form_note` (FR-030).
 6. The result shows the zone in words and colour (§6.7), the disclaimer, the gold `calc.result.cta` to the VIP page, the library link and "Calculate again". `calc.result.email_note` is not shown until US-038 is done.
 7. The questions, zones and result show the pending badge in preview and development builds (placeholder formula).
 8. Accessibility: every input has a label and hint linked to it; focus moves to each step's title; errors are announced; the page works at 360 px with no horizontal scroll. Without JavaScript the page shows the VIP and library links instead of the calculator.
+9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §11 and `meta.calculator.*` (A.2).
 
 **Security**
 - OWASP Top 10 (2025) A05 Injection and the API's input validation are covered by US-036. This story sends only what FR-035 lists (data minimization); the five figures never leave the browser.
@@ -802,7 +805,7 @@ so that I can follow up with the people who used it.
 1. Before implementation, `LEAD_API_CONTRACT.md` v1.2 is approved in a docs PR: a calculator-lead endpoint (path, request fields of `PROJECT_SPEC.md` §10, `zone` codes `alert`, `building`, `freedom`, `months` as a number with one decimal or null when covered, optional `phone`, the honeypot and rate limit of v1.1, responses and error codes), and the sheet tab and its columns, including `source` = `calculator` and `status`.
 2. The backend implements the endpoint per the contract, validating every field (an unknown `zone`, `months` outside 0–999, a `zone` that does not match `months`, missing consent → field errors), storing a row in the calculator tab with server-generated `submitted_at`, `privacy_notice_version` and `status` = `started`.
 3. A failed save returns the contract's error and stores nothing partial (NFR-006). Honeypot and rate limit behave as for the VIP endpoint (ADR-004).
-4. `PRIVACY_NOTICE_VERSION` is bumped with the notice text of `CONTENT.md` §9 v0.2.
+4. `PRIVACY_NOTICE_VERSION` is bumped with the notice text of `CONTENT_PHASE_2C.md` A.8 (`privacy.p2`, `privacy.p3`), which the PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file.
 5. Tests cover the contract's success, validation errors, honeypot, rate limit and storage failure, as `LEAD_API_CONTRACT.md` §10 requires for the VIP endpoint.
 
 **Security**
@@ -831,8 +834,9 @@ so that I don't pay for Calendly as well and all my bookings are in one place.
 2. The applicant's name, email and phone are prefilled in the widget if GoHighLevel's embed supports it; the PR states what was verified and how. If it doesn't, the visitor types them again and the PR says so.
 3. The fallback (`thanks.scheduler_fallback`, renamed from `thanks.calendly_fallback`) appears when the URL is unset, the widget fails to load, or nothing appears within 10 seconds (US-007).
 4. The not-ready screen loads no scheduler. Preview builds still show the static stand-in and load nothing from GoHighLevel (FR-030).
-5. The privacy notice names GoHighLevel instead of Calendly (`CONTENT.md` `privacy.p4`), and `PRIVACY_NOTICE_VERSION` is bumped (with US-036 if both land in the same sprint).
+5. The privacy notice names GoHighLevel instead of Calendly (`CONTENT_PHASE_2C.md` A.8 (`privacy.p4`)), and `PRIVACY_NOTICE_VERSION` is bumped (with US-036 if both land in the same sprint).
 6. Tests: unit tests for the fallback timing and the URL handling; e2e for both screens with the scheduler stubbed (no network call to GoHighLevel in CI).
+7. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: A.7 (the renamed key) and A.8 `privacy.p4`.
 
 **Security**
 - A third-party script (GoHighLevel's embed) runs on the thank-you screen only, after the save; it is listed in the security baseline's third parties (US-029). No secret is involved: the widget URL is public.

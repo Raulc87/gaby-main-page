@@ -16,7 +16,7 @@ The emails are of two kinds:
 - **Transactional, one at a time:** the calculator result and the ebook (day 0), the resource a visitor requests (FR-025), and Gaby's notification for each VIP application. Low volume, triggered by a form.
 - **Sequences:** the six sales emails over 14 days (days 0, 3, 5, 8, 11, 14), which stop when the person books a call, and a weekly email after that for people who haven't booked. Scheduled, they need unsubscribe handling, and they are marketing email.
 
-Constraints: consent under Ley 8968 (the calculator's consent text names these emails, `CONTENT.md` §11.2); every marketing email has a working unsubscribe; email from a new sender lands in spam unless the domain is authenticated (SPF, DKIM, DMARC on gabykelly.com); Gmail sending limits (about 500 a day for a consumer account, 2,000 for Workspace).
+Constraints: consent under Ley 8968 (the calculator's consent text names these emails, `CONTENT_PHASE_2C.md` §11.2); every marketing email has a working unsubscribe; email from a new sender lands in spam unless the domain is authenticated (SPF, DKIM, DMARC on gabykelly.com); Gmail sending limits (about 500 a day for a consumer account, 2,000 for Workspace).
 
 ## Decision Drivers
 - Replace GHL except the calendar (owner)

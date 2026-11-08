@@ -46,7 +46,7 @@ It costs Gaby nothing extra and keeps the tool she chose. Keeping the scheduler 
 - No Calendly subscription.
 - The fallback (`thanks.scheduler_fallback`), the preview stand-in and the routing (only qualified answers see the calendar) stay as they are.
 ### Negative / Trade-offs
-- GoHighLevel replaces Calendly in the privacy notice as the processor of the booking details (`CONTENT.md` `privacy.p4`).
+- GoHighLevel replaces Calendly in the privacy notice as the processor of the booking details (`CONTENT_PHASE_2C.md` A.8 (`privacy.p4`)).
 - A booking is known only inside GHL. A follow-up sequence that must stop when someone books (FR-037) needs that signal: a GHL webhook or workflow that calls the backend, or Gaby marking the lead `booked` in the sheet (decided in ADR-007 and US-039).
 - GHL's embed script loads from a GHL domain on the thank-you screen only, after the application is saved (as Calendly's did).
 

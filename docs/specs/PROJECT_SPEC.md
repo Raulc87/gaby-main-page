@@ -71,7 +71,7 @@ Needs:
 - FR-020: A footer on every page shows the brand name and concept, the legal disclaimer (FR-028), a link to the privacy notice, and the Ley 8968 data-protection note. A Terms link is added when the Terms page exists.
 
 ### Home
-Phase 2c (US-034): the Home follows Gaby's StoryBrand dummy, in this order: hero, problem, stakes, guide, opportunity, plan (Método Polaris), Wealth Mastery, before and after, proof, calculator, and a closing VIP section. Copy: `CONTENT.md` §5; layout: `UX_UI_DIRECTION.md` §5.1.
+Phase 2c (US-034): the Home follows Gaby's StoryBrand dummy, in this order: hero, problem, stakes, guide, opportunity, plan (Método Polaris), Wealth Mastery, before and after, proof, calculator, and a closing VIP section. Copy: `CONTENT_PHASE_2C.md` §5; layout: `UX_UI_DIRECTION.md` §5.1.
 - FR-001: The hero says who the site is for (corporate executives and professionals) and the value proposition, with two calls to action: apply to the VIP mentorship (direct) and calculate your months of freedom (transition, to the calculator). Its photo shows the desired state (Gaby living her freedom, or a real client), not a studio portrait.
 - FR-002: The Home explains the problem in a calm, hopeful way (the corporate ladder and the lack of freedom).
 - FR-031: The Home shows what is at stake if nothing changes (three consequences), and links to the calculator.
