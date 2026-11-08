@@ -41,16 +41,16 @@ At the go-ahead the coordinator also archives the Sprint 003 sessions, and recor
 
 ## Session IDs
 
-Filled in by the coordinator at launch.
+Filled in by the coordinator at launch (2026-11-08). The implementation sessions run on Sonnet 5.5 and the review-only agent on Opus 5.5.
 
 | Role | Session |
 |---|---|
 | Coordinator | `session_01AgwMvvPepgrLbwGJBETbN9` |
-| Review-only agent | `<REVIEWER_SESSION>` |
-| Agent 1 | — |
-| Agent 2 | — |
-| Agent 3 | — |
-| Sprint 003 sessions archived | — |
+| Review-only agent | `session_01DVcaZzj3KLrxs4MDCQrWwv` |
+| Agent 1 | `session_01DVcaZvWHFdkQNprDdf3oN5` |
+| Agent 2 | `session_01DVcaZwUYcJUBXSdcAj6hsC` |
+| Agent 3 | `session_01DVcaZy7qxywZkhJzCL5kje` |
+| Sprint 003 sessions archived | `session_01J5HeEdGjZP72Eb1kSYUjRw`, `session_01CLvvQhefXQt5rNTKU512qq`, `session_015PcdETpMK2KTP4PUH7uus4`, `session_015YhzZG1poouszbA9sBezcB`, and the reviewers of the kit sync and phase 2c, `session_01DVcaZygAu2j27UGoLWiuVH` and `session_01DVcaZxL1vDE29pEDfNdK9w` (`session_01BRdDN7ff2Z3tJRicX7RM2W` was already archived) |
 
 ---
 
