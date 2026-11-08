@@ -101,7 +101,7 @@ The first two touch files of two agents at once, which this sprint's parallel wo
 - `GK-034-site-scaffold` first, small and merged fast:
   - route ids `method` and `calculator` with the paths of [`UX_UI_DIRECTION.md`](../ux/UX_UI_DIRECTION.md) §3;
   - stub pages in both languages with their titles and descriptions (`meta.calculator.*`, `meta.method.*`);
-  - `nav.method` linked to the method page;
+  - `nav.method` keeps linking to the Home's `#metodo` section; `GK-028-method-page` switches it to the page, so the header never leads to an empty stub;
   - the header's `nav.vip` and `nav.vip_short` (§4.1);
   - it moves [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) A.2 and A.3 into [`CONTENT.md`](../ux/CONTENT.md).
   The calculator stub pages belong to Agent 2 once the PR merges.
@@ -118,7 +118,7 @@ The first two touch files of two agents at once, which this sprint's parallel wo
 - Keeps the cross-cutting e2e suite green, and runs the integration check (merge order step 4).
 
 ### Agent 3 — Backend, security baseline, developer guide
-- `GK-036-calculator-leads`: the endpoint and sheet tab of contract v1.2 §11 (US-036); bumps `PRIVACY_NOTICE_VERSION` for the notice text of [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) A.8.
+- `GK-036-calculator-leads`: the endpoint and sheet tab of contract v1.2 §11 (US-036), with its own rate-limit budget; `GOOGLE_SHEET_CALCULATOR_TAB` in `api/.env.example` and `GOOGLE_SHEETS_SETUP.md`, `PUBLIC_CALCULATOR_ENDPOINT` in the root `.env.example`.
 - `GK-029-security-baseline`: `docs/security/SECURITY_BASELINE.md` from the kit template (US-029), and secret and dependency scanning (AC4: the CI audit step; the owner settings, with their date).
 - `GK-030-contributing`: `CONTRIBUTING.md` from the kit's developer guide template (US-030), last, so it describes the sprint's commands and configuration.
 
@@ -144,7 +144,7 @@ An agent edits only files it owns. If it needs a change in another agent's file,
 **Recorded exceptions (human owner, by approving this plan):**
 - **Copy moves:** each agent edits [`docs/ux/CONTENT.md`](../ux/CONTENT.md) and [`docs/ux/CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) only to move its own staged parts, as its story's acceptance criteria say. The copy moves in the same PR as the code, and the moved text is deleted from the staging file. The staging file's part table says who moves what.
 - **US-029 AC3:** Agent 3 may add a missing security acceptance criterion to a story in [`docs/specs/USER_STORIES.md`](../specs/USER_STORIES.md), in `GK-029-security-baseline`, and names each one in the PR.
-- **US-037:** Agent 2 may change the one `PRIVACY_NOTICE_VERSION` line in [`api/.env.example`](../../api/.env.example) in `GK-037-ghl-scheduler`, since `privacy.p4` changes there.
+- **The privacy-notice version:** Agent 2 may change the one `PRIVACY_NOTICE_VERSION` line in [`api/.env.example`](../../api/.env.example) in `GK-035-calculator` and in `GK-037-ghl-scheduler`, because each changes the notice text (`privacy.ts` is Agent 2's). The version and the text it names always change in the same PR.
 
 Stub pages created by Agent 1 in `GK-034-site-scaffold` belong to the owner listed above once that PR merges.
 
@@ -213,6 +213,7 @@ Parallel work is not complete until:
 ## Risks
 
 - **Scope** (26 points, plus 3): the Home is the largest story. If it slips, the preview keeps the Sprint 003 Home and the calculator is reached only from its own URL. The other stories do not depend on the Home.
+- **Stub pages on the preview:** the calculator's stub page is reachable from the Home's links once `GK-034-home` merges, and shows only the layout until `GK-035-calculator` merges. This is accepted for the preview (no real visitors). The header's Método Polaris link stays on the Home's section until its page is built.
 - **Copy moves** across parallel PRs touch the same two files; conflicts are expected and resolved by merging `main` (Conflict Resolution).
 - **The placeholder formula** is visible on the preview. Its blocks carry the pending badge, and Gaby's calculator replaces it.
 - **US-029 can surface security gaps in merged work.** They become stories or dated open items in the baseline. Exploitable details are never written in a public tracked file.

@@ -145,7 +145,8 @@ Order of work:
    - Stub pages for both ids in both languages, each with its title and description
      (meta.calculator.*, meta.method.*) and the layout only. The calculator stubs
      (src/pages/es/calculadora, src/pages/en/calculator) belong to Agent 2 once merged.
-   - Header: nav.method links to the method page; the outlined VIP link shows nav.vip at
+   - Header: nav.method keeps its link to the Home's #metodo (GK-028-method-page switches it);
+     the outlined VIP link shows nav.vip at
      1024 px and up and nav.vip_short below (UX_UI_DIRECTION.md §4.1).
    - Move CONTENT_PHASE_2C.md A.2 (all rows) and A.3 into CONTENT.md, with the common.ts
      dictionaries and their tests.
@@ -162,8 +163,9 @@ Order of work:
    - tests/e2e/home.spec.ts: the order and anchors, the hero's two calls to action, the gold
      rule at 360, 390, 768 and 1280 px, no link to the removed #recursos, both languages.
 3. GK-028-method-page — US-028, after the scaffold is merged: the page of UX_UI_DIRECTION.md
-   §5.7 with CONTENT_PHASE_2C.md §12 (moved into CONTENT.md with your row of A.1); a new
-   tests/e2e/method.spec.ts (navigation from the header, both languages, the badges).
+   §5.7 with CONTENT_PHASE_2C.md §12 (moved into CONTENT.md with your row of A.1); switch
+   nav.method from the Home's #metodo to the page; a new tests/e2e/method.spec.ts
+   (navigation from the header, both languages, the badges).
 ```
 
 ## Agent 2 — Calculator, scheduler, e2e (Sonnet 5.5)
@@ -188,7 +190,10 @@ Order of work:
 3. GK-035-calculator — US-035, on the scaffold's stub pages once it is merged:
    - The three steps of UX_UI_DIRECTION.md §5.6 and the zone pill (§6.7), copy from
      CONTENT_PHASE_2C.md §11, moved into CONTENT.md in this PR with your row of A.1 and the
-     calculator's privacy text (A.8: privacy.p2, privacy.p3, privacy.p5).
+     calculator's privacy text (A.8: privacy.p2, privacy.p3, privacy.p5), and bump the
+     PRIVACY_NOTICE_VERSION line in api/.env.example in the same PR (recorded exception).
+   - "Calculate again" returns to the questions; the details step shows again, prefilled,
+     and stores a new row (US-035 AC6).
    - The details step sends POST /api/save-calculator-lead per LEAD_API_CONTRACT.md v1.2 §11
      (never the five figures; marketing_consent from the optional, unticked checkbox; the
      honeypot website field as on the VIP form); the result appears only after a 201.
@@ -219,11 +224,13 @@ template into this repository.
 Order of work:
 1. GK-036-calculator-leads — US-036, start now (it touches only api/**):
    - POST /api/save-calculator-lead per LEAD_API_CONTRACT.md v1.2 §11: validation of every
-     field (§11.2, §11.3), the honeypot and the rate limit shared with /api/save-lead,
+     field (§11.2, §11.3), the honeypot as on /api/save-lead,
      responses as §7, the row of §11.5 in the tab GOOGLE_SHEET_CALCULATOR_TAB (default
      calculator); memory mode for tests and local development.
-   - api/.env.example and the runbooks: GOOGLE_SHEET_CALCULATOR_TAB, and PRIVACY_NOTICE_VERSION
-     bumped for the calculator's notice text (CONTENT_PHASE_2C.md A.8; US-036 AC4).
+   - The calculator's own rate-limit budget (§11.1), separate from /api/save-lead's.
+   - GOOGLE_SHEET_CALCULATOR_TAB in api/.env.example and docs/runbooks/GOOGLE_SHEETS_SETUP.md;
+     PUBLIC_CALCULATOR_ENDPOINT in the root .env.example (US-036 AC4). The privacy-notice
+     version is not yours this sprint: Agent 2 bumps it with the notice text.
    - pytest per §11.6. Tell the coordinator when it is merged: Agent 2's calculator waits on it.
 2. GK-029-security-baseline — US-029:
    - docs/security/SECURITY_BASELINE.md from the kit's SECURITY_BASELINE_TEMPLATE.md, with every

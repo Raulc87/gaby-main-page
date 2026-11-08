@@ -232,7 +232,7 @@ The calculator (US-035, [`PROJECT_SPEC.md`](PROJECT_SPEC.md) FR-034, FR-035) sto
 | Path | `/api/save-calculator-lead` (application route `/save-calculator-lead`) |
 | Request and response content type | `application/json` |
 | Max request body | 10 KB |
-| Authentication | None. Honeypot `website` (section 3.1) and the rate limit (section 3.2) apply as for `/api/save-lead`; both endpoints share one limiter, so the limit counts a visitor's requests to either. |
+| Authentication | None. Honeypot `website` (section 3.1) as for `/api/save-lead`, and a rate limit that works as section 3.2 but with **its own budget**: the calculator's requests are counted separately from the VIP endpoint's, so using the calculator (or recalculating) never makes a VIP application return `429`. Same configuration (`RATE_LIMIT_MAX_REQUESTS`, `RATE_LIMIT_WINDOW_SECONDS`), applied to each endpoint on its own. Section 3.2 is unchanged for `/api/save-lead`. |
 
 ### 11.2 Request body
 
@@ -257,7 +257,7 @@ The calculator (US-035, [`PROJECT_SPEC.md`](PROJECT_SPEC.md) FR-034, FR-035) sto
 | `language` | string (enum) | yes | `es` or `en`. | code |
 | `consent` | boolean | yes | Must be JSON `true` (the required calculator consent, [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) §11.2). | `TRUE` |
 | `marketing_consent` | boolean | no | JSON `true` or `false`; absent means `false`. The optional consent to Gaby's follow-up emails (FR-035, BR-012). | `TRUE` or `FALSE` |
-| `months` | number or `null` | yes | `null` only when the zone is `freedom` because other income covers the monthly outflow (FR-034, "covered"). Otherwise a number ≥ 0 with at most one decimal place. No upper limit. | as sent (one decimal, point as separator), or empty |
+| `months` | number or `null` | yes | `null` only when the zone is `freedom` because other income covers the monthly outflow (FR-034, "covered"). Otherwise a number ≥ 0 with at most one decimal place. No upper limit. | written with exactly one decimal and a point (`6` → `6.0`, `4.4` → `4.4`), or empty when `null` |
 | `zone` | string (enum) | yes | `alert`, `building` or `freedom`, and consistent with `months`: `null` → `freedom`; below 6 → `alert`; 6 to below 12 → `building`; 12 or more → `freedom`. | code |
 
 The five figures the visitor typed into the calculator are never sent (FR-035); a request that carries extra fields has them ignored and never stored. The frontend rounds the months down to one decimal and derives the zone from the unrounded value (FR-034), so a correct client always sends a consistent pair.
@@ -301,5 +301,5 @@ Values are written as raw strings, as in section 6.
 
 ### 11.6 Test obligations
 
-As section 10, for this endpoint: every rule of section 11.2 with a valid and an invalid case (including `phone` absent, `null` and empty; `marketing_consent` absent; `months` `null` with `freedom`; a value above 1,000 accepted; each zone boundary: 5.9 → `alert`, 6 → `building`, 11.9 → `building`, 12 → `freedom`; each mismatch); the honeypot; the shared rate limit across both endpoints; a storage failure returning `503`; and that the row has no figures from the calculator. End-to-end (US-035): calculator → details → `201` → result shown; a failure path where the result stays hidden; and in a preview build, no request to `/api`.
+As section 10, for this endpoint: every rule of section 11.2 with a valid and an invalid case (including `phone` absent, `null` and empty; `marketing_consent` absent; `months` `null` with `freedom`; a value above 1,000 accepted; each zone boundary: 5.9 → `alert`, 6 → `building`, 11.9 → `building`, 12 → `freedom`; each mismatch); the honeypot; the calculator's own rate-limit budget (requests to it do not count against `/api/save-lead`, and the reverse); a storage failure returning `503`; and that the row has no figures from the calculator. End-to-end (US-035): calculator → details → `201` → result shown; a failure path where the result stays hidden; and in a preview build, no request to `/api`.
 

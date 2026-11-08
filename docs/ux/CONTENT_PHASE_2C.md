@@ -14,7 +14,7 @@ The copy for phase 2c, from Gaby's review of 2026-11-08 ([`BRIEF_2026-11-08_STOR
 | A.6 §8.2 VSL note | US-034 (or any content PR) |
 | A.6b §6 `story.media.label` status | US-034 |
 | A.7 §8.5 scheduler fallback key | US-037 |
-| A.8 §9 privacy notice | US-035 (calculator data: `privacy.p2`, `privacy.p3`, `privacy.p5`; `privacy.ts` is Agent 2's) and US-037 (GoHighLevel: `privacy.p4`). US-036 bumps `PRIVACY_NOTICE_VERSION` for the calculator text |
+| A.8 §9 privacy notice | US-035 (calculator data: `privacy.p2`, `privacy.p3`, `privacy.p5`; `privacy.ts` is Agent 2's) and US-037 (GoHighLevel: `privacy.p4`). US-035 and US-037 each bump `PRIVACY_NOTICE_VERSION` in the PR that changes the text |
 | §5 Home | US-034 (replaces `CONTENT.md` §5) |
 | §11 Calculator | US-035 (new section) |
 | §12 Método Polaris page | US-028 (new section) |
