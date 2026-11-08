@@ -91,9 +91,9 @@ Windows tips (Git Bash alternative, execution policy, OneDrive locks) and macOS 
 
 ## Run locally
 
-Two terminals, both from the repository root.
+From the repository root.
 
-1. Start the backend (Flask, in memory mode).
+1. Start the backend (Flask, in memory mode). It keeps running in this terminal, so leave it open and use a second terminal for the next step.
 
    ```bash
    api/.venv/bin/python api/run_local.py
@@ -107,7 +107,15 @@ Two terminals, both from the repository root.
    npm run dev
    ```
 
-   Expected: it prints `http://localhost:4321/`. Open it: the site loads, the language toggle works, and the lead form on the VIP page ends in the thank-you message. The dev server sends `/api/*` to the backend on port 5000.
+   Expected: it prints `Dev server running at http://localhost:4321` and returns to the prompt, because this Astro version runs the dev server in the background. Open the address: the site loads, the language toggle works, and the lead form on the VIP page ends in the thank-you message. The dev server sends `/api/*` to the backend on port 5000.
+
+3. When you are done, stop the frontend, then stop the backend with `Ctrl+C` in its terminal.
+
+   ```bash
+   npx astro dev stop
+   ```
+
+   Expected: `Stopped dev server`.
 
 Windows (PowerShell): start the backend with `api/.venv/Scripts/python api/run_local.py`. The frontend command is the same.
 
@@ -127,7 +135,7 @@ Run from the repository root. CI runs the same checks on every pull request ([`f
 |---|---|---|
 | Unit tests (frontend, Vitest) | `npm run test` | Every test passes. They include the check that the translation files equal [`docs/ux/CONTENT.md`](docs/ux/CONTENT.md) |
 | Unit tests (backend, pytest) | `api/.venv/bin/python -m pytest api` | Every test passes. Run it from the repository root, or `cd api && pytest` with the venv active |
-| End-to-end tests (Playwright) | Start the backend as in "Run locally" with `LEADS_STORAGE=memory`, then `npm run test:e2e` | Every spec passes. It builds the site and serves it on port 4321 by itself, so stop `npm run dev` first |
+| End-to-end tests (Playwright) | Start the backend as in "Run locally" with `LEADS_STORAGE=memory`, then `npm run test:e2e` | Every spec passes. It builds the site and serves it on port 4321 by itself, so stop the dev server first (`npx astro dev stop`) |
 | Lint | `npm run lint` | No output and exit code 0 |
 | Format | Not applicable: the project has no formatter yet. ESLint settles style ([`TECH_STACK.md`](TECH_STACK.md)) | |
 | Type check | `npm run check` | `0 errors` |
@@ -178,7 +186,7 @@ Local-development problems (backend not running, Google Sheets errors, a missing
 | Symptom | Likely cause | Fix |
 |---|---|---|
 | The form shows an error straight away | The backend is not running, or is not on `127.0.0.1:5000` | Start it as in "Run locally" and submit again |
-| `npm run test:e2e` cannot start, or the port 4321 is busy | `npm run dev` is still running, or a browser is missing | Stop `npm run dev`; run `npx playwright install chromium` |
+| `npm run test:e2e` cannot start, or the port 4321 is busy | The dev server started by `npm run dev` is still running, or the browser is missing | Run `npx astro dev stop`; run `npx playwright install chromium` |
 | `ModuleNotFoundError` when starting the backend | The virtual environment was not used or the dependencies are not installed | Use `api/.venv/bin/python` as in "Run locally", and repeat step 3 of "Set up" |
 | A test says the translation files differ from `CONTENT.md` | A string was changed in code or in the document but not in both | Change [`docs/ux/CONTENT.md`](docs/ux/CONTENT.md) first, then the `src/i18n/` files to match it |
 | `check_doc_links.py` reports a broken link | A moved file or a renamed heading | Fix the link; the script names the file and the link |
