@@ -1,6 +1,6 @@
 # ASVS_INVENTORY
 
-Appendix of [`SECURITY_BASELINE.md`](SECURITY_BASELINE.md) section 2. The site stores personal data, so its ASVS level (L2) is inventoried requirement by requirement: every L1 and L2 requirement of OWASP ASVS 5.0.0 has one row, or sits in a whole-chapter row when the chapter does not apply. The requirement list comes from the official ASVS 5.0.0 release (`OWASP/ASVS`, tag `v5.0.0`, `OWASP_Application_Security_Verification_Standard_5.0.0_en.json`); L3 requirements are outside the chosen level.
+Appendix of [`SECURITY_BASELINE.md`](SECURITY_BASELINE.md) section 2. The site stores personal data, so its ASVS level (L2) is inventoried requirement by requirement: every L1 and L2 requirement of OWASP ASVS 5.0.0 has its own row. Requirements of the five chapters that do not apply at all (V6, V7, V9, V10, V17) share their chapter's reason. The requirement list comes from the official ASVS 5.0.0 release (`OWASP/ASVS`, tag `v5.0.0`, `OWASP_Application_Security_Verification_Standard_5.0.0_en.json`); L3 requirements are outside the chosen level.
 
 Status values:
 - **Verified 2026-11-08**: checked on `main` at commit `220af67` (plus the named pull requests where stated) by running the named tests, reading the named configuration or searching the code, as the row says. This is a statement about what was checked on that date, not a claim that the site is secure or compliant.
@@ -88,8 +88,59 @@ Updating this file: when a story's pull request verifies a row, that pull reques
 | `v5.0.0-5.4.1` | L2 |  | Not applicable | The site accepts no file uploads. The free resources are static files chosen by the owner and committed to Git (US-024 AC4); no visitor can supply, name or replace a file |
 | `v5.0.0-5.4.2` | L2 |  | Not applicable | The site accepts no file uploads. The free resources are static files chosen by the owner and committed to Git (US-024 AC4); no visitor can supply, name or replace a file |
 | `v5.0.0-5.4.3` | L2 |  | Not applicable | The site accepts no file uploads. The free resources are static files chosen by the owner and committed to Git (US-024 AC4); no visitor can supply, name or replace a file |
-| `v5.0.0-6` (whole chapter, 35 L1 and L2 requirements) | L1, L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
-| `v5.0.0-7` (whole chapter, 18 L1 and L2 requirements) | L1, L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-6.1.1` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.1.2` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.1.3` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.1` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.2` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.3` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.4` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.5` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.6` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.7` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.8` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.9` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.10` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.11` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.2.12` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.3.1` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.3.2` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.3.3` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.3.4` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.4.1` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.4.2` | L1 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.4.3` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.4.4` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.5.1` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.5.2` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.5.3` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.5.4` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.5.5` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.6.1` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.6.2` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.6.3` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.8.1` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.8.2` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.8.3` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-6.8.4` | L2 | | Not applicable | The site has no user accounts, passwords or login. The only password is the hosting provider's Directory Privacy protection on the production host before go-live (US-014 AC6), set in the hosting account, not by the application. |
+| `v5.0.0-7.1.1` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.1.2` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.1.3` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.2.1` | L1 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.2.2` | L1 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.2.3` | L1 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.2.4` | L1 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.3.1` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.3.2` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.4.1` | L1 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.4.2` | L1 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.4.3` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.4.4` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.4.5` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.5.1` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.5.2` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.6.1` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
+| `v5.0.0-7.6.2` | L2 | | Not applicable | The site has no sessions: it sets no cookie or token (V3.3.x) and has no logged-in state. |
 | `v5.0.0-8.1.1` | L1 | Documented here: the site has no user roles or consumer permissions. Each endpoint is one public, write-only function (contract sections 2 and 11); the only privileged access is the owner's access to the sheet and the hosting account, outside the application (section 1 of the baseline) | Verified 2026-11-08 |  |
 | `v5.0.0-8.1.2` | L2 | Same as V8.1.1: no field is readable through the application, so there are no field-level rules to define | Verified 2026-11-08 |  |
 | `v5.0.0-8.2.1` | L1 |  | Not applicable | Both endpoints are intentionally public and offer one function each; there are no restricted functions |
@@ -97,8 +148,42 @@ Updating this file: when a story's pull request verifies a row, that pull reques
 | `v5.0.0-8.2.3` | L2 |  | Not applicable | The application returns no stored fields to a visitor |
 | `v5.0.0-8.3.1` | L1 |  | Not applicable | There are no authorization rules to enforce; input validation is enforced server-side (V2.2.2) |
 | `v5.0.0-8.4.1` | L2 |  | Not applicable | The site is not multi-tenant |
-| `v5.0.0-9` (whole chapter, 7 L1 and L2 requirements) | L1, L2 | | Not applicable | The site issues and accepts no self-contained tokens (JWT or similar). |
-| `v5.0.0-10` (whole chapter, 29 L1 and L2 requirements) | L1, L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-9.1.1` | L1 | | Not applicable | The site issues and accepts no self-contained tokens (JWT or similar). |
+| `v5.0.0-9.1.2` | L1 | | Not applicable | The site issues and accepts no self-contained tokens (JWT or similar). |
+| `v5.0.0-9.1.3` | L1 | | Not applicable | The site issues and accepts no self-contained tokens (JWT or similar). |
+| `v5.0.0-9.2.1` | L1 | | Not applicable | The site issues and accepts no self-contained tokens (JWT or similar). |
+| `v5.0.0-9.2.2` | L2 | | Not applicable | The site issues and accepts no self-contained tokens (JWT or similar). |
+| `v5.0.0-9.2.3` | L2 | | Not applicable | The site issues and accepts no self-contained tokens (JWT or similar). |
+| `v5.0.0-9.2.4` | L2 | | Not applicable | The site issues and accepts no self-contained tokens (JWT or similar). |
+| `v5.0.0-10.1.1` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.1.2` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.2.1` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.2.2` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.3.1` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.3.2` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.3.3` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.3.4` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.4.1` | L1 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.4.2` | L1 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.4.3` | L1 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.4.4` | L1 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.4.5` | L1 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.4.6` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.4.7` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.4.8` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.4.9` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.4.10` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.4.11` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.5.1` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.5.2` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.5.3` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.5.4` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.5.5` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.6.1` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.6.2` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.7.1` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.7.2` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
+| `v5.0.0-10.7.3` | L2 | | Not applicable | The site is neither an OAuth or OIDC client nor a provider. The backend's Google access uses a service-account key, not a user authorization flow. |
 | `v5.0.0-11.1.1` | L2 | The only key is the Google service-account key; its custody, rotation and revocation are in `docs/runbooks/GOOGLE_SHEETS_SETUP.md` sections 3 and 7 and summarized in the baseline section 6 | Verified 2026-11-08 |  |
 | `v5.0.0-11.1.2` | L2 | Cryptographic inventory is in the baseline section 6: no application-level cryptography; TLS is provided by the host; one Google-issued service-account key | Verified 2026-11-08 |  |
 | `v5.0.0-11.2.1` | L2 | The application implements no cryptography; TLS is the host's and Google's libraries (`google-auth`) handle signing (code search of `src/` and `api/` on 2026-11-08: no `hashlib`, `secrets`, `random`, `cryptography` use) | Verified 2026-11-08 |  |
@@ -173,7 +258,13 @@ Updating this file: when a story's pull request verifies a row, that pull reques
 | `v5.0.0-16.5.1` | L2 | Failures return a fixed, generic message and an error code, never internals (contract section 7; US-006 AC3; `api/tests/test_error_logging.py`) | Verified 2026-11-08 |  |
 | `v5.0.0-16.5.2` | L2 | A failed Sheets write returns `503` and never success (NFR-006); a scheduler widget that fails to load shows the contact fallback (US-007 AC5; `tests/e2e/calendly-fallback.spec.ts`) | Verified 2026-11-08 |  |
 | `v5.0.0-16.5.3` | L2 | Unexpected exceptions are caught and return `500` without continuing; a failed save never reports success (NFR-006; `api/tests/test_save_lead.py`) | Verified 2026-11-08 |  |
-| `v5.0.0-17` (whole chapter, 7 L1 and L2 requirements) | L1, L2 | | Not applicable | The site uses no WebRTC. |
+| `v5.0.0-17.1.1` | L2 | | Not applicable | The site uses no WebRTC. |
+| `v5.0.0-17.2.1` | L2 | | Not applicable | The site uses no WebRTC. |
+| `v5.0.0-17.2.2` | L2 | | Not applicable | The site uses no WebRTC. |
+| `v5.0.0-17.2.3` | L2 | | Not applicable | The site uses no WebRTC. |
+| `v5.0.0-17.2.4` | L2 | | Not applicable | The site uses no WebRTC. |
+| `v5.0.0-17.3.1` | L2 | | Not applicable | The site uses no WebRTC. |
+| `v5.0.0-17.3.2` | L2 | | Not applicable | The site uses no WebRTC. |
 
 ## Totals
 
