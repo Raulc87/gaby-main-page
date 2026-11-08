@@ -1,4 +1,4 @@
-// US-027 AC3: in a preview build the application form, wherever it is used (the VIP
+// US-027 AC2 (root page marker, below) and AC3: in a preview build the application form, wherever it is used (the VIP
 // page), never calls an endpoint and loads no third party.
 // After client-side validation it shows the next screen per the routing with
 // `preview.form_note`; the scheduler is the static stand-in (`preview.scheduler`)
@@ -17,6 +17,8 @@ import { preview, type PreviewServer } from 'vite';
 import { getCommon, type Language } from '../../src/i18n';
 import { routePath } from '../../src/i18n/routes';
 import { getForm } from '../../src/lib/lead/dictionaries';
+import { getCalculator } from '../../src/lib/calculator/dictionary';
+import { answerQuestions, CALC, fillDetails, gotoCalculatorAt } from './support/calculator';
 import { fillLeadForm, SELECTORS } from './support/lead-form';
 
 const PORT = 4322;
@@ -130,6 +132,30 @@ for (const lang of ['es', 'en'] as const) {
   });
 }
 
+// US-035 AC5 (FR-030): in a preview build the calculator's details step stores and sends
+// nothing: the result appears with `preview.form_note`, and no request goes to /api or a third party.
+for (const lang of ['es', 'en'] as const) {
+  test(`preview calculator (${lang}): the result appears with the demonstration note and nothing is sent`, async ({ page }) => {
+    const tracked = trackRequests(page);
+    await gotoCalculatorAt(page, ORIGIN, lang);
+
+    await expect(page.locator('[data-preview-bar]')).toContainText(getCommon(lang).preview.banner);
+    await answerQuestions(page);
+    await fillDetails(page, { marketing: true });
+    await page.locator(CALC.submit).click();
+
+    await expect(page.locator(CALC.stepResult)).toBeVisible();
+    await expect(page.locator(`${CALC.stepResult} [data-preview-note]`)).toHaveText(getCommon(lang).preview.form_note);
+    await expect(page.locator(CALC.zoneTitle)).toHaveText(getCalculator(lang).zones.alert.title);
+    // The pending badge shows on the questions and on the result in a preview build.
+    await expect(page.locator(CALC.stepResult).getByText(getCommon(lang).pending.badge)).toBeVisible();
+
+    await page.waitForLoadState('networkidle');
+    expect(tracked.api).toEqual([]);
+    expect(tracked.forbidden).toEqual([]);
+  });
+}
+
 test('under the base path the form renders in the page language (FR-012)', async ({ page }) => {
   for (const lang of ['es', 'en'] as const) {
     const form = getForm(lang);
@@ -147,4 +173,31 @@ test('a normal build shows no preview note and no stand-in markup on the form sc
   await expect(page.locator('[data-preview-note]')).toHaveCount(0);
   await expect(page.locator('#scheduler-preview')).toHaveCount(0);
   await expect(page.locator('#calendly-container')).toHaveCount(1);
+});
+
+// US-027 AC2 (Sprint 003 follow-up): the root page, the language chooser, carries the
+// preview marker without depending on its redirect, so it is checked with JavaScript
+// off. The preview build shows both bars (es and en); a normal build shows none.
+test.describe('root page, JavaScript off', () => {
+  test.use({ javaScriptEnabled: false });
+
+  test('the preview build shows the es and en preview bars and a noindex robots meta', async ({ page }) => {
+    await page.goto(`${ORIGIN}/`);
+
+    const bars = page.locator('[data-preview-bar]');
+    await expect(bars).toHaveCount(2);
+    await expect(bars.nth(0)).toBeVisible();
+    await expect(bars.nth(0)).toContainText(getCommon('es').preview.banner);
+    await expect(bars.nth(1)).toBeVisible();
+    await expect(bars.nth(1)).toContainText(getCommon('en').preview.banner);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+  });
+
+  test('a normal build shows no preview bar on the root page', async ({ page }) => {
+    // Served by the suite's regular webServer (baseURL), which is not a preview build.
+    await page.goto('/');
+
+    await expect(page.locator('[data-preview-bar]')).toHaveCount(0);
+    await expect(page.locator('meta[name="robots"][content*="noindex"]')).toHaveCount(0);
+  });
 });

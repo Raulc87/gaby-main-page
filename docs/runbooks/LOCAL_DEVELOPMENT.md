@@ -52,7 +52,7 @@ source .venv/bin/activate
 python run_local.py
 ```
 
-Serves `http://127.0.0.1:5000/api/save-lead`. Uses `LEADS_STORAGE` from `api/.env` (default: `memory`, see section 5).
+Serves `http://127.0.0.1:5000/api/save-lead` and `/api/save-calculator-lead`. Uses `LEADS_STORAGE` from `api/.env` (default: `memory`, see section 5).
 
 **Terminal 2 — frontend (Astro):**
 
@@ -77,6 +77,7 @@ Default. With `LEADS_STORAGE=memory` in `api/.env` (or unset — `memory` is the
    GOOGLE_SERVICE_ACCOUNT_FILE=/absolute/path/outside/webroot/service-account.json
    GOOGLE_SHEET_ID=<your sheet id>
    GOOGLE_SHEET_TAB=leads
+   GOOGLE_SHEET_CALCULATOR_TAB=calculator
    ```
    Keep the key file **outside** the repository (e.g. in your home directory), and never commit it — `.gitignore` already excludes any `*service-account*.json` file as a safety net, but do not rely on that alone.
 3. Restart `python run_local.py`.

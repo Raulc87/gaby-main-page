@@ -49,3 +49,15 @@ def test_negative_window_seconds_is_rejected(monkeypatch):
 
     with pytest.raises(ValueError):
         Config()
+
+
+def test_calculator_tab_defaults_to_calculator(monkeypatch):
+    monkeypatch.delenv("GOOGLE_SHEET_CALCULATOR_TAB", raising=False)
+
+    assert Config().GOOGLE_SHEET_CALCULATOR_TAB == "calculator"
+
+
+def test_calculator_tab_is_read_from_the_environment(monkeypatch):
+    monkeypatch.setenv("GOOGLE_SHEET_CALCULATOR_TAB", "calculadora")
+
+    assert Config().GOOGLE_SHEET_CALCULATOR_TAB == "calculadora"

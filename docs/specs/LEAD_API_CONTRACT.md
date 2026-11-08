@@ -1,8 +1,9 @@
 # LEAD_API_CONTRACT — Save Lead
 
 ## Metadata
-- Version: 1.2
-- Status: v1.2 proposed in the Sprint 004 planning PR, LOCKED for Sprint 004 on merge; v1.1 approved and locked for Sprint 002
+- Version: 1.2.1
+- Status: v1.2.1 (wording only) approved by the human owner on 2026-11-08; v1.2 proposed in the Sprint 004 planning PR, LOCKED for Sprint 004 on merge; v1.1 approved and locked for Sprint 002
+- Changes in 1.2.1 (2026-11-08, wording only, no change in behavior): section 7, `405`: the `Allow` header includes `POST` and may list other methods (Flask also lists `OPTIONS`, as `/api/save-lead` always has). Proposed by Agent 3 in #73, approved by the human owner ("yes, reword the contract to 'includes POST'"). References to v1.2 elsewhere stay valid.
 - Changes in 1.2 (2026-11-08, US-036, [`PROJECT_SPEC.md`](PROJECT_SPEC.md) v0.6 FR-035, FR-039): a second endpoint, `POST /api/save-calculator-lead`, for calculator leads (section 11), with its own sheet tab; the VIP endpoint (sections 2–10) is unchanged. Frontend configuration: `PUBLIC_SCHEDULER_URL` replaces `PUBLIC_CALENDLY_URL` (US-037, ADR-006).
 - Changes in 1.1 (2026-09-28, US-013, ADR-004): honeypot field `website` (sections 3 and 3.1); `429` / `rate_limited` is now emitted (sections 3.2 and 7); rate-limit configuration (section 9).
 - Related spec: `docs/specs/PROJECT_SPEC.md` (FR-006 to FR-010, FR-013, NFR-005, NFR-006)
@@ -145,7 +146,7 @@ Every response body is JSON with this shape:
 | `201 Created` | Row appended to Google Sheets; or a honeypot decoy (section 3.1), where nothing is stored | `null` | Show success message, then inline Calendly (US-007). |
 | `400 Bad Request` | Body is not valid JSON or not a JSON object | `invalid_json` | Generic error, keep form data, allow retry. |
 | `404 Not Found` | Unknown path | `not_found` | Generic error. |
-| `405 Method Not Allowed` | Method other than `POST` (response includes `Allow: POST`) | `method_not_allowed` | Generic error. |
+| `405 Method Not Allowed` | Method other than `POST` (the response's `Allow` header includes `POST`; it may list other methods, such as `OPTIONS`) | `method_not_allowed` | Generic error. |
 | `413 Payload Too Large` | Body larger than 10 KB | `payload_too_large` | Generic error. |
 | `415 Unsupported Media Type` | `Content-Type` is not `application/json` | `unsupported_media_type` | Generic error. |
 | `422 Unprocessable Entity` | One or more fields fail validation | `validation_error` | Show localized field-level errors. |

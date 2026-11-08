@@ -1,0 +1,308 @@
+---
+// Freedom-months calculator page (US-035, UX_UI_DIRECTION.md section 5.6 and 6.7,
+// CONTENT.md section 11): one card with three steps in place (questions, your
+// details, result). The computation runs in the browser (calculatorController.ts);
+// the five figures never leave it. The page files in src/pages/{es,en} only pass the
+// language. Without JavaScript the card stays hidden and the VIP and library links
+// show instead.
+import PendingBadge from '../sections/PendingBadge.astro';
+import Button from '../layout/Button.astro';
+import PrivacyNotice from '../lead/PrivacyNotice.astro';
+import { getCommon, type Language } from '../../i18n';
+import { CALCULATOR_ENDPOINT, CONTACT_EMAIL } from '../../lib/lead/config';
+import { getCalculator } from '../../lib/calculator/dictionary';
+import { FIGURE_KEYS } from '../../lib/calculator/types';
+import { showsCalculatorBadge } from '../../lib/calculator/pending';
+import { getForm } from '../../lib/lead/dictionaries';
+import { splitTemplate } from '../../lib/lead/format';
+import { parseEmphasis } from '../../lib/site/emphasis';
+import { pageHref } from '../../lib/site/links';
+import { IS_PREVIEW } from '../../lib/site/preview';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const calc = getCalculator(lang);
+const form = getForm(lang);
+const common = getCommon(lang);
+const title = parseEmphasis(calc.title);
+const consent = splitTemplate(calc.capture.consent.text, 'privacy_notice_link');
+
+const FIELD_CLASS =
+  'mt-1 block min-h-12 w-full rounded-[2px] border border-field-line bg-ivory px-3 py-2 text-charcoal placeholder:text-muted focus:border-heritage-blue focus:ring-2 focus:ring-heritage-blue focus:outline-none';
+const CHECKBOX_CLASS =
+  'mt-0.5 h-4 w-4 shrink-0 rounded-sm outline-1 -outline-offset-1 outline-field-line accent-heritage-blue focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-heritage-blue';
+
+const scriptCopy = {
+  preview: IS_PREVIEW,
+  language: lang,
+  endpoint: CALCULATOR_ENDPOINT,
+  contactEmail: CONTACT_EMAIL,
+  figureErrors: {
+    required: form.fieldErrors.required,
+    number: calc.errors.number,
+    no_outflow: calc.errors.no_outflow,
+  },
+  fieldErrors: form.fieldErrors,
+  submit: form.submit,
+  submissionError: splitTemplate(form.submissionError, 'contact_email'),
+  rateLimited: splitTemplate(form.rateLimited, 'contact_email'),
+  monthsTemplate: calc.result.months,
+  zones: calc.zones,
+  covered: calc.result.covered,
+};
+const showBadges = showsCalculatorBadge('calculator.questions');
+---
+
+<section class="bg-ivory py-12 lg:py-20">
+  <div class="mx-auto max-w-[640px] px-4">
+    <!-- Without JavaScript the calculator cannot run: the two links stay (US-035 AC8). -->
+    <noscript>
+      <div class="flex flex-col gap-4 sm:flex-row">
+        <Button variant="blue" href={pageHref('vip', lang)} label={common.cta.vip_apply} />
+        <Button variant="blue" href={pageHref('resources', lang)} label={common.cta.all_resources} />
+      </div>
+    </noscript>
+
+    <div
+      id="calc-root"
+      data-calculator
+      hidden
+      data-copy={JSON.stringify(scriptCopy)}
+      class="rounded-[4px] border-t-4 border-heritage-blue bg-surface p-6 sm:p-8"
+    >
+      <!-- Honeypot, as on the VIP form (LeadForm.astro): its own <form>, outside the visible ones, off-screen. -->
+      <form
+        id="calc-hp-form"
+        aria-hidden="true"
+        class="absolute -left-[9999px] top-auto h-px w-px overflow-hidden"
+      >
+        <input
+          id="calc-hp"
+          name="hp_field"
+          type="text"
+          tabindex="-1"
+          autocomplete="off"
+          data-1p-ignore
+          data-lpignore="true"
+          data-bwignore="true"
+          data-form-type="other"
+        />
+      </form>
+
+      <!-- Step 1: questions -->
+      <div id="calc-step-questions">
+        <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">{calc.eyebrow}</p>
+        <h1
+          id="calc-questions-title"
+          tabindex="-1"
+          class="mt-3 text-[clamp(1.75rem,1.3rem+2vw,2.5rem)] leading-tight outline-none"
+        >
+          {
+            title.map((segment) =>
+              segment.emphasis ? (
+                <em class="italic text-heritage-blue">{segment.text}</em>
+              ) : (
+                segment.text
+              ),
+            )
+          }
+        </h1>
+        <p class="mt-4 text-charcoal">{calc.lead}</p>
+        {
+          showBadges && (
+            <div class="mt-3">
+              <PendingBadge label={common.pending.badge} />
+            </div>
+          )
+        }
+
+        <form id="calc-questions-form" novalidate class="mt-6 space-y-5">
+          {
+            FIGURE_KEYS.map((key) => (
+              <div>
+                <label for={`calc-${key}`} class="block text-sm font-semibold text-charcoal">
+                  {calc.figures[key].label}
+                </label>
+                <input
+                  id={`calc-${key}`}
+                  name={key}
+                  type="text"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  required
+                  aria-required="true"
+                  aria-describedby={`calc-${key}-hint calc-${key}-error`}
+                  class={FIELD_CLASS}
+                />
+                <p id={`calc-${key}-hint`} class="mt-1 text-sm text-muted">
+                  {calc.figures[key].hint}
+                </p>
+                <p id={`calc-${key}-error`} role="alert" class="mt-1 text-sm text-red-700" />
+              </div>
+            ))
+          }
+          <Button variant="blue" type="submit" label={calc.next} class="w-full" id="calc-next" />
+        </form>
+      </div>
+
+      <!-- Step 2: your details -->
+      <div id="calc-step-details" hidden>
+        <h2 id="calc-details-title" tabindex="-1" class="text-2xl text-charcoal outline-none">
+          {calc.capture.title}
+        </h2>
+        <p class="mt-3 text-charcoal">{calc.capture.body}</p>
+
+        <form id="calc-details-form" novalidate class="mt-6 space-y-5">
+          <div>
+            <label for="calc-name" class="block text-sm font-semibold text-charcoal">{form.name.label}</label>
+            <input
+              id="calc-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              required
+              aria-required="true"
+              aria-describedby="calc-name-hint calc-name-error"
+              class={FIELD_CLASS}
+            />
+            <p id="calc-name-hint" class="mt-1 text-sm text-muted">{form.name.hint}</p>
+            <p id="calc-name-error" role="alert" class="mt-1 text-sm text-red-700"></p>
+          </div>
+
+          <div>
+            <label for="calc-email" class="block text-sm font-semibold text-charcoal">{form.email.label}</label>
+            <input
+              id="calc-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              aria-required="true"
+              aria-describedby="calc-email-error"
+              class={FIELD_CLASS}
+            />
+            <p id="calc-email-error" role="alert" class="mt-1 text-sm text-red-700"></p>
+          </div>
+
+          <div>
+            <label for="calc-phone" class="block text-sm font-semibold text-charcoal">
+              {calc.capture.phoneLabel}
+            </label>
+            <input
+              id="calc-phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              aria-describedby="calc-phone-hint calc-phone-error"
+              class={FIELD_CLASS}
+            />
+            <p id="calc-phone-hint" class="mt-1 text-sm text-muted">{form.phone.hint}</p>
+            <p id="calc-phone-error" role="alert" class="mt-1 text-sm text-red-700"></p>
+          </div>
+
+          <div>
+            <label class="flex min-h-11 items-start gap-2 text-sm text-charcoal">
+              <input
+                id="calc-consent"
+                name="consent"
+                type="checkbox"
+                required
+                aria-required="true"
+                aria-describedby="calc-consent-error"
+                class={CHECKBOX_CLASS}
+              />
+              <span>
+                {consent.before}
+                <button
+                  type="button"
+                  id="privacy-notice-trigger"
+                  aria-haspopup="dialog"
+                  aria-controls="privacy-notice-dialog"
+                  class="inline-flex min-h-11 items-center text-heritage-blue underline underline-offset-2 hover:text-charcoal"
+                >
+                  {calc.capture.consent.linkLabel}
+                </button>
+                {consent.after}
+              </span>
+            </label>
+            <p id="calc-consent-error" role="alert" class="mt-1 text-sm text-red-700"></p>
+          </div>
+
+          <!-- Optional and unticked: only leads who tick it enter the email sequence (FR-035, BR-012). -->
+          <label class="flex min-h-11 items-start gap-2 text-sm text-charcoal">
+            <input id="calc-marketing" name="marketing" type="checkbox" class={CHECKBOX_CLASS} />
+            <span>{calc.capture.marketing}</span>
+          </label>
+
+          <p id="calc-submission-error" role="alert" hidden class="text-sm text-red-700"></p>
+
+          <Button
+            variant="blue"
+            type="submit"
+            label={calc.capture.submit}
+            id="calc-submit"
+            class="w-full disabled:pointer-events-none disabled:opacity-50 disabled:hover:translate-y-0"
+          />
+        </form>
+      </div>
+
+      <!-- Step 3: result -->
+      <div id="calc-step-result" hidden>
+        <h2 id="calc-result-title" tabindex="-1" class="text-base font-semibold text-charcoal outline-none">
+          {calc.result.label}
+        </h2>
+        <p
+          id="calc-result-months"
+          class="mt-2 font-serif text-5xl font-medium leading-tight text-heritage-blue"
+        >
+        </p>
+        <p
+          id="calc-zone-pill"
+          data-zone="alert"
+          class="group mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1 font-sans text-[13px] font-semibold text-charcoal data-[zone=alert]:bg-terracotta/25 data-[zone=building]:bg-sand data-[zone=freedom]:bg-heritage-blue/15"
+        >
+          <span
+            aria-hidden="true"
+            class="h-2 w-2 rounded-full bg-charcoal group-data-[zone=alert]:bg-terracotta group-data-[zone=freedom]:bg-heritage-blue"
+          ></span>
+          <span id="calc-zone-title"></span>
+        </p>
+        <p id="calc-zone-body" class="mt-3 text-charcoal"></p>
+        {
+          showBadges && (
+            <div class="mt-3">
+              <PendingBadge label={common.pending.badge} />
+            </div>
+          )
+        }
+        {IS_PREVIEW && <p data-preview-note class="mt-3 text-sm font-semibold text-charcoal">{common.preview.form_note}</p>}
+        <p class="mt-4 text-sm text-muted">{calc.result.disclaimer}</p>
+
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Button variant="gold" href={pageHref('vip', lang)} label={common.cta.vip_apply} />
+          <Button variant="blue" href={pageHref('resources', lang)} label={common.cta.all_resources} />
+        </div>
+        <p class="mt-4">
+          <button
+            type="button"
+            id="calc-restart"
+            class="inline-flex min-h-11 items-center text-heritage-blue underline underline-offset-4 hover:text-charcoal"
+          >
+            {calc.result.restart}
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <PrivacyNotice lang={lang} />
+</section>
+
+<script>
+  import { initCalculator } from './calculatorController';
+
+  document.querySelectorAll<HTMLElement>('[data-calculator]').forEach((root) => initCalculator(root));
+</script>

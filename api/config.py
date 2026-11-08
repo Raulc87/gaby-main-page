@@ -15,6 +15,10 @@ class Config:
         self.GOOGLE_SERVICE_ACCOUNT_FILE = os.environ.get("GOOGLE_SERVICE_ACCOUNT_FILE")
         self.GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID")
         self.GOOGLE_SHEET_TAB = os.environ.get("GOOGLE_SHEET_TAB", "leads")
+        # Calculator leads (contract v1.2 section 11.5) go to their own tab.
+        self.GOOGLE_SHEET_CALCULATOR_TAB = os.environ.get(
+            "GOOGLE_SHEET_CALCULATOR_TAB", "calculator"
+        )
 
         # Only 0 means "disabled" (contract section 9); anything else
         # invalid fails startup loudly instead of silently weakening or

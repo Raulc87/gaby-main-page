@@ -17,7 +17,7 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
 - Values are copied verbatim and never contain markers. The code keeps the list of provisional keys next to the strings (`UX_UI_DIRECTION.md` §7).
 - **Pending badge (which keys show one):** only content blocks, never navigation, accessibility labels, alt text, metadata or state messages. Two kinds (`UX_UI_DIRECTION.md` §6.5):
   - **Placeholders** (content that has not arrived; BR-011), badge in **every** build, production included, until the real content replaces them: the Home hero photo (§5.1), the testimonial cards (§5.9), the story photo and bio placeholders (§6), the VIP video module (§8.2), and every resource card whose file has not been delivered (§7.3).
-  - **Provisional copy blocks**, badge in preview and development builds only: the Método Polaris steps (§5.6), the problem's second paragraph (§5.2), the third figure of the guide (§5.4), the Wealth Mastery modules (§5.7), the VIP steps (§8.1), the not-ready screen (§8.5), and resource cards with provisional titles. Before any production release, each of these is approved or the human owner decides per block whether it ships (as the phase 1 go-live gate did).
+  - **Provisional copy blocks**, badge in preview and development builds only: the Método Polaris steps (§5.6), the problem's second paragraph (§5.2), the third figure of the guide (§5.4), the Wealth Mastery modules (§5.7), the calculator's questions, zones and result (§11, placeholder formula), the VIP steps (§8.1), the not-ready screen (§8.5), and resource cards with provisional titles. Before any production release, each of these is approved or the human owner decides per block whether it ships (as the phase 1 go-live gate did).
   - No badge: `nav.*`, `skip_link`, `lang.*`, `meta.*`, `*_alt`, `resource.cover_alt`, `resources.filter.label`, `resources.empty`, `resource.pending`, `resource.email.coming_soon`, `story.media.label`, `story.experience.label`, `preview.*`, `privacy.*` (the notice has its own DRAFT label).
 - `*text*` marks the italic emphasis (Playfair italic, `UX_UI_DIRECTION.md` §2) inside a heading; the asterisks are not part of the text.
 - `{contact_email}` is replaced with a `mailto:` link to `PUBLIC_CONTACT_EMAIL`.
@@ -474,13 +474,15 @@ Below `thanks.not_ready.body` the `minicourse-debt` card (§7.3) is shown with i
 | `privacy.draft_label` | Borrador — pendiente de revisión legal | Draft — pending legal review | provisional |
 | `privacy.close` | Cerrar | Close | provisional |
 | `privacy.p1` | Responsable del tratamiento: Gaby Kelly (Gabriela Kelly). Contacto: {contact_email} (dato por confirmar). | Responsible party: Gaby Kelly (Gabriela Kelly). Contact: {contact_email} (to be confirmed). | provisional |
-| `privacy.p2` | Datos que recopilamos: nombre completo, correo electrónico, teléfono (WhatsApp), tu respuesta a la pregunta de preselección, el idioma en el que ves el sitio, y la fecha y hora de tu envío. | Data we collect: full name, email, phone (WhatsApp), your pre-screening answer, the language you viewed the site in, and the date and time of your submission. | provisional |
-| `privacy.p3` | Para qué los usamos: para contactarte sobre la llamada inicial y la Mentoría VIP, y para priorizar las llamadas. No los usamos para ningún otro fin ni los vendemos. | Purpose: to contact you about the initial call and the VIP Mentorship, and to prioritize calls. We do not use it for any other purpose and do not sell it. | provisional |
+| `privacy.p2` | Datos que recopilamos: nombre completo, correo electrónico, teléfono (WhatsApp), tu respuesta a la pregunta de preselección, el idioma en el que ves el sitio, y la fecha y hora de tu envío. Si usas la calculadora, guardamos tu nombre, tu correo, tu WhatsApp si lo das, tu resultado (meses y zona), si aceptaste recibir los correos de Gaby, el idioma y la fecha y hora; las cifras que escribes en la calculadora no se guardan. | Data we collect: full name, email, phone (WhatsApp), your pre-screening answer, the language you viewed the site in, and the date and time of your submission. If you use the calculator, we store your name, your email, your WhatsApp if you give it, your result (months and zone), whether you agreed to receive Gaby's emails, the language, and the date and time; the figures you enter in the calculator are not stored. | provisional |
+| `privacy.p3` | Para qué los usamos: para contactarte sobre la llamada inicial y la Mentoría VIP, para priorizar las llamadas y, si usas la calculadora, para mostrarte tu resultado y enviártelo por correo con la guía y, solo si lo aceptas, enviarte los correos de Gaby, de los que puedes darte de baja en cualquier momento. No los usamos para ningún otro fin ni los vendemos. | Purpose: to contact you about the initial call and the VIP Mentorship, to prioritize calls and, if you use the calculator, to show you your result and email it to you with the guide and, only if you agree, to send you Gaby's emails, which you can unsubscribe from at any time. We do not use it for any other purpose and do not sell it. | provisional |
 | `privacy.p4` | Con quién los compartimos: con Google (almacenamiento en Google Sheets) y Calendly (agendamiento de la llamada), que pueden almacenar información fuera de Costa Rica. | Who we share it with: Google (Google Sheets storage) and Calendly (scheduling the call), which may store data outside Costa Rica. | provisional |
-| `privacy.p5` | Carácter voluntario: brindar tus datos es opcional. Sin ellos no podemos procesar tu aplicación ni agendar tu llamada desde este sitio. | Voluntary nature: providing your data is optional. Without it, we cannot process your application or schedule your call from this site. | provisional |
+| `privacy.p5` | Carácter voluntario: brindar tus datos es opcional. Sin ellos no podemos procesar tu aplicación, agendar tu llamada ni mostrarte el resultado de la calculadora desde este sitio. | Voluntary nature: providing your data is optional. Without it, we cannot process your application, schedule your call or show you the calculator's result from this site. | provisional |
 | `privacy.p6` | Tus derechos: puedes solicitar acceso, rectificación, cancelación (eliminación) u oposición al tratamiento de tus datos escribiendo a {contact_email}. | Your rights: you can request access, rectification, cancellation (deletion), or opposition to the processing of your data by emailing {contact_email}. | provisional |
 | `privacy.p7` | Plazo de conservación: por definir; se actualizará cuando se complete la revisión legal. | Retention period: to be defined; this will be updated once legal review is complete. | provisional |
 | `privacy.p8` | Cada envío queda asociado a la versión de este aviso vigente en el momento de tu envío. | Each submission is associated with the version of this notice in effect at the time you submitted it. | provisional |
+
+v0.2 adds the calculator (US-035, US-036): `privacy.p2`, `privacy.p3` and `privacy.p5` cover its data, purpose and voluntary nature; `PRIVACY_NOTICE_VERSION` is bumped with this text. The scheduler (`privacy.p4`) changes with US-037 (GoHighLevel instead of Calendly, ADR-006).
 
 The privacy notice shows its own DRAFT label (`privacy.draft_label`), not the pending badge. Resource requests by email (US-025) are added to the notice before phase 2b goes live (US-025 AC6).
 
@@ -489,3 +491,68 @@ The privacy notice shows its own DRAFT label (`privacy.draft_label`), not the pe
 | Key | Español | English | Status |
 |---|---|---|---|
 | `pending.badge` | Pendiente de validación | Pending validation | approved |
+
+---
+
+## 11. Calculator (`/es/calculadora/`, `/en/calculator/`)
+
+US-035. The calculator is a **shell with a placeholder formula**: Gaby has her own calculator, which replaces the questions, the formula and the zones when she shares it (human owner, 2026-11-08). Until then every key below except the shared form keys is `provisional`, and the questions, zones and result show the pending badge in preview and development builds. The formula is in [`PROJECT_SPEC.md`](../specs/PROJECT_SPEC.md) FR-034.
+
+### 11.1 Page and questions
+
+| Key | Español | English | Status |
+|---|---|---|---|
+| `calc.eyebrow` | Diagnóstico gratis · 3 minutos | Free diagnosis · 3 minutes | approved |
+| `calc.title` | ¿Cuántos meses podrías sostenerte *si cambiara tu puesto?* | How many months could you sustain yourself *if your position changed?* | approved |
+| `calc.lead` | Cinco datos sobre tu dinero hoy. Usa la misma moneda en todos. | Five figures about your money today. Use the same currency for all of them. | provisional |
+| `calc.expenses.label` | Gastos mensuales de tu hogar | Your household's monthly expenses | provisional |
+| `calc.expenses.hint` | Lo que gastas en un mes normal: vivienda, comida, servicios, transporte, educación. | What you spend in a normal month: housing, food, utilities, transport, education. | provisional |
+| `calc.debt.label` | Pagos mensuales de deudas | Monthly debt payments | provisional |
+| `calc.debt.hint` | Tarjetas, préstamos y otras cuotas. Si no tienes, escribe 0. | Cards, loans and other installments. If you have none, enter 0. | provisional |
+| `calc.savings.label` | Ahorros disponibles | Available savings | provisional |
+| `calc.savings.hint` | Dinero que podrías usar ya: cuentas de ahorro, efectivo, fondo de emergencia. | Money you could use now: savings accounts, cash, emergency fund. | provisional |
+| `calc.investments.label` | Inversiones que podrías vender en un mes | Investments you could sell within a month | provisional |
+| `calc.investments.hint` | Acciones, fondos o ETFs. No incluyas tu casa ni tu pensión. Si no tienes, escribe 0. | Stocks, funds or ETFs. Don't include your home or your pension. If you have none, enter 0. | provisional |
+| `calc.other_income.label` | Ingresos mensuales sin tu salario | Monthly income without your salary | provisional |
+| `calc.other_income.hint` | Alquileres, un negocio propio u otros ingresos que seguirían si dejaras tu puesto. Si no tienes, escribe 0. | Rent, a business of your own or other income that would continue if you left your position. If you have none, enter 0. | provisional |
+| `calc.next` | Ver mi resultado | See my result | provisional |
+| `calc.error.number` | Escribe un número igual o mayor que 0. | Enter a number of 0 or more. | provisional |
+| `calc.error.no_outflow` | Tus gastos y pagos de deudas no pueden sumar 0. | Your expenses and debt payments can't add up to 0. | provisional |
+
+Required fields use `form.error.required` (§8.4). Figures are typed without currency symbols; the result does not depend on the currency.
+
+### 11.2 Your details before the result
+
+Gaby's funnel asks for the visitor's details before showing the result (brief 2026-11-08, §2, paso 3).
+
+| Key | Español | English | Status |
+|---|---|---|---|
+| `calc.capture.title` | Tu resultado está listo | Your result is ready | provisional |
+| `calc.capture.body` | Déjanos tus datos para verlo. | Leave us your details to see it. | provisional |
+| `calc.capture.phone.label` | WhatsApp (opcional) | WhatsApp (optional) | provisional |
+| `calc.capture.consent` | Acepto el tratamiento de mis datos personales según el [Aviso de Privacidad] para ver mi resultado y recibirlo por correo. | I agree to the processing of my personal data as described in the [Privacy Notice] to see my result and receive it by email. | provisional |
+| `calc.capture.marketing` | Quiero recibir los correos de Gaby: seis correos en dos semanas sobre cómo ordenar e invertir mi dinero, con invitaciones a una llamada inicial, y después un correo semanal. Puedo darme de baja en cualquier momento. | I want to receive Gaby's emails: six emails over two weeks on how to organize and invest my money, with invitations to an initial call, then a weekly email. I can unsubscribe at any time. | provisional |
+| `calc.capture.submit` | Ver mi resultado | See my result | provisional |
+
+Name and email use `form.name.*` and `form.email.*`; the optional WhatsApp uses `form.phone.hint` and its errors; errors use §8.4. `[...]` in `calc.capture.consent` opens the privacy notice dialog. `calc.capture.consent` is required; `calc.capture.marketing` is an optional, unticked checkbox, and only leads who tick it enter the email sequence (FR-037, BR-012). The required consent already covers emailing the result and the guide, which the visitor asks for; until US-038 sends them, nothing is emailed, and the consent collected then still covers the email when it starts. Both texts are part of the legal review (US-018).
+
+### 11.3 Result
+
+| Key | Español | English | Status |
+|---|---|---|---|
+| `calc.result.label` | Con tu dinero de hoy, sin tu salario, podrías sostenerte | With your money today, without your salary, you could sustain yourself for | provisional |
+| `calc.result.months` | {months} meses | {months} months | provisional |
+| `calc.result.covered` | Tus otros ingresos ya cubren tus gastos y deudas. | Your other income already covers your expenses and debts. | provisional |
+| `calc.zone.alert.title` | Zona de alerta | Alert zone | approved |
+| `calc.zone.alert.body` | Menos de 6 meses. Es el momento de ordenar tu dinero y construir tu colchón. | Less than 6 months. It's time to organize your money and build your cushion. | provisional |
+| `calc.zone.building.title` | Zona de construcción | Building zone | provisional |
+| `calc.zone.building.body` | De 6 a menos de 12 meses. Vas bien: ahora se trata de poner tu dinero a trabajar. | From 6 to under 12 months. You're on track: now it's about putting your money to work. | provisional |
+| `calc.zone.freedom.title` | Zona de libertad | Freedom zone | provisional |
+| `calc.zone.freedom.body` | 12 meses o más. Tienes margen para decidir sobre tu carrera desde la libertad. | 12 months or more. You have room to make career decisions from freedom. | provisional |
+| `calc.result.email_note` | Te enviamos tu resultado y la guía "Cómo empezar a invertir siendo ejecutivo" a tu correo. | We've sent your result and the guide "How to start investing as an executive" to your email. | provisional |
+| `calc.result.disclaimer` | Este cálculo es una estimación educativa con los datos que escribiste; no es una recomendación financiera. | This calculation is an educational estimate based on the figures you entered; it is not financial advice. | provisional |
+| `calc.result.cta` | = `cta.vip_apply` | = `cta.vip_apply` | approved |
+| `calc.result.secondary` | = `cta.all_resources` | = `cta.all_resources` | approved |
+| `calc.restart` | Calcular de nuevo | Calculate again | provisional |
+
+`{months}` has one decimal, with a decimal comma in Spanish ("4,4 meses") and a point in English ("4.4 months"). `calc.result.covered` replaces the months and the zone body when other income covers the monthly outflow; the zone is then "freedom". "Zona de alerta" is Gaby's label (her example result); the other zone names are the team's. `calc.result.email_note` is shown only once the guide is sent by email (US-038). In preview builds the capture step stores nothing and the result shows `preview.form_note` (§8.6).
