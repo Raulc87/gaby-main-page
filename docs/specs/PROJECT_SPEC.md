@@ -67,7 +67,7 @@ Needs:
 ### Site and navigation
 - FR-017: The site has these pages, each in Spanish and English: Home; My story (Mi historia); Free resources (Recursos gratis); VIP mentorship (Mentoría VIP: application, then scheduling); Blog (phase 2b, see section 15); Privacy notice (a page linked from the footer; the consent links keep opening it in a dialog, US-018); Calculator (Calculadora, FR-034); Método Polaris (its own page from phase 2c, with placeholder steps until the official ones arrive, US-028). A Terms page is added only when its text exists (section 16).
 - FR-018: A header on every page shows the brand name, the navigation (My story, Método Polaris, Free resources, Blog when it exists, language toggle) and one VIP link styled as an outlined (secondary) button, as in the brief's Home board (label "Aplicar a la Mentoría VIP" from phase 2c, shortened below 1024 px). On mobile the navigation collapses into a menu; the VIP link stays reachable.
-- FR-019: One premium path. Every VIP call to action leads to the VIP mentorship page. Gold is used only for in-page VIP calls to action (the Home hero button, VIP bands, the VIP application's submit button), never for the header link, and at most one gold button is visible in any viewport (BR-010). Free actions (resources, story, downloads) use the blue style.
+- FR-019: One premium path. Every VIP call to action leads to the VIP mentorship page. Gold is used only for in-page VIP calls to action (the Home hero button, VIP bands, the VIP application's submit button, the calculator result's VIP button), never for the header link, and at most one gold button is visible in any viewport (BR-010). Free actions (resources, story, downloads) use the blue style.
 - FR-020: A footer on every page shows the brand name and concept, the legal disclaimer (FR-028), a link to the privacy notice, and the Ley 8968 data-protection note. A Terms link is added when the Terms page exists.
 
 ### Home
@@ -94,11 +94,11 @@ Phase 2c (US-034): the Home follows Gaby's StoryBrand dummy, in this order: hero
 
 ### Calculator and the funnel (phase 2c)
 - FR-034: A calculator page answers "How many months could you sustain yourself if your position changed?" from five figures the visitor enters (the same currency in all): monthly household expenses, monthly debt payments, available savings, investments they could sell within a month, and monthly income that does not depend on their salary. **Placeholder formula until Gaby's calculator replaces it:** monthly gap = expenses + debt payments − other income; if the gap is 0 or less, the money is "covered" (freedom zone); otherwise months = (savings + liquid investments) ÷ gap, rounded down to one decimal for display. Zones, from the unrounded value: alert below 6 months, building from 6 to under 12, freedom from 12. The calculation runs in the browser. The result says it is an educational estimate, not financial advice.
-- FR-035: Before showing the result, the calculator asks for name, email, WhatsApp (optional) and consent (FR-013), and stores a calculator lead: those details, the language, the months and the zone, and the lead's source (FR-039). The figures the visitor typed are not sent or stored (data minimization). If the save fails, the result is not shown and the visitor can retry (NFR-006). In the preview it stores nothing (FR-030).
+- FR-035: Before showing the result, the calculator asks for name, email, WhatsApp (optional), the required consent (FR-013; it covers storing the lead and emailing the result) and an optional, separate consent to Gaby's follow-up emails (unticked by default), and stores a calculator lead: those details, both consents, the language, the months and the zone, and the lead's source (FR-039). The figures the visitor typed are not sent or stored (data minimization). If the save fails, the result is not shown and the visitor can retry (NFR-006). In the preview it stores nothing (FR-030).
 - FR-036: A calculator lead receives, by email and right away, their result and the ebook "Cómo empezar a invertir siendo ejecutivo" (from Gaby). Until this exists, the site does not promise an email.
-- FR-037: Calculator leads who have not booked a call receive the sales sequence of Gaby's funnel: six emails over 14 days (days 0, 3, 5, 8, 11 and 14; email 1 is FR-036), then a weekly email with valuable content. Booking a call at any time stops the sequence. Every email states why it was sent and has a working unsubscribe. The texts are Gaby's.
+- FR-037: Calculator leads who gave the follow-up consent (FR-035) and have not booked a call receive the sales sequence of Gaby's funnel: six emails over 14 days (days 0, 3, 5, 8, 11 and 14; email 1 is FR-036), then a weekly email with valuable content. Booking a call at any time stops the sequence. Every email states why it was sent and has a working unsubscribe. The texts are Gaby's.
 - FR-038: Gaby receives an email notification for each VIP application.
-- FR-039: Each lead records its source: `vip_application`, `calculator`, or the resource's identifier for resource requests (FR-025), so the follow-up can differ by source.
+- FR-039: Each lead records its source, so the follow-up can differ by source: VIP applications by their own tab (the VIP contract is unchanged), calculator leads by a `source` column set to `calculator`, and resource requests (FR-025) by the resource's identifier.
 
 ### VIP mentorship (application and scheduling)
 - FR-006: The VIP page includes the application form.
@@ -148,7 +148,7 @@ Phase 2c (US-034): the Home follows Gaby's StoryBrand dummy, in this order: hero
 - BR-009: The brand name on the site is "Gaby Kelly". The method is called "Método Polaris" (English: "Polaris Method") for now; a later name change is its own story. The VIP mentorship programme's official name is "Wealth Mastery" (both languages, e.g. "Mentoría VIP · Wealth Mastery").
 - BR-010: Gold is reserved for in-page VIP calls to action: at most one gold button visible in any viewport ("screen" means the viewport). The header VIP link is never gold.
 - BR-011: Testimonials, media logos, photos and quantified claims are shown only when real and authorized; until then they are visibly marked placeholders. Nothing is invented.
-- BR-012: Funnel emails are sent only to people who consented to them (the calculator's consent names them, FR-035), and stop at once when the person unsubscribes or books a call.
+- BR-012: The follow-up emails (FR-037) are sent only to people who gave their separate consent to them (FR-035), whose text names them; they stop at once when the person unsubscribes or books a call. The result email (FR-036) is what the visitor asked for and is covered by the required consent.
 
 ## 9. Main Product Flows
 
@@ -176,7 +176,7 @@ VIP applications (exact contract: `docs/specs/LEAD_API_CONTRACT.md`, unchanged b
 - `name`, `email`, `phone` (international format), `screening_answer` (code), `language`, `consent`
 - `submitted_at`, `privacy_notice_version` (server-generated); `status` (server sets `started`)
 
-Calculator leads (phase 2c; contract `LEAD_API_CONTRACT.md` v1.2, written before implementation, US-036): `name`, `email`, `phone` (optional), `language`, `consent`, `months` (one decimal, or none when covered), `zone` (`alert`, `building`, `freedom`); `source` = `calculator`; `submitted_at`, `privacy_notice_version` (server-generated); stored in their own tab. The figures typed into the calculator are not part of it.
+Calculator leads (phase 2c; contract `LEAD_API_CONTRACT.md` v1.2, written before implementation, US-036): `name`, `email`, `phone` (optional), `language`, `consent`, `marketing_consent`, `months` (one decimal, or none when covered), `zone` (`alert`, `building`, `freedom`); `source` = `calculator`; `submitted_at`, `privacy_notice_version` (server-generated); stored in their own tab. The figures typed into the calculator are not part of it.
 
 Resource requests (phase 2b; contract to be written before implementation): email, language, resource identifier, consent, server-generated timestamp and privacy notice version. They are not a subscription: the site sends only the requested resource (NG-006).
 
@@ -259,6 +259,7 @@ Out of scope:
 - Terms page: whether one is needed and its text (Gaby, legal review)
 - Session photos (Gaby), testimonials with authorization (Gaby), bio and credentials (Gaby)
 - The VIP explainer video and where it is hosted (Gaby, human owner)
+- The ebook title "Cómo empezar a invertir siendo ejecutivo" is masculine singular; BR-005 asks for gender-neutral language toward the visitor (Gaby)
 - Permission to show media logos (Canal 13, Radio Azul, Radio Fides); a clean, current Intel logo file and permission to use it (the file shared on 2026-11-08 has a stock-site watermark and is Intel's pre-2020 logo; Intel stays as text)
 - Sending account for resource emails (phase 2b)
 - Gaby's GoHighLevel calendar embed URL (ADR-006); final contact email (currently `gkelly@poliartcr.com`)

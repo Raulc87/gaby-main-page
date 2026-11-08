@@ -660,7 +660,7 @@ so that I understand how Gaby works before applying.
 1. A Método Polaris page exists in both languages at the path in `UX_UI_DIRECTION.md` (§5.7), with the steps and copy from `CONTENT_PHASE_2C.md` §12: until the official steps arrive, the three provisional steps with the pending badge and the placeholder block.
 2. The header navigation item (`nav.method`) leads to the page; the Home keeps its short Método Polaris section (US-034).
 3. The page ends with a VIP band; existing tests stay green and e2e covers the navigation in both languages.
-4. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §12 and `meta.method.*` (A.2).
+4. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §12, `meta.method.*` (A.2) and its row of A.1.
 
 ---
 
@@ -747,7 +747,7 @@ so that I see myself in it and know my next step: apply, or find out where I sta
 6. The calculator teaser links to the calculator page, shows the example result, and shows `home.calculator.receive` (not `receive_with_guide`) until US-038 is done; its two library links go to the resource library, where both resources show as coming soon.
 7. Pending badges follow `CONTENT.md` → Metadata (the new provisional blocks in preview and development builds; the hero photo and testimonial placeholders in every build).
 8. Existing tests are updated for the new order and anchors; e2e covers both languages, the hero's two calls to action, the gold rule at the four widths, and that no link points at the removed `#recursos` anchor.
-9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: parts A.1 to A.6 and §5 (replacing `CONTENT.md` §5), and bumps `CONTENT.md` to v0.2.
+9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: its rows of A.1 and A.2 (`meta.home.description`), A.3 to A.6b, and §5 (replacing `CONTENT.md` §5), and bumps `CONTENT.md` to v0.2.
 
 **Security**
 - None: static content. No new form or third party.
@@ -772,13 +772,13 @@ so that I understand where I stand and whether I need a plan.
 **Acceptance Criteria**
 1. The calculator page exists in both languages at the paths in `UX_UI_DIRECTION.md` §3, with the three steps of §5.6 and the copy of `CONTENT_PHASE_2C.md` §11.
 2. The five figures are required numbers of 0 or more, validated in the browser with the `CONTENT.md` errors; expenses plus debt payments must be above 0.
-3. The result follows the placeholder formula of FR-034 exactly, including the "covered" case and the zone limits (below 6, 6 to under 12, 12 or more, from the unrounded value), with one decimal in the language's format ("4,4 meses" / "4.4 months"). The formula lives in one function with unit tests for each zone, each boundary (5.99, 6, 11.99, 12), the covered case and rounding, so Gaby's version can replace it in one place.
-4. Before the result, the visitor gives name, email, optional WhatsApp and consent (`CONTENT_PHASE_2C.md` §11.2); the details are sent to the calculator-lead endpoint (US-036) with the months and the zone, never the five figures. The result appears only after a successful save; on an error the visitor sees the error message and can retry, and the result stays hidden (NFR-006).
+3. The result follows the placeholder formula of FR-034 exactly, including the "covered" case and the zone limits (below 6, 6 to under 12, 12 or more, from the unrounded value), with one decimal in the language's format ("4,4 meses" / "4.4 months"), and no upper limit (a test with a result above 1,000 months). The formula lives in one function with unit tests for each zone, each boundary (5.99, 6, 11.99, 12), the covered case and rounding, so Gaby's version can replace it in one place.
+4. Before the result, the visitor gives name, email, optional WhatsApp, the required consent and, optionally, the consent to Gaby's emails (`CONTENT_PHASE_2C.md` §11.2; the second checkbox starts unticked); the details are sent to the calculator-lead endpoint (US-036) with the months, the zone and whether the visitor ticked the email consent, never the five figures. The result appears only after a successful save; on an error the visitor sees the error message and can retry, and the result stays hidden (NFR-006).
 5. Preview builds store and send nothing: after the details step the result appears with `preview.form_note` (FR-030).
 6. The result shows the zone in words and colour (§6.7), the disclaimer, the gold `calc.result.cta` to the VIP page, the library link and "Calculate again". `calc.result.email_note` is not shown until US-038 is done.
 7. The questions, zones and result show the pending badge in preview and development builds (placeholder formula).
 8. Accessibility: every input has a label and hint linked to it; focus moves to each step's title; errors are announced; the page works at 360 px with no horizontal scroll. Without JavaScript the page shows the VIP and library links instead of the calculator.
-9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §11 and `meta.calculator.*` (A.2).
+9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §11, `meta.calculator.*` (A.2) and its row of A.1.
 
 **Security**
 - OWASP Top 10 (2025) A05 Injection and the API's input validation are covered by US-036. This story sends only what FR-035 lists (data minimization); the five figures never leave the browser.
@@ -802,10 +802,10 @@ I want every calculator lead stored with its result,
 so that I can follow up with the people who used it.
 
 **Acceptance Criteria**
-1. Before implementation, `LEAD_API_CONTRACT.md` v1.2 is approved in a docs PR: a calculator-lead endpoint (path, request fields of `PROJECT_SPEC.md` §10, `zone` codes `alert`, `building`, `freedom`, `months` as a number with one decimal or null when covered, optional `phone`, the honeypot and rate limit of v1.1, responses and error codes), and the sheet tab and its columns, including `source` = `calculator` and `status`.
+1. Before implementation, `LEAD_API_CONTRACT.md` v1.2 is approved in a docs PR: a calculator-lead endpoint (path, request fields of `PROJECT_SPEC.md` §10, `zone` codes `alert`, `building`, `freedom`, `months` as a number with one decimal or null when covered, optional `phone`, the required `consent` and the optional `marketing_consent` boolean, the honeypot and rate limit of v1.1, responses and error codes), and the sheet tab and its columns, including `source` = `calculator` and `status`.
 2. The backend implements the endpoint per the contract, validating every field (an unknown `zone`, `months` negative or with more than one decimal, a `zone` that does not match `months`, missing consent → field errors; `months` has no upper limit, since the formula has none, FR-034), storing a row in the calculator tab with server-generated `submitted_at`, `privacy_notice_version` and `status` = `started`.
 3. A failed save returns the contract's error and stores nothing partial (NFR-006). Honeypot and rate limit behave as for the VIP endpoint (ADR-004).
-4. `PRIVACY_NOTICE_VERSION` is bumped with the notice text of `CONTENT_PHASE_2C.md` A.8 (`privacy.p2`, `privacy.p3`), which the PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file.
+4. `PRIVACY_NOTICE_VERSION` is bumped with the notice text of `CONTENT_PHASE_2C.md` A.8 (`privacy.p2`, `privacy.p3`, `privacy.p5`), which the PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file.
 5. Tests cover the contract's success, validation errors, honeypot, rate limit and storage failure, as `LEAD_API_CONTRACT.md` §10 requires for the VIP endpoint.
 
 **Security**
@@ -831,7 +831,7 @@ so that I don't pay for Calendly as well and all my bookings are in one place.
 
 **Acceptance Criteria**
 1. The qualified thank-you screen embeds the booking widget at `PUBLIC_SCHEDULER_URL` (Gaby's GoHighLevel calendar) inline, as `UX_UI_DIRECTION.md` §6.4 says; `PUBLIC_CALENDLY_URL` and the Calendly embed are removed from the code, `.env.example` and the runbooks.
-2. The applicant's name, email and phone are prefilled in the widget if GoHighLevel's embed supports it; the PR states what was verified and how. If it doesn't, the visitor types them again and the PR says so.
+2. The applicant's name, email and phone are prefilled in the widget if GoHighLevel's embed supports it; the PR states what was verified and how. If it doesn't, the visitor types them again and the PR says so. Either way GoHighLevel ends up with the booking's name, email and phone, which `privacy.p4` states.
 3. The fallback (`thanks.scheduler_fallback`, renamed from `thanks.calendly_fallback`) appears when the URL is unset, the widget fails to load, or nothing appears within 10 seconds (US-007).
 4. The not-ready screen loads no scheduler. Preview builds still show the static stand-in and load nothing from GoHighLevel (FR-030).
 5. The privacy notice names GoHighLevel instead of Calendly (`CONTENT_PHASE_2C.md` A.8 (`privacy.p4`)), and `PRIVACY_NOTICE_VERSION` is bumped (with US-036 if both land in the same sprint).
@@ -849,7 +849,7 @@ so that I don't pay for Calendly as well and all my bookings are in one place.
 ## US-038 — Funnel emails: the calculator result with the ebook, and Gaby's notification
 - Priority: Medium
 - Story Points: 3
-- Status: Proposed — blocked on ADR-007 (how emails are sent) and on the ebook file (Gaby)
+- Status: Proposed — blocked on ADR-007's first decision (how one-off emails are sent; it can be decided before the sequences), on the ebook file (Gaby), and on US-036
 - Related Requirements: FR-036, FR-038, BR-012, NFR-006
 - Related ADR: ADR-007
 
@@ -889,9 +889,9 @@ I want calculator leads who haven't booked to receive my sequence and then a wee
 so that the people who are not ready yet keep hearing from me until they are.
 
 **Acceptance Criteria**
-1. A calculator lead who consented enters the sequence of `PROJECT_SPEC.md` FR-037 (emails 2 to 6 on days 3, 5, 8, 11 and 14; email 1 is US-038), then the weekly email, with Gaby's texts, in the lead's language.
+1. A calculator lead who ticked the email consent (`marketing_consent`, US-036) enters the sequence of `PROJECT_SPEC.md` FR-037 (emails 2 to 6 on days 3, 5, 8, 11 and 14; email 1 is US-038), then the weekly email, with Gaby's texts, in the lead's language.
 2. Booking a call stops the sequence for that person, using the booking signal ADR-007 sets (a GoHighLevel webhook or workflow, or Gaby marking the lead `booked`); the PR shows the stop working end to end.
-3. Unsubscribing stops every email to that person at once and is recorded; no email is sent to someone who did not consent (BR-012).
+3. Unsubscribing stops every email to that person at once and is recorded; no sequence or weekly email is sent to someone who did not tick the email consent (BR-012).
 4. The privacy notice names any new processor before the first email is sent.
 5. The PR documents in a runbook how Gaby edits the texts and checks who is in the sequence.
 

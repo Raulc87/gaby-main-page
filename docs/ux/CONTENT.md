@@ -4,7 +4,7 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
 
 ## Metadata
 - Version: 0.1
-- Phase 2c: the approved copy for phase 2c (Gaby's review, 2026-11-08) is staged in [`CONTENT_PHASE_2C.md`](CONTENT_PHASE_2C.md); each implementing story moves its part here in the same PR as its code, because the unit tests check the code against this file.
+- Phase 2c: the copy for phase 2c (Gaby's review, 2026-11-08) is staged in [`CONTENT_PHASE_2C.md`](CONTENT_PHASE_2C.md); each implementing story moves its part here in the same PR as its code, because the unit tests check the code against this file.
 - Status: Proposed for Sprint 003 (this PR)
 - Owner: Gaby Kelly approves copy; the human owner records it here
 - Source language: Spanish. Later changes start in Spanish and are translated in the same PR.

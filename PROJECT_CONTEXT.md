@@ -6,7 +6,7 @@
 - Repository: https://github.com/Raulc87/gaby-main-page
 - Starter Kit: https://github.com/Raulc87/sdd_starter_kit (private: attach it to the sessions that read its templates, guides and skills) · Edition: Full · Synced to kit v1.2.0 (tag on `bd756f9`). This is the project's only record of its kit version: templates, guides and kit skills are read at this ref, and each kit sync PR updates it.
 - Repository visibility: public, as the owner's portfolio (owner decision, kit issue Raulc87/sdd_starter_kit#16) · current setting public (only the owner changes it)
-- Status: Phase 2. Sprint 003 (phase 2a) DELIVERED 2026-10-16 (all stories Done, 34 points; the close-out gaps in US-024 AC4 and US-027 AC2 fixed 2026-10-17; closes after the Sprint Review; Gaby's review arrived 2026-11-08 and is planned as phase 2c). Sprint 002 closed 2026-10-16; Sprint 001 closed 2026-09-28. Production deploy (US-014) on hold until the domain and hosting are known; progress is shown on the GitHub Pages preview (ADR-005)
+- Status: Phase 2. Sprint 003 (phase 2a) DELIVERED 2026-10-16 (all stories Done, 34 points; the close-out gaps in US-024 AC4 and US-027 AC2 fixed 2026-10-17; closes after the Sprint Review; Gaby's review arrived 2026-11-08 and is planned as phase 2c). Sprint 002 closed 2026-10-16; Sprint 001 closed 2026-09-28. Production deploy (US-014) on hold until the hosting is decided (the domain is gabykelly.com); progress is shown on the GitHub Pages preview (ADR-005)
 - Product owner / final reviewer: Human project owner
 
 ## Active documentation

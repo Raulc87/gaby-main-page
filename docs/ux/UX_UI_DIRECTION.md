@@ -183,7 +183,7 @@ Plain reading page: title, the notice text (`CONTENT.md` §9) in a narrow column
 Copy: `CONTENT_PHASE_2C.md` §11. One page, three steps in place (no page reloads), in a `surface` card on `ivory`, max width 640 px:
 
 1. **Questions:** eyebrow, title, lead; five number inputs (the §6.2 input style, `inputmode="decimal"`, a label and a hint each); `calc.next` (blue). Errors as in §6.2.
-2. **Your details:** `calc.capture.title` and `.body`; name, email, optional WhatsApp, the consent checkbox (with the privacy-dialog link); `calc.capture.submit` (blue). The same honeypot pattern as the VIP form (§6.2, contract `website` field), and the same submission error handling (NFR-006).
+2. **Your details:** `calc.capture.title` and `.body`; name, email, optional WhatsApp, the required consent checkbox (with the privacy-dialog link) and the optional, unticked `calc.capture.marketing` checkbox below it; `calc.capture.submit` (blue). The same honeypot pattern as the VIP form (§6.2, contract `website` field), and the same submission error handling (NFR-006).
 3. **Result:** `calc.result.label`, the months in large Playfair `heritage-blue` (or `calc.result.covered`), the zone pill and its body (§6.7), the email note (only once US-038 is done), the disclaimer in `muted`, the gold `calc.result.cta` to the VIP page, the blue `calc.result.secondary` to the library, and the text link `calc.restart`.
 
 Focus moves to each step's title when it appears. Without JavaScript the page shows a short message with the VIP link and the library link (the calculator needs the browser to compute). Preview builds: step 2 stores nothing, and step 3 shows `preview.form_note` (§6.6).

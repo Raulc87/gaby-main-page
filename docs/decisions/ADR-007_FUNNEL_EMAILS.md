@@ -16,7 +16,7 @@ The emails are of two kinds:
 - **Transactional, one at a time:** the calculator result and the ebook (day 0), the resource a visitor requests (FR-025), and Gaby's notification for each VIP application. Low volume, triggered by a form.
 - **Sequences:** the six sales emails over 14 days (days 0, 3, 5, 8, 11, 14), which stop when the person books a call, and a weekly email after that for people who haven't booked. Scheduled, they need unsubscribe handling, and they are marketing email.
 
-Constraints: consent under Ley 8968 (the calculator's consent text names these emails, `CONTENT_PHASE_2C.md` §11.2); every marketing email has a working unsubscribe; email from a new sender lands in spam unless the domain is authenticated (SPF, DKIM, DMARC on gabykelly.com); Gmail sending limits (about 500 a day for a consumer account, 2,000 for Workspace).
+Constraints: consent under Ley 8968 (the result email is covered by the calculator's required consent; the sequences only by its separate, optional consent, which names them, `CONTENT_PHASE_2C.md` §11.2); every marketing email has a working unsubscribe; email from a new sender lands in spam unless the domain is authenticated (SPF, DKIM, DMARC on gabykelly.com); Gmail sending limits (about 500 a day for a consumer account, 2,000 for Workspace).
 
 ## Decision Drivers
 - Replace GHL except the calendar (owner)
@@ -50,7 +50,7 @@ Whatever is chosen, the transactional emails (result and ebook, Gaby's notificat
 ## Consequences (of the recommendation)
 - The privacy notice names the email tool as a processor before the sequence goes live.
 - Gaby's domain needs SPF, DKIM and DMARC records for the tool and for Gmail before the first email (go-live work, US-014).
-- US-038 (transactional) can start once Gmail sending is set up; US-039 (sequences) waits for this decision and for the six email texts from Gaby.
+- The decision can be taken in two parts. Part 1, how one-off emails are sent (recommended: our backend through Gaby's Google account), unblocks US-038 together with the ebook and US-036. Part 2, the sequences, unblocks US-039 together with the six email texts from Gaby.
 
 ## Review Trigger
 Volume beyond the tool's plan, or Gaby asking to keep everything in GHL.

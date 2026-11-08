@@ -12,22 +12,26 @@ The copy for phase 2c, from Gaby's review of 2026-11-08 ([`BRIEF_2026-11-08_STOR
 | A.4 §4 VIP band note | US-034 |
 | A.5 §7.3 two resources | US-034 |
 | A.6 §8.2 VSL note | US-034 (or any content PR) |
+| A.6b §6 `story.media.label` status | US-034 |
 | A.7 §8.5 scheduler fallback key | US-037 |
-| A.8 §9 privacy notice | US-036 (calculator data, `privacy.p2`, `privacy.p3`) and US-037 (GoHighLevel, `privacy.p4`) |
+| A.8 §9 privacy notice | US-036 (calculator data: `privacy.p2`, `privacy.p3`, `privacy.p5`) and US-037 (GoHighLevel: `privacy.p4`) |
 | §5 Home | US-034 (replaces `CONTENT.md` §5) |
 | §11 Calculator | US-035 (new section) |
 | §12 Método Polaris page | US-028 (new section) |
 
-Section numbers below are the ones the moved text takes in `CONTENT.md`, so references such as "§11" stay valid after the move. On moving §5, update `CONTENT.md` → Metadata's version (v0.2) and its pending-badge lists (A.1).
+Section numbers below are the ones the moved text takes in `CONTENT.md`, so references such as "§11" stay valid after the move. On moving §5, update `CONTENT.md` → Metadata's version (v0.2).
 
 ## A. Changes to existing sections of `CONTENT.md`
 
 ### A.1 Metadata: pending badge
 
-Replace the two badge lists with:
+Each story adds only its own blocks to the two lists in `CONTENT.md` → Metadata → Pending badge, so `CONTENT.md` never lists blocks of pages that don't exist yet. US-034 also replaces the Home references in the current lists (`§5.4` → `§5.6` for the Método Polaris steps, `§5.7` → `§5.9` for the testimonial cards; the resources teaser is gone).
 
-  - **Placeholders** (content that has not arrived; BR-011), badge in **every** build, production included, until the real content replaces them: the Home hero photo (§5.1), the testimonial cards (§5.9), the story photo and bio placeholders (§6), the VIP video module (§8.2), and every resource card whose file has not been delivered (§7.3).
-  - **Provisional copy blocks**, badge in preview and development builds only: the problem's second paragraph (§5.2), the third figure of the guide (§5.4), the Método Polaris steps (§5.6), the Wealth Mastery modules (§5.7), the VIP steps (§8.1), the not-ready screen (§8.5), the calculator's questions, zones and result (§11, placeholder formula), and resource cards with provisional titles. Before any production release, each of these is approved or the human owner decides per block whether it ships (as the phase 1 go-live gate did).
+| Story | Add to **Placeholders** (badge in every build) | Add to **Provisional copy blocks** (preview and development builds) |
+|---|---|---|
+| US-034 | the Home hero photo (§5.1) | the problem's second paragraph (§5.2), the third figure of the guide (§5.4), the Wealth Mastery modules (§5.7) |
+| US-035 | — | the calculator's questions, zones and result (§11, placeholder formula) |
+| US-028 | the Método Polaris page's steps placeholder (`method.steps.placeholder`, §12) | — |
 
 ### A.2 §1 Site metadata
 
@@ -77,6 +81,10 @@ Add under the table:
 
 The module holds Gaby's VSL (her sales video), which she will record again for the new audience (brief 2026-11-08, §3 note 4). Until it arrives the placeholder stays.
 
+### A.6b §6 My story: status
+
+`story.media.label` ("Me han entrevistado en") becomes `approved`: Gaby's dummy uses it verbatim (brief §1, section 4). Its value does not change.
+
 ### A.7 §8.5 After a successful application
 
 `thanks.calendly_fallback` is renamed (same text):
@@ -89,11 +97,13 @@ The module holds Gaby's VSL (her sales video), which she will record again for t
 
 | Key | Español | English | Status |
 |---|---|---|---|
-| `privacy.p2` | Datos que recopilamos: nombre completo, correo electrónico, teléfono (WhatsApp), tu respuesta a la pregunta de preselección, el idioma en el que ves el sitio, y la fecha y hora de tu envío. Si usas la calculadora, guardamos tu nombre, tu correo, tu WhatsApp si lo das, y tu resultado (meses y zona); las cifras que escribes en la calculadora no se guardan. | Data we collect: full name, email, phone (WhatsApp), your pre-screening answer, the language you viewed the site in, and the date and time of your submission. If you use the calculator, we store your name, your email, your WhatsApp if you give it, and your result (months and zone); the figures you enter in the calculator are not stored. | provisional |
-| `privacy.p3` | Para qué los usamos: para contactarte sobre la llamada inicial y la Mentoría VIP, para priorizar las llamadas y, si usas la calculadora, para mostrarte tu resultado y enviarte por correo tu resultado, la guía y contenido relacionado, del que puedes darte de baja en cualquier momento. No los usamos para ningún otro fin ni los vendemos. | Purpose: to contact you about the initial call and the VIP Mentorship, to prioritize calls and, if you use the calculator, to show you your result and email you your result, the guide and related content, which you can unsubscribe from at any time. We do not use it for any other purpose and do not sell it. | provisional |
-| `privacy.p4` | Con quién los compartimos: con Google (almacenamiento en Google Sheets) y GoHighLevel (agendamiento de la llamada: los datos que escribes al agendar), que pueden almacenar información fuera de Costa Rica. | Who we share it with: Google (Google Sheets storage) and GoHighLevel (scheduling the call: the details you enter when you book), which may store data outside Costa Rica. | provisional |
+| `privacy.p2` | Datos que recopilamos: nombre completo, correo electrónico, teléfono (WhatsApp), tu respuesta a la pregunta de preselección, el idioma en el que ves el sitio, y la fecha y hora de tu envío. Si usas la calculadora, guardamos tu nombre, tu correo, tu WhatsApp si lo das, tu resultado (meses y zona), si aceptaste recibir los correos de Gaby, el idioma y la fecha y hora; las cifras que escribes en la calculadora no se guardan. | Data we collect: full name, email, phone (WhatsApp), your pre-screening answer, the language you viewed the site in, and the date and time of your submission. If you use the calculator, we store your name, your email, your WhatsApp if you give it, your result (months and zone), whether you agreed to receive Gaby's emails, the language, and the date and time; the figures you enter in the calculator are not stored. | provisional |
+| `privacy.p3` | Para qué los usamos: para contactarte sobre la llamada inicial y la Mentoría VIP, para priorizar las llamadas y, si usas la calculadora, para mostrarte tu resultado y enviártelo por correo con la guía y, solo si lo aceptas, enviarte los correos de Gaby, de los que puedes darte de baja en cualquier momento. No los usamos para ningún otro fin ni los vendemos. | Purpose: to contact you about the initial call and the VIP Mentorship, to prioritize calls and, if you use the calculator, to show you your result and email it to you with the guide and, only if you agree, to send you Gaby's emails, which you can unsubscribe from at any time. We do not use it for any other purpose and do not sell it. | provisional |
+| `privacy.p4` | Con quién los compartimos: con Google (almacenamiento en Google Sheets) y GoHighLevel (agendamiento de la llamada: tu nombre, correo y teléfono, y los datos de tu reserva), que pueden almacenar información fuera de Costa Rica. | Who we share it with: Google (Google Sheets storage) and GoHighLevel (scheduling the call: your name, email and phone, and your booking details), which may store data outside Costa Rica. | provisional |
 
-They replace the current rows. Add to the note under the table: v0.2 adds the calculator (US-035, US-036) and replaces Calendly with GoHighLevel (US-037, ADR-006). If ADR-007 adds an email provider, it is named in `privacy.p4` in the same PR that adds it. Bump `PRIVACY_NOTICE_VERSION` when this text changes.
+| `privacy.p5` | Carácter voluntario: brindar tus datos es opcional. Sin ellos no podemos procesar tu aplicación, agendar tu llamada ni mostrarte el resultado de la calculadora desde este sitio. | Voluntary nature: providing your data is optional. Without it, we cannot process your application, schedule your call or show you the calculator's result from this site. | provisional |
+
+They replace the current rows (`privacy.p5` moves with US-036). Add to the note under the table: v0.2 adds the calculator (US-035, US-036) and replaces Calendly with GoHighLevel (US-037, ADR-006). If ADR-007 adds an email provider, it is named in `privacy.p4` in the same PR that adds it. Bump `PRIVACY_NOTICE_VERSION` when this text changes.
 
 ## 5. Home (`/es/`, `/en/`)
 
@@ -156,7 +166,7 @@ Phase 2c (US-034): the StoryBrand Home from Gaby's review of 2026-11-08 ([`BRIEF
 | `home.story.stat.2.label` | años invirtiendo | years investing | approved |
 | `home.story.stat.3.value` | 200+ | 200+ | provisional |
 | `home.story.stat.3.label` | personas acompañadas | people mentored | approved |
-| `home.story.media.label` | = `story.media.label` | = `story.media.label` | provisional |
+| `home.story.media.label` | = `story.media.label` | = `story.media.label` | approved |
 | `home.story.portrait_alt` | Retrato de Gaby Kelly | Portrait of Gaby Kelly | provisional |
 | `home.story.cta` | = `cta.read_story` | = `cta.read_story` | approved |
 
@@ -262,7 +272,7 @@ Three placeholder cards (two with photo and text, one video) until real, authori
 | `home.calculator.title` | ¿Cuántos meses podrías sostenerte *si cambiara tu puesto?* | How many months could you sustain yourself *if your position changed?* | approved |
 | `home.calculator.lead` | Cinco datos y descubres cuánto tiempo te da hoy tu dinero sin tu salario. | Five figures and you find out how long your money would last today without your salary. | approved |
 | `home.calculator.receive` | Recibes tu resultado y tu zona al instante. | You get your result and your zone right away. | provisional |
-| `home.calculator.receive_with_guide` | Recibes tu resultado, tu zona y la guía «Cómo empezar a invertir siendo ejecutivo». | You get your result, your zone and the guide "How to start investing as an executive". | approved |
+| `home.calculator.receive_with_guide` | Recibes tu resultado, tu zona y la guía "Cómo empezar a invertir siendo ejecutivo". | You get your result, your zone and the guide "How to start investing as an executive". | approved |
 | `home.calculator.cta` | Calcular mis meses gratis | Calculate my months for free | approved |
 | `home.calculator.example.label` | Ejemplo de resultado | Example result | approved |
 | `home.calculator.example.value` | 4,4 meses | 4.4 months | approved |
@@ -324,10 +334,11 @@ Gaby's funnel asks for the visitor's details before showing the result (brief 20
 | `calc.capture.title` | Tu resultado está listo | Your result is ready | provisional |
 | `calc.capture.body` | Déjanos tus datos para verlo. | Leave us your details to see it. | provisional |
 | `calc.capture.phone.label` | WhatsApp (opcional) | WhatsApp (optional) | provisional |
-| `calc.capture.consent` | Acepto el tratamiento de mis datos personales según el [Aviso de Privacidad], y recibir por correo mi resultado y contenido relacionado. Puedo darme de baja en cualquier momento. | I agree to the processing of my personal data as described in the [Privacy Notice], and to receiving my result and related content by email. I can unsubscribe at any time. | provisional |
+| `calc.capture.consent` | Acepto el tratamiento de mis datos personales según el [Aviso de Privacidad] para ver mi resultado y recibirlo por correo. | I agree to the processing of my personal data as described in the [Privacy Notice] to see my result and receive it by email. | provisional |
+| `calc.capture.marketing` | Quiero recibir los correos de Gaby: seis correos en dos semanas sobre cómo ordenar e invertir mi dinero, con invitaciones a una llamada inicial, y después un correo semanal. Puedo darme de baja en cualquier momento. | I want to receive Gaby's emails: six emails over two weeks on how to organize and invest my money, with invitations to an initial call, then a weekly email. I can unsubscribe at any time. | provisional |
 | `calc.capture.submit` | Ver mi resultado | See my result | provisional |
 
-Name and email use `form.name.*` and `form.email.*`; the optional WhatsApp uses `form.phone.hint` and its errors; errors use §8.4. `[...]` in `calc.capture.consent` opens the privacy notice dialog. The consent wording is part of the legal review (US-018).
+Name and email use `form.name.*` and `form.email.*`; the optional WhatsApp uses `form.phone.hint` and its errors; errors use §8.4. `[...]` in `calc.capture.consent` opens the privacy notice dialog. `calc.capture.consent` is required; `calc.capture.marketing` is an optional, unticked checkbox, and only leads who tick it enter the email sequence (FR-037, BR-012). The required consent already covers emailing the result and the guide, which the visitor asks for; until US-038 sends them, nothing is emailed, and the consent collected then still covers the email when it starts. Both texts are part of the legal review (US-018).
 
 ### 11.3 Result
 
@@ -339,10 +350,10 @@ Name and email use `form.name.*` and `form.email.*`; the optional WhatsApp uses 
 | `calc.zone.alert.title` | Zona de alerta | Alert zone | approved |
 | `calc.zone.alert.body` | Menos de 6 meses. Es el momento de ordenar tu dinero y construir tu colchón. | Less than 6 months. It's time to organize your money and build your cushion. | provisional |
 | `calc.zone.building.title` | Zona de construcción | Building zone | provisional |
-| `calc.zone.building.body` | Entre 6 y 12 meses. Vas bien: ahora se trata de poner tu dinero a trabajar. | Between 6 and 12 months. You're on track: now it's about putting your money to work. | provisional |
+| `calc.zone.building.body` | De 6 a menos de 12 meses. Vas bien: ahora se trata de poner tu dinero a trabajar. | From 6 to under 12 months. You're on track: now it's about putting your money to work. | provisional |
 | `calc.zone.freedom.title` | Zona de libertad | Freedom zone | provisional |
-| `calc.zone.freedom.body` | Más de 12 meses. Tienes margen para decidir sobre tu carrera desde la libertad. | More than 12 months. You have room to make career decisions from freedom. | provisional |
-| `calc.result.email_note` | Te enviamos tu resultado y la guía «Cómo empezar a invertir siendo ejecutivo» a tu correo. | We've sent your result and the guide "How to start investing as an executive" to your email. | approved |
+| `calc.zone.freedom.body` | 12 meses o más. Tienes margen para decidir sobre tu carrera desde la libertad. | 12 months or more. You have room to make career decisions from freedom. | provisional |
+| `calc.result.email_note` | Te enviamos tu resultado y la guía "Cómo empezar a invertir siendo ejecutivo" a tu correo. | We've sent your result and the guide "How to start investing as an executive" to your email. | provisional |
 | `calc.result.disclaimer` | Este cálculo es una estimación educativa con los datos que escribiste; no es una recomendación financiera. | This calculation is an educational estimate based on the figures you entered; it is not financial advice. | provisional |
 | `calc.result.cta` | = `cta.vip_apply` | = `cta.vip_apply` | approved |
 | `calc.result.secondary` | = `cta.all_resources` | = `cta.all_resources` | approved |
