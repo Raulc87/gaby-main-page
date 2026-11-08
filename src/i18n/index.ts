@@ -71,6 +71,8 @@ export interface CommonContent {
     resources: PageMeta;
     vip: PageMeta;
     privacy: PageMeta;
+    calculator: PageMeta;
+    method: PageMeta;
   };
   nav: {
     brand: string;
@@ -78,6 +80,7 @@ export interface CommonContent {
     method: string;
     resources: string;
     vip: string;
+    vip_short: string;
     menu_open: string;
     menu_close: string;
     label: string;

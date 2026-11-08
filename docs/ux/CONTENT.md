@@ -30,7 +30,7 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
 |---|---|---|---|
 | `meta.site_name` | Gaby Kelly | Gaby Kelly | approved |
 | `meta.home.title` | Gaby Kelly — Del mundo corporativo a tu libertad financiera | Gaby Kelly — From corporate life to your financial freedom | approved |
-| `meta.home.description` | Mentoría financiera para ejecutivos y profesionales de transnacionales: ordena tu dinero, aprovecha los beneficios de tu carrera e invierte para construir patrimonio. | Financial mentorship for executives and professionals at multinational companies: organize your money, make the most of your career's benefits and invest to build wealth. | provisional |
+| `meta.home.description` | Mentoría financiera para ejecutivos y profesionales corporativos: ordena tu dinero, convierte los beneficios de tu carrera en capital e invierte para construir patrimonio. | Financial mentorship for corporate executives and professionals: organize your money, turn your career's benefits into capital and invest to build wealth. | provisional |
 | `meta.story.title` | Mi historia — Gaby Kelly | My story — Gaby Kelly | provisional |
 | `meta.story.description` | Del mundo corporativo a mi libertad: la historia de Gaby Kelly. | From corporate life to my freedom: Gaby Kelly's story. | provisional |
 | `meta.resources.title` | Recursos gratis — Gaby Kelly | Free resources — Gaby Kelly | provisional |
@@ -39,6 +39,10 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
 | `meta.vip.description` | Aplica para trabajar directamente con Gaby y agenda tu llamada inicial sin costo. | Apply to work directly with Gaby and book your free initial call. | provisional |
 | `meta.privacy.title` | Aviso de privacidad — Gaby Kelly | Privacy notice — Gaby Kelly | provisional |
 | `meta.privacy.description` | Cómo tratamos tus datos personales según la Ley 8968. | How we handle your personal data under Costa Rica Law 8968. | provisional |
+| `meta.calculator.title` | ¿Cuántos meses podrías sostenerte? — Gaby Kelly | How many months could you sustain yourself? — Gaby Kelly | provisional |
+| `meta.calculator.description` | Diagnóstico gratis en 3 minutos: descubre cuánto tiempo te da hoy tu dinero sin tu salario. | A free 3-minute diagnosis: find out how long your money would last today without your salary. | provisional |
+| `meta.method.title` | Método Polaris — Gaby Kelly | The Polaris Method — Gaby Kelly | provisional |
+| `meta.method.description` | Los tres pasos del Método Polaris para que tu salario trabaje para ti. | The three steps of the Polaris Method so your salary works for you. | provisional |
 
 ## 2. Header, navigation and language
 
@@ -49,14 +53,15 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
 | `nav.method` | Método Polaris | Polaris Method | approved |
 | `nav.resources` | Recursos gratis | Free resources | approved |
 | `nav.blog` | Blog | Blog | approved |
-| `nav.vip` | Mentoría VIP | VIP Mentorship | approved |
+| `nav.vip` | Aplicar a la Mentoría VIP | Apply to the VIP Mentorship | approved |
+| `nav.vip_short` | Mentoría VIP | VIP Mentorship | approved |
 | `nav.menu_open` | Abrir menú | Open menu | provisional |
 | `nav.menu_close` | Cerrar menú | Close menu | provisional |
 | `nav.label` | Navegación principal | Main navigation | provisional |
 | `lang.toggle_label` | Cambiar idioma | Change language | approved |
 | `skip_link` | Saltar al contenido | Skip to content | provisional |
 
-`nav.blog` is not shown until US-026. `nav.method` links to the Home section `#metodo` until US-028.
+`nav.blog` is not shown until US-026. `nav.method` links to the Método Polaris page (§12, US-028). `nav.vip` is the dummy's header label (2026-11-08); below 1024 px the header shows `nav.vip_short`, which fits next to the menu button.
 
 ## 3. Footer
 

@@ -67,10 +67,30 @@ test.describe('header and footer on every page', () => {
           expect((await link.boundingBox())!.height).toBeGreaterThanOrEqual(44);
         }
 
-        // AC1: no blog or method page in phase 2a.
-        await expect(page.locator('a[href*="/blog"], a[href*="metodo-polaris"], a[href*="polaris-method"]')).toHaveCount(0);
+        // AC1: no blog link, and no link to the Método Polaris page until GK-028-method-page.
+        // (The Método Polaris stub's own language toggle links to its other-language path.)
+        if (id !== 'method') {
+          await expect(
+            page.locator('a[href*="/blog"], a[href*="metodo-polaris"], a[href*="polaris-method"]'),
+          ).toHaveCount(0);
+        }
       });
     }
+  }
+
+  for (const lang of LANGUAGES) {
+    test(`the outlined VIP link shows the long label from 1024 px and the short one below (${lang})`, async ({ page }) => {
+      const { nav } = dictionaries[lang];
+      const link = page.locator('header [data-nav="vip"]');
+      await page.setViewportSize({ width: 1024, height: 800 });
+      await page.goto(routePath('home', lang));
+      await expect(link).toHaveText(nav.vip, { useInnerText: true });
+      await page.setViewportSize({ width: 1023, height: 800 });
+      await expect(link).toHaveText(nav.vip_short, { useInnerText: true });
+      await page.setViewportSize({ width: 360, height: 800 });
+      await expect(link).toHaveText(nav.vip_short, { useInnerText: true });
+      await expect(link).toBeVisible();
+    });
   }
 
   test('the current page is marked in the navigation', async ({ page }) => {
@@ -230,8 +250,8 @@ test.describe('360 px', () => {
   });
 });
 
-test('the page ids are exactly the phase 2a pages', () => {
-  const ids: PageId[] = ['home', 'story', 'resources', 'vip', 'privacy'];
+test('the page ids are the phase 2a pages plus method and calculator (phase 2c)', () => {
+  const ids: PageId[] = ['home', 'story', 'resources', 'vip', 'privacy', 'method', 'calculator'];
   expect([...PAGE_IDS]).toEqual(ids);
 });
 

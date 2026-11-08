@@ -12,7 +12,7 @@ export const common: CommonContent = {
       title:
         'Gaby Kelly — From corporate life to your financial freedom',
       description:
-        'Financial mentorship for executives and professionals at multinational companies: organize your money, make the most of your career\'s benefits and invest to build wealth.',
+        'Financial mentorship for corporate executives and professionals: organize your money, turn your career\'s benefits into capital and invest to build wealth.',
     },
     story: {
       title: 'My story — Gaby Kelly',
@@ -33,13 +33,24 @@ export const common: CommonContent = {
       description:
         'How we handle your personal data under Costa Rica Law 8968.',
     },
+    calculator: {
+      title: 'How many months could you sustain yourself? — Gaby Kelly',
+      description:
+        'A free 3-minute diagnosis: find out how long your money would last today without your salary.',
+    },
+    method: {
+      title: 'The Polaris Method — Gaby Kelly',
+      description:
+        'The three steps of the Polaris Method so your salary works for you.',
+    },
   },
   nav: {
     brand: 'Gaby Kelly',
     story: 'My story',
     method: 'Polaris Method',
     resources: 'Free resources',
-    vip: 'VIP Mentorship',
+    vip: 'Apply to the VIP Mentorship',
+    vip_short: 'VIP Mentorship',
     menu_open: 'Open menu',
     menu_close: 'Close menu',
     label: 'Main navigation',

@@ -7,8 +7,6 @@ The copy for phase 2c, from Gaby's review of 2026-11-08 ([`BRIEF_2026-11-08_STOR
 | Part | Moved into `CONTENT.md` by |
 |---|---|
 | A.1 Metadata: pending-badge lists | the story whose blocks they list (US-034, US-035, US-028) |
-| A.2 §1 page metadata | US-034's scaffold, `GK-034-site-scaffold` (all rows; Sprint 004 plan) |
-| A.3 §2 navigation | US-034's scaffold, `GK-034-site-scaffold` |
 | A.4 §4 VIP band note | US-034 |
 | A.5 §7.3 two resources | US-034 |
 | A.6 §8.2 VSL note | US-034 (or any content PR) |
@@ -34,29 +32,6 @@ Each story adds only its own blocks to the two lists in `CONTENT.md` → Metadat
 | US-034 | the Home hero photo (§5.1) | the problem's second paragraph (§5.2), the third figure of the guide (§5.4), the Wealth Mastery modules (§5.7) |
 | US-035 | — | the calculator's questions, zones and result (§11, placeholder formula) |
 | US-028 | the Método Polaris page's steps placeholder (`method.steps.placeholder`, §12) | — |
-
-### A.2 §1 Site metadata
-
-| Key | Español | English | Status |
-|---|---|---|---|
-| `meta.home.description` | Mentoría financiera para ejecutivos y profesionales corporativos: ordena tu dinero, convierte los beneficios de tu carrera en capital e invierte para construir patrimonio. | Financial mentorship for corporate executives and professionals: organize your money, turn your career's benefits into capital and invest to build wealth. | provisional |
-| `meta.calculator.title` | ¿Cuántos meses podrías sostenerte? — Gaby Kelly | How many months could you sustain yourself? — Gaby Kelly | provisional |
-| `meta.calculator.description` | Diagnóstico gratis en 3 minutos: descubre cuánto tiempo te da hoy tu dinero sin tu salario. | A free 3-minute diagnosis: find out how long your money would last today without your salary. | provisional |
-| `meta.method.title` | Método Polaris — Gaby Kelly | The Polaris Method — Gaby Kelly | provisional |
-| `meta.method.description` | Los tres pasos del Método Polaris para que tu salario trabaje para ti. | The three steps of the Polaris Method so your salary works for you. | provisional |
-
-`meta.home.description` replaces the current row; the others are new.
-
-### A.3 §2 Header and navigation
-
-| Key | Español | English | Status |
-|---|---|---|---|
-| `nav.vip` | Aplicar a la Mentoría VIP | Apply to the VIP Mentorship | approved |
-| `nav.vip_short` | Mentoría VIP | VIP Mentorship | approved |
-
-`nav.vip` replaces the current row; `nav.vip_short` is new. Replace the note under the table with:
-
-`nav.blog` is not shown until US-026. `nav.method` links to the Método Polaris page (§12, US-028). `nav.vip` is the dummy's header label (2026-11-08); below 1024 px the header shows `nav.vip_short`, which fits next to the menu button.
 
 ### A.4 §4 VIP band
 
