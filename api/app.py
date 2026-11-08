@@ -1,6 +1,6 @@
 """Flask application factory.
 
-`api_prefix` lets the same app expose /save-lead both:
+`api_prefix` lets the same app expose /save-lead and /save-calculator-lead both:
 - unprefixed, for cPanel Passenger, which mounts the app at /api and strips
   the prefix before it reaches the WSGI app (see ADR-001), and
 - prefixed with /api, for local development (run_local.py), so that
@@ -17,10 +17,18 @@ from config import Config
 from errors import register_error_handlers
 from rate_limit import RateLimiter
 from responses import contract_response
+from routes.calculator_lead import bp as calculator_lead_bp
 from routes.lead import bp as lead_bp
-from storage import create_storage
+from storage import create_calculator_storage, create_storage
 
 MAX_REQUEST_BODY_BYTES = 10 * 1024  # LEAD_API_CONTRACT.md section 2
+
+
+def _new_rate_limiter(config: Config) -> RateLimiter:
+    return RateLimiter(
+        max_requests=config.RATE_LIMIT_MAX_REQUESTS,
+        window_seconds=config.RATE_LIMIT_WINDOW_SECONDS,
+    )
 
 
 def create_app(api_prefix: str = "") -> Flask:
@@ -41,26 +49,31 @@ def create_app(api_prefix: str = "") -> Flask:
 
     config = Config()
     app.config["LEAD_STORAGE"] = create_storage(config)
+    app.config["CALCULATOR_LEAD_STORAGE"] = create_calculator_storage(config)
     app.config["PRIVACY_NOTICE_VERSION"] = config.PRIVACY_NOTICE_VERSION
-    app.config["RATE_LIMITER"] = RateLimiter(
-        max_requests=config.RATE_LIMIT_MAX_REQUESTS,
-        window_seconds=config.RATE_LIMIT_WINDOW_SECONDS,
-    )
+    # One limiter per endpoint: the calculator's requests never count
+    # against /save-lead's budget, nor the reverse (contract section 11.1).
+    app.config["RATE_LIMITER"] = _new_rate_limiter(config)
+    app.config["CALCULATOR_RATE_LIMITER"] = _new_rate_limiter(config)
 
-    save_lead_path = f"{api_prefix}/save-lead"
+    limiter_config_key_by_path = {
+        f"{api_prefix}/save-lead": "RATE_LIMITER",
+        f"{api_prefix}/save-calculator-lead": "CALCULATOR_RATE_LIMITER",
+    }
 
     @app.before_request
     def _enforce_rate_limit():
         # Registered at app level (not on the blueprint) and matched on
         # the raw path so this runs before Flask's method dispatch: a
-        # non-POST request to /save-lead is counted and can be rejected
+        # non-POST request to a lead endpoint is counted and can be rejected
         # with 429 here, before Flask would otherwise answer 405
         # (LEAD_API_CONTRACT.md section 3.2: "checked first, before any
         # other processing"; every request that reaches the endpoint
         # counts, whatever its later outcome).
-        if request.path != save_lead_path:
+        limiter_config_key = limiter_config_key_by_path.get(request.path)
+        if limiter_config_key is None:
             return None
-        limiter = app.config["RATE_LIMITER"]
+        limiter = app.config[limiter_config_key]
         allowed, retry_after = limiter.check(request.remote_addr or "")
         if allowed:
             return None
@@ -71,5 +84,6 @@ def create_app(api_prefix: str = "") -> Flask:
 
     register_error_handlers(app)
     app.register_blueprint(lead_bp, url_prefix=api_prefix)
+    app.register_blueprint(calculator_lead_bp, url_prefix=api_prefix)
 
     return app

@@ -10,6 +10,8 @@
 interface Props {
   variant: 'gold' | 'blue' | 'outlined';
   label: string;
+  /** Shown instead of `label` below 1024 px (header VIP link, UX_UI_DIRECTION.md section 4.1). */
+  shortLabel?: string;
   href?: string;
   /** Trailing arrow icon (default true). */
   arrow?: boolean;
@@ -26,6 +28,7 @@ interface Props {
 const {
   variant,
   label,
+  shortLabel,
   href,
   arrow = true,
   compact = false,
@@ -62,7 +65,16 @@ const classes = [
 ---
 
 <Tag {...tagProps} class:list={classes} {...attrs}>
-  {label}
+  {
+    shortLabel ? (
+      <>
+        <span class="hidden lg:inline">{label}</span>
+        <span class="lg:hidden">{shortLabel}</span>
+      </>
+    ) : (
+      label
+    )
+  }
   {
     arrow && (
       <svg

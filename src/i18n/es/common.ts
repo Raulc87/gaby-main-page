@@ -12,7 +12,7 @@ export const common: CommonContent = {
       title:
         'Gaby Kelly — Del mundo corporativo a tu libertad financiera',
       description:
-        'Mentoría financiera para ejecutivos y profesionales de transnacionales: ordena tu dinero, aprovecha los beneficios de tu carrera e invierte para construir patrimonio.',
+        'Mentoría financiera para ejecutivos y profesionales corporativos: ordena tu dinero, convierte los beneficios de tu carrera en capital e invierte para construir patrimonio.',
     },
     story: {
       title: 'Mi historia — Gaby Kelly',
@@ -33,13 +33,24 @@ export const common: CommonContent = {
       title: 'Aviso de privacidad — Gaby Kelly',
       description: 'Cómo tratamos tus datos personales según la Ley 8968.',
     },
+    calculator: {
+      title: '¿Cuántos meses podrías sostenerte? — Gaby Kelly',
+      description:
+        'Diagnóstico gratis en 3 minutos: descubre cuánto tiempo te da hoy tu dinero sin tu salario.',
+    },
+    method: {
+      title: 'Método Polaris — Gaby Kelly',
+      description:
+        'Los tres pasos del Método Polaris para que tu salario trabaje para ti.',
+    },
   },
   nav: {
     brand: 'Gaby Kelly',
     story: 'Mi historia',
     method: 'Método Polaris',
     resources: 'Recursos gratis',
-    vip: 'Mentoría VIP',
+    vip: 'Aplicar a la Mentoría VIP',
+    vip_short: 'Mentoría VIP',
     menu_open: 'Abrir menú',
     menu_close: 'Cerrar menú',
     label: 'Navegación principal',

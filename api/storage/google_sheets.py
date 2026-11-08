@@ -1,7 +1,7 @@
 """Google Sheets lead storage adapter (ADR-002).
 
 Appends one row per lead, in the column order from LEAD_API_CONTRACT.md
-section 6, using RAW value input so values are stored as literal text.
+section 6 (VIP leads) or 11.5 (calculator leads), using RAW value input so values are stored as literal text.
 
 Never logs the lead payload or credentials: any failure is wrapped in a
 StorageError with a generic message only.
@@ -27,6 +27,22 @@ COLUMN_ORDER = (
     "status",
 )
 
+# LEAD_API_CONTRACT.md section 11.5.
+CALCULATOR_COLUMN_ORDER = (
+    "submitted_at",
+    "name",
+    "email",
+    "phone",
+    "language",
+    "months",
+    "zone",
+    "consent",
+    "marketing_consent",
+    "source",
+    "privacy_notice_version",
+    "status",
+)
+
 
 class GoogleSheetsLeadStorage(LeadStorage):
     def __init__(
@@ -35,7 +51,9 @@ class GoogleSheetsLeadStorage(LeadStorage):
         sheet_id: str | None,
         sheet_tab: str,
         client_factory: Callable[[], Any] | None = None,
+        columns: tuple[str, ...] = COLUMN_ORDER,
     ) -> None:
+        self._columns = columns
         self._service_account_file = service_account_file
         self._sheet_id = sheet_id
         self._sheet_tab = sheet_tab
@@ -51,7 +69,7 @@ class GoogleSheetsLeadStorage(LeadStorage):
         return gspread.authorize(credentials)
 
     def save(self, lead: dict) -> None:
-        row = [lead.get(column) for column in COLUMN_ORDER]
+        row = [lead.get(column) for column in self._columns]
         try:
             client = self._client_factory()
             spreadsheet = client.open_by_key(self._sheet_id)
