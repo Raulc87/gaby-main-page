@@ -292,6 +292,16 @@ def test_months_and_zone_accepted_with_one_decimal_text(
     assert calculator_storage.leads[0]["zone"] == zone
 
 
+def test_negative_zero_months_is_stored_as_zero(client, calculator_storage):
+    # A hand-made request can send -0.0; the stored text must still be "0.0".
+    body = json.dumps(VALID_PAYLOAD).replace("4.4", "-0.0")
+
+    response = client.post(ENDPOINT, data=body, content_type="application/json")
+
+    assert response.status_code == 201
+    assert calculator_storage.leads[0]["months"] == "0.0"
+
+
 def test_months_null_with_freedom_is_covered_and_stored_empty(client, calculator_storage):
     response = _post(client, _payload(months=None, zone="freedom"))
 

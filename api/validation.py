@@ -228,6 +228,8 @@ def _validate_months(payload: dict, normalized: dict, errors: dict) -> Decimal |
         errors["months"] = "invalid_format"
         return None
 
+    if months.is_zero():
+        months = Decimal(0)  # JSON -0.0 would otherwise be stored as "-0.0"
     normalized["months"] = f"{months:.{MONTHS_MAX_DECIMAL_PLACES}f}"
     return months
 
