@@ -5,6 +5,10 @@ on:
   push:
     branches: [main]
 
+# Least privilege (SECURITY_BASELINE.md section 4, PO and PS): the jobs only read the repository.
+permissions:
+  contents: read
+
 jobs:
   frontend:
     runs-on: ubuntu-latest
