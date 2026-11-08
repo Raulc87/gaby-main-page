@@ -1,0 +1,82 @@
+name: Dependency audit
+
+# US-029 AC4, docs/security/SECURITY_BASELINE.md section 6. Checks the code's
+# dependencies against published advisories; it does not scan any running
+# system. Runs on every pull request and push to main, and weekly, because new
+# advisories appear without any change to the repository.
+#
+# - npm: fails on a high or critical advisory (`--audit-level=high`);
+#   moderate and low advisories are reported but do not fail the job.
+# - Python: pip-audit reads PyPI advisories, which carry no severity, so it
+#   fails on any known vulnerability (stricter than the story's high or
+#   critical). A finding that cannot be fixed yet is handled with a dated
+#   entry in the baseline (section 7) and `--ignore-vuln <id>` here, never by
+#   removing the step.
+# - Each job also writes a CycloneDX software bill of materials (ASVS
+#   v5.0.0-15.1.2) as a build artifact.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 6 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  npm-audit:
+    name: npm audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Audit package-lock.json (fails on high or critical)
+        run: npm audit --audit-level=high
+
+      - name: Write the software bill of materials
+        if: always()
+        run: npm sbom --sbom-format cyclonedx --package-lock-only > sbom-node.cdx.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sbom-node
+          path: sbom-node.cdx.json
+          retention-days: 30
+
+  pip-audit:
+    name: pip-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pip-audit
+        run: pip install pip-audit==2.10.1
+
+      - name: Audit api/requirements.txt (fails on any known vulnerability)
+        run: pip-audit -r api/requirements.txt
+
+      - name: Write the software bill of materials
+        if: always()
+        run: pip-audit -r api/requirements.txt -f cyclonedx-json -o sbom-python.cdx.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sbom-python
+          path: sbom-python.cdx.json
+          retention-days: 30
