@@ -3,7 +3,7 @@
 Appendix of [`SECURITY_BASELINE.md`](SECURITY_BASELINE.md) section 2. The site stores personal data, so its ASVS level (L2) is inventoried requirement by requirement: every L1 and L2 requirement of OWASP ASVS 5.0.0 has its own row. Requirements of the five chapters that do not apply at all (V6, V7, V9, V10, V17) share their chapter's reason. The requirement list comes from the official ASVS 5.0.0 release (`OWASP/ASVS`, tag `v5.0.0`, `OWASP_Application_Security_Verification_Standard_5.0.0_en.json`); L3 requirements are outside the chosen level.
 
 Status values:
-- **Verified 2026-11-08**: checked on `main` at commit `220af67` (plus the named pull requests where stated) by running the named tests, reading the named configuration or searching the code, as the row says. This is a statement about what was checked on that date, not a claim that the site is secure or compliant.
+- **Verified 2026-11-08**: checked on `main` at commit `220af67`, and for the calculator endpoint (US-036) at `7274c6e`, where #73 merged by running the named tests, reading the named configuration or searching the code, as the row says. This is a statement about what was checked on that date, not a claim that the site is secure or compliant.
 - **Planned**: an acceptance criterion in `docs/specs/USER_STORIES.md` covers it and has not been verified yet (most are production configuration, which waits for US-014). The review-only agent checks the criterion when the story is reviewed.
 - **Accepted risk**: not met, with a named risk in the baseline section 7 that the owner accepts by approving the baseline.
 - **Not applicable**: with the reason.
@@ -14,8 +14,8 @@ Updating this file: when a story's pull request verifies a row, that pull reques
 |---|---|---|---|---|
 | `v5.0.0-1.1.1` | L2 | The backend only normalizes (trim, lowercase, collapse spaces) after Flask parses the JSON body once; nothing is decoded a second time (`api/tests/test_validation.py`, `api/tests/test_save_lead.py`; code search of `src/` and `api/` on 2026-11-08: no further decoding) | Verified 2026-11-08 |  |
 | `v5.0.0-1.1.2` | L2 | Astro escapes every value it renders and Flask returns JSON through `jsonify`; no user value is placed into HTML by hand (code search of `src/` and `api/` on 2026-11-08: no `innerHTML`, `outerHTML`, `insertAdjacentHTML`, `set:html`); US-004 AC9 adds a test for each place a form value is reused | Verified 2026-11-08 |  |
-| `v5.0.0-1.2.1` | L1 | As V1.1.2; US-004 AC9 (planned test) covers values shown again or passed on | Verified 2026-11-08 |  |
-| `v5.0.0-1.2.2` | L1 | The scheduler's prefilled URL is built with `URLSearchParams` (`src/components/lead/schedulingController.ts`); US-004 AC9 covers it with a test | Verified 2026-11-08 |  |
+| `v5.0.0-1.2.1` | L1 | As V1.1.2. The status rests on the code search; the regression test for values shown again or passed on is US-004 AC9, not yet written | Verified 2026-11-08 |  |
+| `v5.0.0-1.2.2` | L1 | The scheduler's prefilled URL is built with `URLSearchParams` (`src/components/lead/schedulingController.ts`). The status rests on reading that code; the regression test is US-004 AC9, not yet written | Verified 2026-11-08 |  |
 | `v5.0.0-1.2.3` | L1 | The site builds no JavaScript or JSON from untrusted data; the only `JSON.parse` reads build-time copy placed in a `data-` attribute (code search of `src/` and `api/` on 2026-11-08) | Verified 2026-11-08 |  |
 | `v5.0.0-1.2.4` | L1 |  | Not applicable | There is no database and no query language; the only store is the Google Sheets append call, with values sent as raw text (US-006 AC5, contract section 6), so no value is interpreted as a formula |
 | `v5.0.0-1.2.5` | L1 | The application makes no operating-system calls (code search of `src/` and `api/` on 2026-11-08: no `subprocess`, `os.system`, `exec`) | Verified 2026-11-08 |  |
@@ -40,11 +40,11 @@ Updating this file: when a story's pull request verifies a row, that pull reques
 | `v5.0.0-1.5.1` | L1 |  | Not applicable | The application parses no XML |
 | `v5.0.0-1.5.2` | L2 | The only untrusted data deserialized is the JSON body, read by Flask's JSON parser into plain types and then validated field by field (code search of `src/` and `api/` on 2026-11-08: no `pickle`, `yaml.load`, `marshal`) | Verified 2026-11-08 |  |
 | `v5.0.0-2.1.1` | L1 | Validation rules are documented in `docs/specs/LEAD_API_CONTRACT.md` sections 3, 4, 8 and 11.2 | Verified 2026-11-08 |  |
-| `v5.0.0-2.1.2` | L2 | Combined-field consistency (calculator `zone` against `months`) is documented in contract section 11.2 and tested in `api/tests/test_calculator_lead.py` (US-036 AC2, PR #73) | Verified 2026-11-08 |  |
+| `v5.0.0-2.1.2` | L2 | Combined-field consistency (calculator `zone` against `months`) is documented in contract section 11.2 and tested in `api/tests/test_calculator_lead.py` (US-036 AC2, on `main` since #73) | Verified 2026-11-08 |  |
 | `v5.0.0-2.1.3` | L2 | Limits are documented: body size and rate limit in contract sections 2, 3.2 and 11.1, and ADR-004 | Verified 2026-11-08 |  |
 | `v5.0.0-2.2.1` | L1 | Positive validation against allowlists and patterns for every field, client and server (US-004 AC2 to AC5; `api/tests/test_validation.py`, `api/tests/test_save_lead.py`) | Verified 2026-11-08 |  |
 | `v5.0.0-2.2.2` | L1 | The server validates every field itself; the client's checks are for usability (US-004 AC2, contract section 3: "applied on client AND server"; `api/tests/test_validation.py`, `api/tests/test_save_lead.py`) | Verified 2026-11-08 |  |
-| `v5.0.0-2.2.3` | L2 | US-036 AC2: a `zone` that does not match `months` is a `422`; verified when PR #73 merges | Planned |  |
+| `v5.0.0-2.2.3` | L2 | A `zone` that does not match `months` is a `422` with `zone_mismatch` (US-036 AC2; `api/tests/test_calculator_lead.py`, on `main` since #73) | Verified 2026-11-08 |  |
 | `v5.0.0-2.3.1` | L1 | There is no multi-step server-side flow: each endpoint takes one complete request. The calculator shows its result only after a `201` (US-035 AC4); the result is computed in the browser, so skipping that step exposes nothing | Verified 2026-11-08 |  |
 | `v5.0.0-2.3.2` | L2 | Per-IP rate limit and 10 KB body limit (US-013 AC3; `api/tests/test_spam_protection.py`, `api/tests/test_rate_limiter.py`) | Verified 2026-11-08 |  |
 | `v5.0.0-2.3.3` | L2 | One append call stores a whole row or nothing; a failed save returns `503` and stores nothing partial (US-006 AC3, US-036 AC3; `api/tests/test_save_lead.py`) | Verified 2026-11-08 |  |
@@ -268,4 +268,4 @@ Updating this file: when a story's pull request verifies a row, that pull reques
 
 ## Totals
 
-253 L1 and L2 requirements in ASVS 5.0.0: 62 verified on 2026-11-08, 26 planned (an acceptance criterion covers them), 7 accepted risks (section 7 of the baseline), 158 not applicable.
+253 L1 and L2 requirements in ASVS 5.0.0: 63 verified on 2026-11-08, 25 planned (an acceptance criterion covers them), 7 accepted risks (section 7 of the baseline), 158 not applicable.
