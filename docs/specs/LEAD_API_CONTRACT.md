@@ -3,7 +3,7 @@
 ## Metadata
 - Version: 1.2
 - Status: v1.2 proposed in the Sprint 004 planning PR, LOCKED for Sprint 004 on merge; v1.1 approved and locked for Sprint 002
-- Changes in 1.2 (2026-11-08, US-036, `PROJECT_SPEC.md` v0.6 FR-035, FR-039): a second endpoint, `POST /api/save-calculator-lead`, for calculator leads (section 11), with its own sheet tab; the VIP endpoint (sections 2–10) is unchanged. Frontend configuration: `PUBLIC_SCHEDULER_URL` replaces `PUBLIC_CALENDLY_URL` (US-037, ADR-006).
+- Changes in 1.2 (2026-11-08, US-036, [`PROJECT_SPEC.md`](PROJECT_SPEC.md) v0.6 FR-035, FR-039): a second endpoint, `POST /api/save-calculator-lead`, for calculator leads (section 11), with its own sheet tab; the VIP endpoint (sections 2–10) is unchanged. Frontend configuration: `PUBLIC_SCHEDULER_URL` replaces `PUBLIC_CALENDLY_URL` (US-037, ADR-006).
 - Changes in 1.1 (2026-09-28, US-013, ADR-004): honeypot field `website` (sections 3 and 3.1); `429` / `rate_limited` is now emitted (sections 3.2 and 7); rate-limit configuration (section 9).
 - Related spec: `docs/specs/PROJECT_SPEC.md` (FR-006 to FR-010, FR-013, NFR-005, NFR-006)
 - Related stories: US-004, US-005, US-006, US-007, US-011; v1.2: US-035, US-036
@@ -222,7 +222,7 @@ Local development: the Astro dev server proxies `/api/*` to the local Python ser
 
 ## 11. Calculator leads (v1.2)
 
-The calculator (US-035, `PROJECT_SPEC.md` FR-034, FR-035) stores a lead before showing its result. It is a second endpoint on the same application, with the same conventions (section 1), limits, honeypot, rate limit, responses and server-generated fields as `/api/save-lead`, except where this section says otherwise.
+The calculator (US-035, [`PROJECT_SPEC.md`](PROJECT_SPEC.md) FR-034, FR-035) stores a lead before showing its result. It is a second endpoint on the same application, with the same conventions (section 1), limits, honeypot, rate limit, responses and server-generated fields as `/api/save-lead`, except where this section says otherwise.
 
 ### 11.1 Endpoint
 
@@ -255,7 +255,7 @@ The calculator (US-035, `PROJECT_SPEC.md` FR-034, FR-035) stores a lead before s
 | `email` | string | yes | As in section 3. | normalized value |
 | `phone` | string or `null` | no | Absent, `null`, or empty after trimming: no phone. Otherwise the section 3 rules (E.164). | normalized value, or empty |
 | `language` | string (enum) | yes | `es` or `en`. | code |
-| `consent` | boolean | yes | Must be JSON `true` (the required calculator consent, `CONTENT_PHASE_2C.md` §11.2). | `TRUE` |
+| `consent` | boolean | yes | Must be JSON `true` (the required calculator consent, [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) §11.2). | `TRUE` |
 | `marketing_consent` | boolean | no | JSON `true` or `false`; absent means `false`. The optional consent to Gaby's follow-up emails (FR-035, BR-012). | `TRUE` or `FALSE` |
 | `months` | number or `null` | yes | `null` only when the zone is `freedom` because other income covers the monthly outflow (FR-034, "covered"). Otherwise a number ≥ 0 with at most one decimal place. No upper limit. | as sent (one decimal, point as separator), or empty |
 | `zone` | string (enum) | yes | `alert`, `building` or `freedom`, and consistent with `months`: `null` → `freedom`; below 6 → `alert`; 6 to below 12 → `building`; 12 or more → `freedom`. | code |

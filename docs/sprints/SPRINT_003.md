@@ -197,7 +197,7 @@ All planned stories were merged on 2026-10-16, in the planned order (`GK-027-pre
 
 **Still owed by Gaby (US-017, backlog):** session photos, testimonials, resource names and files, official Método Polaris steps, bio and credentials, the video, media logo permissions, and the English validation of the provisional keys. Until then the preview shows the pending badges (BR-011).
 
-**Sprint Review (2026-11-08).** Gaby reviewed the preview and sent, through the human owner, a StoryBrand proposal for the Home, her funnel document and four review notes (text export: `docs/ux/BRIEF_2026-11-08_STORYBRAND.md`). The human owner turned them into phase 2c, merged in #69 (`PROJECT_SPEC.md` v0.6, ADR-006, ADR-007 proposed, US-034 to US-039). Her notes on this sprint's work are all planned there:
+**Sprint Review (2026-11-08).** Gaby reviewed the preview and sent, through the human owner, a StoryBrand proposal for the Home, her funnel document and four review notes (text export: [`docs/ux/BRIEF_2026-11-08_STORYBRAND.md`](../ux/BRIEF_2026-11-08_STORYBRAND.md)). The human owner turned them into phase 2c, merged in #69 ([`PROJECT_SPEC.md`](../specs/PROJECT_SPEC.md) v0.6, ADR-006, ADR-007 proposed, US-034 to US-039). Her notes on this sprint's work are all planned there:
 - the redundant phrase in "Subiste la escalera" → US-034 (`home.ladder.p2`);
 - the VIP banner before the free resources → covered by the new Home's VIP calls to action (brief §5);
 - the GoHighLevel calendar instead of Calendly → ADR-006, US-037;
@@ -205,9 +205,9 @@ All planned stories were merged on 2026-10-16, in the planned order (`GK-027-pre
 
 The human owner approved the sprint on 2026-11-08, in the coordinator's session (verbatim): "yes, go ahead with the close-out and Sprint 004 plan".
 
-**Open owner decisions, carried to Sprint 004** (`SPRINT_004.md` → Entry Gates): the featured mini-course in the grid (#60), one badge per Método Polaris step or per block (#61; the steps stay on the new Home, US-034), and the logo source for My story (#56). `PRIVACY_NOTICE_VERSION` (#59) is settled by Sprint 004: the notice text changes with the calculator (US-035), and the version is bumped with it.
+**Open owner decisions, carried to Sprint 004** ([`SPRINT_004.md`](SPRINT_004.md) → Entry Gates): the featured mini-course in the grid (#60), one badge per Método Polaris step or per block (#61; the steps stay on the new Home, US-034), and the logo source for My story (#56). `PRIVACY_NOTICE_VERSION` (#59) is settled by Sprint 004: the notice text changes with the calculator (US-035), and the version is bumped with it.
 
-**Follow-ups:** each is either in Sprint 004 or stays in the backlog, as `SPRINT_004.md` → Planned Stories and Not in this sprint list.
+**Follow-ups:** each is either in Sprint 004 or stays in the backlog, as [`SPRINT_004.md`](SPRINT_004.md) → Planned Stories and Not in this sprint list.
 
 **Retrospective (short):**
 - What worked: one scaffold PR first (brand, then site shell) unblocked three agents; the merge-order rule kept the first preview from ever having a live form; the review-only agent caught a CI-only failure (#61) and three cross-ownership edits before merge (#53, `src/env.d.ts` in #54, #61).

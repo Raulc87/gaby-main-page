@@ -19,6 +19,8 @@ The copy for phase 2c, from Gaby's review of 2026-11-08 ([`BRIEF_2026-11-08_STOR
 | §11 Calculator | US-035 (new section) |
 | §12 Método Polaris page | US-028 (new section) |
 
+No staged key is an alias (a value of the form "= `key`") of a key that another story moves, so each story's PR can merge on its own: `calc.eyebrow`, `calc.title` and `home.calculator.example.zone` repeat the same text instead (Sprint 004 plan review). Aliases point only at keys already in [`CONTENT.md`](CONTENT.md). The Método Polaris page (§12) shows the `home.method.*` steps as [`CONTENT.md`](CONTENT.md) has them when it merges; US-034 updates step 3's body for both pages.
+
 Section numbers below are the ones the moved text takes in `CONTENT.md`, so references such as "§11" stay valid after the move. On moving §5, update `CONTENT.md` → Metadata's version (v0.2).
 
 ## A. Changes to existing sections of `CONTENT.md`
@@ -276,7 +278,7 @@ Three placeholder cards (two with photo and text, one video) until real, authori
 | `home.calculator.cta` | Calcular mis meses gratis | Calculate my months for free | approved |
 | `home.calculator.example.label` | Ejemplo de resultado | Example result | approved |
 | `home.calculator.example.value` | 4,4 meses | 4.4 months | approved |
-| `home.calculator.example.zone` | = `calc.zone.alert.title` | = `calc.zone.alert.title` | approved |
+| `home.calculator.example.zone` | Zona de alerta | Alert zone | approved |
 | `home.calculator.more` | Más recursos en la biblioteca: | More resources in the library: | approved |
 
 `home.calculator.receive_with_guide` is shown only once the guide is sent by email (US-038); until then `home.calculator.receive`, so the page never promises an email that is not sent. Below `home.calculator.more`, two links to the resource library: the titles of `diagnostic-benefits` and `diagnostic-investor` (§7.3). This section replaces the free-resources teaser: the calculator is the Home's only lead magnet.
@@ -306,8 +308,8 @@ US-035. The calculator is a **shell with a placeholder formula**: Gaby has her o
 
 | Key | Español | English | Status |
 |---|---|---|---|
-| `calc.eyebrow` | = `home.calculator.eyebrow` | = `home.calculator.eyebrow` | approved |
-| `calc.title` | = `home.calculator.title` | = `home.calculator.title` | approved |
+| `calc.eyebrow` | Diagnóstico gratis · 3 minutos | Free diagnosis · 3 minutes | approved |
+| `calc.title` | ¿Cuántos meses podrías sostenerte *si cambiara tu puesto?* | How many months could you sustain yourself *if your position changed?* | approved |
 | `calc.lead` | Cinco datos sobre tu dinero hoy. Usa la misma moneda en todos. | Five figures about your money today. Use the same currency for all of them. | provisional |
 | `calc.expenses.label` | Gastos mensuales de tu hogar | Your household's monthly expenses | provisional |
 | `calc.expenses.hint` | Lo que gastas en un mes normal: vivienda, comida, servicios, transporte, educación. | What you spend in a normal month: housing, food, utilities, transport, education. | provisional |

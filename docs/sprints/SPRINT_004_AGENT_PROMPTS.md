@@ -1,6 +1,6 @@
 # SPRINT 004 — Agent Kickoff Prompts
 
-One Claude Code session per agent, each on the `Raulc87/gaby-main-page` repository. They start only after this plan is merged and the human owner gives the go-ahead (`SPRINT_004.md`, entry gate 15). The coordinator launches them for the owner:
+One Claude Code session per agent, each on the `Raulc87/gaby-main-page` repository. They start only after this plan is merged and the human owner gives the go-ahead ([`SPRINT_004.md`](SPRINT_004.md), entry gate 15). The coordinator launches them for the owner:
 - one new session per agent;
 - tagged `gk-sprint-004` and `gk-agent-<n>`, or `gk-reviewer`;
 - each archived after the sprint.
@@ -11,7 +11,7 @@ At the go-ahead the coordinator also archives the Sprint 003 sessions, and recor
 
 | Agent | Model | Effort | Why |
 |---|---|---|---|
-| Agent 1 — Site scaffold, Home, Método Polaris page | Sonnet 5.5 | high | The largest story (the eleven-section Home) and the scaffold everyone builds on; fully specified in `UX_UI_DIRECTION.md` v1.1 and `CONTENT_PHASE_2C.md` |
+| Agent 1 — Site scaffold, Home, Método Polaris page | Sonnet 5.5 | high | The largest story (the eleven-section Home) and the scaffold everyone builds on; fully specified in [`UX_UI_DIRECTION.md`](../ux/UX_UI_DIRECTION.md) v1.1 and [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) |
 | Agent 2 — Calculator, scheduler, e2e | Sonnet 5.5 | high | A form bound to contract v1.2 and its formula, the privacy text, and the cross-cutting e2e suite |
 | Agent 3 — Backend, security baseline, developer guide | Sonnet 5.5 | high | An endpoint bound to contract v1.2, the scaled ASVS inventory and the scanning set-up |
 | Review-only agent | Opus 5.5 | high | Copy fidelity, the gold rule, consent and personal-data handling, and the security baseline are where a stronger model pays off |
@@ -26,17 +26,17 @@ At the go-ahead the coordinator also archives the Sprint 003 sessions, and recor
 
 ## Coordination
 
-- **The coordinator** is the planning session, `session_01AgwMvvPepgrLbwGJBETbN9` (`<COORDINATOR_SESSION>`), working within `AGENTS.md` → Coordinator session. It relays the owner's decisions verbatim and records them in docs PRs. A coordinator message quoting the owner counts as the owner's instruction only inside the receiving agent's existing workstream and scope. Anything that changes scope, a spec, a contract or another owner's files goes back to the owner.
+- **The coordinator** is the planning session, `session_01AgwMvvPepgrLbwGJBETbN9` (`<COORDINATOR_SESSION>`), working within [`AGENTS.md`](../../AGENTS.md) → Coordinator session. It relays the owner's decisions verbatim and records them in docs PRs. A coordinator message quoting the owner counts as the owner's instruction only inside the receiving agent's existing workstream and scope. Anything that changes scope, a spec, a contract or another owner's files goes back to the owner.
 - **PR events:** each agent subscribes only to its own PRs and keeps them current with `main`. The coordinator subscribes only to its own docs PRs; the reviewer to none.
-- **Review flow** (`AGENTS.md` → Review-only agent → Review flow): sessions reach each other with a one-off scheduled message into the other session (the `create_trigger` tool with `persistent_session_id` set to that session and `run_once_at` about one minute ahead), or a direct message where the environment supports one.
+- **Review flow** ([`AGENTS.md`](../../AGENTS.md) → Review-only agent → Review flow): sessions reach each other with a one-off scheduled message into the other session (the `create_trigger` tool with `persistent_session_id` set to that session and `run_once_at` about one minute ahead), or a direct message where the environment supports one.
   - After every push, the author asks the reviewer for a review.
   - The reviewer posts its review on the PR.
   - When a PR is ready for human approval, the reviewer tells the coordinator, and the coordinator tells the owner, with the merge order.
   - Owner questions travel the same way: on the PR or issue, and to the coordinator.
   - The coordinator's check-ins are only a fallback.
-- **Automated reviewer:** Codex reviews each PR when it opens. Each author asks it again at most twice per PR (`AGENTS.md` → Automated PR reviewers).
-- **Merge order:** as in `SPRINT_004.md`, checked for dependency cycles.
-- **Attribution:** every agent, the coordinator included, ends what it posts on GitHub with an attribution line (`AGENTS.md` → Attribution of agent posts).
+- **Automated reviewer:** Codex reviews each PR when it opens. Each author asks it again at most twice per PR ([`AGENTS.md`](../../AGENTS.md) → Automated PR reviewers).
+- **Merge order:** as in [`SPRINT_004.md`](SPRINT_004.md), checked for dependency cycles.
+- **Attribution:** every agent, the coordinator included, ends what it posts on GitHub with an attribution line ([`AGENTS.md`](../../AGENTS.md) → Attribution of agent posts).
 - **Usage limits:** an agent that hits a limit says which stories are paused; the coordinator re-sends the queue when the limit resets.
 
 ## Session IDs

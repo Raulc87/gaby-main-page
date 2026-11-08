@@ -647,7 +647,7 @@ so that Gaby can follow progress without a production deployment.
 ## US-028 — Método Polaris page
 - Priority: Medium
 - Story Points: 3
-- Status: Planned — Sprint 004 (`GK-028-method-page`); phase 2c, Sprint 004 candidate, with placeholder steps (human owner, 2026-11-08: "in the meantime let's placeholder it"); AC1 is met with the provisional steps and the placeholder block of `CONTENT_PHASE_2C.md` §12, and the official steps replace them in a later content PR when Gaby sends them
+- Status: Planned — Sprint 004 (`GK-028-method-page`); phase 2c, Sprint 004 candidate, with placeholder steps (human owner, 2026-11-08: "in the meantime let's placeholder it"); AC1 is met with the provisional steps and the placeholder block of [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) §12, and the official steps replace them in a later content PR when Gaby sends them
 - Related Requirements: FR-017, FR-018, BR-009
 
 **User Story**
@@ -750,7 +750,7 @@ so that I see myself in it and know my next step: apply, or find out where I sta
 6. The calculator teaser links to the calculator page, shows the example result, and shows `home.calculator.receive` (not `receive_with_guide`) until US-038 is done; its two library links go to the resource library, where both resources show as coming soon.
 7. Pending badges follow `CONTENT.md` → Metadata (the new provisional blocks in preview and development builds; the hero photo and testimonial placeholders in every build).
 8. Existing tests are updated for the new order and anchors; e2e covers both languages, the hero's two calls to action, the gold rule at the four widths, and that no link points at the removed `#recursos` anchor.
-9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: its rows of A.1, A.2 and A.3 (in the scaffold PR, `GK-034-site-scaffold`, Sprint 004 plan), A.4 to A.6b, and §5 (replacing `CONTENT.md` §5), and bumps `CONTENT.md` to v0.2.
+9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: its rows of A.1, A.2 and A.3 (in the scaffold PR, `GK-034-site-scaffold`, Sprint 004 plan), A.4 to A.6b, and §5 (replacing [`CONTENT.md`](../ux/CONTENT.md) §5), and bumps [`CONTENT.md`](../ux/CONTENT.md) to v0.2.
 
 **Security**
 - None: static content. No new form or third party.
@@ -805,10 +805,10 @@ I want every calculator lead stored with its result,
 so that I can follow up with the people who used it.
 
 **Acceptance Criteria**
-1. Before implementation, `LEAD_API_CONTRACT.md` v1.2 is approved in a docs PR (done: section 11, written in the Sprint 004 planning PR and locked when it merges): a calculator-lead endpoint (path, request fields of `PROJECT_SPEC.md` §10, `zone` codes `alert`, `building`, `freedom`, `months` as a number with one decimal or null when covered, optional `phone`, the required `consent` and the optional `marketing_consent` boolean, the honeypot and rate limit of v1.1, responses and error codes), and the sheet tab and its columns, including `source` = `calculator` and `status`.
+1. Before implementation, [`LEAD_API_CONTRACT.md`](LEAD_API_CONTRACT.md) v1.2 is approved in a docs PR (done: section 11, written in the Sprint 004 planning PR and locked when it merges): a calculator-lead endpoint (path, request fields of [`PROJECT_SPEC.md`](PROJECT_SPEC.md) §10, `zone` codes `alert`, `building`, `freedom`, `months` as a number with one decimal or null when covered, optional `phone`, the required `consent` and the optional `marketing_consent` boolean, the honeypot and rate limit of v1.1, responses and error codes), and the sheet tab and its columns, including `source` = `calculator` and `status`.
 2. The backend implements the endpoint per the contract, validating every field (an unknown `zone`, `months` negative or with more than one decimal, a `zone` that does not match `months`, missing consent → field errors; `months` has no upper limit, since the formula has none, FR-034), storing a row in the calculator tab with server-generated `submitted_at`, `privacy_notice_version` and `status` = `started`.
 3. A failed save returns the contract's error and stores nothing partial (NFR-006). Honeypot and rate limit behave as for the VIP endpoint (ADR-004).
-4. `PRIVACY_NOTICE_VERSION` (`api/.env.example`, and the runbook that sets it) is bumped for the calculator's notice text (`CONTENT_PHASE_2C.md` A.8: `privacy.p2`, `privacy.p3`, `privacy.p5`), which US-035 moves into the site.
+4. `PRIVACY_NOTICE_VERSION` ([`api/.env.example`](../../api/.env.example), and the runbook that sets it) is bumped for the calculator's notice text ([`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) A.8: `privacy.p2`, `privacy.p3`, `privacy.p5`), which US-035 moves into the site.
 5. Tests cover the contract's success, validation errors, honeypot, rate limit and storage failure, as `LEAD_API_CONTRACT.md` §10 requires for the VIP endpoint.
 
 **Security**
