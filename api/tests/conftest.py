@@ -15,6 +15,7 @@ def app():
     # affected by it, or by RATE_LIMIT_* values set in the environment.
     # Rate-limit tests override this with their own RateLimiter.
     flask_app.config["RATE_LIMITER"] = RateLimiter(max_requests=0, window_seconds=600)
+    flask_app.config["CALCULATOR_RATE_LIMITER"] = RateLimiter(max_requests=0, window_seconds=600)
     return flask_app
 
 
@@ -26,3 +27,8 @@ def client(app):
 @pytest.fixture()
 def storage(app):
     return app.config["LEAD_STORAGE"]
+
+
+@pytest.fixture()
+def calculator_storage(app):
+    return app.config["CALCULATOR_LEAD_STORAGE"]

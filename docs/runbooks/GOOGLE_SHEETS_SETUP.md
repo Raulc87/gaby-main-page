@@ -41,11 +41,26 @@ account later requires no code change (ADR-002).
 4. Click **Share**, paste the service account's email address (from step 3), give it **Editor** access, and uncheck "Notify people" (a service account has no inbox).
 5. Copy the sheet ID from its URL: `https://docs.google.com/spreadsheets/d/<SHEET_ID>/edit` — this is `GOOGLE_SHEET_ID`.
 
+## 4b. Add the calculator tab
+
+Calculator leads (US-036) go to a second tab of the same sheet, so the people who used the calculator are never mixed with VIP applications.
+
+1. In the same sheet, add a worksheet tab named `calculator` (matches the `GOOGLE_SHEET_CALCULATOR_TAB` default; use another name only if you also set `GOOGLE_SHEET_CALCULATOR_TAB` to match).
+2. In row 1, add the header row in this **exact order** (`LEAD_API_CONTRACT.md` section 11.5):
+
+   | A | B | C | D | E | F | G | H | I | J | K | L |
+   |---|---|---|---|---|---|---|---|---|---|---|---|
+   | `submitted_at` | `name` | `email` | `phone` | `language` | `months` | `zone` | `consent` | `marketing_consent` | `source` | `privacy_notice_version` | `status` |
+
+3. The service account already has Editor access to the whole sheet (step 4.4), so the new tab needs no further sharing.
+
+The `phone` and `months` cells are empty when the visitor gave no phone or when other income covers the monthly outflow. `source` is always `calculator`. The calculator's five figures are never stored.
+
 ## 5. Add a status dropdown (data validation)
 
 The endpoint only ever writes `status = started` on creation; the business owner updates it manually afterward. To make that easy and avoid typos:
 
-1. Select the `status` column below the header (e.g. `I2:I1000`).
+1. Select the `status` column below the header (e.g. `I2:I1000` on the `leads` tab and `L2:L1000` on the `calculator` tab; repeat these steps for each tab).
 2. **Data → Data validation** (Google Sheets) → **Add rule**.
 3. Criteria: **Dropdown** (or "List of items" in the classic editor), with these exact values, one per line:
    ```
@@ -67,9 +82,10 @@ LEADS_STORAGE=google_sheets
 GOOGLE_SERVICE_ACCOUNT_FILE=/absolute/path/outside/webroot/service-account.json
 GOOGLE_SHEET_ID=<the id from step 4.5>
 GOOGLE_SHEET_TAB=leads
+GOOGLE_SHEET_CALCULATOR_TAB=calculator
 ```
 
-Restart `python run_local.py`, submit the form once, and confirm a new row appears with `status = started` and every other column populated as described in section 4.
+Restart `python run_local.py`, submit the form once, and confirm a new row appears with `status = started` and every other column populated as described in section 4. Calculator leads are checked the same way against the `calculator` tab (section 4b).
 
 ## 7. Rotating or revoking the key
 
