@@ -6,6 +6,8 @@ The copy for phase 2c, from Gaby's review of 2026-11-08 ([`BRIEF_2026-11-08_STOR
 
 | Part | Moved into `CONTENT.md` by |
 |---|---|
+| A.1 Metadata: pending-badge lists | US-028 (its row remains; US-034 and US-035 moved theirs) |
+| A.7 §8.5 scheduler fallback key | US-037 |
 | A.8 §9 privacy notice | US-037 (GoHighLevel: `privacy.p4`, `privacy.ts` is Agent 2's); US-035 moved `privacy.p2`, `privacy.p3` and `privacy.p5`. Each story bumps `PRIVACY_NOTICE_VERSION` in the PR that changes the text |
 | §12 Método Polaris page | US-028 (new section) |
 
