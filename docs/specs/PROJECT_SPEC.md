@@ -2,7 +2,7 @@
 
 ## Metadata
 - Version: 0.6.1
-- Status: Phase 2c (StoryBrand Home and funnel) — proposed in this PR; v0.5 (phase 2a) approved and delivered in Sprint 003
+- Status: Phase 2c (StoryBrand Home and funnel): v0.6 approved by the human owner by merging #69 (2026-11-08), v0.6.1 a clarification of FR-034; v0.5 (phase 2a) approved and delivered in Sprint 003
 - Product: Bilingual website with free resources and one premium path (VIP mentorship application and call booking)
 - Stakeholder: Gabriela Kelly ("Gaby Kelly")
 - Last updated: 2026-11-08 (v0.6.1: FR-034 names the largest figure accepted, as the calculator of #80 implements it, approved by the human owner. v0.6: phase 2c from Gaby's Sprint 003 review — the StoryBrand Home, a freedom-months calculator as the Home's only lead magnet, the funnel's emails as requirements (how they are sent: ADR-007, proposed), the GoHighLevel calendar instead of Calendly (ADR-006), the Método Polaris page with placeholder steps, the production domain gabykelly.com). v0.5 (2026-10-15: phase 2 from Gabriela's visual brief of 2026-10-15 — new audience and concept, official brand, multipage site, free resource library, one VIP path with screening-based routing, GitHub Pages preview; production deployment on hold). v0.4 (2026-09-28): spam protection (ADR-004), production Google account. v0.3 (2026-09-23): bilingual ES/EN, privacy consent, lead status values, locked lead API contract, local prototype.
