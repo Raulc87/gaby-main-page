@@ -129,7 +129,7 @@ Expected: the build finishes and `dist/` holds the preview. In PowerShell, set `
 
 ## Test and check
 
-Run from the repository root. CI runs the same checks on every pull request ([`frontend.yml`](.github/workflows/frontend.yml), [`backend.yml`](.github/workflows/backend.yml), [`docs-link-check.yml`](.github/workflows/docs-link-check.yml); [`preview.yml`](.github/workflows/preview.yml) builds and publishes the preview on every push to `main`), and the required ones must be green before merge.
+Run from the repository root. CI runs the same checks on every pull request ([`frontend.yml`](.github/workflows/frontend.yml), [`backend.yml`](.github/workflows/backend.yml), [`docs-link-check.yml`](.github/workflows/docs-link-check.yml); [`preview.yml`](.github/workflows/preview.yml) builds and publishes the preview on every push to `main`), and they must be green before merge. Which checks GitHub enforces is the owner's repository setting.
 
 | What | Command | Expected |
 |---|---|---|
