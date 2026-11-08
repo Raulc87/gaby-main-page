@@ -121,6 +121,28 @@ export const RESOURCES: readonly Resource[] = [
       en: 'Split your income into wallets with a purpose.',
     },
   },
+  {
+    id: 'diagnostic-benefits',
+    type: 'guide',
+    topic: 'investing',
+    access: 'email',
+    title: { es: 'Radiografía de beneficios corporativos', en: 'Corporate benefits X-ray' },
+    description: {
+      es: 'Descubre cuánto valen hoy los beneficios de tu empresa y cómo convertirlos en capital.',
+      en: "Find out what your company's benefits are worth today and how to turn them into capital.",
+    },
+  },
+  {
+    id: 'diagnostic-investor',
+    type: 'guide',
+    topic: 'investing',
+    access: 'email',
+    title: { es: 'Diagnóstico de inversionista', en: 'Investor diagnosis' },
+    description: {
+      es: 'Descubre qué tipo de inversionista eres hoy y por dónde empezar.',
+      en: 'Find out what kind of investor you are today and where to start.',
+    },
+  },
 ];
 
 /** The featured mini-course (CONTENT.md section 7.1) and the one the VIP not-ready screen offers. */

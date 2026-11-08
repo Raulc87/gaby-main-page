@@ -1,0 +1,73 @@
+---
+// Free diagnosis `#calculadora` (UX_UI_DIRECTION.md section 5.1 item 10): surface, two
+// columns on desktop. Left: eyebrow, title, lead, the "receive" line, the blue
+// `home.calculator.cta` to the calculator page. Right: an example result card (ivory,
+// sand border) with the label, the value in large Playfair and the zone pill (the alert
+// zone, section 6.7: written in words, never colour alone). Below both: `home.calculator.more`
+// and the titles of two library resources as text links. Stacked on mobile, the card after
+// the button. This section replaces the free-resources teaser: the calculator is the
+// Home's only lead magnet.
+import Button from '../layout/Button.astro';
+import { getHome, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import { getResource } from '../../data/resources';
+import { pageHref } from '../../lib/site/links';
+import Emphasized from './Emphasized.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const LIBRARY_LINK_IDS = ['diagnostic-benefits', 'diagnostic-investor'];
+
+const { lang } = Astro.props;
+const { calculator } = getHome(lang).home;
+const libraryLinks = LIBRARY_LINK_IDS.map((id) => getResource(id));
+// `home.calculator.receive_with_guide` replaces this line once the guide is sent by
+// email (US-038); until then the page never promises an email that is not sent.
+const receiveLine = calculator.receive;
+---
+
+<section id={ANCHORS.home.calculator} tabindex="-1" class="scroll-mt-16 outline-none bg-surface">
+  <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
+    <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+          {calculator.eyebrow}
+        </p>
+        <h2 class="mt-3 text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">
+          <Emphasized text={calculator.title} />
+        </h2>
+        <p class="mt-5 max-w-[65ch] text-charcoal">{calculator.lead}</p>
+        <p class="mt-3 max-w-[65ch] text-charcoal">{receiveLine}</p>
+        <div class="mt-8">
+          <Button variant="blue" href={pageHref('calculator', lang)} label={calculator.cta} class="w-full sm:w-auto" />
+        </div>
+      </div>
+      <div class="rounded-[4px] border border-sand bg-ivory p-8" data-calculator-example>
+        <p class="text-sm font-semibold text-muted">{calculator.example.label}</p>
+        <p class="mt-2 font-serif text-6xl font-medium text-heritage-blue">{calculator.example.value}</p>
+        <p
+          class="mt-4 inline-flex items-center gap-2 rounded-full bg-terracotta/15 px-4 py-1.5 text-[13px] font-semibold text-charcoal"
+        >
+          <span aria-hidden="true" class="h-2.5 w-2.5 rounded-full bg-terracotta"></span>
+          {calculator.example.zone}
+        </p>
+      </div>
+    </div>
+    <div class="mt-10 flex flex-wrap items-center gap-x-4 gap-y-1" data-calculator-library>
+      <p class="text-charcoal">{calculator.more}</p>
+      {
+        libraryLinks.map((resource) => (
+          <a
+            href={pageHref('resources', lang)}
+            data-library-link={resource.id}
+            class="inline-flex min-h-11 items-center font-semibold text-heritage-blue underline-offset-4 hover:underline"
+          >
+            {resource.title[lang]}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

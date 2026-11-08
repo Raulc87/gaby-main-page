@@ -10,6 +10,7 @@ export type PendingKind = 'placeholder' | 'provisional';
 
 export const PENDING_BLOCKS = {
   // Placeholders
+  'home.hero_photo': 'placeholder',
   'home.testimonials': 'placeholder',
   'story.photo': 'placeholder',
   'story.bio': 'placeholder',
@@ -17,6 +18,9 @@ export const PENDING_BLOCKS = {
   'resource.file_pending': 'placeholder',
   // Provisional copy blocks
   'home.method': 'provisional',
+  'home.ladder_p2': 'provisional',
+  'home.guide_stat': 'provisional',
+  'home.mastery': 'provisional',
   'vip.steps': 'provisional',
   'thanks.not_ready': 'provisional',
   'resource.provisional_title': 'provisional',

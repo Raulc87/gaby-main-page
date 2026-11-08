@@ -4,7 +4,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import { common as en } from '../../src/i18n/en/common';
 import { common as es } from '../../src/i18n/es/common';
-import { RESOURCES } from '../../src/data/resources';
 import { LANGUAGES } from '../../src/i18n';
 import { home as homeEn } from '../../src/i18n/en/home';
 import { home as homeEs } from '../../src/i18n/es/home';
@@ -256,9 +255,23 @@ test('the page ids are the phase 2a pages plus method and calculator (phase 2c)'
 });
 
 // ---------------------------------------------------------------------------
-// The Home (US-021, UX_UI_DIRECTION.md section 5.1, CONTENT.md section 5)
+// The Home (US-034, UX_UI_DIRECTION.md section 5.1, CONTENT.md section 5)
 // ---------------------------------------------------------------------------
-const SECTION_ORDER = ['hero', 'escalera', 'oportunidad', 'metodo', 'recursos', 'historia', 'testimonios', 'vip'];
+const SECTION_ORDER = [
+  'hero',
+  'escalera',
+  'en-juego',
+  'historia',
+  'oportunidad',
+  'metodo',
+  'wealth-mastery',
+  'antes-despues',
+  'testimonios',
+  'calculadora',
+  'vip',
+];
+const BLUE = 'rgb(60, 95, 141)';
+const GOLD = 'rgb(214, 176, 77)';
 
 const homeCopy = {
   es: { home: homeEs, story: storyEs },
@@ -288,98 +301,137 @@ async function goldButtonsShareAViewport(page: Page, viewportHeight: number): Pr
 
 for (const lang of LANGUAGES) {
   const common = dictionaries[lang];
-  const { home, story } = homeCopy[lang];
+  const { home } = homeCopy[lang];
+  const plain = (text: string) => text.replace(/\*/g, '');
 
   test.describe(`Home (${lang})`, () => {
-    test('has the sections in order and no application form', async ({ page }) => {
+    test('has the eleven sections in order, one h1, no application form and no #recursos', async ({ page }) => {
       await page.goto(routePath('home', lang));
       const ids = await page.$$eval('main > section', (sections) => sections.map((section) => section.id));
       expect(ids).toEqual(SECTION_ORDER);
       await expect(page.locator('#lead-form, #lead-form-form, #lead-submit')).toHaveCount(0);
       await expect(page.locator('h1')).toHaveCount(1);
+      await expect(page.locator('#recursos')).toHaveCount(0);
+      await expect(page.locator('a[href*="#recursos"]')).toHaveCount(0);
     });
 
-    test('hero: copy verbatim, the gold call to action leads to the VIP page, the text link to the resources', async ({ page }) => {
+    test('hero: copy verbatim, gold call to action to the VIP page, blue one to the calculator, photo placeholder with its badge', async ({ page }) => {
       await page.goto(routePath('home', lang));
       const hero = page.locator('#hero');
-      await expect(hero.locator('h1')).toHaveText(home.home.hero.title.replace(/\*/g, ''));
+      await expect(hero.locator('h1')).toHaveText(plain(home.home.hero.title));
       await expect(hero).toContainText(home.home.hero.eyebrow);
       await expect(hero).toContainText(home.home.hero.lead);
       await expect(hero).toContainText(home.home.hero.trust);
-      const vip = hero.getByRole('link', { name: common.cta.vip_long });
+      const vip = hero.getByRole('link', { name: home.home.hero.cta });
       await expect(vip).toHaveAttribute('href', routePath('vip', lang));
-      expect(await vip.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(214, 176, 77)');
-      await expect(hero.getByRole('link', { name: common.cta.start_free })).toHaveAttribute('href', routePath('resources', lang));
-      await expect(hero.getByRole('img', { name: home.home.hero.photo_alt })).toBeVisible();
+      expect(await vip.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(GOLD);
+      const calculator = hero.getByRole('link', { name: home.home.hero.secondary });
+      await expect(calculator).toHaveAttribute('href', routePath('calculator', lang));
+      expect(await calculator.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(BLUE);
+      // The "desired state" photo has not arrived: a placeholder with the badge, in every build.
+      const frame = hero.locator('[data-hero-photo-frame]');
+      await expect(frame).toContainText(home.home.hero.photo.placeholder);
+      await expect(frame.getByText(common.pending.badge)).toHaveCount(1);
+      await expect(hero.locator('img')).toHaveCount(0);
     });
 
-    test('ladder, opportunity and method copy is verbatim, with no emphasis markers on screen', async ({ page }) => {
+    test('sections show their copy verbatim, with no emphasis markers on screen', async ({ page }) => {
       await page.goto(routePath('home', lang));
-      const text = await page.locator('main').innerText();
-      expect(text).not.toContain('*');
-      const ladder = page.locator('#escalera');
-      await expect(ladder.locator('h2')).toHaveText(home.home.ladder.title.replace(/\*/g, ''));
-      await expect(ladder).toContainText(home.home.ladder.closing);
+      expect(await page.locator('main').innerText()).not.toContain('*');
+      const { ladder, stakes, opportunity, method, mastery, change } = home.home;
+      await expect(page.locator('#escalera h2')).toHaveText(plain(ladder.title));
+      await expect(page.locator('#escalera')).toContainText(ladder.p2.replace(/\*/g, ''));
+      await expect(page.locator('#escalera')).not.toContainText('Cada vez más cosas dependen de ti');
+      await expect(page.locator('#escalera')).toContainText(ladder.closing);
+      await expect(page.locator('#en-juego [data-stakes-card]')).toHaveCount(3);
+      await expect(page.locator('#en-juego')).toContainText(stakes['1'].title);
+      await expect(page.locator('#en-juego')).toContainText(stakes.closing);
       await expect(page.locator('#oportunidad [data-opportunity-card]')).toHaveCount(6);
       for (const n of ['1', '2', '3', '4', '5', '6'] as const) {
-        await expect(page.locator('#oportunidad')).toContainText(home.home.opportunity[n].title);
-        await expect(page.locator('#oportunidad')).toContainText(home.home.opportunity[n].body);
+        await expect(page.locator('#oportunidad')).toContainText(opportunity[n].title);
+        await expect(page.locator('#oportunidad')).toContainText(opportunity[n].body);
       }
       await expect(page.locator('#metodo [data-method-step]')).toHaveCount(3);
-      await expect(page.locator('#metodo')).toContainText(home.home.method['1'].title);
+      await expect(page.locator('#metodo')).toContainText(method['3'].body);
+      await expect(page.locator('#wealth-mastery [data-mastery-module]')).toHaveCount(7);
+      await expect(page.locator('#wealth-mastery')).toContainText(mastery.lead);
+      await expect(page.locator('#antes-despues [data-change-column="before"] li')).toHaveCount(5);
+      await expect(page.locator('#antes-despues [data-change-column="after"] li')).toHaveCount(5);
+      await expect(page.locator('#antes-despues')).toContainText(change.before.label);
     });
 
-    test('resources teaser: the three home resources in order, from the data file, and the library link', async ({ page }) => {
+    test('the guide: the studio portrait only here, three figures, media names as text, link to the story page', async ({ page }) => {
       await page.goto(routePath('home', lang));
-      const cards = page.locator('#recursos [data-resource-id]');
-      await expect(cards).toHaveCount(3);
-      const ids = await cards.evaluateAll((nodes) => nodes.map((node) => node.getAttribute('data-resource-id')));
-      expect(ids).toEqual(RESOURCES.filter((r) => r.homeOrder).sort((a, b) => a.homeOrder! - b.homeOrder!).map((r) => r.id));
-      await expect(cards.first()).toContainText(RESOURCES.find((r) => r.homeOrder === 1)!.title[lang]);
-      const library = page.locator('#recursos').getByRole('link', { name: common.cta.all_resources });
-      await expect(library).toHaveAttribute('href', routePath('resources', lang));
-      expect(await library.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(60, 95, 141)');
+      await expect(page.locator('main img')).toHaveCount(1);
+      const guide = page.locator('#historia');
+      await expect(guide.getByRole('img', { name: home.home.story.portrait_alt })).toBeVisible();
+      await expect(guide.locator('h2')).toHaveText(plain(home.home.story.title));
+      await expect(guide).toContainText(home.home.story.p1);
+      await expect(guide).toContainText(home.home.story.p2);
+      await expect(guide.locator('[data-guide-stat]')).toHaveCount(3);
+      await expect(guide).toContainText(home.home.story.stat['3'].value);
+      await expect(guide.locator('[data-home-media] li')).toHaveCount(3);
+      await expect(guide.locator('img')).toHaveCount(1); // no media logos (FR-029)
+      await expect(guide.getByRole('link', { name: common.cta.read_story })).toHaveAttribute('href', routePath('story', lang));
     });
 
-    test('story teaser: the three paragraphs, the media names, terracotta only as an accent, link to the story page', async ({ page }) => {
+    test('testimonials: three placeholder cards with the badge and no call to action while all are placeholders', async ({ page }) => {
       await page.goto(routePath('home', lang));
-      const teaser = page.locator('#historia');
-      await expect(teaser.locator('h2')).toHaveText(home.home.story.title.replace(/\*/g, ''));
-      for (const p of [story.p1, story.p2, story.p3]) await expect(teaser).toContainText(p);
-      for (const n of ['1', '2', '3', '4'] as const) await expect(teaser).toContainText(story.media[n]);
-      await expect(teaser.getByRole('link', { name: common.cta.read_story })).toHaveAttribute('href', routePath('story', lang));
-      const backgrounds = await teaser.evaluate((section) =>
-        [section, ...section.querySelectorAll<HTMLElement>('*')].map((el) => getComputedStyle(el).backgroundColor),
-      );
-      expect(backgrounds).not.toContain('rgb(201, 131, 104)');
-    });
-
-    test('testimonials: two text cards and one video card, all placeholders with the pending badge', async ({ page }) => {
-      await page.goto(routePath('home', lang));
-      const cards = page.locator('#testimonios [data-testimonial-card]');
-      await expect(cards).toHaveCount(3);
+      await expect(page.locator('#testimonios [data-testimonial-card]')).toHaveCount(3);
       await expect(page.locator('#testimonios [data-testimonial-card="text"]')).toHaveCount(2);
       await expect(page.locator('#testimonios [data-testimonial-card="video"]')).toHaveCount(1);
       await expect(page.locator('#testimonios').getByText(common.pending.badge)).toHaveCount(3);
       await expect(page.locator('#testimonios iframe, #testimonios video')).toHaveCount(0);
+      await expect(page.locator('#testimonios a')).toHaveCount(0);
+      await expect(page.getByText(home.home.testimonials.cta)).toHaveCount(0);
     });
 
-    test('pending badges follow the block list: placeholders show, provisional method copy does not in a normal build', async ({ page }) => {
+    test('the calculator teaser: example result, "receive" without the guide, links to the calculator and the library', async ({ page }) => {
       await page.goto(routePath('home', lang));
-      await expect(page.locator('#metodo').getByText(common.pending.badge)).toHaveCount(0);
-      await expect(page.locator('#recursos').getByText(common.pending.badge)).toHaveCount(3);
+      const teaser = page.locator('#calculadora');
+      await expect(teaser).toContainText(home.home.calculator.receive);
+      await expect(teaser).not.toContainText(home.home.calculator.receive_with_guide);
+      const cta = teaser.getByRole('link', { name: home.home.calculator.cta });
+      await expect(cta).toHaveAttribute('href', routePath('calculator', lang));
+      expect(await cta.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(BLUE);
+      const example = teaser.locator('[data-calculator-example]');
+      await expect(example).toContainText(home.home.calculator.example.label);
+      await expect(example).toContainText(home.home.calculator.example.value);
+      await expect(example).toContainText(home.home.calculator.example.zone);
+      await expect(teaser).toContainText(home.home.calculator.more);
+      const links = teaser.locator('[data-library-link]');
+      await expect(links).toHaveCount(2);
+      for (const link of await links.all()) await expect(link).toHaveAttribute('href', routePath('resources', lang));
     });
 
-    test('the VIP band and every VIP call to action lead to the VIP page', async ({ page }) => {
+    test('the other VIP calls to action are blue and lead to the VIP page', async ({ page }) => {
+      await page.goto(routePath('home', lang));
+      const method = page.locator('#metodo').getByRole('link', { name: home.home.method.cta });
+      const mastery = page.locator('#wealth-mastery').getByRole('link', { name: common.cta.vip_apply });
+      for (const link of [method, mastery]) {
+        await expect(link).toHaveAttribute('href', routePath('vip', lang));
+        expect(await link.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(BLUE);
+      }
+    });
+
+    test('pending badges follow the block list: the hero photo and testimonials show, provisional blocks do not in a normal build', async ({ page }) => {
+      await page.goto(routePath('home', lang));
+      for (const id of ['escalera', 'historia', 'metodo', 'wealth-mastery']) {
+        await expect(page.locator(`#${id}`).getByText(common.pending.badge)).toHaveCount(0);
+      }
+      await expect(page.getByRole('main').getByText(common.pending.badge)).toHaveCount(4); // hero photo + 3 testimonials
+    });
+
+    test('the closing band: shared title, its own body and three steps, gold call to action to the VIP page', async ({ page }) => {
       await page.goto(routePath('home', lang));
       const band = page.locator('#vip');
       await expect(band).toContainText(common.vip_band.eyebrow);
-      await expect(band).toContainText(common.vip_band.body);
-      await expect(band.getByRole('link', { name: common.cta.vip_apply })).toHaveAttribute('href', routePath('vip', lang));
-      for (const link of await page.locator('a[data-nav="vip"], #hero a[href$="/"]:has-text("VIP")').all()) {
-        expect(await link.getAttribute('href')).toBe(routePath('vip', lang));
-      }
-      await page.getByRole('main').getByRole('link', { name: common.cta.vip_apply }).click();
+      await expect(band).toContainText(home.home.vip.body);
+      await expect(band.locator('[data-vip-steps] li')).toHaveCount(3);
+      const apply = band.getByRole('link', { name: common.cta.vip_apply });
+      await expect(apply).toHaveAttribute('href', routePath('vip', lang));
+      expect(await apply.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(GOLD);
+      await apply.click();
       await page.waitForURL(`**${routePath('vip', lang)}`);
       await expect(page.locator('#lead-form-form')).toBeVisible();
     });
@@ -395,7 +447,7 @@ test.describe('never two gold buttons in one viewport (BR-010)', () => {
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
         const height = width >= 1280 ? 800 : 844;
         const { count, minGap } = await goldButtonsShareAViewport(page, height);
-        expect(count).toBe(2); // the hero call to action and the VIP band
+        expect(count).toBe(2); // the hero call to action and the closing band
         expect(minGap).toBeGreaterThanOrEqual(height);
       });
     }
@@ -410,6 +462,13 @@ test.describe('Home anchors', () => {
     await expect(page).toHaveURL(/#metodo$/);
     await expect(page.locator('#metodo')).toBeInViewport();
   });
+
+  for (const id of SECTION_ORDER) {
+    test(`#${id} reaches its section`, async ({ page }) => {
+      await page.goto(`${routePath('home', 'es')}#${id}`);
+      await expect(page.locator(`main > section#${id}`)).toBeInViewport();
+    });
+  }
 
   test('the toggle keeps a Home section anchor', async ({ page }) => {
     await page.goto(`${routePath('home', 'es')}#oportunidad`);
