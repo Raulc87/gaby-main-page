@@ -60,7 +60,7 @@ Serves `http://127.0.0.1:5000/api/save-lead` and `/api/save-calculator-lead`. Us
 npm run dev
 ```
 
-Serves `http://localhost:4321`. The dev server proxies `/api/*` to `http://127.0.0.1:5000` (see `astro.config.mjs`), so the frontend always calls the same relative path (`PUBLIC_LEAD_ENDPOINT=/api/save-lead`) in every environment.
+Serves `http://localhost:4321`. This Astro version runs the dev server in the background, so the command prints `Dev server running at http://localhost:4321` and returns to the prompt; stop it with `npx astro dev stop`. The dev server proxies `/api/*` to `http://127.0.0.1:5000` (see `astro.config.mjs`), so the frontend always calls the same relative path (`PUBLIC_LEAD_ENDPOINT=/api/save-lead`) in every environment.
 
 Open `http://localhost:4321/` and confirm the full flow: landing → language toggle → lead form → submit → thank-you → inline Calendly (or the `mailto:` fallback if `PUBLIC_CALENDLY_URL` is a placeholder).
 
