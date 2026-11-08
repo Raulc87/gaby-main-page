@@ -105,6 +105,12 @@ describe('calculateFreedom', () => {
     });
   });
 
+  it('works with the largest amount the validation accepts', () => {
+    const result = calculateFreedom(figures({ expenses: 1, debt_payments: 0, savings: 90071992547409.91 }));
+    expect(result.covered).toBe(false);
+    expect(result.zone).toBe('freedom');
+  });
+
   it('handles zero savings (0 months, alert)', () => {
     expect(calculateFreedom(figures())).toEqual({ covered: false, months: 0, zone: 'alert' });
   });

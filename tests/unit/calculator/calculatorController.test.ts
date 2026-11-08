@@ -92,6 +92,26 @@ describe('calculator controller', () => {
     expect(visible('#calc-step-questions')).toBe(true);
   });
 
+  it('shows an error, and does not stall silently, for an absurdly large figure', () => {
+    mount();
+    fillFigures({ ...alertFigures, savings: '9'.repeat(308) });
+    submit('#calc-questions-form');
+    expect($('#calc-savings-error').textContent).toBe('Número.');
+    expect(visible('#calc-step-questions')).toBe(true);
+  });
+
+  it('starts with the optional follow-up consent unticked and sends marketing_consent false by default', async () => {
+    mount();
+    vi.mocked(submitCalculatorLead).mockResolvedValue({ kind: 'success' });
+    expect($<HTMLInputElement>('#calc-marketing').checked).toBe(false);
+    fillFigures(alertFigures);
+    submit('#calc-questions-form');
+    fillDetails();
+    submit('#calc-details-form');
+    await flush();
+    expect(vi.mocked(submitCalculatorLead).mock.calls[0][0].marketing_consent).toBe(false);
+  });
+
   it('goes to the details step, then shows the result only after a 201', async () => {
     mount();
     vi.mocked(submitCalculatorLead).mockResolvedValue({ kind: 'success' });

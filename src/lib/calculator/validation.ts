@@ -9,6 +9,13 @@ import { FIGURE_KEYS, type CalculatorDetailsField, type CalculatorLeadPayload, t
 
 export type FigureErrorCode = 'required' | 'number' | 'no_outflow';
 
+/**
+ * The largest figure accepted: the formula works in whole cents (exact integers), so an amount
+ * must stay below Number.MAX_SAFE_INTEGER cents (about 90 trillion). Anything larger is not a
+ * realistic amount and is reported with the same "enter a number" error.
+ */
+export const MAX_FIGURE = Number.MAX_SAFE_INTEGER / 100;
+
 /** Plain decimal numbers only: digits with an optional decimal point or comma, no sign, no thousands separators. */
 const FIGURE_PATTERN = /^\d+(?:[.,]\d+)?$/;
 
@@ -17,7 +24,7 @@ export function parseFigure(raw: unknown): { value?: number; error?: FigureError
   const text = raw.trim();
   if (!FIGURE_PATTERN.test(text)) return { error: 'number' };
   const value = Number(text.replace(',', '.'));
-  if (!Number.isFinite(value)) return { error: 'number' };
+  if (!Number.isFinite(value) || value > MAX_FIGURE) return { error: 'number' };
   return { value };
 }
 
@@ -35,7 +42,9 @@ export function validateFigures(raw: Record<FigureKey, unknown>): FiguresValidat
     if (result.error) errors[key] = result.error;
     else values[key] = result.value;
   }
-  if (!errors.expenses && !errors.debt && (values.expenses ?? 0) + (values.debt ?? 0) <= 0) {
+  // Same rule as the formula: amounts are taken to cents, so 0.004 counts as 0.
+  const outflowCents = Math.round((values.expenses ?? 0) * 100) + Math.round((values.debt ?? 0) * 100);
+  if (!errors.expenses && !errors.debt && outflowCents <= 0) {
     errors.expenses = 'no_outflow';
   }
   if (Object.keys(errors).length > 0) return { errors };

@@ -68,6 +68,21 @@ for (const lang of ['es', 'en'] as const) {
       await expect(page.getByText(calc.result.disclaimer)).toBeVisible();
     });
 
+    test('the follow-up consent starts unticked and a request without it carries marketing_consent false', async ({
+      page,
+    }) => {
+      await gotoCalculator(page, lang);
+      await answerQuestions(page);
+      await expect(page.locator(CALC.consent)).not.toBeChecked();
+      await expect(page.locator(CALC.marketing)).not.toBeChecked();
+
+      await fillDetails(page); // ticks only the required consent
+      await expect(page.locator(CALC.marketing)).not.toBeChecked();
+      const request = page.waitForRequest(CALCULATOR_ENDPOINT_GLOB);
+      await page.locator(CALC.submit).click();
+      expect((await request).postDataJSON()).toMatchObject({ consent: true, marketing_consent: false });
+    });
+
     test('the result links to the VIP page (gold) and the library (blue), and shows no email note', async ({ page }) => {
       await gotoCalculator(page, lang);
       await answerQuestions(page);
@@ -98,6 +113,14 @@ for (const lang of ['es', 'en'] as const) {
       await fillFigures(page, { expenses: '0', debt: '0', savings: '10', investments: '0', other_income: '0' });
       await page.locator(CALC.next).click();
       await expect(page.locator('#calc-expenses-error')).toHaveText(calc.errors.no_outflow);
+    });
+
+    test('an absurdly large figure shows the error instead of doing nothing', async ({ page }) => {
+      await gotoCalculator(page, lang);
+      await fillFigures(page, { ...ALERT_FIGURES, savings: '9'.repeat(308) });
+      await page.locator(CALC.next).click();
+      await expect(page.locator('#calc-savings-error')).toHaveText(calc.errors.number);
+      await expect(page.locator(CALC.stepQuestions)).toBeVisible();
     });
 
     test('a missing consent blocks the request', async ({ page }) => {

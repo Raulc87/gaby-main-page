@@ -28,6 +28,12 @@ describe('parseFigure', () => {
   it('rejects a number too large to be finite', () => {
     expect(parseFigure('9'.repeat(400))).toEqual({ error: 'number' });
   });
+
+  it('rejects an amount the exact cents arithmetic cannot hold, and accepts the largest that it can', () => {
+    expect(parseFigure('1e307'.replace('e307', '0'.repeat(307)))).toEqual({ error: 'number' });
+    expect(parseFigure('90071992547409.93')).toEqual({ error: 'number' });
+    expect(parseFigure('90071992547409.91')).toEqual({ value: 90071992547409.91 });
+  });
 });
 
 describe('validateFigures', () => {
@@ -51,6 +57,11 @@ describe('validateFigures', () => {
     const { errors, figures } = validateFigures({ ...goodFigures, expenses: '0', debt: '0' });
     expect(figures).toBeUndefined();
     expect(errors).toEqual({ expenses: 'no_outflow' });
+  });
+
+  it('counts an outflow below one cent as 0, as the formula does', () => {
+    expect(validateFigures({ ...goodFigures, expenses: '0.004', debt: '0' }).errors).toEqual({ expenses: 'no_outflow' });
+    expect(validateFigures({ ...goodFigures, expenses: '0.005', debt: '0' }).figures).toBeDefined();
   });
 
   it('allows one of the two to be 0', () => {
