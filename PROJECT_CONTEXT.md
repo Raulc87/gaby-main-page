@@ -6,21 +6,22 @@
 - Repository: https://github.com/Raulc87/gaby-main-page
 - Starter Kit: https://github.com/Raulc87/sdd_starter_kit (private: attach it to the sessions that read its templates, guides and skills) · Edition: Full · Synced to kit v1.2.0 (tag on `bd756f9`). This is the project's only record of its kit version: templates, guides and kit skills are read at this ref, and each kit sync PR updates it.
 - Repository visibility: public, as the owner's portfolio (owner decision, kit issue Raulc87/sdd_starter_kit#16) · current setting public (only the owner changes it)
-- Status: Phase 2. Sprint 003 (phase 2a) DELIVERED 2026-10-16 (all stories Done, 34 points; the close-out gaps in US-024 AC4 and US-027 AC2 fixed 2026-10-17; closes after the Sprint Review). Sprint 002 closed 2026-10-16; Sprint 001 closed 2026-09-28. Production deploy (US-014) on hold until the domain and hosting are known; progress is shown on the GitHub Pages preview (ADR-005)
+- Status: Phase 2. Sprint 003 (phase 2a) DELIVERED 2026-10-16 (all stories Done, 34 points; the close-out gaps in US-024 AC4 and US-027 AC2 fixed 2026-10-17; closes after the Sprint Review; Gaby's review arrived 2026-11-08 and is planned as phase 2c). Sprint 002 closed 2026-10-16; Sprint 001 closed 2026-09-28. Production deploy (US-014) on hold until the hosting is decided (the domain is gabykelly.com); progress is shown on the GitHub Pages preview (ADR-005)
 - Product owner / final reviewer: Human project owner
 
 ## Active documentation
-- Project spec: [`docs/specs/PROJECT_SPEC.md`](docs/specs/PROJECT_SPEC.md) (v0.5, phase 2; source: Gaby's visual brief, https://claude.ai/artifact/LeuEgX7HC2otdkLEhcJM5j)
-- User stories: [`docs/specs/USER_STORIES.md`](docs/specs/USER_STORIES.md) (phase 2: US-019 to US-028; Sprint 004 candidates from the kit v1.2.0 sync: US-029, US-030)
+- Project spec: [`docs/specs/PROJECT_SPEC.md`](docs/specs/PROJECT_SPEC.md) (v0.6, phase 2c, proposed; v0.5 phase 2 source: Gaby's visual brief, https://claude.ai/artifact/LeuEgX7HC2otdkLEhcJM5j)
+- User stories: [`docs/specs/USER_STORIES.md`](docs/specs/USER_STORIES.md) (phase 2: US-019 to US-028; phase 2c: US-034 to US-039; Sprint 004 candidates from the kit v1.2.0 sync: US-029, US-030; US-031 to US-033 reserved for the next kit sync)
 - Phase 2 brief (text export): [`docs/ux/BRIEF_2026-10-15.md`](docs/ux/BRIEF_2026-10-15.md)
+- Phase 2c source, Gaby's Sprint 003 review (StoryBrand Home dummy, funnel document, review notes; text export and the owner's decisions): [`docs/ux/BRIEF_2026-11-08_STORYBRAND.md`](docs/ux/BRIEF_2026-11-08_STORYBRAND.md)
 - Integration contracts: [`docs/specs/LEAD_API_CONTRACT.md`](docs/specs/LEAD_API_CONTRACT.md) (v1.1, locked for Sprint 002)
 - Feature specs: Not required for the current simple scope
 - Architecture spec: Not required for the current simple scope (covered by ADRs)
-- UX/UI direction: [`docs/ux/UX_UI_DIRECTION.md`](docs/ux/UX_UI_DIRECTION.md) (v1.0, phase 2)
-- Content (visitor-facing copy): [`docs/ux/CONTENT.md`](docs/ux/CONTENT.md) (v0.1, phase 2), the only copy source ([`AGENTS.md`](AGENTS.md) → Before implementing, step 5). The phase 1 copy (`UX_UI_DIRECTION.md` v0.8 §4) is retired; it stays in the history at commit `09d6ca6`.
+- UX/UI direction: [`docs/ux/UX_UI_DIRECTION.md`](docs/ux/UX_UI_DIRECTION.md) (v1.1, phase 2c, proposed)
+- Content (visitor-facing copy): [`docs/ux/CONTENT.md`](docs/ux/CONTENT.md) (v0.1; the phase 2c copy is staged in [`docs/ux/CONTENT_PHASE_2C.md`](docs/ux/CONTENT_PHASE_2C.md) and moves here with each story), the only copy source ([`AGENTS.md`](AGENTS.md) → Before implementing, step 5). The phase 1 copy (`UX_UI_DIRECTION.md` v0.8 §4) is retired; it stays in the history at commit `09d6ca6`.
 - Runbooks: [`docs/runbooks/`](docs/runbooks/) (`LOCAL_DEVELOPMENT.md`, `DEPLOYMENT.md`, `GOOGLE_SHEETS_SETUP.md`; `RELEASE.md` written in Sprint 003 with the preview, US-027, and completed with the release sections before the first production release, ADR-005), written per the kit's [`docs/process/RUNBOOK_STYLE.md`](https://github.com/Raulc87/sdd_starter_kit/blob/v1.2.0/docs/process/RUNBOOK_STYLE.md) (read from the kit at the kit ref above; owner decision 2026-10-25, kit v1.2.0 sync) (the existing ones predate it; restyling them is an optional Agent 3 chore)
 - Tech stack: [`TECH_STACK.md`](TECH_STACK.md) (v0.4)
-- ADRs: [`docs/decisions/`](docs/decisions/) — ADR-001 backend hosting (working assumption), ADR-002 Google Sheets access, ADR-003 i18n routing (multipage update), ADR-004 spam protection, ADR-005 branching, preview and release
+- ADRs: [`docs/decisions/`](docs/decisions/) — ADR-001 backend hosting (working assumption), ADR-002 Google Sheets access, ADR-003 i18n routing (multipage update), ADR-004 spam protection, ADR-005 branching, preview and release, ADR-006 GoHighLevel calendar instead of Calendly (phase 2c), ADR-007 how the funnel emails are sent (proposed, owner decision pending)
 - Implementation plan: [`docs/plans/IMPLEMENTATION_PLAN.md`](docs/plans/IMPLEMENTATION_PLAN.md) (v0.5)
 - Active sprint plan: [`docs/sprints/SPRINT_003.md`](docs/sprints/SPRINT_003.md) (planned; agent prompts in [`docs/sprints/SPRINT_003_AGENT_PROMPTS.md`](docs/sprints/SPRINT_003_AGENT_PROMPTS.md))
 - Previous sprints: [`docs/sprints/SPRINT_002.md`](docs/sprints/SPRINT_002.md) (closed 2026-10-16), [`docs/sprints/SPRINT_001.md`](docs/sprints/SPRINT_001.md) (closed 2026-09-28), each with a close-out
@@ -47,7 +48,8 @@
 - Conflict resolution: human owner together with the owning agent, when conflicts occur
 
 ## Important constraints
-- Production hosting and domain: not decided (gabykelly.com or another); GoDaddy cPanel (ADR-001) is the working assumption; US-014 on hold
+- Production domain: gabykelly.com (human owner, 2026-11-08); today it serves Gaby's GoHighLevel page, which the new site replaces. Hosting not decided; GoDaddy cPanel (ADR-001) is the working assumption; US-014 on hold
+- Funnel (phase 2c): the site and its backend cover Gaby's funnel except the calendar, which is her GoHighLevel calendar (ADR-006); how the emails are sent is ADR-007 (proposed)
 - Preview: GitHub Pages, static, no backend, forms in demonstration mode, not indexed (ADR-005)
 - Prefer simple hosting-compatible technologies; no AWS requirement
 - Maximum 3 implementation agents in parallel
@@ -66,5 +68,7 @@ See [`docs/specs/PROJECT_SPEC.md`](docs/specs/PROJECT_SPEC.md) §16 (the full li
 - From Gaby: official Método Polaris steps; resource names and files; session photos; authorized testimonials; bio and credentials; the VIP video; media logo permissions (Intel logo not confirmed)
 - Microsoft and Oracle logo files for My story (human owner, US-022)
 - Sending account for resource emails (phase 2b)
-- Final Calendly URL; final contact email (currently `gkelly@poliartcr.com`)
+- Gaby's GoHighLevel calendar embed URL (ADR-006); final contact email (currently `gkelly@poliartcr.com`)
+- ADR-007, how the funnel emails are sent (human owner, with Gaby)
+- From Gaby (phase 2c): her calculator, the ebook and the six email texts; the hero's "desired state" photo; the number of people mentored; the Wealth Mastery module list; the new VSL
 - Legal review of the privacy notice and retention (US-018); Terms page

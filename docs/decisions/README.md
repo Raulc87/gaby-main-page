@@ -7,5 +7,7 @@
 | [ADR-003](ADR-003_I18N_ROUTING.md) | Bilingual page with static language routes | Accepted (updated 2026-10-16: multipage routes) |
 | [ADR-004](ADR-004_SPAM_PROTECTION.md) | Spam protection: honeypot and per-IP rate limit, no CAPTCHA yet | Accepted |
 | [ADR-005](ADR-005_BRANCHING_AND_RELEASE_MODEL.md) | Branching, preview (GitHub Pages) and release model | Proposed (Sprint 003 planning) |
+| [ADR-006](ADR-006_SCHEDULER_GOHIGHLEVEL.md) | Call scheduling: GoHighLevel calendar replaces Calendly | Accepted on merge (phase 2c) |
+| [ADR-007](ADR-007_FUNNEL_EMAILS.md) | How the funnel emails are sent | Proposed (owner decision pending) |
 
 Create an ADR when a technical or architectural decision has meaningful alternatives, trade-offs, or long-term consequences. Use the Starter Kit's `docs/decisions/ADR_TEMPLATE.md`.

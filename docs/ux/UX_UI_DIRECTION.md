@@ -1,4 +1,6 @@
-# UX_UI_DIRECTION — v1.0 (phase 2)
+# UX_UI_DIRECTION — v1.1 (phase 2c)
+
+v1.1 (2026-11-08): phase 2c, Gaby's StoryBrand review (`PROJECT_SPEC.md` v0.6, [`BRIEF_2026-11-08_STORYBRAND.md`](BRIEF_2026-11-08_STORYBRAND.md)): the Home's new order (§5.1), the calculator page and component (§5.6, §6.7), the Método Polaris page (§5.7), the scheduler (§6.4, ADR-006), the hero photo (§8), and which VIP calls to action are gold (§2.4). Proposed in this PR.
 
 v1.0 (2026-10-16): phase 2 — Gaby's official brand, multipage site, VIP flow with screening-based routing, resource library, GitHub Pages preview (`PROJECT_SPEC.md` v0.5; Gaby's brief, `docs/ux/BRIEF_2026-10-15.md`). All visitor-facing copy moved to `docs/ux/CONTENT.md`; this document says how the site looks and behaves and refers to copy by key. The phase 1 one-page direction (v0.8, Proposal A, and its copy) is retired by Sprint 003; it stays in the history at commit `09d6ca6` (`docs/ux/UX_UI_DIRECTION.md`).
 
@@ -67,10 +69,10 @@ Non-text (3:1, WCAG 1.4.11): form control borders use `field-line` (3.61 on `ivo
 
 | Style | Look | Used for |
 |---|---|---|
-| Gold (VIP) | `soft-gold` fill, `charcoal` text, Manrope 700, arrow, min height 52 px, 2 px radius | In-page VIP calls to action only: the Home hero (`cta.vip_long`), VIP bands (`cta.vip_apply`), the VIP form submit. At most one visible per viewport (BR-010) |
+| Gold (VIP) | `soft-gold` fill, `charcoal` text, Manrope 700, arrow, min height 52 px, 2 px radius | In-page VIP calls to action only: the Home hero (`home.hero.cta`), VIP bands (`cta.vip_apply`), the VIP form submit, the calculator result (`calc.result.cta`). At most one visible per viewport (BR-010). The Home's other VIP calls to action (`home.method.cta`, `home.mastery.cta`, `home.testimonials.cta`) use the blue style |
 | Blue | `heritage-blue` fill, `surface` text, same shape | Free actions: downloads, "see the library", resource calls to action |
 | Outlined | 1.5 px `heritage-blue` border, `heritage-blue` text, transparent | The header VIP link (`nav.vip`) on every page |
-| Text link | `heritage-blue`, underlined on hover and focus, arrow where the brief shows one | "Read my full story", "Or start free with the resources" |
+| Text link | `heritage-blue`, underlined on hover and focus, arrow where the brief shows one | "Read my full story", "Calculate it for free" (`home.stakes.cta`), the library links under the calculator teaser |
 
 Hover: the gold button darkens slightly and lifts 2 px; the blue button shifts toward `charcoal`. Focus: 2 px `heritage-blue` ring with 2 px offset (on blue bands, `ivory` ring). Disabled: 50% opacity, no lift.
 
@@ -98,11 +100,12 @@ Viewport rule (BR-010): a layout must not place two gold buttons in one viewport
 | `vip` | `/es/mentoria-vip/` | `/en/vip-mentorship/` | 2a |
 | `privacy` | `/es/privacidad/` | `/en/privacy/` | 2a |
 | `blog` | `/es/blog/` | `/en/blog/` | 2b (US-026) |
-| `method` | `/es/metodo-polaris/` | `/en/polaris-method/` | 2b (US-028) |
+| `method` | `/es/metodo-polaris/` | `/en/polaris-method/` | 2c (US-028, placeholder steps) |
+| `calculator` | `/es/calculadora/` | `/en/calculator/` | 2c (US-035) |
 
 - `/` keeps the ADR-003 detection (saved choice, else browser language) and sends the visitor to the Home in their language.
 - The language toggle (`ES | EN`) switches to the same page id in the other language and keeps the section anchor; it saves the choice.
-- Section anchors are shared by both languages (they are identifiers, not copy): Home `#hero`, `#escalera`, `#oportunidad`, `#metodo`, `#recursos`, `#historia`, `#testimonios`, `#vip`; VIP page `#aplicar`.
+- Section anchors are shared by both languages (they are identifiers, not copy): Home `#hero`, `#escalera`, `#en-juego`, `#historia`, `#oportunidad`, `#metodo`, `#wealth-mastery`, `#antes-despues`, `#testimonios`, `#calculadora`, `#vip` (phase 2c; `#recursos` is retired, and a link to it lands on the Home's top); VIP page `#aplicar`.
 - All internal links and assets are built from the site's base path, so the same build works at the domain root (production) and under `/gaby-main-page/` (GitHub Pages preview, ADR-005).
 - Every page has its own `<title>` and meta description (`CONTENT.md` §1).
 
@@ -113,7 +116,7 @@ Viewport rule (BR-010): a layout must not place two gold buttons in one viewport
 - Sticky, `ivory` background, 1 px `sand` bottom border; content max width 1160 px.
 - Left: wordmark (`nav.brand`, Playfair 26 px, `charcoal`), linking to the Home.
 - Desktop (≥ 1024 px): navigation `nav.story`, `nav.method`, `nav.resources` (Manrope 600, `charcoal`, `heritage-blue` underline for the current page with `aria-current="page"`), the `ES | EN` toggle, then the outlined `nav.vip` link.
-- Below 1024 px: wordmark, the outlined `nav.vip` link and a menu button (`nav.menu_open` / `nav.menu_close`); the menu opens as a panel under the header with the navigation and the toggle. Escape and the close button close it; focus moves into the panel when it opens and back to the button when it closes; the page behind does not scroll while it is open (US-020 AC3).
+- Below 1024 px: wordmark, the outlined `nav.vip_short` link and a menu button (`nav.menu_open` / `nav.menu_close`); the menu opens as a panel under the header with the navigation and the toggle. Escape and the close button close it; focus moves into the panel when it opens and back to the button when it closes; the page behind does not scroll while it is open (US-020 AC3).
 - A skip link (`skip_link`) is the first focusable element.
 
 ### 4.2 Footer (every page)
@@ -130,18 +133,23 @@ Full-width `heritage-blue` band, `ivory` text: eyebrow `vip_band.eyebrow` in `iv
 
 ## 5. Pages
 
-### 5.1 Home (US-021)
+### 5.1 Home (US-034; replaces the US-021 order)
 
-Order and anchors (copy: `CONTENT.md` §5):
+Order and anchors (copy: `CONTENT_PHASE_2C.md` §5). Backgrounds alternate `ivory` and `surface`; the closing VIP section is the page's one `heritage-blue` band (§4.3).
 
-1. **Hero `#hero`** (`ivory`): two columns on desktop. Left: eyebrow, H1 (italic second half), lead, the gold `home.hero.cta`, the text link `home.hero.secondary` to the resources, and the trust line `home.hero.trust` in `muted`. Right: Gaby's round portrait (provisional photo) inside thin `sand` arcs with a `soft-gold` polar star. Mobile: copy first, then the portrait at 160 px; the gold button and the text link stack full width.
-2. **Ladder `#escalera`** (`surface`): narrow text column; `home.ladder.closing` as an editorial Playfair italic line with a `terracotta` left rule.
-3. **Opportunity `#oportunidad`** (`ivory`): eyebrow, title, lead; six benefit cards (`surface`, `sand` border, line icon) in 3 columns on desktop, 2 at 768 px, 1 on mobile.
-4. **Método Polaris `#metodo`** (`surface`): eyebrow, title; three numbered steps ("01", "02", "03" in Playfair `heritage-blue`) in a row on desktop, stacked on mobile; the polar star beside the title. Steps show the pending badge (provisional).
-5. **Resources teaser `#recursos`** (`ivory`): eyebrow, title, the blue `home.resources.cta` link-button; three resource cards (§6.1).
-6. **Story teaser `#historia`** (`ivory` background; `terracotta` used only as an accent: a 4 px left rule on the title block and the portrait frame — no text on `terracotta`): eyebrow, title, the three story paragraphs (all three at every width), the media names row (§5.2), and the text link `home.story.cta`.
-7. **Testimonials `#testimonios`** (`surface`): title; three placeholder cards (two text, one video) with the pending badge (§6.3).
-8. **VIP band `#vip`** (§4.4). Keep at least one non-gold section between the hero and the VIP band at every width (it is the last section, so this always holds).
+1. **Hero `#hero`** (`ivory`): two columns on desktop. Left: eyebrow, H1 (italic second half), lead, the gold `home.hero.cta` (to the VIP page), the blue `home.hero.secondary` (to the calculator), and the trust line in `muted`. Right: the "desired state" photo (Gaby living her freedom, or a real client; not a studio portrait), in a rounded 4:5 frame with a `soft-gold` polar star; until it arrives, a `sand` frame with `home.hero.photo.placeholder` and the pending badge. Mobile: copy first, then the photo frame; the two buttons stack full width.
+2. **Problem `#escalera`** (`surface`): narrow text column; `home.ladder.closing` as an editorial Playfair italic line with a `terracotta` left rule.
+3. **Stakes `#en-juego`** (`ivory`): Playfair title; three cards (`surface`, `sand` border), each a bold title and body, 3 columns on desktop, stacked below 768 px; `home.stakes.closing` as an editorial italic line; the text link `home.stakes.cta` to the calculator.
+4. **Guide `#historia`** (`surface`; `terracotta` only as an accent: the portrait frame and a 4 px rule on the title block): the studio portrait (the only place it appears; the provisional phase 1 photo until the session photos arrive), eyebrow, title, the two paragraphs, three figures in a row (Playfair `heritage-blue` value, `muted` label; one per row below 390 px), the media names row (§5.2's chips), and the text link `home.story.cta`.
+5. **Opportunity `#oportunidad`** (`ivory`): eyebrow, title, lead; six benefit cards in 3 columns on desktop, 2 at 768 px, 1 on mobile (as before).
+6. **Método Polaris `#metodo`** (`surface`): eyebrow, title; the three numbered steps (pending badge while provisional); the blue `home.method.cta` to the VIP page; the polar star beside the title.
+7. **Wealth Mastery `#wealth-mastery`** (`ivory`): eyebrow, title, lead; seven module cards (title and one line each; 4 + 3 on desktop, 2 columns at 768 px, 1 on mobile; pending badge on the block while provisional); the blue `home.mastery.cta`.
+8. **Before and after `#antes-despues`** (`surface`): title; two columns, "Hoy" (`muted` heading, a thin `sand` cross before each item) and "Con el Método Polaris" (`heritage-blue` heading, a `heritage-blue` check before each item), stacked on mobile with "Hoy" first. Icons are decorative (`aria-hidden`); each column is a list.
+9. **Proof `#testimonios`** (`ivory`): title; three cards (§6.3: two with a photo and text, one video) with the pending badge; the blue `home.testimonials.cta`, shown only once at least one real testimonial is published (`CONTENT_PHASE_2C.md` §5.9).
+10. **Calculator teaser `#calculadora`** (`surface`): two columns on desktop. Left: eyebrow, title, lead and the "receive" line, the blue `home.calculator.cta` to the calculator page. Right: an example result card (`ivory`, `sand` border): `home.calculator.example.label` in `muted`, the value in large Playfair, and the zone in a small pill (the alert zone colour, §6.7). Below both, `home.calculator.more` and the two library links as text links. Stacked on mobile, the example card after the button.
+11. **Work with me `#vip`** (§4.4): the blue band with `home.vip.body`, the three steps as a numbered row (`soft-gold` numbers, `ivory` text; stacked on mobile), and the gold `cta.vip_apply`.
+
+Gold check (BR-010): gold appears only in the hero and the closing band, which are never in one viewport. The hero's blue `home.hero.secondary` sits next to the gold button; that is allowed (one gold).
 
 ### 5.2 My story (US-022)
 
@@ -162,13 +170,27 @@ Copy: `CONTENT.md` §7.
 Copy: `CONTENT.md` §8.
 
 1. Intro (`ivory`): eyebrow, title, lead, and the three steps as a numbered row (no button: the only gold button on this page is the form submit).
-2. Video module: 16:9 frame with a `heritage-blue` background, a `soft-gold` polar star and `vip.video.placeholder`, with the pending badge. Nothing is loaded from a third party.
+2. Video module: 16:9 frame with a `heritage-blue` background, a `soft-gold` polar star and `vip.video.placeholder`, with the pending badge. Nothing is loaded from a third party. It holds Gaby's VSL once she records it; how it is hosted and embedded is decided then (the host is a data processor, `PROJECT_SPEC.md` §10).
 3. Application form `#aplicar` (§6.2).
 4. After a successful save (§6.4): the form card is replaced in place by the qualified or not-ready screen.
 
 ### 5.5 Privacy notice page
 
 Plain reading page: title, the notice text (`CONTENT.md` §9) in a narrow column, the DRAFT badge until US-018.
+
+### 5.6 Calculator (US-035)
+
+Copy: `CONTENT_PHASE_2C.md` §11. One page, three steps in place (no page reloads), in a `surface` card on `ivory`, max width 640 px:
+
+1. **Questions:** eyebrow, title, lead; five number inputs (the §6.2 input style, `inputmode="decimal"`, a label and a hint each); `calc.next` (blue). Errors as in §6.2.
+2. **Your details:** `calc.capture.title` and `.body`; name, email, optional WhatsApp, the required consent checkbox (with the privacy-dialog link) and the optional, unticked `calc.capture.marketing` checkbox below it; `calc.capture.submit` (blue). The same honeypot pattern as the VIP form (§6.2, contract `website` field), and the same submission error handling (NFR-006).
+3. **Result:** `calc.result.label`, the months in large Playfair `heritage-blue` (or `calc.result.covered`), the zone pill and its body (§6.7), the email note (only once US-038 is done), the disclaimer in `muted`, the gold `calc.result.cta` to the VIP page, the blue `calc.result.secondary` to the library, and the text link `calc.restart`.
+
+Focus moves to each step's title when it appears. Without JavaScript the page shows a short message with the VIP link and the library link (the calculator needs the browser to compute). Preview builds: step 2 stores nothing, and step 3 shows `preview.form_note` (§6.6).
+
+### 5.7 Método Polaris page (US-028)
+
+Copy: `CONTENT_PHASE_2C.md` §12. Eyebrow, title, lead; the three provisional steps as on the Home (§5.1 item 6, with the pending badge); the `method.steps.placeholder` block (a `sand` card with the polar star, badge in every build); the VIP band. The header's `nav.method` now links here.
 
 ## 6. Components
 
@@ -190,12 +212,12 @@ Plain reading page: title, the notice text (`CONTENT.md` §9) in a narrow column
 
 ### 6.3 Testimonial card (placeholder)
 
-`surface` card with a `terracotta` opening quote mark (large, decorative, `aria-hidden`), the placeholder caption and attribution in `muted`, and the pending badge. The video variant shows a 16:9 `sand` poster with a decorative play icon; it loads nothing until a real video and its host are decided (US-017).
+`surface` card with a `terracotta` opening quote mark (large, decorative, `aria-hidden`), the placeholder caption and attribution in `muted`, and the pending badge. The video variant shows a 16:9 `sand` poster with a decorative play icon; it loads nothing until a real video and its host are decided (US-017). Phase 2c (US-034): the text variant gains a round photo (64 px, `ivory` ring) above the quote; until a real, authorized photo arrives it is a `sand` circle with `testimonial.placeholder.photo` as its accessible name.
 
 ### 6.4 Thank-you screens (US-023 AC4, AC5)
 
-- Qualified: `thanks.qualified.title` and `.body`, then the inline Calendly (full width of the content column, name and email pre-filled), with the `thanks.calendly_fallback` message if the URL is unset, the script fails, or nothing appears within 10 seconds (US-007).
-- Not ready: `thanks.not_ready.title` and `.body`, then the `minicourse-debt` resource card (§6.1, in its current state), then the blue `thanks.not_ready.more` link to the library. Calendly is not loaded. No gold button.
+- Qualified: `thanks.qualified.title` and `.body`, then the inline scheduler (full width of the content column, at least 700 px tall on desktop): the GoHighLevel booking calendar (ADR-006, US-037), with name, email and phone pre-filled when the calendar supports it. The `thanks.scheduler_fallback` message replaces it if the URL is unset, the embed fails, or nothing appears within 10 seconds (US-007).
+- Not ready: `thanks.not_ready.title` and `.body`, then the `minicourse-debt` resource card (§6.1, in its current state), then the blue `thanks.not_ready.more` link to the library. The scheduler is not loaded. No gold button.
 - Focus moves to the screen's title when it appears.
 
 ### 6.5 Pending badge
@@ -206,6 +228,10 @@ Small pill: `sand` fill, `charcoal` text, 12 px Manrope 600, `pending.badge`, at
 
 In preview builds only: a slim `charcoal` bar above the header with `preview.badge` (a `soft-gold` pill) and `preview.banner` in `ivory`. Forms show `preview.form_note` on the next screen; the scheduler is replaced by a `sand` box with `preview.scheduler`.
 
+### 6.7 Calculator zone pill
+
+A small pill (Manrope 600, 13 px) next to the result: alert, building and freedom. Colours must meet §2.2 (AA for small text): alert in `terracotta`-tinted `surface` with `charcoal` text and a `terracotta` dot; building in `sand` with `charcoal` text; freedom in a light `heritage-blue` tint with `charcoal` text and a `heritage-blue` dot. The zone is also written in words, never shown by colour alone.
+
 ## 7. Provisional copy in code
 
 The code keeps, next to the strings, the list of badge blocks from `CONTENT.md` → Metadata → Pending badge, each tagged `placeholder` or `provisional`; the pending badge reads from it. Provisional keys outside that list (navigation, labels, metadata, alt text, state messages) never show a badge. English provisional status (all English) does not add badges.
@@ -214,7 +240,8 @@ The code keeps, next to the strings, the list of badge blocks from `CONTENT.md` 
 
 - Sí (brief): real session photos with natural light, `ivory` or green backgrounds; Gaby working, reading, in session, with coffee or a notebook. Mixed people (men and women) in any image of clients.
 - No: stock photos, banknotes or cash, cars, stiff corporate poses, luxury symbols.
-- Until the session photos arrive: the provisional portrait from phase 1 in the Home hero, and marked placeholders elsewhere.
+- Home hero (phase 2c): the "desired state" photo, Gaby living her freedom (with family, in nature, calm, no laptop) or a real client, never a studio portrait. Until it arrives, a marked placeholder.
+- Studio portrait: only in the Home's guide section (`#historia`). Until the session photos arrive: the provisional portrait from phase 1 there, and marked placeholders elsewhere.
 - Portrait: round, `ivory` 6 px ring; alt text from `CONTENT.md`.
 
 ## 9. Responsive
