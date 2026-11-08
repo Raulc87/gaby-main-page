@@ -141,7 +141,7 @@ so that I can review and follow up without a complex CRM.
 ## US-007 — Schedule through Calendly
 - Priority: Critical
 - Story Points: 3
-- Status: Ready; phase 2: AC1 applies only to the qualified screening answers (US-023 AC4); the other answers get the not-ready screen (US-023 AC5)
+- Status: Ready; phase 2: AC1 applies only to the qualified screening answers (US-023 AC4); the other answers get the not-ready screen (US-023 AC5). Phase 2c: the scheduler becomes Gaby's GoHighLevel calendar (ADR-006, US-037); where these criteria say Calendly, read the booking calendar
 - Related Requirements: FR-010, FR-014, FR-015, BR-001
 
 **User Story**
@@ -376,7 +376,7 @@ so that I can fix a production problem quickly instead of losing leads silently.
 ## US-017 — Final content from Gabriela
 - Priority: High
 - Story Points: 3
-- Status: Backlog since the Sprint 002 close-out (2026-10-16). Proof cards merged (#33); the remaining content arrives later (see the phase 2 note)
+- Status: Backlog since the Sprint 002 close-out (2026-10-16). Proof cards merged (#33); the remaining content arrives later (see the phase 2 note). Phase 2c adds (Gaby's review, 2026-11-08): the "desired state" photo for the Home hero, real testimonials with photos and a concrete result (her priority before launch), the number of people mentored, the Wealth Mastery module list, the new VSL, her calculator, the ebook and the six email texts
 - Phase 2 (2026-10-15): the copy now comes from Gaby's brief and is applied by US-021 to US-024. This story keeps what arrives later: session photos, authorized testimonials (text and video), bio and credentials, media logos once authorized, and the final names of the resources and the Método Polaris steps
 - Related Requirements: FR-003, FR-005, BR-003, BR-004, BR-005, BR-008
 - Related Spec: `docs/ux/UX_UI_DIRECTION.md` sections 4, 5, 6
@@ -483,7 +483,7 @@ so that I can find the story, the resources or the VIP path without getting lost
 ## US-021 — Home for corporate professionals
 - Priority: Critical
 - Story Points: 8
-- Status: Done — Sprint 003 (#61)
+- Status: Done — Sprint 003 (#61). Its section order and copy are replaced by the StoryBrand Home (US-034, phase 2c)
 - Related Requirements: FR-001, FR-002, FR-004, FR-005, FR-021, FR-022, BR-003, BR-005, BR-009, BR-011
 - Related Spec: `CONTENT.md` (Home), `UX_UI_DIRECTION.md` (Home layout)
 
@@ -532,7 +532,7 @@ so that I understand why she can guide me.
 ## US-023 — VIP mentorship page and screening-based routing
 - Priority: Critical
 - Story Points: 5
-- Status: Done — Sprint 003 (#57)
+- Status: Done — Sprint 003 (#57). Phase 2c: the scheduler becomes the GoHighLevel calendar (US-037), and the video module holds Gaby's new VSL when she records it (US-017)
 - Related Requirements: FR-006 to FR-010, FR-014, FR-015, FR-026, BR-001, BR-002, BR-006, BR-008
 - Related Spec: `LEAD_API_CONTRACT.md` (unchanged), `CONTENT.md` (VIP)
 
@@ -644,10 +644,10 @@ so that Gaby can follow progress without a production deployment.
 
 ---
 
-## US-028 — Método Polaris page (phase 2b)
+## US-028 — Método Polaris page
 - Priority: Medium
 - Story Points: 3
-- Status: Proposed — phase 2b; waits on the official Método Polaris steps (Gaby)
+- Status: Proposed — phase 2c, Sprint 004 candidate, with placeholder steps (human owner, 2026-11-08: "in the meantime let's placeholder it"); AC1 is met with the provisional steps and the placeholder block of `CONTENT.md` §12, and the official steps replace them in a later content PR when Gaby sends them
 - Related Requirements: FR-017, FR-018, BR-009
 
 **User Story**
@@ -657,8 +657,8 @@ I want a page that explains the Método Polaris in full,
 so that I understand how Gaby works before applying.
 
 **Acceptance Criteria**
-1. A Método Polaris page exists in both languages at the path in `UX_UI_DIRECTION.md`, with the official steps from `CONTENT.md`.
-2. The header navigation item and the Home section's link lead to the page; the Home keeps a short summary.
+1. A Método Polaris page exists in both languages at the path in `UX_UI_DIRECTION.md` (§5.7), with the steps and copy from `CONTENT.md` §12: until the official steps arrive, the three provisional steps with the pending badge and the placeholder block.
+2. The header navigation item (`nav.method`) leads to the page; the Home keeps its short Método Polaris section (US-034).
 3. The page ends with a VIP band; existing tests stay green and e2e covers the navigation in both languages.
 
 ---
@@ -717,3 +717,182 @@ so that I can make a correct change without reading every runbook first.
 
 **Dependencies**
 - None.
+
+---
+
+**Phase 2c (2026-11-08).** US-034 to US-039 come from Gaby's review of the Sprint 003 preview (`PROJECT_SPEC.md` v0.6; source: `docs/ux/BRIEF_2026-11-08_STORYBRAND.md`). US-031 to US-033 are reserved for the security stories planned in the dropped kit v1.3.0 sync (Raulc87/gaby-main-page#68), which the next kit sync brings back.
+
+---
+
+## US-034 — StoryBrand Home
+- Priority: High
+- Story Points: 8
+- Status: Proposed — Sprint 004 candidate (phase 2c)
+- Related Requirements: FR-001, FR-002, FR-004, FR-005, FR-021, FR-022, FR-031, FR-032, FR-033, FR-040, BR-003, BR-010, BR-011
+- Replaces: the US-021 section order and copy
+
+**User Story**
+
+As a corporate professional visiting the site,
+I want the Home to show my problem, what is at stake, a guide who has been there, a plan and what success looks like,
+so that I see myself in it and know my next step: apply, or find out where I stand with the calculator.
+
+**Acceptance Criteria**
+1. The Home has the eleven sections of `UX_UI_DIRECTION.md` §5.1, in that order, with the anchors of §3, in both languages, with the copy of `CONTENT.md` §5 copied verbatim. The free-resources teaser (`#recursos`) is gone.
+2. The hero has the gold `home.hero.cta` to the VIP page and the blue `home.hero.secondary` to the calculator page (US-035). Its image frame shows the "desired state" placeholder with the pending badge until the photo arrives; the studio portrait appears only in the guide section.
+3. The problem's second paragraph uses the corrected wording (`home.ladder.p2`, without "Cada vez más cosas dependen de ti, y").
+4. The stakes, guide, Wealth Mastery, before-and-after and VIP sections render as `UX_UI_DIRECTION.md` §5.1 says, with the three figures (the third, "200+", provisional), the media names as text (no logos, FR-029), and seven module cards.
+5. Gold appears only in the hero and the closing VIP band; `home.method.cta`, `home.mastery.cta` and `home.testimonials.cta` use the blue style; no viewport at 360, 390, 768 or 1280 px shows two gold buttons (BR-010). `home.testimonials.cta` is hidden while every testimonial card is a placeholder.
+6. The calculator teaser links to the calculator page, shows the example result, and shows `home.calculator.receive` (not `receive_with_guide`) until US-038 is done; its two library links go to the resource library, where both resources show as coming soon.
+7. Pending badges follow `CONTENT.md` → Metadata (the new provisional blocks in preview and development builds; the hero photo and testimonial placeholders in every build).
+8. Existing tests are updated for the new order and anchors; e2e covers both languages, the hero's two calls to action, the gold rule at the four widths, and that no link points at the removed `#recursos` anchor.
+
+**Security**
+- None: static content. No new form or third party.
+
+**Dependencies**
+- US-035 for the calculator page the links point to (the link can land first; the page must exist before the sprint closes).
+
+---
+
+## US-035 — Freedom-months calculator (page and placeholder formula)
+- Priority: High
+- Story Points: 5
+- Status: Proposed — Sprint 004 candidate (phase 2c). Built as a shell with a placeholder formula; Gaby's calculator replaces the questions, formula and zones later (human owner, 2026-11-08)
+- Related Requirements: FR-034, FR-035, FR-013, FR-030, NFR-005, NFR-006, BR-003
+
+**User Story**
+
+As a corporate professional,
+I want to find out how many months my money would last without my salary,
+so that I understand where I stand and whether I need a plan.
+
+**Acceptance Criteria**
+1. The calculator page exists in both languages at the paths in `UX_UI_DIRECTION.md` §3, with the three steps of §5.6 and the copy of `CONTENT.md` §11.
+2. The five figures are required numbers of 0 or more, validated in the browser with the `CONTENT.md` errors; expenses plus debt payments must be above 0.
+3. The result follows the placeholder formula of FR-034 exactly, including the "covered" case and the zone limits (below 6, 6 to under 12, 12 or more, from the unrounded value), with one decimal in the language's format ("4,4 meses" / "4.4 months"). The formula lives in one function with unit tests for each zone, each boundary (5.99, 6, 11.99, 12), the covered case and rounding, so Gaby's version can replace it in one place.
+4. Before the result, the visitor gives name, email, optional WhatsApp and consent (`CONTENT.md` §11.2); the details are sent to the calculator-lead endpoint (US-036) with the months and the zone, never the five figures. The result appears only after a successful save; on an error the visitor sees the error message and can retry, and the result stays hidden (NFR-006).
+5. Preview builds store and send nothing: after the details step the result appears with `preview.form_note` (FR-030).
+6. The result shows the zone in words and colour (§6.7), the disclaimer, the gold `calc.result.cta` to the VIP page, the library link and "Calculate again". `calc.result.email_note` is not shown until US-038 is done.
+7. The questions, zones and result show the pending badge in preview and development builds (placeholder formula).
+8. Accessibility: every input has a label and hint linked to it; focus moves to each step's title; errors are announced; the page works at 360 px with no horizontal scroll. Without JavaScript the page shows the VIP and library links instead of the calculator.
+
+**Security**
+- OWASP Top 10 (2025) A05 Injection and the API's input validation are covered by US-036. This story sends only what FR-035 lists (data minimization); the five figures never leave the browser.
+
+**Dependencies**
+- US-036 for the endpoint (the frontend can be built against the contract and memory mode first).
+
+---
+
+## US-036 — Calculator leads: contract and storage
+- Priority: High
+- Story Points: 3
+- Status: Proposed — Sprint 004 candidate (phase 2c)
+- Related Requirements: FR-035, FR-039, FR-013, NFR-006, NFR-007, NFR-008
+- Related ADR: ADR-001, ADR-002, ADR-004
+
+**User Story**
+
+As Gaby,
+I want every calculator lead stored with its result,
+so that I can follow up with the people who used it.
+
+**Acceptance Criteria**
+1. Before implementation, `LEAD_API_CONTRACT.md` v1.2 is approved in a docs PR: a calculator-lead endpoint (path, request fields of `PROJECT_SPEC.md` §10, `zone` codes `alert`, `building`, `freedom`, `months` as a number with one decimal or null when covered, optional `phone`, the honeypot and rate limit of v1.1, responses and error codes), and the sheet tab and its columns, including `source` = `calculator` and `status`.
+2. The backend implements the endpoint per the contract, validating every field (an unknown `zone`, `months` outside 0–999, a `zone` that does not match `months`, missing consent → field errors), storing a row in the calculator tab with server-generated `submitted_at`, `privacy_notice_version` and `status` = `started`.
+3. A failed save returns the contract's error and stores nothing partial (NFR-006). Honeypot and rate limit behave as for the VIP endpoint (ADR-004).
+4. `PRIVACY_NOTICE_VERSION` is bumped with the notice text of `CONTENT.md` §9 v0.2.
+5. Tests cover the contract's success, validation errors, honeypot, rate limit and storage failure, as `LEAD_API_CONTRACT.md` §10 requires for the VIP endpoint.
+
+**Security**
+- OWASP Top 10 (2025) A05 Injection (server-side validation of every field), API Security Top 10 (2023) API4 Unrestricted Resource Consumption (rate limit), and personal data minimization (no financial figures stored).
+
+**Dependencies**
+- None (the contract change comes first, AC1).
+
+---
+
+## US-037 — GoHighLevel booking calendar instead of Calendly
+- Priority: High
+- Story Points: 3
+- Status: Proposed — Sprint 004 candidate (phase 2c, ADR-006)
+- Related Requirements: FR-010, FR-014, FR-015, FR-030
+- Related ADR: ADR-006
+
+**User Story**
+
+As Gaby,
+I want qualified applicants to book on my GoHighLevel calendar,
+so that I don't pay for Calendly as well and all my bookings are in one place.
+
+**Acceptance Criteria**
+1. The qualified thank-you screen embeds the booking widget at `PUBLIC_SCHEDULER_URL` (Gaby's GoHighLevel calendar) inline, as `UX_UI_DIRECTION.md` §6.4 says; `PUBLIC_CALENDLY_URL` and the Calendly embed are removed from the code, `.env.example` and the runbooks.
+2. The applicant's name, email and phone are prefilled in the widget if GoHighLevel's embed supports it; the PR states what was verified and how. If it doesn't, the visitor types them again and the PR says so.
+3. The fallback (`thanks.scheduler_fallback`, renamed from `thanks.calendly_fallback`) appears when the URL is unset, the widget fails to load, or nothing appears within 10 seconds (US-007).
+4. The not-ready screen loads no scheduler. Preview builds still show the static stand-in and load nothing from GoHighLevel (FR-030).
+5. The privacy notice names GoHighLevel instead of Calendly (`CONTENT.md` `privacy.p4`), and `PRIVACY_NOTICE_VERSION` is bumped (with US-036 if both land in the same sprint).
+6. Tests: unit tests for the fallback timing and the URL handling; e2e for both screens with the scheduler stubbed (no network call to GoHighLevel in CI).
+
+**Security**
+- A third-party script (GoHighLevel's embed) runs on the thank-you screen only, after the save; it is listed in the security baseline's third parties (US-029). No secret is involved: the widget URL is public.
+
+**Dependencies**
+- Gaby's GoHighLevel calendar embed URL (human owner).
+
+---
+
+## US-038 — Funnel emails: the calculator result with the ebook, and Gaby's notification
+- Priority: Medium
+- Story Points: 3
+- Status: Proposed — blocked on ADR-007 (how emails are sent) and on the ebook file (Gaby)
+- Related Requirements: FR-036, FR-038, BR-012, NFR-006
+- Related ADR: ADR-007
+
+**User Story**
+
+As Gaby,
+I want each calculator lead to receive their result and my ebook, and to be told of each VIP application,
+so that the follow-up starts at once without my doing it by hand.
+
+**Acceptance Criteria**
+1. After a calculator lead is stored (US-036), it receives one email in its language with its months and zone and the ebook "Cómo empezar a invertir siendo ejecutivo", sent by the mechanism ADR-007 decides. A failed send never undoes the stored lead; it is logged and retried or reported as the ADR says.
+2. After a VIP application is stored, Gaby receives one email with the applicant's name, email, phone, screening answer and language.
+3. Every email names the sender (Gaby Kelly), why it was sent and how to opt out (FR-025's rule); the texts come from `CONTENT.md` (added in this story's docs PR).
+4. Once this is done, the site shows `home.calculator.receive_with_guide` and `calc.result.email_note` instead of the "no email" wording.
+5. The sending domain is authenticated (SPF, DKIM, DMARC) before this ships to production; the PR states the check.
+6. Tests cover the send being triggered once per lead and a failed send not affecting the stored lead.
+
+**Security**
+- No email credential in the frontend or in Git (NFR-007); credentials live in the server's environment. Each email goes only to the address the person entered or to Gaby.
+
+**Dependencies**
+- ADR-007 decided; the ebook from Gaby; US-036.
+
+---
+
+## US-039 — Funnel sequence: six emails over 14 days and the weekly email
+- Priority: Medium
+- Story Points: 5
+- Status: Proposed — blocked on ADR-007 and on Gaby's six email texts
+- Related Requirements: FR-037, FR-039, BR-012
+- Related ADR: ADR-006, ADR-007
+
+**User Story**
+
+As Gaby,
+I want calculator leads who haven't booked to receive my sequence and then a weekly email,
+so that the people who are not ready yet keep hearing from me until they are.
+
+**Acceptance Criteria**
+1. A calculator lead who consented enters the sequence of `PROJECT_SPEC.md` FR-037 (emails 2 to 6 on days 3, 5, 8, 11 and 14; email 1 is US-038), then the weekly email, with Gaby's texts, in the lead's language.
+2. Booking a call stops the sequence for that person, using the booking signal ADR-007 sets (a GoHighLevel webhook or workflow, or Gaby marking the lead `booked`); the PR shows the stop working end to end.
+3. Unsubscribing stops every email to that person at once and is recorded; no email is sent to someone who did not consent (BR-012).
+4. The privacy notice names any new processor before the first email is sent.
+5. The PR documents in a runbook how Gaby edits the texts and checks who is in the sequence.
+
+**Security**
+- The email tool's API key, if any, lives only in the server's environment (NFR-007). The data sent to the tool is limited to what the sequence uses (name, email, language, months, zone, source).
+
+**Dependencies**
+- ADR-007 decided; Gaby's six email texts and the weekly content; US-036, US-037, US-038.
