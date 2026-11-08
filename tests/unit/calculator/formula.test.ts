@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { calculateFreedom, floorToOneDecimal } from '../../../src/lib/calculator/formula';
+import { calculateFreedom } from '../../../src/lib/calculator/formula';
 import type { CalculatorFigures } from '../../../src/lib/calculator/formula';
 
 // Gap of 1,000 a month unless a test says otherwise: savings / 1000 = months.
@@ -76,22 +76,36 @@ describe('calculateFreedom', () => {
     expect(calculateFreedom(figures({ savings: 4490 })).months).toBe(4.4);
   });
 
-  it('never shows a rounded value past the zone limit the real value did not reach', () => {
-    // 5.9999999999 months: alert, shown as 5.9 (not 6.0, which would be the building zone)
-    expect(calculateFreedom(figures({ savings: 5999.9999999 }))).toEqual({ covered: false, months: 5.9, zone: 'alert' });
-    expect(calculateFreedom(figures({ savings: 11999.9999999 }))).toEqual({ covered: false, months: 11.9, zone: 'building' });
+  describe('exact arithmetic with cents (no floating-point noise)', () => {
+    it('600.06 saved against a gap of 100.01 is exactly 6 months: building', () => {
+      expect(calculateFreedom(figures({ expenses: 100.01, debt_payments: 0, savings: 600.06 }))).toEqual({
+        covered: false,
+        months: 6,
+        zone: 'building',
+      });
+    });
+
+    it('other income equal to expenses plus debt (100.15 + 100.02 against 200.17) is covered', () => {
+      expect(
+        calculateFreedom(figures({ expenses: 100.15, debt_payments: 100.02, other_income: 200.17, savings: 1000 })),
+      ).toEqual({ covered: true, months: null, zone: 'freedom' });
+    });
+
+    it('12 months to the cent is freedom, one cent less is building', () => {
+      expect(calculateFreedom(figures({ expenses: 333.33, debt_payments: 0, savings: 3999.96 })).zone).toBe('freedom');
+      expect(calculateFreedom(figures({ expenses: 333.33, debt_payments: 0, savings: 3999.95 }))).toEqual({
+        covered: false,
+        months: 11.9,
+        zone: 'building',
+      });
+    });
+
+    it('one cent short of 6 months is still alert, shown as 5.9', () => {
+      expect(calculateFreedom(figures({ savings: 5999.99 }))).toEqual({ covered: false, months: 5.9, zone: 'alert' });
+    });
   });
 
   it('handles zero savings (0 months, alert)', () => {
     expect(calculateFreedom(figures())).toEqual({ covered: false, months: 0, zone: 'alert' });
-  });
-});
-
-describe('floorToOneDecimal', () => {
-  it('ignores floating-point noise', () => {
-    expect(floorToOneDecimal(4.4)).toBe(4.4);
-    expect(floorToOneDecimal(1.1)).toBe(1.1);
-    expect(floorToOneDecimal(0.7)).toBe(0.7);
-    expect(floorToOneDecimal(2.9999999999)).toBe(2.9);
   });
 });

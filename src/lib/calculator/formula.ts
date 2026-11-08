@@ -3,6 +3,11 @@
  *
  * Gaby's calculator replaces this one function (`calculateFreedom`) later; the
  * rest of the code only depends on the shape of `CalculatorResult`.
+ *
+ * The arithmetic is exact: every figure is taken to cents and the gap, the zone
+ * and the months are computed with integers (BigInt), so a result on a zone limit
+ * (600.06 saved against a gap of 100.01 is exactly 6 months) lands in the right
+ * zone and "covered" is never decided by floating-point noise.
  */
 
 export type CalculatorZone = 'alert' | 'building' | 'freedom';
@@ -29,37 +34,26 @@ export interface CalculatorResult {
 }
 
 /** Zone limits, in months, applied to the unrounded value. */
-export const ZONE_BUILDING_FROM = 6;
-export const ZONE_FREEDOM_FROM = 12;
+export const ZONE_BUILDING_FROM = 6n;
+export const ZONE_FREEDOM_FROM = 12n;
 
-/** Rounds down to one decimal, ignoring floating-point noise (e.g. 4.4 stays 4.4). */
-export function floorToOneDecimal(value: number): number {
-  return Math.floor(Number((value * 10).toFixed(9))) / 10;
-}
-
-/**
- * The displayed months never cross a zone limit the unrounded value did not cross
- * (the server rejects an inconsistent pair, contract v1.2 section 11.2): a value
- * within floating-point noise of a limit (5.9999999999) stays at 5.9, not 6.0.
- */
-function clampToZone(months: number, zone: CalculatorZone): number {
-  if (zone === 'alert') return Math.min(months, 5.9);
-  if (zone === 'building') return Math.min(months, 11.9);
-  return months;
-}
-
-export function zoneForMonths(months: number): CalculatorZone {
-  if (months < ZONE_BUILDING_FROM) return 'alert';
-  if (months < ZONE_FREEDOM_FROM) return 'building';
-  return 'freedom';
+/** A money amount in cents (amounts with more decimals are rounded to the nearest cent). */
+function toCents(amount: number): bigint {
+  return BigInt(Math.round(amount * 100));
 }
 
 export function calculateFreedom(figures: CalculatorFigures): CalculatorResult {
-  const gap = figures.expenses + figures.debt_payments - figures.other_income;
-  if (gap <= 0) {
+  const gap = toCents(figures.expenses) + toCents(figures.debt_payments) - toCents(figures.other_income);
+  if (gap <= 0n) {
     return { covered: true, months: null, zone: 'freedom' };
   }
-  const months = (figures.savings + figures.liquid_investments) / gap;
-  const zone = zoneForMonths(months);
-  return { covered: false, months: clampToZone(floorToOneDecimal(months), zone), zone };
+  const available = toCents(figures.savings) + toCents(figures.liquid_investments);
+
+  // months = available / gap. Zones come from the unrounded value, compared without division.
+  const zone: CalculatorZone =
+    available < ZONE_BUILDING_FROM * gap ? 'alert' : available < ZONE_FREEDOM_FROM * gap ? 'building' : 'freedom';
+
+  // Rounded down to one decimal: floor(available * 10 / gap) tenths (BigInt division floors).
+  const months = Number((available * 10n) / gap) / 10;
+  return { covered: false, months, zone };
 }
