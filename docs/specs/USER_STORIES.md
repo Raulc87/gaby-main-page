@@ -842,7 +842,7 @@ so that I don't pay for Calendly as well and all my bookings are in one place.
 - A third-party script (GoHighLevel's embed) runs on the thank-you screen only, after the save; it is listed in the security baseline's third parties (US-029). No secret is involved: the widget URL is public.
 
 **Dependencies**
-- Gaby's GoHighLevel calendar embed URL (human owner).
+- Gaby's GoHighLevel calendar set up and its embed URL (human owner, with Gaby): she uses Calendly today, so the GHL calendar may not exist yet. Model it on her current Calendly event (ADR-006 → Implementation Impact).
 
 ---
 

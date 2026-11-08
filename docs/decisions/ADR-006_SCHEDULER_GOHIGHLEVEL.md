@@ -10,7 +10,7 @@
 Which booking calendar does the VIP thank-you screen embed for qualified applicants?
 
 ## Context
-Since phase 1 the qualified thank-you screen embeds Calendly inline (`PUBLIC_CALENDLY_URL`, US-007). Gaby already pays for GoHighLevel (GHL), which includes a booking calendar, and does not want to pay Calendly as well (review note, 2026-11-08). The human owner's direction is that the site and its backend replace everything GHL does in Gaby's funnel except the calendar ("the intention is us being the substitute of pretty much all GHL except the calendar"). The owner also asked whether a Google Workspace calendar could do the same.
+Since phase 1 the qualified thank-you screen embeds Calendly inline (`PUBLIC_CALENDLY_URL`, US-007). Gaby's current page on gabykelly.com is built on GoHighLevel (GHL) but also embeds a Calendly event ("Aplica al programa y comunidad", 45 minutes), so today she pays for both. GHL includes a booking calendar she is not using yet, and she does not want to pay Calendly as well (review note, 2026-11-08). The human owner's direction is that the site and its backend replace everything GHL does in Gaby's funnel except the calendar ("the intention is us being the substitute of pretty much all GHL except the calendar"). The owner also asked whether a Google Workspace calendar could do the same.
 
 ## Decision Drivers
 - No extra subscription for Gaby
@@ -53,6 +53,7 @@ It costs Gaby nothing extra and keeps the tool she chose. Keeping the scheduler 
 ## Implementation Impact
 - Frontend: `Scheduling.astro` and its controller embed the GHL widget instead of Calendly's; same fallback timeout and preview stand-in; the copy key `thanks.calendly_fallback` becomes `thanks.scheduler_fallback`.
 - Configuration: `PUBLIC_SCHEDULER_URL` (GHL's booking widget URL); `PUBLIC_CALENDLY_URL` is removed from `.env.example` and the runbooks.
+- Set-up (Gaby or the human owner, before US-037): a GHL calendar for the initial call, matching today's Calendly event (45 minutes, video-call details on confirmation, the "read this before booking" note), connected to Gaby's Google Calendar so busy times are blocked. Calendly stays active until the new site is live, since gabykelly.com still uses it.
 - Privacy notice: `privacy.p4` names GoHighLevel; `PRIVACY_NOTICE_VERSION` is bumped.
 - Security baseline: GHL is a third party whose script runs on the thank-you page; it is listed in the baseline's third parties (US-029).
 

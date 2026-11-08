@@ -380,6 +380,8 @@ Each note is quoted under the part of the preview it points at.
 
 A one-page "Wealth Mastery · Gaby Kelly" sales page built on GoHighLevel (its images are served from `images.leadconnectorhq.com` and `storage.googleapis.com/msgsndr/`). It speaks to women who earn well; it claims "Más de 200 personas" have changed "su relación con el dinero"; it asks the visitor to watch a video (the VSL, "Empieza por ver este video") and then book an interview ("Ahora, agenda tu entrevista"); it ends with video and image testimonials. The human owner (2026-11-08): this is the page the new site replaces. Gaby will record a new VSL for the new audience.
 
+**Today's booking calendar (human owner, 2026-11-08, screenshot of gabykelly.com):** the GoHighLevel page embeds a **Calendly** event: "Gaby Kelly, Mentora en Finanzas · Aplica al programa y comunidad", 45 minutes, web-conference details sent on confirmation, with a note "Por favor LEE ESTO ANTES DE AGENDAR: Esto no es una llamada más. Es una sesión…". Gaby pays for both tools; her note 3 asks to move the booking to the calendar included in GoHighLevel.
+
 ## 5 · How these sources were taken (2026-11-08)
 
 Human owner's decisions, given to the coordinator in its session on 2026-11-08 (verbatim where quoted):
@@ -399,5 +401,5 @@ Decisions on the sources (coordinator, for the owner to confirm in the docs PR):
 - **"Se mantiene" sections with new wording.** Sections 5 and 6 are marked *se mantiene* or *ajustado* but several lines differ from the current copy; the dummy's wording, being the newest, is taken.
 - **"[X] personas acompañadas".** The page gabykelly.com serves today says "Más de 200 personas"; the Home shows "200+", provisional until Gaby confirms it (BR-011).
 - **Media logos** (Canal 13, Radio Azul, Radio Fides) stay as names until their use is authorized (FR-029).
-- **Two consents in the calculator.** The funnel says "consentimiento Ley 8968". The calculator asks for a required consent (storing the lead and emailing the result) and a separate, optional one for the six-email sequence and the weekly email, which names them; only leads who tick it enter the sequence. Recommended because a single required box would make marketing email a condition of the free result. Owner decision pending; the legal review (US-018) checks both texts.
+- **Two consents in the calculator.** The funnel says "consentimiento Ley 8968". The calculator asks for a required consent (storing the lead and emailing the result) and a separate, optional one for the six-email sequence and the weekly email, which names them; only leads who tick it enter the sequence. Human owner, 2026-11-08: "for the calculator consent, keep the two checkboxes as you recommended". The legal review (US-018) checks both texts.
 - **Gold buttons.** The dummy has six VIP calls to action. Only the hero's and the closing VIP section's are gold; the others use the blue style, so no viewport shows two gold buttons (BR-010).
