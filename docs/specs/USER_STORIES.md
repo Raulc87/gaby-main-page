@@ -647,7 +647,7 @@ so that Gaby can follow progress without a production deployment.
 ## US-028 — Método Polaris page
 - Priority: Medium
 - Story Points: 3
-- Status: Proposed — phase 2c, Sprint 004 candidate, with placeholder steps (human owner, 2026-11-08: "in the meantime let's placeholder it"); AC1 is met with the provisional steps and the placeholder block of `CONTENT_PHASE_2C.md` §12, and the official steps replace them in a later content PR when Gaby sends them
+- Status: Planned — Sprint 004 (`GK-028-method-page`); phase 2c, Sprint 004 candidate, with placeholder steps (human owner, 2026-11-08: "in the meantime let's placeholder it"); AC1 is met with the provisional steps and the placeholder block of [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) §12, and the official steps replace them in a later content PR when Gaby sends them
 - Related Requirements: FR-017, FR-018, BR-009
 
 **User Story**
@@ -658,16 +658,20 @@ so that I understand how Gaby works before applying.
 
 **Acceptance Criteria**
 1. A Método Polaris page exists in both languages at the path in `UX_UI_DIRECTION.md` (§5.7), with the steps and copy from `CONTENT_PHASE_2C.md` §12: until the official steps arrive, the three provisional steps with the pending badge and the placeholder block.
-2. The header navigation item (`nav.method`) leads to the page; the Home keeps its short Método Polaris section (US-034).
+2. The header navigation item (`nav.method`) leads to the page: this PR switches it from the Home's `#metodo` section (where the scaffold leaves it) to the page. The Home keeps its short Método Polaris section (US-034).
 3. The page ends with a VIP band; existing tests stay green and e2e covers the navigation in both languages.
-4. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §12, `meta.method.*` (A.2) and its row of A.1.
+
+4. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §12 and its row of A.1. `meta.method.*` moves with the scaffold (US-034).
+
+**Security**
+- None: a static page with no form or third party.
 
 ---
 
 ## US-029 — Security baseline
 - Priority: High
 - Story Points: 5
-- Status: Proposed — Sprint 004 candidate (kit v1.2.0 sync, kit issue Raulc87/sdd_starter_kit#62). The project already writes code, so the baseline is a story in its next sprint and is approved by that sprint's end ([`AGENTS.md`](../../AGENTS.md) → Security baseline; [readiness checklist](../checklists/SPRINT_READINESS_CHECKLIST.md) → Security)
+- Status: Planned — Sprint 004 (`GK-029-security-baseline`); Sprint 004 candidate (kit v1.2.0 sync, kit issue Raulc87/sdd_starter_kit#62). The project already writes code, so the baseline is a story in its next sprint and is approved by that sprint's end ([`AGENTS.md`](../../AGENTS.md) → Security baseline; [readiness checklist](../checklists/SPRINT_READINESS_CHECKLIST.md) → Security)
 - Related Requirements: NFR-007, NFR-008, FR-013, BR-006
 - Related ADR: ADR-001, ADR-002, ADR-004, ADR-005
 
@@ -697,7 +701,7 @@ so that every later story and the first production release are checked against O
 ## US-030 — Developer guide (`CONTRIBUTING.md`)
 - Priority: Medium
 - Story Points: 2
-- Status: Proposed — Sprint 004 candidate (kit v1.2.0 sync, kit issue Raulc87/sdd_starter_kit#62). Due by the end of the first sprint that runs code; that sprint has passed, so it goes in the next one ([`AGENTS.md`](../../AGENTS.md) → Document map)
+- Status: Planned — Sprint 004 (`GK-030-contributing`); Sprint 004 candidate (kit v1.2.0 sync, kit issue Raulc87/sdd_starter_kit#62). Due by the end of the first sprint that runs code; that sprint has passed, so it goes in the next one ([`AGENTS.md`](../../AGENTS.md) → Document map)
 - Related Requirements: none (process)
 
 **User Story**
@@ -728,7 +732,7 @@ so that I can make a correct change without reading every runbook first.
 ## US-034 — StoryBrand Home
 - Priority: High
 - Story Points: 8
-- Status: Proposed — Sprint 004 candidate (phase 2c)
+- Status: Planned — Sprint 004 (`GK-034-site-scaffold`, `GK-034-home`); Sprint 004 candidate (phase 2c)
 - Related Requirements: FR-001, FR-002, FR-004, FR-005, FR-021, FR-022, FR-031, FR-032, FR-033, FR-040, BR-003, BR-010, BR-011
 - Replaces: the US-021 section order and copy
 
@@ -747,7 +751,7 @@ so that I see myself in it and know my next step: apply, or find out where I sta
 6. The calculator teaser links to the calculator page, shows the example result, and shows `home.calculator.receive` (not `receive_with_guide`) until US-038 is done; its two library links go to the resource library, where both resources show as coming soon.
 7. Pending badges follow `CONTENT.md` → Metadata (the new provisional blocks in preview and development builds; the hero photo and testimonial placeholders in every build).
 8. Existing tests are updated for the new order and anchors; e2e covers both languages, the hero's two calls to action, the gold rule at the four widths, and that no link points at the removed `#recursos` anchor.
-9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: its rows of A.1 and A.2 (`meta.home.description`), A.3 to A.6b, and §5 (replacing `CONTENT.md` §5), and bumps `CONTENT.md` to v0.2.
+9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: A.2 and A.3 (in the scaffold PR, `GK-034-site-scaffold`, Sprint 004 plan); then, in the Home PR, its rows of A.1, A.4 to A.6b, and §5 (replacing [`CONTENT.md`](../ux/CONTENT.md) §5), and bumps [`CONTENT.md`](../ux/CONTENT.md) to v0.2.
 
 **Security**
 - None: static content. No new form or third party.
@@ -760,7 +764,7 @@ so that I see myself in it and know my next step: apply, or find out where I sta
 ## US-035 — Freedom-months calculator (page and placeholder formula)
 - Priority: High
 - Story Points: 5
-- Status: Proposed — Sprint 004 candidate (phase 2c). Built as a shell with a placeholder formula; Gaby's calculator replaces the questions, formula and zones later (human owner, 2026-11-08)
+- Status: Planned — Sprint 004 (`GK-035-calculator`); Sprint 004 candidate (phase 2c). Built as a shell with a placeholder formula; Gaby's calculator replaces the questions, formula and zones later (human owner, 2026-11-08)
 - Related Requirements: FR-034, FR-035, FR-013, FR-030, NFR-005, NFR-006, BR-003
 
 **User Story**
@@ -775,10 +779,10 @@ so that I understand where I stand and whether I need a plan.
 3. The result follows the placeholder formula of FR-034 exactly, including the "covered" case and the zone limits (below 6, 6 to under 12, 12 or more, from the unrounded value), with one decimal in the language's format ("4,4 meses" / "4.4 months"), and no upper limit (a test with a result above 1,000 months). The formula lives in one function with unit tests for each zone, each boundary (5.99, 6, 11.99, 12), the covered case and rounding, so Gaby's version can replace it in one place.
 4. Before the result, the visitor gives name, email, optional WhatsApp, the required consent and, optionally, the consent to Gaby's emails (`CONTENT_PHASE_2C.md` §11.2; the second checkbox starts unticked); the details are sent to the calculator-lead endpoint (US-036) with the months, the zone and whether the visitor ticked the email consent, never the five figures. The result appears only after a successful save; on an error the visitor sees the error message and can retry, and the result stays hidden (NFR-006).
 5. Preview builds store and send nothing: after the details step the result appears with `preview.form_note` (FR-030).
-6. The result shows the zone in words and colour (§6.7), the disclaimer, the gold `calc.result.cta` to the VIP page, the library link and "Calculate again". `calc.result.email_note` is not shown until US-038 is done.
+6. The result shows the zone in words and colour (§6.7), the disclaimer, the gold `calc.result.cta` to the VIP page, the library link and "Calculate again". "Calculate again" returns to the questions; the details step then shows again, prefilled, and submitting it stores a new row with the new result (the calculator has its own rate-limit budget, contract v1.2 §11.1). `calc.result.email_note` is not shown until US-038 is done.
 7. The questions, zones and result show the pending badge in preview and development builds (placeholder formula).
 8. Accessibility: every input has a label and hint linked to it; focus moves to each step's title; errors are announced; the page works at 360 px with no horizontal scroll. Without JavaScript the page shows the VIP and library links instead of the calculator.
-9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §11, `meta.calculator.*` (A.2) and its row of A.1.
+9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §11, its row of A.1, and the calculator's privacy text (A.8: `privacy.p2`, `privacy.p3`, `privacy.p5`), and bumps the `PRIVACY_NOTICE_VERSION` line in [`api/.env.example`](../../api/.env.example) in the same PR, so the version and the text it names change together (recorded exception, Sprint 004 plan). `meta.calculator.*` moves with the scaffold (US-034).
 
 **Security**
 - OWASP Top 10 (2025) A05 Injection and the API's input validation are covered by US-036. This story sends only what FR-035 lists (data minimization); the five figures never leave the browser.
@@ -791,7 +795,7 @@ so that I understand where I stand and whether I need a plan.
 ## US-036 — Calculator leads: contract and storage
 - Priority: High
 - Story Points: 3
-- Status: Proposed — Sprint 004 candidate (phase 2c)
+- Status: Planned — Sprint 004 (`GK-036-calculator-leads`); Sprint 004 candidate (phase 2c)
 - Related Requirements: FR-035, FR-039, FR-013, NFR-006, NFR-007, NFR-008
 - Related ADR: ADR-001, ADR-002, ADR-004
 
@@ -802,10 +806,10 @@ I want every calculator lead stored with its result,
 so that I can follow up with the people who used it.
 
 **Acceptance Criteria**
-1. Before implementation, `LEAD_API_CONTRACT.md` v1.2 is approved in a docs PR: a calculator-lead endpoint (path, request fields of `PROJECT_SPEC.md` §10, `zone` codes `alert`, `building`, `freedom`, `months` as a number with one decimal or null when covered, optional `phone`, the required `consent` and the optional `marketing_consent` boolean, the honeypot and rate limit of v1.1, responses and error codes), and the sheet tab and its columns, including `source` = `calculator` and `status`.
+1. Before implementation, [`LEAD_API_CONTRACT.md`](LEAD_API_CONTRACT.md) v1.2 is approved in a docs PR (done: section 11, written in the Sprint 004 planning PR and locked when it merges): a calculator-lead endpoint (path, request fields of [`PROJECT_SPEC.md`](PROJECT_SPEC.md) §10, `zone` codes `alert`, `building`, `freedom`, `months` as a number with one decimal or null when covered, optional `phone`, the required `consent` and the optional `marketing_consent` boolean, the honeypot and rate limit of v1.1, responses and error codes), and the sheet tab and its columns, including `source` = `calculator` and `status`.
 2. The backend implements the endpoint per the contract, validating every field (an unknown `zone`, `months` negative or with more than one decimal, a `zone` that does not match `months`, missing consent → field errors; `months` has no upper limit, since the formula has none, FR-034), storing a row in the calculator tab with server-generated `submitted_at`, `privacy_notice_version` and `status` = `started`.
 3. A failed save returns the contract's error and stores nothing partial (NFR-006). Honeypot and rate limit behave as for the VIP endpoint (ADR-004).
-4. `PRIVACY_NOTICE_VERSION` is bumped with the notice text of `CONTENT_PHASE_2C.md` A.8 (`privacy.p2`, `privacy.p3`, `privacy.p5`), which the PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file.
+4. The new configuration is documented: `GOOGLE_SHEET_CALCULATOR_TAB` in [`api/.env.example`](../../api/.env.example) and [`docs/runbooks/GOOGLE_SHEETS_SETUP.md`](../runbooks/GOOGLE_SHEETS_SETUP.md) (the new tab and its header row), and `PUBLIC_CALCULATOR_ENDPOINT` in the root [`.env.example`](../../.env.example). `PRIVACY_NOTICE_VERSION` is bumped by US-035, in the same PR as the notice text it versions.
 5. Tests cover the contract's success, validation errors, honeypot, rate limit and storage failure, as `LEAD_API_CONTRACT.md` §10 requires for the VIP endpoint.
 
 **Security**
@@ -819,7 +823,7 @@ so that I can follow up with the people who used it.
 ## US-037 — GoHighLevel booking calendar instead of Calendly
 - Priority: High
 - Story Points: 3
-- Status: Proposed — Sprint 004 candidate (phase 2c, ADR-006)
+- Status: Planned — Sprint 004 if Gaby's GoHighLevel calendar is ready (`GK-037-ghl-scheduler`); Sprint 004 candidate (phase 2c, ADR-006)
 - Related Requirements: FR-010, FR-014, FR-015, FR-030
 - Related ADR: ADR-006
 
@@ -834,7 +838,7 @@ so that I don't pay for Calendly as well and all my bookings are in one place.
 2. The applicant's name, email and phone are prefilled in the widget if GoHighLevel's embed supports it; the PR states what was verified and how. If it doesn't, the visitor types them again and the PR says so. Either way GoHighLevel ends up with the booking's name, email and phone, which `privacy.p4` states.
 3. The fallback (`thanks.scheduler_fallback`, renamed from `thanks.calendly_fallback`) appears when the URL is unset, the widget fails to load, or nothing appears within 10 seconds (US-007).
 4. The not-ready screen loads no scheduler. Preview builds still show the static stand-in and load nothing from GoHighLevel (FR-030).
-5. The privacy notice names GoHighLevel instead of Calendly (`CONTENT_PHASE_2C.md` A.8 (`privacy.p4`)), and `PRIVACY_NOTICE_VERSION` is bumped (with US-036 if both land in the same sprint).
+5. The privacy notice names GoHighLevel instead of Calendly (`CONTENT_PHASE_2C.md` A.8 (`privacy.p4`)), and `PRIVACY_NOTICE_VERSION` is bumped in the same PR.
 6. Tests: unit tests for the fallback timing and the URL handling; e2e for both screens with the scheduler stubbed (no network call to GoHighLevel in CI).
 7. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: A.7 (the renamed key) and A.8 `privacy.p4`.
 
