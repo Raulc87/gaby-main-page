@@ -41,7 +41,7 @@ test.describe('header and footer on every page', () => {
         );
         await expect(header.getByRole('link', { name: common.nav.method })).toHaveAttribute(
           'href',
-          `${routePath('home', lang)}#metodo`,
+          routePath('method', lang),
         );
         await expect(header.getByRole('link', { name: common.nav.resources })).toHaveAttribute(
           'href',
@@ -67,13 +67,8 @@ test.describe('header and footer on every page', () => {
           expect((await link.boundingBox())!.height).toBeGreaterThanOrEqual(44);
         }
 
-        // AC1: no blog link, and no link to the Método Polaris page until GK-028-method-page.
-        // (The Método Polaris stub's own language toggle links to its other-language path.)
-        if (id !== 'method') {
-          await expect(
-            page.locator('a[href*="/blog"], a[href*="metodo-polaris"], a[href*="polaris-method"]'),
-          ).toHaveCount(0);
-        }
+        // AC1: no blog link until US-026.
+        await expect(page.locator('a[href*="/blog"]')).toHaveCount(0);
       });
     }
   }
@@ -213,13 +208,11 @@ test.describe('mobile menu (AC3)', () => {
     await expect(button).toBeFocused();
   });
 
-  test('following a same-page link closes the panel and moves focus to the link target', async ({ page }) => {
+  test('following a link in the panel leads to its page (the Método Polaris page)', async ({ page }) => {
     await page.goto(routePath('home', 'es'));
-    const button = page.locator('[data-menu-button]');
-    await button.click();
+    await page.locator('[data-menu-button]').click();
     await page.locator('[data-nav="method"]').click();
-    await expect(button).toHaveAttribute('aria-expanded', 'false');
-    await expect(page.locator('#metodo')).toBeFocused();
+    await page.waitForURL(`**${routePath('method', 'es')}`);
     await expect(page.locator('html')).not.toHaveClass(/overflow-hidden/);
   });
 
@@ -403,14 +396,6 @@ test.describe('never two gold buttons in one viewport (BR-010)', () => {
 });
 
 test.describe('Home anchors', () => {
-  test('the Método Polaris link of the header reaches its section', async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto(routePath('home', 'es'));
-    await page.locator('header [data-nav="method"]').click();
-    await expect(page).toHaveURL(/#metodo$/);
-    await expect(page.locator('#metodo')).toBeInViewport();
-  });
-
   test('the toggle keeps a Home section anchor', async ({ page }) => {
     await page.goto(`${routePath('home', 'es')}#oportunidad`);
     await page.locator('[data-language-toggle] a[data-lang="en"]').click();

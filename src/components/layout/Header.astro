@@ -6,7 +6,6 @@
 // the DOM: the panel is the same element as the desktop navigation row.
 import { getCommon, type Language } from '../../i18n';
 import type { PageId } from '../../i18n/routes';
-import { ANCHORS } from '../../i18n/routes';
 import { pageHref } from '../../lib/site/links';
 import Button from './Button.astro';
 import LanguageToggle from './LanguageToggle.astro';
@@ -19,10 +18,9 @@ interface Props {
 const { lang, pageId } = Astro.props;
 const { nav, lang: langStrings } = getCommon(lang);
 
-// `nav.method` leads to the Home section until the Método Polaris page exists (US-028).
 const links = [
   { id: 'story', label: nav.story, href: pageHref('story', lang), current: pageId === 'story' },
-  { id: 'method', label: nav.method, href: pageHref('home', lang, ANCHORS.home.method), current: false },
+  { id: 'method', label: nav.method, href: pageHref('method', lang), current: pageId === 'method' },
   {
     id: 'resources',
     label: nav.resources,

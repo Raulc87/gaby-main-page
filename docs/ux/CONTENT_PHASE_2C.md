@@ -14,7 +14,6 @@ The copy for phase 2c, from Gaby's review of 2026-11-08 ([`BRIEF_2026-11-08_STOR
 | A.7 §8.5 scheduler fallback key | US-037 |
 | A.8 §9 privacy notice | US-037 (GoHighLevel: `privacy.p4`, `privacy.ts` is Agent 2's); US-035 moved `privacy.p2`, `privacy.p3` and `privacy.p5`. Each story bumps `PRIVACY_NOTICE_VERSION` in the PR that changes the text |
 | §5 Home | US-034 (replaces `CONTENT.md` §5) |
-| §12 Método Polaris page | US-028 (new section) |
 
 No staged key is an alias (a value of the form "= `key`") of a key that another story moves, so each story's PR can merge on its own: `calc.eyebrow`, `calc.title` and `home.calculator.example.zone` repeat the same text instead (Sprint 004 plan review). Aliases point only at keys already in [`CONTENT.md`](CONTENT.md). The Método Polaris page (§12) shows the `home.method.*` steps as [`CONTENT.md`](CONTENT.md) has them when it merges; US-034 updates step 3's body for both pages.
 
@@ -29,7 +28,6 @@ Each story adds only its own blocks to the two lists in `CONTENT.md` → Metadat
 | Story | Add to **Placeholders** (badge in every build) | Add to **Provisional copy blocks** (preview and development builds) |
 |---|---|---|
 | US-034 | the Home hero photo (§5.1) | the problem's second paragraph (§5.2), the third figure of the guide (§5.4), the Wealth Mastery modules (§5.7) |
-| US-028 | the Método Polaris page's steps placeholder (`method.steps.placeholder`, §12) | — |
 
 ### A.4 §4 VIP band
 
@@ -269,16 +267,3 @@ Three placeholder cards (two with photo and text, one video) until real, authori
 | `home.vip.cta` | = `cta.vip_apply` | = `cta.vip_apply` | approved |
 
 The Home's VIP band: the blue band of §4 with `home.vip.body` and the three steps, and the gold `cta.vip_apply`.
-
-## 12. Método Polaris page (`/es/metodo-polaris/`, `/en/polaris-method/`)
-
-US-028, placeholder version (human owner, 2026-11-08: "in the meantime let's placeholder it").
-
-| Key | Español | English | Status |
-|---|---|---|---|
-| `method.eyebrow` | = `home.method.eyebrow` | = `home.method.eyebrow` | approved |
-| `method.title` | = `home.method.title` | = `home.method.title` | approved |
-| `method.lead` | Un camino simple para ordenar tu dinero, convertir tus beneficios en capital e invertir con claridad. | A simple path to organize your money, turn your benefits into capital and invest with clarity. | provisional |
-| `method.steps.placeholder` | Los pasos oficiales del Método Polaris: disponibles pronto | The official steps of the Polaris Method: coming soon | provisional |
-
-Until Gaby sends the official steps, the page shows the three provisional steps of §5.6 (same keys, with the pending badge) and, below them, `method.steps.placeholder` as a placeholder block (badge in every build). It ends with the VIP band (§4).

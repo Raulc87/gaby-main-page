@@ -16,7 +16,7 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
   - **All English values are provisional** until Gaby validates them (one review of the English as a whole); that does not add badges.
 - Values are copied verbatim and never contain markers. The code keeps the list of provisional keys next to the strings (`UX_UI_DIRECTION.md` §7).
 - **Pending badge (which keys show one):** only content blocks, never navigation, accessibility labels, alt text, metadata or state messages. Two kinds (`UX_UI_DIRECTION.md` §6.5):
-  - **Placeholders** (content that has not arrived; BR-011), badge in **every** build, production included, until the real content replaces them: the testimonial cards (§5.7), the story photo and bio placeholders (§6), the VIP video module (§8.2), and every resource card whose file has not been delivered (§7.3).
+  - **Placeholders** (content that has not arrived; BR-011), badge in **every** build, production included, until the real content replaces them: the testimonial cards (§5.7), the Método Polaris page's steps placeholder (`method.steps.placeholder`, §12), the story photo and bio placeholders (§6), the VIP video module (§8.2), and every resource card whose file has not been delivered (§7.3).
   - **Provisional copy blocks**, badge in preview and development builds only: the Método Polaris steps (§5.4), the VIP steps (§8.1), the not-ready screen (§8.5), the calculator's questions, zones and result (§11, placeholder formula), and resource cards with provisional titles. Before any production release, each of these is approved or the human owner decides per block whether it ships (as the phase 1 go-live gate did).
   - No badge: `nav.*`, `skip_link`, `lang.*`, `meta.*`, `*_alt`, `resource.cover_alt`, `resources.filter.label`, `resources.empty`, `resource.pending`, `resource.email.coming_soon`, `story.media.label`, `story.experience.label`, `preview.*`, `privacy.*` (the notice has its own DRAFT label).
 - `*text*` marks the italic emphasis (Playfair italic, `UX_UI_DIRECTION.md` §2) inside a heading; the asterisks are not part of the text.
@@ -456,3 +456,16 @@ Name and email use `form.name.*` and `form.email.*`; the optional WhatsApp uses 
 | `calc.restart` | Calcular de nuevo | Calculate again | provisional |
 
 `{months}` has one decimal, with a decimal comma in Spanish ("4,4 meses") and a point in English ("4.4 months"). `calc.result.covered` replaces the months and the zone body when other income covers the monthly outflow; the zone is then "freedom". "Zona de alerta" is Gaby's label (her example result); the other zone names are the team's. `calc.result.email_note` is shown only once the guide is sent by email (US-038). In preview builds the capture step stores nothing and the result shows `preview.form_note` (§8.6).
+
+## 12. Método Polaris page (`/es/metodo-polaris/`, `/en/polaris-method/`)
+
+US-028, placeholder version (human owner, 2026-11-08: "in the meantime let's placeholder it").
+
+| Key | Español | English | Status |
+|---|---|---|---|
+| `method.eyebrow` | = `home.method.eyebrow` | = `home.method.eyebrow` | approved |
+| `method.title` | = `home.method.title` | = `home.method.title` | approved |
+| `method.lead` | Un camino simple para ordenar tu dinero, convertir tus beneficios en capital e invertir con claridad. | A simple path to organize your money, turn your benefits into capital and invest with clarity. | provisional |
+| `method.steps.placeholder` | Los pasos oficiales del Método Polaris: disponibles pronto | The official steps of the Polaris Method: coming soon | provisional |
+
+Until Gaby sends the official steps, the page shows the three provisional steps of §5.6 (same keys, with the pending badge) and, below them, `method.steps.placeholder` as a placeholder block (badge in every build). It ends with the VIP band (§4).
