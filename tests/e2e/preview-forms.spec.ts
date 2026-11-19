@@ -17,6 +17,8 @@ import { preview, type PreviewServer } from 'vite';
 import { getCommon, type Language } from '../../src/i18n';
 import { routePath } from '../../src/i18n/routes';
 import { getForm } from '../../src/lib/lead/dictionaries';
+import { getCalculator } from '../../src/lib/calculator/dictionary';
+import { answerQuestions, CALC, fillDetails, gotoCalculatorAt } from './support/calculator';
 import { fillLeadForm, SELECTORS } from './support/lead-form';
 
 const PORT = 4322;
@@ -125,6 +127,30 @@ for (const lang of ['es', 'en'] as const) {
 
     await expect(page.locator(SELECTORS.nameError)).toHaveText(form.fieldErrors.required);
     await expect(page.locator(SELECTORS.formContainer)).toBeVisible();
+    expect(tracked.api).toEqual([]);
+    expect(tracked.forbidden).toEqual([]);
+  });
+}
+
+// US-035 AC5 (FR-030): in a preview build the calculator's details step stores and sends
+// nothing: the result appears with `preview.form_note`, and no request goes to /api or a third party.
+for (const lang of ['es', 'en'] as const) {
+  test(`preview calculator (${lang}): the result appears with the demonstration note and nothing is sent`, async ({ page }) => {
+    const tracked = trackRequests(page);
+    await gotoCalculatorAt(page, ORIGIN, lang);
+
+    await expect(page.locator('[data-preview-bar]')).toContainText(getCommon(lang).preview.banner);
+    await answerQuestions(page);
+    await fillDetails(page, { marketing: true });
+    await page.locator(CALC.submit).click();
+
+    await expect(page.locator(CALC.stepResult)).toBeVisible();
+    await expect(page.locator(`${CALC.stepResult} [data-preview-note]`)).toHaveText(getCommon(lang).preview.form_note);
+    await expect(page.locator(CALC.zoneTitle)).toHaveText(getCalculator(lang).zones.alert.title);
+    // The pending badge shows on the questions and on the result in a preview build.
+    await expect(page.locator(CALC.stepResult).getByText(getCommon(lang).pending.badge)).toBeVisible();
+
+    await page.waitForLoadState('networkidle');
     expect(tracked.api).toEqual([]);
     expect(tracked.forbidden).toEqual([]);
   });

@@ -1,9 +1,11 @@
 ---
-// Stub page (GK-034-site-scaffold): the layout, title and description only. The
-// page's content arrives with its story.
+// Calculator page (US-035): the layout, then the calculator in this language.
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CalculatorPage from '../../../components/calculator/CalculatorPage.astro';
 
 const lang = 'en' as const;
 ---
 
-<BaseLayout lang={lang} pageId="calculator" />
+<BaseLayout lang={lang} pageId="calculator">
+  <CalculatorPage lang={lang} />
+</BaseLayout>

@@ -4,6 +4,9 @@
 
 export const LEAD_ENDPOINT: string = import.meta.env.PUBLIC_LEAD_ENDPOINT || '/api/save-lead';
 
+export const CALCULATOR_ENDPOINT: string =
+  import.meta.env.PUBLIC_CALCULATOR_ENDPOINT || '/api/save-calculator-lead';
+
 export const CALENDLY_URL: string = import.meta.env.PUBLIC_CALENDLY_URL || '';
 
 export const CONTACT_EMAIL: string =
