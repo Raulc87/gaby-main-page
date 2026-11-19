@@ -1,0 +1,63 @@
+---
+// Método Polaris page (US-028, UX_UI_DIRECTION.md section 5.7, CONTENT.md section 12):
+// eyebrow, title (the page's h1), lead; the three provisional steps of the Home with
+// the pending badge (preview and development builds); the placeholder block for the
+// official steps (a sand card with the polar star, badge in every build, BR-011); and
+// the VIP band. The official steps replace the provisional ones when Gaby sends them.
+// The step titles are h2 (the page's outline under its h1) styled like the Home's h3
+// card titles, Manrope 700 (UX_UI_DIRECTION.md section 2.3).
+import PolarStar from '../layout/PolarStar.astro';
+import VipBand from '../layout/VipBand.astro';
+import PendingBadge from '../sections/PendingBadge.astro';
+import Emphasized from '../home/Emphasized.astro';
+import { getCommon, getHome, getMethod, type Language } from '../../i18n';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { method: homeMethod } = getHome(lang).home;
+const { method } = getMethod(lang);
+const { pending } = getCommon(lang);
+const steps = [homeMethod['1'], homeMethod['2'], homeMethod['3']];
+---
+
+<section class="bg-ivory">
+  <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
+    <div class="max-w-[44rem]">
+      <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+        {homeMethod.eyebrow}
+      </p>
+      <h1 class="mt-3 text-[clamp(2.25rem,1.7rem+2.5vw,3.5rem)] leading-tight">
+        <Emphasized text={homeMethod.title} />
+      </h1>
+      <p class="mt-5 max-w-[65ch] text-charcoal">{method.lead}</p>
+    </div>
+    <ol class="mt-12 grid gap-10 md:grid-cols-3 md:gap-8" data-method-steps>
+      {
+        steps.map((step, index) => (
+          <li data-method-step>
+            <span aria-hidden="true" class="font-serif text-5xl font-medium text-heritage-blue">
+              {`0${index + 1}`}
+            </span>
+            <h2 class="mt-3 font-sans text-[1.1875rem] font-bold leading-snug text-charcoal">{step.title}</h2>
+            <p class="mt-2 text-base text-charcoal">{step.body}</p>
+            <p class="mt-3">
+              <PendingBadge label={pending.badge} block="home.method" />
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+    <div
+      data-method-placeholder
+      class="relative mt-12 flex flex-col items-start gap-4 overflow-hidden rounded-[4px] bg-sand p-8 pr-28 sm:pr-40"
+    >
+      <p class="max-w-[32rem] font-serif text-xl text-charcoal">{method.steps.placeholder}</p>
+      <PendingBadge label={pending.badge} block="method.steps_placeholder" />
+      <PolarStar tone="gold" size={96} class="absolute right-4 top-4 h-[72px] w-[72px] sm:h-[96px] sm:w-[96px]" />
+    </div>
+  </div>
+</section>
+<VipBand lang={lang} />

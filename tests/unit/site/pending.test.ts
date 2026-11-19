@@ -33,6 +33,7 @@ describe('pending badge visibility', () => {
       'story.photo',
       'story.bio',
       'vip.video',
+      'method.steps_placeholder',
       'resource.file_pending',
     ];
     const provisional: PendingBlockId[] = [
