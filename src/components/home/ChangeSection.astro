@@ -1,0 +1,74 @@
+---
+// Before and after `#antes-despues` (UX_UI_DIRECTION.md section 5.1 item 8): surface;
+// title and two columns, "Hoy" (muted heading, a thin sand cross before each item) and
+// "Con el Método Polaris" (heritage-blue heading, a heritage-blue check before each item),
+// stacked on mobile with "Hoy" first. Icons are decorative; each column is a list.
+import { getHome, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import Emphasized from './Emphasized.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { change } = getHome(lang).home;
+const before = [change.before['1'], change.before['2'], change.before['3'], change.before['4'], change.before['5']];
+const after = [change.after['1'], change.after['2'], change.after['3'], change.after['4'], change.after['5']];
+---
+
+<section id={ANCHORS.home.change} tabindex="-1" class="scroll-mt-16 outline-none bg-surface">
+  <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
+    <h2 class="max-w-[44rem] text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">
+      <Emphasized text={change.title} />
+    </h2>
+    <div class="mt-12 grid gap-10 md:grid-cols-2 md:gap-12">
+      <div data-change-column="before">
+        <h3 class="text-[1.1875rem] font-bold text-muted">{change.before.label}</h3>
+        <ul class="mt-4 flex flex-col gap-4">
+          {
+            before.map((item) => (
+              <li class="flex gap-3 text-charcoal">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  class="mt-1 h-5 w-5 shrink-0 stroke-sand"
+                >
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div data-change-column="after">
+        <h3 class="text-[1.1875rem] font-bold text-heritage-blue">{change.after.label}</h3>
+        <ul class="mt-4 flex flex-col gap-4">
+          {
+            after.map((item) => (
+              <li class="flex gap-3 text-charcoal">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="mt-1 h-5 w-5 shrink-0 text-heritage-blue"
+                >
+                  <path d="M5 12.5l4.5 4.5L19 7" />
+                </svg>
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

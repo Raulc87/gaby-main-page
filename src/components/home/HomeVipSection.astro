@@ -1,0 +1,66 @@
+---
+// Work with me `#vip` (UX_UI_DIRECTION.md sections 4.4 and 5.1 item 11): the page's one
+// heritage-blue band, with the shared eyebrow and title (`vip_band.*`), the Home's own
+// body (`home.vip.body`), the three steps as a numbered row (soft-gold numbers, ivory
+// text; stacked on mobile) and the gold `cta.vip_apply`. Gold appears only here and in
+// the hero, which are never in one viewport (BR-010).
+import Button from '../layout/Button.astro';
+import PolarStar from '../layout/PolarStar.astro';
+import { getCommon, getHome, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import { parseEmphasis } from '../../lib/site/emphasis';
+import { pageHref } from '../../lib/site/links';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { vip } = getHome(lang).home;
+const { cta, vip_band } = getCommon(lang);
+const title = parseEmphasis(vip_band.title);
+const steps = [vip.step['1'], vip.step['2'], vip.step['3']];
+---
+
+<section
+  id={ANCHORS.home.vip}
+  tabindex="-1"
+  class="scroll-mt-16 outline-none on-blue relative overflow-hidden bg-heritage-blue py-16 text-ivory lg:py-24"
+>
+  <PolarStar
+    tone="gold"
+    size={140}
+    class="absolute right-4 top-6 hidden h-[140px] w-[140px] sm:block lg:right-16 lg:h-[200px] lg:w-[200px]"
+  />
+  <div class="relative mx-auto max-w-[1160px] px-4">
+    <div class="max-w-[44rem]">
+      <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-ivory">{vip_band.eyebrow}</p>
+      <h2 class="mt-3 text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight text-ivory">
+        {
+          title.map((segment) =>
+            segment.emphasis ? <em class="italic text-soft-gold">{segment.text}</em> : segment.text,
+          )
+        }
+      </h2>
+      <p class="mt-5 max-w-[65ch] text-ivory">{vip.body}</p>
+    </div>
+    <ol class="mt-10 grid gap-8 md:grid-cols-3 md:gap-6" data-vip-steps>
+      {
+        steps.map((step, index) => (
+          <li class="flex gap-4">
+            <span aria-hidden="true" class="font-serif text-5xl font-medium leading-none text-soft-gold">
+              {index + 1}
+            </span>
+            <div>
+              <h3 class="text-[1.1875rem] leading-snug text-ivory">{step.title}</h3>
+              <p class="mt-1 text-base text-ivory">{step.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="mt-10">
+      <Button variant="gold" onBlue href={pageHref('vip', lang)} label={cta.vip_apply} class="w-full sm:w-auto" />
+    </div>
+  </div>
+</section>

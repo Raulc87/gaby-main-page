@@ -1,0 +1,58 @@
+---
+// Wealth Mastery `#wealth-mastery` (UX_UI_DIRECTION.md section 5.1 item 7): ivory;
+// eyebrow, title, lead, seven module cards (4 + 3 on desktop, 2 columns at 768 px,
+// 1 on mobile) and the blue `home.mastery.cta` to the VIP page. The module list is
+// provisional copy: one pending badge on the block in preview and development builds.
+// The eyebrow and the call to action are the shared `vip_band.eyebrow` and `cta.vip_apply`.
+import Button from '../layout/Button.astro';
+import PendingBadge from '../sections/PendingBadge.astro';
+import { getCommon, getHome, type Language } from '../../i18n';
+import { ANCHORS } from '../../i18n/routes';
+import { pageHref } from '../../lib/site/links';
+import Emphasized from './Emphasized.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { mastery } = getHome(lang).home;
+const { cta, vip_band, pending } = getCommon(lang);
+const modules = [
+  mastery['1'],
+  mastery['2'],
+  mastery['3'],
+  mastery['4'],
+  mastery['5'],
+  mastery['6'],
+  mastery['7'],
+];
+---
+
+<section id={ANCHORS.home.mastery} tabindex="-1" class="scroll-mt-16 outline-none bg-ivory">
+  <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
+    <div class="max-w-[44rem]">
+      <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+        {vip_band.eyebrow}
+      </p>
+      <h2 class="mt-3 text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">
+        <Emphasized text={mastery.title} />
+      </h2>
+      <p class="mt-5 max-w-[65ch] text-charcoal">{mastery.lead}</p>
+      <p class="mt-4"><PendingBadge label={pending.badge} block="home.mastery" /></p>
+    </div>
+    <ul class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {
+        modules.map((module) => (
+          <li class="rounded-[4px] border border-sand bg-surface p-6" data-mastery-module>
+            <h3 class="text-[1.1875rem] leading-snug text-charcoal">{module.title}</h3>
+            <p class="mt-2 text-base text-charcoal">{module.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-12">
+      <Button variant="blue" href={pageHref('vip', lang)} label={cta.vip_apply} class="w-full sm:w-auto" />
+    </div>
+  </div>
+</section>

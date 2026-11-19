@@ -49,30 +49,26 @@ describe.each([
   it('reads the aliased keys from their source instead of copying them', () => {
     const common = getCommon(lang);
     const story = lang === 'es' ? storyEs : storyEn;
-    const aliases: Record<string, string> = {
-      'home.hero.cta': common.cta.vip_long,
-      'home.hero.secondary': common.cta.start_free,
-      'home.resources.cta': common.cta.all_resources,
-      'home.story.p1': story.p1,
-      'home.story.p2': story.p2,
-      'home.story.p3': story.p3,
-      'home.story.cta': common.cta.read_story,
+    const aliases: Record<string, [source: string, value: string]> = {
+      'home.story.media.label': ['story.media.label', story.media.label],
+      'home.story.cta': ['cta.read_story', common.cta.read_story],
+      'home.mastery.eyebrow': ['vip_band.eyebrow', common.vip_band.eyebrow],
+      'home.mastery.cta': ['cta.vip_apply', common.cta.vip_apply],
+      'home.vip.eyebrow': ['vip_band.eyebrow', common.vip_band.eyebrow],
+      'home.vip.title': ['vip_band.title', common.vip_band.title],
+      'home.vip.cta': ['cta.vip_apply', common.cta.vip_apply],
     };
-    const source: Record<string, string> = {
-      'home.hero.cta': 'cta.vip_long',
-      'home.hero.secondary': 'cta.start_free',
-      'home.resources.cta': 'cta.all_resources',
-      'home.story.p1': 'story.p1',
-      'home.story.p2': 'story.p2',
-      'home.story.p3': 'story.p3',
-      'home.story.cta': 'cta.read_story',
-    };
-    for (const [key, value] of Object.entries(aliases)) {
-      expect(table.get(key)![column], key).toBe(`= \`${source[key]}\``);
-      expect(value, source[key]).toBe(table.get(source[key])![column]);
-    }
     const keys = entries.map(([key]) => key);
-    for (const key of Object.keys(aliases)) expect(keys).not.toContain(key);
+    for (const [key, [source, value]] of Object.entries(aliases)) {
+      expect(table.get(key)![column], key).toBe(`= \`${source}\``);
+      expect(value, source).toBe(table.get(source)![column]);
+      expect(keys).not.toContain(key);
+    }
+  });
+
+  it('no longer has the resources teaser keys (the calculator replaced it)', () => {
+    expect(entries.map(([key]) => key).some((key) => key.startsWith('home.resources.'))).toBe(false);
+    expect([...table.keys()].some((key) => key.startsWith('home.resources.'))).toBe(false);
   });
 });
 
