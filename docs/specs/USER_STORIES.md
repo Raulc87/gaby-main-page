@@ -911,3 +911,31 @@ so that the people who are not ready yet keep hearing from me until they are.
 
 **Dependencies**
 - ADR-007 decided; Gaby's six email texts and the weekly content; US-036, US-037, US-038.
+
+---
+
+## US-040 — Self-hosted typefaces (no Google Fonts)
+- Priority: Medium
+- Story Points: 2
+- Status: Proposed — Sprint 005 candidate (human owner, 2026-11-19: "let's do that", answering the security baseline's item O-8)
+- Related Requirements: NFR-002 (fast loading); Ley 8968 privacy (the security baseline's R-1); `UX_UI_DIRECTION.md` §2.3
+- Related: [`SECURITY_BASELINE.md`](../security/SECURITY_BASELINE.md) R-1 and O-8
+
+**User Story**
+
+As a visitor,
+I want the site to load its typefaces from its own server,
+so that Google does not receive my address every time I open a page, before I have agreed to anything.
+
+**Acceptance Criteria**
+1. Playfair Display (500, italic 500) and Manrope (400, 600, 700) are served from the site itself, as WOFF2 files in the repository with their SIL Open Font License texts, and only the weights and subsets the site uses (Latin, including Spanish accents and `ñ`).
+2. No page requests anything from `fonts.googleapis.com` or `fonts.gstatic.com`: the `preconnect` and stylesheet links in `src/layouts/BaseLayout.astro` are removed, and an e2e test fails if any page requests either host.
+3. The typefaces look as they do today in both languages. The fallback stacks in the CSS tokens stay, `font-display: swap` is kept, and the heading and body fonts are preloaded so text does not jump on load. Screenshots at 390 and 1280 px are in the PR.
+4. Links and asset paths go through the base-path helpers, so the fonts load both at `/` and under `/gaby-main-page/` (the preview).
+5. The PR proposes the doc changes for its owners: the security baseline closes R-1 and O-8 and removes Google Fonts from its third parties (Agent 3's file), and `TECH_STACK.md` and `UX_UI_DIRECTION.md` §2.3 say "self-hosted" instead of "Google Fonts".
+
+**Security**
+- It removes a third party that received visitors' addresses before any consent (R-1). The font files are static assets from the upstream projects under the OFL; no new dependency at runtime.
+
+**Dependencies**
+- None. It touches `src/layouts/BaseLayout.astro` and the global styles (Agent 1's files in Sprint 004's ownership map).
