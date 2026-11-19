@@ -15,6 +15,7 @@ export const PENDING_BLOCKS = {
   'story.photo': 'placeholder',
   'story.bio': 'placeholder',
   'vip.video': 'placeholder',
+  'method.steps_placeholder': 'placeholder',
   'resource.file_pending': 'placeholder',
   // Provisional copy blocks
   'home.method': 'provisional',
