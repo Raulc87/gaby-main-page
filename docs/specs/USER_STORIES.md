@@ -94,6 +94,7 @@ so that I can continue toward a conversation about the program.
 6. Validation errors are shown next to the relevant field, in the selected language.
 7. The submit button is disabled while a submission is in progress.
 8. Success is only shown after the endpoint returns `201`; on any other result the form keeps the entered data and shows a clear error with the option to retry.
+9. Given a visitor types markup into any field (for example `<img src=x onerror=alert(1)>` as the name), when the page shows that value again or passes it on (an error message, the scheduler's prefilled URL), then it is inserted as text or URL-encoded, never as HTML, and a unit test shows it for each place the form's values are reused (ASVS `v5.0.0-1.2.1`, `v5.0.0-1.2.2`, `v5.0.0-3.2.2`; added by US-029).
 
 ---
 
@@ -287,6 +288,7 @@ so that the lead sheet stays clean and the endpoint cannot be abused.
 6. `.env.example` files document `RATE_LIMIT_MAX_REQUESTS` and `RATE_LIMIT_WINDOW_SECONDS`; CI and e2e run with the limit disabled or high enough not to interfere.
 7. Done already in planning: CAPTCHA evaluated in ADR-004 (not needed for now); contract updated to v1.1.
 8. Each honeypot decoy writes one INFO log line (e.g. "honeypot triggered; lead discarded") with no request data, IP, or field value, so false positives can be spotted in production. pytest covers it, including that no submitted value appears in the log.
+9. Given a request rejected by the rate limit (`429`) or by field validation (`422`), when it is handled, then one log line records the event with the endpoint and the failing field names only, never the IP address, a value or the request body, and pytest shows the line and that no submitted value appears in it (ASVS `v5.0.0-16.3.3`; added by US-029).
 
 ---
 
@@ -317,6 +319,8 @@ so that real visitors can use it.
 4. Production uses the Google Sheet and service account in Gabriela's Google account (set up by the human owner at deploy time); development and CI keep using the owner's development sheet or memory mode.
 5. A post-deploy smoke test in the runbook passes on the live site: both languages load, a test lead lands in the production sheet with the right columns, the thank-you and the real Calendly appear, a filled honeypot stores nothing, and the test row is then deleted.
 6. Until the go-live gate in `SPRINT_002.md` passes, the whole site, including `/api`, is password-protected (cPanel Directory Privacy), so it cannot collect real leads under a draft notice; the runbook checks that `/` and `POST /api/save-lead` return `401` without credentials. Going live means removing the protection, only after US-013, US-016, and US-018 are done, the US-017 content is approved, and the PTES penetration test planned in US-029 AC5 has run with no open critical or high finding (this criterion is the gate until [`docs/runbooks/RELEASE.md`](../runbooks/RELEASE.md) gets its release sections; whoever writes them copies this gate into them, per ADR-005).
+7. Given the live site over HTTPS (AC3), when the post-deploy smoke test requests `/` and `/api/save-lead` and reads the response headers, then every response carries `Strict-Transport-Security` with a `max-age` of at least one year (`v5.0.0-3.4.1`), a `Content-Security-Policy` that allows only the site's own origin and the third parties listed in `docs/security/SECURITY_BASELINE.md` section 6, including `frame-ancestors` (`v5.0.0-3.4.3`, `v5.0.0-3.4.6`), `X-Content-Type-Options: nosniff` (`v5.0.0-3.4.4`) and a `Referrer-Policy` (`v5.0.0-3.4.5`), and a lead can still be submitted and the scheduler still loads with the policy on. The runbook gives the exact configuration and where it lives; if the host cannot set a header, the owner records the exception in the baseline (section 7) before go-live. The GitHub Pages preview is out of scope (it cannot set headers, stores nothing and is not indexed). Added by US-029.
+8. Given the live site, when the post-deploy smoke test checks the production configuration, then: an HTTP request to `/` redirects to HTTPS while an HTTP request to `/api/*` is refused, not redirected (`v5.0.0-4.1.2`); only TLS 1.2 and 1.3 are accepted and the certificate is publicly trusted (`v5.0.0-12.1.1`, `v5.0.0-12.2.1`, `v5.0.0-12.2.2`); no `.git` folder, directory listing, debug mode, TRACE method, documentation or monitoring endpoint is reachable (`v5.0.0-13.4.1` to `v5.0.0-13.4.5`); the service-account key and the application log are outside the web root and readable only by the account (`v5.0.0-13.3.2`, `v5.0.0-16.4.2`); and the rate limit still works behind the host's web server, because the client address it sees is the visitor's, not a proxy's (`v5.0.0-15.3.4`). The runbook lists each check and its command. Added by US-029.
 
 ---
 
@@ -370,6 +374,7 @@ so that I can fix a production problem quickly instead of losing leads silently.
 5. The production entry point (`api/passenger_wsgi.py`) uses `google_sheets` when `LEADS_STORAGE` is unset, as contract section 9 states, so a missing setting cannot silently keep leads in memory; `memory` must be set explicitly and logs a WARNING at startup.
 6. pytest covers each log case above, including a check that a submitted name, email and phone never appear in the captured logs.
 7. `docs/runbooks/DEPLOYMENT.md` (US-014) says where to find the log in cPanel and lists the common causes per logged error.
+8. Given any log line the application writes, when it is read, then its timestamp carries an explicit UTC offset or is in UTC (today's format has no offset), and pytest shows the format (ASVS `v5.0.0-16.2.2`; added by US-029).
 
 ---
 
@@ -870,6 +875,7 @@ so that the follow-up starts at once without my doing it by hand.
 4. Once this is done, the site shows `home.calculator.receive_with_guide` and `calc.result.email_note` instead of the "no email" wording.
 5. The sending domain is authenticated (SPF, DKIM, DMARC) before this ships to production; the PR states the check.
 6. Tests cover the send being triggered once per lead and a failed send not affecting the stored lead.
+7. Given a lead whose name or email contains line breaks or header-like text (for example `a@example.com\r\nBcc: x@example.com`), when the email is built, then the value cannot add a header, recipient or body part, and a test shows the message has exactly the intended recipients (ASVS `v5.0.0-1.3.11`; added by US-029).
 
 **Security**
 - No email credential in the frontend or in Git (NFR-007); credentials live in the server's environment. Each email goes only to the address the person entered or to Gaby.
@@ -898,6 +904,7 @@ so that the people who are not ready yet keep hearing from me until they are.
 3. Unsubscribing stops every email to that person at once and is recorded; no sequence or weekly email is sent to someone who did not tick the email consent (BR-012).
 4. The privacy notice names any new processor before the first email is sent.
 5. The PR documents in a runbook how Gaby edits the texts and checks who is in the sequence.
+6. The sequence emails reuse the header-injection protection of US-038 AC7, and a test shows it for the sequence's sending path (ASVS `v5.0.0-1.3.11`; added by US-029).
 
 **Security**
 - The email tool's API key, if any, lives only in the server's environment (NFR-007). The data sent to the tool is limited to what the sequence uses (name, email, language, months, zone, source).
