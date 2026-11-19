@@ -141,7 +141,7 @@ Penetration tests are run only by people the owner authorizes in writing, under 
 - CI: [`dependency-audit.yml`](../../.github/workflows/dependency-audit.yml) runs on every pull request, on every push to `main` and every Monday. `npm audit --audit-level=high` checks `package-lock.json` and fails on a high or critical advisory. `pip-audit -r api/requirements.txt` checks the Python requirements and fails on any known vulnerability, because PyPI advisories carry no severity (stricter than the story requires). Each job also writes a CycloneDX bill of materials as a build artifact (ASVS `v5.0.0-15.1.2`).
 - Dependabot alerts: **on since 2026-11-08**, enabled by the owner that day (the owner's statement, relayed by the coordinator; the settings API does not show alerts to the agents). Dependabot security updates are off, and there is no Dependabot version-updates file, on purpose: three agents work in parallel and automatic pull requests would touch the lockfile and `package.json` they do not own. Updates are made by hand in a pull request by the file's owner (npm: Agent 1; Python: Agent 3).
 - Who acts: the owning agent, within the fix times of section 4; a failed weekly run on `main` is the signal.
-- Current state: on 2026-11-08 `npm audit` reports high advisories in build and dev-time packages; a lockfile-only update clears them. It is item O-1 and must merge before the audit step can be green.
+- Current state: on 2026-11-08 `npm audit` reported high advisories in build and dev-time packages. A lockfile-only update (#82, merged 2026-11-19) cleared them, and `npm audit` and `pip-audit` pass in CI on every pull request since (item O-1, closed).
 
 **Personal data handling** ([`PROJECT_SPEC.md`](../specs/PROJECT_SPEC.md) §10; Costa Rica Ley N.° 8968).
 
@@ -185,7 +185,7 @@ In this public repository, no unfixed, exploitable vulnerability is recorded her
 
 | Item | Owner | Decision / due |
 |---|---|---|
-| O-1 `npm audit` reports high advisories in build and dev-time packages on 2026-11-08; a lockfile-only update (`npm audit fix --package-lock-only`, `package.json` unchanged) clears them in a trial run | Agent 1 (owns the lockfile), requested through the coordinator | Before the pull request that adds the audit step merges, so `main` is never red |
+| O-1 `npm audit` reported high advisories in build and dev-time packages on 2026-11-08. Closed: the lockfile-only update #82 (`package.json` unchanged) merged on 2026-11-19, and `npm audit` and `pip-audit` pass in CI (run 44449269534 on PR #75). A new advisory later is handled by the fix times of section 4 | Agent 1 (owns the lockfile) | Closed 2026-11-19 |
 | O-2 Dependabot alerts: the owner turned them on on 2026-11-08 (recorded in section 6). Secret scanning and push protection are on as of 2026-11-08; the owner may add the date they were first enabled | Human owner | Closed for Dependabot; optional for the other two |
 | O-3 Turn on GitHub private vulnerability reporting (off on 2026-11-08) | Human owner | At approval |
 | O-4 Require the status checks `frontend`, `e2e`, `pytest`, "Docs link check", `npm audit` and `pip-audit` in the `main protection` ruleset | Human owner | After the audit step merges |
