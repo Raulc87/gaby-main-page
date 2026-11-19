@@ -129,7 +129,7 @@ Expected: the build finishes and `dist/` holds the preview. In PowerShell, set `
 
 ## Test and check
 
-Run from the repository root. CI runs the same checks on every pull request ([`frontend.yml`](.github/workflows/frontend.yml), [`backend.yml`](.github/workflows/backend.yml), [`docs-link-check.yml`](.github/workflows/docs-link-check.yml); [`preview.yml`](.github/workflows/preview.yml) builds and publishes the preview on every push to `main`), and they must be green before merge. Which checks GitHub enforces is the owner's repository setting.
+Run from the repository root. CI runs the same checks on every pull request ([`frontend.yml`](.github/workflows/frontend.yml), [`backend.yml`](.github/workflows/backend.yml), [`docs-link-check.yml`](.github/workflows/docs-link-check.yml), [`dependency-audit.yml`](.github/workflows/dependency-audit.yml), which also runs every Monday; [`preview.yml`](.github/workflows/preview.yml) builds and publishes the preview on every push to `main`), and they must be green before merge. Which checks GitHub enforces is the owner's repository setting.
 
 | What | Command | Expected |
 |---|---|---|
@@ -141,6 +141,8 @@ Run from the repository root. CI runs the same checks on every pull request ([`f
 | Type check | `npm run check` | `0 errors` |
 | Production build | `npm run build` | Finishes without errors |
 | Docs link check | `python3 .github/scripts/check_doc_links.py` | `0 broken` |
+| Dependency audit, npm | `npm audit --audit-level=high` | Exit code 0. Moderate and low advisories are listed but do not fail it; a high or critical one does. Fix it with a lockfile-only update by the owner of `package.json` |
+| Dependency audit, Python | `api/.venv/bin/pip install pip-audit==2.10.1`, then `api/.venv/bin/pip-audit -r api/requirements.txt` | `No known vulnerabilities found`. Any advisory fails it, because PyPI advisories carry no severity |
 
 Before every push, run lint, type check, unit tests, build, the end-to-end specs you touched, and the docs link check when you changed a document.
 
@@ -151,7 +153,7 @@ Before every push, run lint, type check, unit tests, build, the end-to-end specs
 | `src/pages/` | Routes: `es/` and `en/` pages, and the root page that redirects to the visitor's language |
 | `src/components/`, `src/layouts/` | Astro components by area (`home`, `layout`, `lead`, `resources`, `sections`, `story`, and the new calculator and method areas) and the base layout |
 | `src/i18n/` | All visitor-facing text, per language (`es/`, `en/`), and the route map (`routes.ts`). The text comes from [`docs/ux/CONTENT.md`](docs/ux/CONTENT.md) and nowhere else |
-| `src/lib/`, `src/data/` | Logic (lead form, links and base-path helpers) and typed data (the resource list) |
+| `src/lib/`, `src/data/` | Logic (`lead/` for the lead form, `calculator/` for the freedom-months formula and its validation, `site/` for links and base-path helpers) and typed data (the resource list) |
 | `src/styles/` | Tailwind setup and the brand design tokens |
 | `public/` | Static files: favicon, photos, logos, downloadable resources |
 | `api/` | The Flask backend: `app.py` (application factory), `routes/` (the lead endpoints), `validation.py`, `rate_limit.py`, `storage/` (Google Sheets and memory), `tests/` (pytest), `passenger_wsgi.py` (cPanel entry point), `run_local.py` |
@@ -163,7 +165,7 @@ Before every push, run lint, type check, unit tests, build, the end-to-end specs
 | `docs/decisions/` | ADRs: why the stack and structure are what they are |
 | `docs/plans/`, `docs/sprints/` | The implementation plan and the sprint plans, with each agent's file ownership |
 | `docs/runbooks/` | Local development, Google Sheets setup, deployment and release |
-| `docs/security/` | The security baseline, when it exists ([`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md)) |
+| `docs/security/` | The security baseline ([`SECURITY_BASELINE.md`](docs/security/SECURITY_BASELINE.md)) and its ASVS inventory ([`ASVS_INVENTORY.md`](docs/security/ASVS_INVENTORY.md)) |
 
 ## How to make a change
 
@@ -176,6 +178,7 @@ Before every push, run lint, type check, unit tests, build, the end-to-end specs
    - Brand: use the design tokens only, and only the color pairs of [`docs/ux/UX_UI_DIRECTION.md`](docs/ux/UX_UI_DIRECTION.md) section 2.2. At most one gold button in view at 360, 390, 768 and 1280 px.
    - Links and assets go through the route and base-path helpers in `src/lib/site/` and `src/i18n/routes.ts`, so the site works at `/` and under `/gaby-main-page/` (the preview).
    - Secrets, credentials and real personal data never go into Git, tests, logs or the browser.
+   - A change that touches input handling, logging, headers, third-party scripts or dependencies is checked against the criteria in [`docs/security/SECURITY_BASELINE.md`](docs/security/SECURITY_BASELINE.md), and the inventory row it verifies is updated in the same pull request. Never write an unfixed vulnerability in an issue, pull request or file: report it privately to the owner (baseline section 4).
 6. Open a pull request with [`.github/pull_request_template.md`](.github/pull_request_template.md), including Ownership and the verification evidence. The review-only agent and the automated reviewer review it; only the human owner merges.
 7. If the change alters setup, commands or structure, update this file in the same pull request.
 
