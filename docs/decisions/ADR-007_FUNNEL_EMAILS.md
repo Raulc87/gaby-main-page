@@ -1,10 +1,10 @@
 # ADR-007 — How the funnel emails are sent
 
-- Status: **Proposed** — waiting for the human owner's decision (with Gaby)
-- Date: 2026-11-08
+- Status: **Accepted on merge** of the phase 2d docs PR: option C (human owner, 2026-11-23)
+- Date: 2026-11-08 (proposed); 2026-11-23 (decided)
 - Decision owner: Human project owner
 - Related specs: [`PROJECT_SPEC.md`](../specs/PROJECT_SPEC.md) NG-006, FR-025, FR-036, FR-037, FR-038, §10; US-025, US-038, US-039; [ADR-006](ADR-006_SCHEDULER_GOHIGHLEVEL.md)
-- Source: [`BRIEF_2026-11-08_STORYBRAND.md`](../ux/BRIEF_2026-11-08_STORYBRAND.md) §2 (the funnel) and §5
+- Source: [`BRIEF_2026-11-08_STORYBRAND.md`](../ux/BRIEF_2026-11-08_STORYBRAND.md) §2 (the funnel) and §5; [`BRIEF_2026-11-23_WEALTH_MASTERY.md`](../ux/BRIEF_2026-11-23_WEALTH_MASTERY.md) §1 point 5 and §8
 
 ## Decision Request
 Which mechanism sends the funnel's emails: the calculator result with the ebook, Gaby's notification for each VIP application, the six-email sales sequence over 14 days, and the weekly email for people who don't book?
@@ -43,14 +43,20 @@ Pros: the least to build; GHL already holds the calendar, so stopping the sequen
 Cons: against the owner's direction of leaving GHL except the calendar; keeps Gaby's funnel tied to GHL.
 
 ## Decision
-Not decided. The coordinator's recommendation is **Option B**: it follows the owner's direction (the site owns the leads, GHL keeps only the calendar) without our building a marketing-email system. Option C is the least work if the owner and Gaby accept keeping GHL for email. Option A is not recommended for the sequences.
+**Option C, for every funnel email** (human owner, 2026-11-23: "go with your recommendations", on Gaby's final content). Gaby asked for her funnel in GoHighLevel ("El tag dispara la secuencia de 6 correos en 14 días. El correo 1 entrega el resultado y la guía"; "Si la persona agenda la llamada, sale de la secuencia"), and the owner had already welcomed sending the leads to GoHighLevel through its API. So:
+- The site and its backend keep the forms, the validation, the consents and the Google Sheet as the record of every lead.
+- After each save, the backend sends the person to GoHighLevel as a contact with a tag and fields ([ADR-008](ADR-008_GOHIGHLEVEL_CONTACTS.md), FR-041).
+- GoHighLevel sends every funnel email from Gaby's workflows: email 1 (the result and the ebook, FR-036) to every calculator lead; emails 2 to 6 and the weekly email (FR-037) only to contacts with the consent tag (BR-012); Gaby's notification for each application (FR-038). Its calendar ends the sequence when the person books, inside GoHighLevel, with no integration.
+- Option B's dedicated email tool is not used. Option A is not used. Our backend sends no email.
 
-Whatever is chosen, the transactional emails (result and ebook, Gaby's notification, FR-025 resources) can be sent from our backend.
+## Rationale
+Gaby already pays for GoHighLevel and uses its calendar, so the stop-on-booking signal, unsubscribes, scheduling and deliverability come with it, and she edits her own emails. The lock-in stays small: the site owns the leads (the sheet) and sends the contact through one module (ADR-008), which another tool's API could replace.
 
-## Consequences (of the recommendation)
-- The privacy notice names the email tool as a processor before the sequence goes live.
-- Gaby's domain needs SPF, DKIM and DMARC records for the tool and for Gmail before the first email (go-live work, US-014).
-- The decision can be taken in two parts. Part 1, how one-off emails are sent (recommended: our backend through Gaby's Google account), unblocks US-038 together with the ebook and US-036. Part 2, the sequences, unblocks US-039 together with the six email texts from Gaby.
+## Consequences
+- The privacy notice names GoHighLevel as the processor of the contacts and the emails before the first email is sent (phase 2d copy).
+- Gaby's domain needs SPF, DKIM and DMARC records for GoHighLevel's sending before the first email (go-live work, US-014); GoHighLevel's own guidance applies.
+- Gaby sets up the workflows, tags and custom fields in GoHighLevel; the site cannot test them in CI. US-038 and US-039 become Gaby's set-up with an end-to-end check, not code (USER_STORIES.md).
+- FR-025 (resources by email) is withdrawn with the resource library (phase 2d), so no Gmail sending remains.
 
 ## Review Trigger
-Volume beyond the tool's plan, or Gaby asking to keep everything in GHL.
+Gaby stops paying for GoHighLevel, or the owner moves the funnel off it: the contact module of ADR-008 is the place to switch, with option B.

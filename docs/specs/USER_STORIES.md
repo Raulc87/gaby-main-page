@@ -563,7 +563,7 @@ so that my calls go to qualified applicants and everyone else still gets somethi
 ## US-024 — Free resource library
 - Priority: High
 - Story Points: 5
-- Status: Done — Sprint 003 (#60; AC4 fix #63)
+- Status: Done — Sprint 003 (#60; AC4 fix #63). Withdrawn in phase 2d: the library is removed by US-046 (Gaby, 2026-11-23)
 - Related Requirements: FR-023, FR-024, BR-011
 
 **User Story**
@@ -588,7 +588,7 @@ so that I can start improving my finances today, at no cost.
 ## US-025 — Resource delivery by email (phase 2b)
 - Priority: High
 - Story Points: 5
-- Status: Proposed — phase 2b; needs a contract and an ADR (sending mechanism) before implementation
+- Status: Withdrawn — phase 2d (no resource library; Gaby, 2026-11-23). It was proposed for phase 2b
 - Related Requirements: FR-025, FR-013, NFR-007, NFR-008, NG-006
 
 **User Story**
@@ -652,7 +652,7 @@ so that Gaby can follow progress without a production deployment.
 ## US-028 — Método Polaris page
 - Priority: Medium
 - Story Points: 3
-- Status: Planned — Sprint 004 (`GK-028-method-page`); phase 2c, Sprint 004 candidate, with placeholder steps (human owner, 2026-11-08: "in the meantime let's placeholder it"); AC1 is met with the provisional steps and the placeholder block of [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) §12, and the official steps replace them in a later content PR when Gaby sends them
+- Status: Done — Sprint 004 (#79), with placeholder steps. Replaced in phase 2d by the Wealth Mastery page (US-042), which removes this page
 - Related Requirements: FR-017, FR-018, BR-009
 
 **User Story**
@@ -857,40 +857,38 @@ so that I don't pay for Calendly as well and all my bookings are in one place.
 
 ## US-038 — Funnel emails: the calculator result with the ebook, and Gaby's notification
 - Priority: Medium
-- Story Points: 3
-- Status: Proposed — blocked on ADR-007's first decision (how one-off emails are sent; it can be decided before the sequences), on the ebook file (Gaby), and on US-036
-- Related Requirements: FR-036, FR-038, BR-012, NFR-006
-- Related ADR: ADR-007
+- Story Points: 2
+- Status: Proposed — phase 2d (ADR-007 decided: GoHighLevel). Rewritten 2026-11-23: GoHighLevel sends these emails from Gaby's workflows; the site's part is US-045. Blocked on US-045, Gaby's set-up in GoHighLevel and the ebook. The phase 2c version (our backend sending email) is replaced; its text is in the history
+- Related Requirements: FR-036, FR-038, FR-041, BR-012, NFR-006
+- Related ADR: ADR-007, ADR-008
 
 **User Story**
 
 As Gaby,
-I want each calculator lead to receive their result and my ebook, and to be told of each VIP application,
+I want each calculator lead to receive their result and my ebook, and to be told of each Wealth Mastery application,
 so that the follow-up starts at once without my doing it by hand.
 
 **Acceptance Criteria**
-1. After a calculator lead is stored (US-036), it receives one email in its language with its months and zone and the ebook "Cómo empezar a invertir siendo ejecutivo", sent by the mechanism ADR-007 decides. A failed send never undoes the stored lead; it is logged and retried or reported as the ADR says.
-2. After a VIP application is stored, Gaby receives one email with the applicant's name, email, phone, screening answer and language.
-3. Every email names the sender (Gaby Kelly), why it was sent and how to opt out (FR-025's rule); the texts come from `CONTENT.md` (added in this story's docs PR).
-4. Once this is done, the site shows `home.calculator.receive_with_guide` and `calc.result.email_note` instead of the "no email" wording.
-5. The sending domain is authenticated (SPF, DKIM, DMARC) before this ships to production; the PR states the check.
-6. Tests cover the send being triggered once per lead and a failed send not affecting the stored lead.
-7. Given a lead whose name or email contains line breaks or header-like text (for example `a@example.com\r\nBcc: x@example.com`), when the email is built, then the value cannot add a header, recipient or body part, and a test shows the message has exactly the intended recipients (ASVS `v5.0.0-1.3.11`; added by US-029).
+1. Gaby's GoHighLevel set-up exists and is written down in the GoHighLevel runbook (US-045): a workflow that, when a contact gets the tag `lead-calculadora`, sends email 1 in the contact's language (tag `idioma-es` / `idioma-en`) with the `meses` and `zona` fields and the ebook; and a workflow that notifies Gaby when a contact gets the tag `aplicacion-vip`.
+2. End to end, in the development environment with `GHL_SYNC` = `on` (the human owner, with Gaby): a calculator lead made with the owner's own address receives email 1 with its months and zone; an application made with it notifies Gaby. The PR or the sprint review records the check.
+3. Email 1 names the sender (Gaby Kelly), says why it was sent, and has GoHighLevel's unsubscribe.
+4. Once 2 passes, the site shows `home.calculator.receive_with_guide` and `calc.result.email_note` instead of the "no email" wording (a copy-only change in this story's PR, from `CONTENT.md`).
+5. The sending domain is authenticated for GoHighLevel's sending (SPF, DKIM, DMARC) before this ships to production; the go-live check (US-014) records it.
 
 **Security**
-- No email credential in the frontend or in Git (NFR-007); credentials live in the server's environment. Each email goes only to the address the person entered or to Gaby.
+- No email credential exists in the site: GoHighLevel sends. The contact data GoHighLevel holds is limited to FR-041 (no calculator figures).
 
 **Dependencies**
-- ADR-007 decided; the ebook from Gaby; US-036.
+- US-045 merged; Gaby's workflows, custom fields and ebook in GoHighLevel.
 
 ---
 
 ## US-039 — Funnel sequence: six emails over 14 days and the weekly email
 - Priority: Medium
-- Story Points: 5
-- Status: Proposed — blocked on ADR-007 and on Gaby's six email texts
-- Related Requirements: FR-037, FR-039, BR-012
-- Related ADR: ADR-006, ADR-007
+- Story Points: 2
+- Status: Proposed — phase 2d (ADR-007 decided: GoHighLevel). Rewritten 2026-11-23: GoHighLevel runs the sequence; blocked on US-045 and on Gaby's six email texts loaded in GoHighLevel. The phase 2c version (an email tool through our backend) is replaced
+- Related Requirements: FR-037, FR-039, FR-041, BR-012
+- Related ADR: ADR-006, ADR-007, ADR-008
 
 **User Story**
 
@@ -899,18 +897,17 @@ I want calculator leads who haven't booked to receive my sequence and then a wee
 so that the people who are not ready yet keep hearing from me until they are.
 
 **Acceptance Criteria**
-1. A calculator lead who ticked the email consent (`marketing_consent`, US-036) enters the sequence of `PROJECT_SPEC.md` FR-037 (emails 2 to 6 on days 3, 5, 8, 11 and 14; email 1 is US-038), then the weekly email, with Gaby's texts, in the lead's language.
-2. Booking a call stops the sequence for that person, using the booking signal ADR-007 sets (a GoHighLevel webhook or workflow, or Gaby marking the lead `booked`); the PR shows the stop working end to end.
-3. Unsubscribing stops every email to that person at once and is recorded; no sequence or weekly email is sent to someone who did not tick the email consent (BR-012).
-4. The privacy notice names any new processor before the first email is sent.
-5. The PR documents in a runbook how Gaby edits the texts and checks who is in the sequence.
-6. The sequence emails reuse the header-injection protection of US-038 AC7, and a test shows it for the sequence's sending path (ASVS `v5.0.0-1.3.11`; added by US-029).
+1. Gaby's GoHighLevel workflow sends emails 2 to 6 on days 3, 5, 8, 11 and 14, then the weekly email, in the contact's language, **only** to contacts with both `lead-calculadora` and `consentimiento-correos` (BR-012); a contact without the consent tag gets email 1 only.
+2. A booking in Gaby's GoHighLevel calendar removes the contact from the sequence (inside GoHighLevel, ADR-007); GoHighLevel's unsubscribe stops every email at once.
+3. End to end (the human owner, with Gaby, in the development environment): one lead with the follow-up consent enters the sequence and leaves it after a test booking; one lead without it receives only email 1. The sprint review records the check.
+4. The GoHighLevel runbook (US-045) says how Gaby edits the texts and sees who is in the sequence.
+5. The privacy notice names GoHighLevel as the sender before the first sequence email (US-045 AC7).
 
 **Security**
-- The email tool's API key, if any, lives only in the server's environment (NFR-007). The data sent to the tool is limited to what the sequence uses (name, email, language, months, zone, source).
+- Nothing in the site sends these emails; the consent tag is set only when the visitor ticked the optional consent (US-044, US-045).
 
 **Dependencies**
-- ADR-007 decided; Gaby's six email texts and the weekly content; US-036, US-037, US-038.
+- US-038; Gaby's six email texts and the weekly content in GoHighLevel.
 
 ---
 
@@ -939,3 +936,181 @@ so that Google does not receive my address every time I open a page, before I ha
 
 **Dependencies**
 - None. It touches [`src/layouts/BaseLayout.astro`](../../src/layouts/BaseLayout.astro) and the global styles (Agent 1's files in Sprint 004's ownership map).
+
+---
+
+## US-041 — Voseo, the Wealth Mastery name and the new menu
+- Priority: High
+- Story Points: 5
+- Status: Proposed — Sprint 005 candidate (phase 2d)
+- Related Requirements: FR-017, FR-018, FR-019, FR-043, BR-009
+- Source: [`BRIEF_2026-11-23_WEALTH_MASTERY.md`](../ux/BRIEF_2026-11-23_WEALTH_MASTERY.md) §1 point 1
+
+**User Story**
+
+As a Costa Rican corporate professional,
+I want the site to speak to me with "vos" and call the programme by its name,
+so that it sounds like Gaby and I know what I'm applying to.
+
+**Acceptance Criteria**
+1. Every Spanish string the site shows uses voseo, as `CONTENT.md` has it after this story moves the staged voseo copy (`CONTENT_PHASE_2D.md`) into it; a unit test fails if a Spanish string in `src/i18n/es/` contains a "tú" form listed in the staging file's check list (for example "aplica a", "quieres", "tienes", "puedes").
+2. "Mentoría VIP" appears nowhere the visitor sees, in either language; every apply button reads "Aplicá a Wealth Mastery" / "Apply to Wealth Mastery".
+3. The header shows Mi historia · Wealth Mastery · Diagnóstico gratis (and Blog when it exists), the language toggle, and the outlined "Aplicá a Wealth Mastery" link (`UX_UI_DIRECTION.md` §4.1); "Diagnóstico gratis" leads to the calculator, "Wealth Mastery" to the Wealth Mastery page (a stub page until US-042), at every width, in both languages.
+4. The application page moves to `/es/aplicar/` and `/en/apply/` (route id `vip` kept); no link anywhere still points at `/es/mentoria-vip/` or `/en/vip-mentorship/`, and the route unit tests cover the new paths, uniqueness and the base path.
+5. The `mastery` route exists with a stub page in both languages (its title and description), which US-042 fills.
+6. E2E: the header's links in both languages and at 390 and 1280 px; no gold link in the header (BR-010).
+
+**Security**
+- No change to forms, data or third parties.
+
+**Dependencies**
+- `CONTENT_PHASE_2D.md` merged (the phase 2d copy docs PR). Merges first in Sprint 005 (the scaffold of phase 2d).
+
+---
+
+## US-042 — Wealth Mastery page
+- Priority: High
+- Story Points: 5
+- Status: Proposed — Sprint 005 candidate (phase 2d). Replaces the Método Polaris page of US-028
+- Related Requirements: FR-042, FR-004, BR-009, BR-011
+- Source: brief §2
+
+**User Story**
+
+As a corporate professional considering the mentorship,
+I want one page that explains Wealth Mastery, who it is for and how it works,
+so that I can decide whether to apply.
+
+**Acceptance Criteria**
+1. The page has Gaby's eight sections in her order, with the anchors and layout of `UX_UI_DIRECTION.md` §5.7, and the copy of `CONTENT_PHASE_2D.md` (moved into `CONTENT.md` in this PR) in both languages.
+2. The three pillars show no numbers and no arrows; the "En paralelo, no en orden" card follows them.
+3. The FAQ is an accordion of native `<details>` elements, usable with the keyboard; its answers carry the pending badge until Gaby confirms them.
+4. "Quién te guía" shows a marked photo placeholder (not the Home's portrait) until Gaby's photo arrives (BR-011); the testimonials are the Home's placeholder cards.
+5. No price appears on the page.
+6. The Método Polaris page (`method` route, its stubs and its copy, `CONTENT.md` §12) is removed, and no link points at it.
+7. Exactly one gold button per viewport at 360, 390, 768 and 1280 px (BR-010).
+8. E2E: the page from the header in both languages, the section order and anchors, the accordion opening by keyboard, and the badges.
+
+**Security**
+- No forms and no third parties on this page.
+
+**Dependencies**
+- US-041 merged.
+
+---
+
+## US-043 — Home for phase 2d: the pillars, no Wealth Mastery section, no library links
+- Priority: High
+- Story Points: 3
+- Status: Proposed — Sprint 005 candidate (phase 2d)
+- Related Requirements: FR-004, FR-022, FR-032 (withdrawn), FR-043
+- Source: brief §3
+
+**User Story**
+
+As a visitor on the Home,
+I want the method explained as Gaby teaches it and one clear free next step,
+so that I'm not sent to things that don't exist.
+
+**Acceptance Criteria**
+1. The Home has the ten sections of `UX_UI_DIRECTION.md` §5.1 (the Wealth Mastery section `#wealth-mastery` removed, with its keys) and Gaby's adjusted copy from `CONTENT_PHASE_2D.md`, moved into `CONTENT.md` in this PR.
+2. The Método Polaris section shows the three pillars with their official names as labels, no numbers, no arrows, the closing line, the blue apply button and the text link "Conocé Wealth Mastery →" to the Wealth Mastery page.
+3. The calculator teaser has no links to other resources, and nothing on the Home links to the resource library.
+4. Section backgrounds alternate as §5.1 says; gold only in the hero and the closing band (BR-010) at 360, 390, 768 and 1280 px.
+5. `tests/e2e/home.spec.ts` covers the new order and anchors, the pillars (no step numbers), the "Conocé Wealth Mastery" link, and no link to `#wealth-mastery` or the library, in both languages.
+
+**Security**
+- No change.
+
+**Dependencies**
+- US-041 merged; US-042 for the link's target (the stub of US-041 is enough to merge first).
+
+---
+
+## US-044 — Gaby's calculator
+- Priority: High
+- Story Points: 5
+- Status: Proposed — Sprint 005 candidate (phase 2d). Replaces the placeholder formula and the questions of US-035
+- Related Requirements: FR-034, FR-035, FR-030, NFR-006
+- Related contract: [`LEAD_API_CONTRACT.md`](LEAD_API_CONTRACT.md) v1.3 §11
+- Source: brief §4
+
+**User Story**
+
+As a corporate professional,
+I want to see how many months my money would carry me if my position changed, in dollars or colones,
+so that I know where I stand and what to do next.
+
+**Acceptance Criteria**
+1. One function implements FR-034 (available money, monthly gap, months, the six zones from the exact value, the display rule, the concentration alert), with unit tests for: the covered case (gap 0 and below → ∞, `financially_free`); each zone boundary (2.99, 3, 5.99, 6, 11.99, 12, 35.99, 36); the display rule (4.44 → "4,4"; 5.96 → "6" in `alert`; 9.96 → "10"; 11.6 → "12"; a whole value below 10 without a decimal; "mes" for exactly 1); a result above 1,000 months; and the value sent to the API rounded **down** to two decimals and consistent with the zone.
+2. The page follows `UX_UI_DIRECTION.md` §5.6 with Gaby's texts (`CONTENT_PHASE_2D.md`, moved into `CONTENT.md` in this PR): the currency switch (§6.10, rate `PUBLIC_CRC_PER_USD`, default 500, in the root `.env.example`), Gaby's example figures, the five money inputs and the company-shares select, one step at a time.
+3. The details step has two checkboxes: the required consent and the optional, unticked follow-up consent (FR-035); it sends `POST /api/save-calculator-lead` per contract v1.3 §11.2 (`currency`, `concentration_alert`, `months` rounded down to two decimals, the v1.3 zone codes), never the figures; the result appears only after a `201`.
+4. The result shows the months (or ∞), the zone pill (§6.7), the gauge (§6.8), the zone's title and message, the available money and monthly gap in the chosen currency, the concentration alert when it applies, the "how do I raise this number" card with the gold apply button and "Calcular otra vez", and the disclaimer.
+5. "Calcular otra vez" returns to step 1 with the figures kept; the details step shows again, prefilled, and stores a new lead.
+6. Preview builds store and send nothing and show `preview.form_note` (FR-030).
+7. E2E: figures → details → `201` → result, in both currencies; a failure keeps the result hidden; the concentration alert for "Entre 20% y 50%"; no request to `/api` in a preview build; one gold button per viewport at 360, 390, 768 and 1280 px.
+
+**Security**
+- The figures never leave the browser (FR-035): a test asserts the request body has only the contract's fields. Same honeypot and error handling as US-035.
+
+**Dependencies**
+- US-041 merged; US-045's endpoint changes merged first (the e2e runs against the real endpoint in memory mode).
+
+---
+
+## US-045 — Calculator leads v1.3 and the GoHighLevel contacts
+- Priority: High
+- Story Points: 5
+- Status: Proposed — Sprint 005 candidate (phase 2d)
+- Related Requirements: FR-035, FR-039, FR-041, BR-012, NFR-006, NFR-007
+- Related contract: [`LEAD_API_CONTRACT.md`](LEAD_API_CONTRACT.md) v1.3 §6, §9, §11, §12
+- Related ADR: ADR-007, ADR-008
+
+**User Story**
+
+As Gaby,
+I want every lead the site saves to appear in my GoHighLevel account with its tag and result,
+so that my emails and my follow-up start on their own.
+
+**Acceptance Criteria**
+1. `/api/save-calculator-lead` validates the v1.3 request (§11.2, §11.3): the six zone codes and their boundaries, `months` with up to two decimals, `currency`, `concentration_alert`; and writes the v1.3 row (§11.5, the new columns at the end).
+2. Both endpoints send the contact to GoHighLevel as contract §12 says (tags, custom fields, the consent tag only with `marketing_consent`, `meses` derived with Gaby's display rule), and record `crm_status` (`sent`, `failed`, `off`) in the row; `/api/save-lead`'s request and responses are unchanged.
+3. A GoHighLevel timeout or error never changes the response (`201`, the lead saved) and is logged without personal data; the token never appears in logs, responses or the repository.
+4. A resend command sends the `failed` rows again and updates their `crm_status`; the runbook documents it.
+5. pytest covers every case of §11.6 and §12 with a fake GoHighLevel client; no test calls the real API. The PR states what was verified against GoHighLevel's API documentation (endpoint, version header, payload).
+6. Configuration: the `GHL_*` variables of §9 in `api/.env.example` without values; a GoHighLevel section in the runbooks (the token with contacts access only, the location id, the custom fields, the tags, the workflows of US-038 and US-039, the resend command, rotating the token).
+7. The privacy notice (`privacy.p4`, and `privacy.p2`/`p3` where they describe the calculator's data) names GoHighLevel as the processor of the contacts and the emails, from `CONTENT_PHASE_2D.md`, and `PRIVACY_NOTICE_VERSION` is bumped in the same PR.
+8. The security baseline's third parties list GoHighLevel's API and the token as a secret (a proposed change for its owner if it is not this story's).
+
+**Security**
+- ASVS: the outbound request uses HTTPS with certificate checks; the token lives only in the server's environment (NFR-007); only the fields of §12 leave the server (data minimization).
+
+**Dependencies**
+- Contract v1.3 (the phase 2d docs PR). Gaby's token, location id and custom field ids for the end-to-end check (not for merging: tests use the fake client).
+
+---
+
+## US-046 — Withdraw the resource library
+- Priority: Medium
+- Story Points: 3
+- Status: Proposed — Sprint 005 candidate (phase 2d). Withdraws what US-024 built; US-025 is withdrawn with it
+- Related Requirements: FR-023 to FR-025 (withdrawn), FR-010, FR-017
+- Source: brief §1 point 1
+
+**User Story**
+
+As a visitor,
+I want every link on the site to lead somewhere real,
+so that I don't land on a library that no longer exists.
+
+**Acceptance Criteria**
+1. The resources page, its route (`resources`), its components (resource card, filters), its data (`src/data/resources.ts`) and their tests are removed; `CONTENT.md` §7 and the keys only it used are removed in the same PR.
+2. No page links to the library: the header (US-041), My story's link now leads to the calculator, and the not-ready thank-you screen offers the blue `thanks.not_ready.more` button to the calculator instead of the mini-course card (`UX_UI_DIRECTION.md` §6.4, copy from `CONTENT_PHASE_2D.md`).
+3. The build has no page at `/es/recursos/` or `/en/resources/`, and an e2e test checks that no internal link on any page points there.
+4. `npm run build`, the unit tests and the full e2e suite pass with the library gone.
+
+**Security**
+- Removes code; no new data or third party.
+
+**Dependencies**
+- US-041 merged (the header). Can run in parallel with US-042 to US-045 where files do not overlap (the sprint plan's ownership map).
