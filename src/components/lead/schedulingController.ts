@@ -1,7 +1,7 @@
 // Loads Gaby's GoHighLevel booking calendar only after a successful save (US-037 AC1,
 // US-007 AC2), pre-fills the applicant's details (AC2), and falls back to a mailto link
-// when the URL is unset, the embed script fails to load, or the calendar does not appear
-// within 10 seconds (AC3).
+// when the URL is unset, the embed script fails to load, or the calendar does not report
+// that it is running within 10 seconds (AC3).
 //
 // The embed is GoHighLevel's own pair: an <iframe> on the widget URL plus its
 // `form_embed.js` script, which resizes the iframe to its content and forwards the
@@ -111,21 +111,31 @@ export function startScheduling(container: HTMLElement, lead: LeadSuccessDetail)
   const fail = () => {
     if (settled) return;
     settled = true;
+    window.removeEventListener('message', onMessage);
     showFallback(widget, fallbackEl, fallbackCopy);
   };
 
-  let loaded = false;
+  // Ready means two things: the embed script loaded, and the widget itself is running. The
+  // iframe's `load` event is not enough: a browser fires it for an error page too. The widget
+  // posts messages to its parent as it starts (verified against the live widget: height and
+  // sticky-contact messages within about two seconds), so a message that comes from the
+  // iframe's own window, at the widget's origin, proves it rendered.
+  const widgetOrigin = new URL(schedulerUrl).origin;
+  let widgetReady = false;
   let scriptReady = false;
   const check = () => {
-    if (loaded && scriptReady && !settled) {
+    if (widgetReady && scriptReady && !settled) {
       settled = true;
       clearTimeout(timer);
+      window.removeEventListener('message', onMessage);
     }
   };
-  iframe.addEventListener('load', () => {
-    loaded = true;
+  function onMessage(event: MessageEvent): void {
+    if (event.source !== iframe.contentWindow || event.origin !== widgetOrigin) return;
+    widgetReady = true;
     check();
-  });
+  }
+  window.addEventListener('message', onMessage);
   iframe.addEventListener('error', fail);
 
   const script = document.createElement('script');

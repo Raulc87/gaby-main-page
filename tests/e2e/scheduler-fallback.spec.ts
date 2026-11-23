@@ -38,7 +38,11 @@ test('shows the mailto fallback when the scheduler URL is not configured', async
 
 test('shows the fallback when the embed script cannot be loaded', async ({ page }) => {
   await page.route('https://api.leadconnectorhq.com/**', (route) =>
-    route.fulfill({ status: 200, contentType: 'text/html', body: '<p>stub</p>' }),
+    route.fulfill({
+      status: 200,
+      contentType: 'text/html',
+      body: '<script>parent.postMessage(["highlevel.setHeight",{height:830}],"*")</script>',
+    }),
   );
   await page.route('https://link.msgsndr.com/**', (route) => route.abort());
   await gotoVip(page, 'en');
@@ -82,4 +86,22 @@ test('shows the fallback for a calendar URL that is not https', async ({ page })
 
   await expect(page.locator(SELECTORS.schedulerFallback)).toBeVisible();
   expect(stubbed).toEqual([]);
+});
+
+test('shows the fallback when the calendar page fails to load, although the iframe fires load', async ({ page }) => {
+  await page.clock.install();
+  await stubScheduler(page);
+  // The widget's navigation fails (the browser still fires the iframe's load for its error page).
+  await page.route('https://api.leadconnectorhq.com/**', (route) => route.abort());
+  await gotoVip(page, 'en');
+  await setSchedulerUrl(page, STUB_SCHEDULER_URL);
+
+  await fillLeadForm(page);
+  await page.locator(SELECTORS.submitButton).click();
+  await expect(page.locator(SELECTORS.schedulerWidget)).toBeVisible();
+
+  await page.clock.fastForward(11_000);
+  await expect(page.locator(SELECTORS.schedulerFallback)).toBeVisible();
+  await expect(page.locator(SELECTORS.schedulerWidget)).toBeHidden();
+  await expect(page.locator(`${SELECTORS.schedulerFallback} a`)).toHaveAttribute('href', `mailto:${DEFAULT_CONTACT_EMAIL}`);
 });

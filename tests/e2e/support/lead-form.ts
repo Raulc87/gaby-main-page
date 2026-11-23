@@ -90,7 +90,7 @@ export async function stubScheduler(page: Page): Promise<string[]> {
   const requests: string[] = [];
   await page.route('https://api.leadconnectorhq.com/**', (route) => {
     requests.push(route.request().url());
-    return route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>stub</title><p>calendar stub</p>' });
+    return route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>stub</title><p>calendar stub</p><script>parent.postMessage(["highlevel.setHeight",{height:830}],"*")</script>' });
   });
   await page.route('https://link.msgsndr.com/**', (route) => {
     requests.push(route.request().url());

@@ -129,14 +129,57 @@ describe('startScheduling', () => {
     expect(embedScript()?.src).toBe('https://link.msgsndr.com/js/form_embed.js');
   });
 
-  it('keeps the calendar when the iframe and the script load within 10 seconds', () => {
+  /** A message as the running widget posts it to its parent. */
+  function widgetMessage(container: HTMLElement, overrides: Partial<MessageEventInit> = {}): void {
+    const iframe = container.querySelector('iframe')!;
+    window.dispatchEvent(
+      new MessageEvent('message', {
+        data: ['highlevel.setHeight', { height: 830 }],
+        origin: 'https://api.leadconnectorhq.com',
+        source: iframe.contentWindow,
+        ...overrides,
+      }),
+    );
+  }
+
+  it('keeps the calendar when the script loaded and the widget reported it is running within 10 seconds', () => {
+    const { container } = mountContainer(WIDGET);
+    startScheduling(container, {});
+    embedScript()!.dispatchEvent(new Event('load'));
+    widgetMessage(container);
+    vi.advanceTimersByTime(RENDER_TIMEOUT_MS + 1_000);
+    expect(fallbackOf(container).hidden).toBe(true);
+    expect(widgetOf(container).hidden).toBe(false);
+  });
+
+  it('keeps the calendar when the widget reports in before the script finishes loading', () => {
+    const { container } = mountContainer(WIDGET);
+    startScheduling(container, {});
+    widgetMessage(container);
+    vi.advanceTimersByTime(5_000);
+    embedScript()!.dispatchEvent(new Event('load'));
+    vi.advanceTimersByTime(RENDER_TIMEOUT_MS);
+    expect(fallbackOf(container).hidden).toBe(true);
+  });
+
+  it('does not take the iframe load event as proof: an error page also fires it', () => {
     const { container } = mountContainer(WIDGET);
     startScheduling(container, {});
     container.querySelector('iframe')!.dispatchEvent(new Event('load'));
     embedScript()!.dispatchEvent(new Event('load'));
-    vi.advanceTimersByTime(RENDER_TIMEOUT_MS + 1_000);
-    expect(fallbackOf(container).hidden).toBe(true);
-    expect(widgetOf(container).hidden).toBe(false);
+    vi.advanceTimersByTime(RENDER_TIMEOUT_MS);
+    expect(fallbackOf(container).hidden).toBe(false);
+    expect(widgetOf(container).hidden).toBe(true);
+  });
+
+  it('ignores messages from another origin or another window', () => {
+    const { container } = mountContainer(WIDGET);
+    startScheduling(container, {});
+    embedScript()!.dispatchEvent(new Event('load'));
+    widgetMessage(container, { origin: 'https://evil.example' });
+    widgetMessage(container, { source: window });
+    vi.advanceTimersByTime(RENDER_TIMEOUT_MS);
+    expect(fallbackOf(container).hidden).toBe(false);
   });
 
   it('shows the fallback when nothing has loaded after 10 seconds, and not before', () => {
@@ -150,10 +193,10 @@ describe('startScheduling', () => {
     expect(container.querySelector('iframe')).toBeNull();
   });
 
-  it('shows the fallback when only the iframe loaded after 10 seconds (the script never came)', () => {
+  it('shows the fallback when the widget is running but the script never loaded', () => {
     const { container } = mountContainer(WIDGET);
     startScheduling(container, {});
-    container.querySelector('iframe')!.dispatchEvent(new Event('load'));
+    widgetMessage(container);
     vi.advanceTimersByTime(RENDER_TIMEOUT_MS);
     expect(fallbackOf(container).hidden).toBe(false);
   });
