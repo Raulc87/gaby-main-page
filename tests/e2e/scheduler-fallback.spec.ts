@@ -15,6 +15,39 @@ import {
   stubScheduler,
 } from './support/lead-form';
 
+/**
+ * Records, from the page's own point of view, that the calendar iframe and the embed script have
+ * fired `load` (a capture listener sees both, `load` does not bubble). Tests that use the fake
+ * clock wait for it before fast-forwarding, so the 10-second timer never fires before the
+ * events it is meant to be racing against have arrived.
+ */
+async function trackSchedulerLoads(page: import('@playwright/test').Page): Promise<void> {
+  await page.addInitScript(() => {
+    const seen: { iframe: boolean; script: boolean } = { iframe: false, script: false };
+    (window as unknown as { __schedulerLoads: typeof seen }).__schedulerLoads = seen;
+    document.addEventListener(
+      'load',
+      (event) => {
+        const target = event.target as HTMLElement;
+        if (target.tagName === 'IFRAME') seen.iframe = true;
+        if (target.tagName === 'SCRIPT' && (target as HTMLScriptElement).src.includes('msgsndr')) seen.script = true;
+      },
+      true,
+    );
+  });
+}
+
+async function waitForSchedulerLoads(page: import('@playwright/test').Page): Promise<void> {
+  await page.waitForFunction(
+    () => {
+      const seen = (window as unknown as { __schedulerLoads: Record<string, boolean> }).__schedulerLoads;
+      return seen.iframe && seen.script;
+    },
+    undefined,
+    { polling: 50 },
+  );
+}
+
 test('shows the mailto fallback when the scheduler URL is not configured', async ({ page }) => {
   await gotoVip(page, 'en');
   await page.evaluate(() => {
@@ -90,6 +123,7 @@ test('shows the fallback for a calendar URL that is not https', async ({ page })
 
 test('shows the fallback when the calendar page is an error page, although the iframe fires load', async ({ page }) => {
   await page.clock.install();
+  await trackSchedulerLoads(page);
   await stubScheduler(page);
   // The widget answers with an error page that never posts a message. The browser fires the
   // iframe's load for it, which the first version of the readiness check took for success.
@@ -102,6 +136,10 @@ test('shows the fallback when the calendar page is an error page, although the i
   await fillLeadForm(page);
   await page.locator(SELECTORS.submitButton).click();
   await expect(page.locator(SELECTORS.schedulerWidget)).toBeVisible();
+
+  // Both loads have happened, and nothing proves the calendar is running: only the timer is left.
+  await waitForSchedulerLoads(page);
+  await expect(page.locator(SELECTORS.schedulerFallback)).toBeHidden();
 
   await page.clock.fastForward(11_000);
   await expect(page.locator(SELECTORS.schedulerFallback)).toBeVisible();
