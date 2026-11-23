@@ -88,11 +88,14 @@ test('shows the fallback for a calendar URL that is not https', async ({ page })
   expect(stubbed).toEqual([]);
 });
 
-test('shows the fallback when the calendar page fails to load, although the iframe fires load', async ({ page }) => {
+test('shows the fallback when the calendar page is an error page, although the iframe fires load', async ({ page }) => {
   await page.clock.install();
   await stubScheduler(page);
-  // The widget's navigation fails (the browser still fires the iframe's load for its error page).
-  await page.route('https://api.leadconnectorhq.com/**', (route) => route.abort());
+  // The widget answers with an error page that never posts a message. The browser fires the
+  // iframe's load for it, which the first version of the readiness check took for success.
+  await page.route('https://api.leadconnectorhq.com/**', (route) =>
+    route.fulfill({ status: 404, contentType: 'text/html', body: '<!doctype html><title>Not found</title><p>404</p>' }),
+  );
   await gotoVip(page, 'en');
   await setSchedulerUrl(page, STUB_SCHEDULER_URL);
 
