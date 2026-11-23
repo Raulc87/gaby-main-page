@@ -63,7 +63,7 @@ function formEntries(form: FormDictionary): Array<[string, string]> {
     ['form.error.rate_limited', form.rateLimited],
     ['thanks.qualified.title', form.thankYou.title],
     ['thanks.qualified.body', form.thankYou.text],
-    ['thanks.calendly_fallback', form.calendlyFallback],
+    ['thanks.scheduler_fallback', form.schedulerFallback],
     ['thanks.not_ready.title', form.notReady.title],
     ['thanks.not_ready.body', form.notReady.text],
   ];

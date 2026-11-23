@@ -39,9 +39,9 @@ export const SELECTORS = {
   formContainer: '#lead-form-container',
   leadForm: '#lead-form-form',
   successContainer: '#lead-success-container',
-  calendlyContainer: '#calendly-container',
-  calendlyWidget: '#calendly-widget',
-  calendlyFallback: '#calendly-fallback',
+  schedulerContainer: '#scheduler-container',
+  schedulerWidget: '#scheduler-widget',
+  schedulerFallback: '#scheduler-fallback',
 } as const;
 
 export function screeningOption(code: string): string {
@@ -75,4 +75,34 @@ export async function fillLeadForm(page: Page, overrides: FillOptions = {}): Pro
 /** Opens the VIP page, where the application form lives (US-023). */
 export async function gotoVip(page: Page, lang: Language, hash = ''): Promise<void> {
   await page.goto(`${routePath('vip', lang)}${hash}`);
+}
+
+/** The two GoHighLevel hosts of the embed (US-037): the booking widget and its resize script. */
+export const GHL_HOSTS = ['api.leadconnectorhq.com', 'link.msgsndr.com'] as const;
+/** A stand-in for Gaby's calendar URL, forced onto the container so the suite does not depend on the build's PUBLIC_SCHEDULER_URL. */
+export const STUB_SCHEDULER_URL = 'https://api.leadconnectorhq.com/widget/booking/TESTWIDGETID';
+
+/**
+ * Stubs both GoHighLevel hosts so CI never reaches GoHighLevel: the widget answers with a tiny
+ * page and the embed script with an empty script. Returns the list of requests that were stubbed.
+ */
+export async function stubScheduler(page: Page): Promise<string[]> {
+  const requests: string[] = [];
+  await page.route('https://api.leadconnectorhq.com/**', (route) => {
+    requests.push(route.request().url());
+    return route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>stub</title><p>calendar stub</p>' });
+  });
+  await page.route('https://link.msgsndr.com/**', (route) => {
+    requests.push(route.request().url());
+    return route.fulfill({ status: 200, contentType: 'application/javascript', body: '/* embed script stub */' });
+  });
+  return requests;
+}
+
+/** Forces a calendar URL on the container regardless of the build's PUBLIC_SCHEDULER_URL. */
+export async function setSchedulerUrl(page: Page, url: string): Promise<void> {
+  await page.evaluate((value) => {
+    const container = document.getElementById('scheduler-container');
+    if (container) container.dataset.schedulerUrl = value;
+  }, url);
 }

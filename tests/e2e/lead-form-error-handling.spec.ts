@@ -59,7 +59,7 @@ test('a 503 shows no success, keeps the entered data, and a retry succeeds', asy
   );
   await expect(page.locator(SELECTORS.formContainer)).toBeVisible();
   await expect(page.locator(SELECTORS.successContainer)).toBeHidden();
-  await expect(page.locator(SELECTORS.calendlyWidget)).toBeHidden();
+  await expect(page.locator(SELECTORS.schedulerWidget)).toBeHidden();
 
   // Data kept for retry (NFR-006 / BR-001).
   await expect(page.locator(SELECTORS.nameInput)).toHaveValue(VALID_LEAD.name);

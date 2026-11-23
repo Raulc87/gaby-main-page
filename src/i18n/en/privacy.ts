@@ -15,7 +15,7 @@ export const privacy: PrivacyDictionary = {
     p3:
       'Purpose: to contact you about the initial call and the VIP Mentorship, to prioritize calls and, if you use the calculator, to show you your result and email it to you with the guide and, only if you agree, to send you Gaby\'s emails, which you can unsubscribe from at any time. We do not use it for any other purpose and do not sell it.',
     p4:
-      'Who we share it with: Google (Google Sheets storage) and Calendly (scheduling the call), which may store data outside Costa Rica.',
+      'Who we share it with: Google (Google Sheets storage) and GoHighLevel (scheduling the call: your name, email and phone, and your booking details), which may store data outside Costa Rica.',
     p5:
       'Voluntary nature: providing your data is optional. Without it, we cannot process your application, schedule your call or show you the calculator\'s result from this site.',
     p6:

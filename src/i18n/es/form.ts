@@ -50,7 +50,7 @@ export const form: FormDictionary = {
     title: 'Gracias por contarnos dónde estás hoy.',
     text: 'Es posible que te contactemos por correo electrónico o WhatsApp. Cuando sea tu momento, aquí estaremos. Mientras tanto, puedes empezar gratis con el minicurso:',
   },
-  calendlyFallback:
+  schedulerFallback:
     'No pudimos cargar el calendario. Escríbenos a {contact_email} y coordinamos tu llamada.',
   fieldErrors: {
     required: 'Este campo es obligatorio.',

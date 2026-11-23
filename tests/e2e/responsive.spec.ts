@@ -1,6 +1,6 @@
 // US-008 AC1 / IMPLEMENTATION_PLAN.md section 12: no horizontal scroll at a
 // 390 px viewport, through the whole flow (landing, privacy notice dialog,
-// filled form, thank-you + Calendly fallback). Runs under the mobile-390
+// filled form, thank-you + scheduler fallback). Runs under the mobile-390
 // project (playwright.config.ts), which sets the 390 px viewport.
 import { expect, test, type Page } from '@playwright/test';
 import { fillLeadForm, gotoVip, SELECTORS } from './support/lead-form';
@@ -22,11 +22,11 @@ test('no horizontal scroll through the whole flow at 390 px', async ({ page }) =
   await expectNoHorizontalScroll(page);
   await page.locator('#privacy-notice-close').click();
 
-  // Deterministic, network-free fallback (see calendly-fallback.spec.ts) so
-  // this test only checks layout width, not Calendly's own rendering.
+  // Deterministic, network-free fallback (see scheduler-fallback.spec.ts) so
+  // this test only checks layout width, not the calendar's own rendering.
   await page.evaluate(() => {
-    const container = document.getElementById('calendly-container');
-    if (container) container.dataset.calendlyUrl = '';
+    const container = document.getElementById('scheduler-container');
+    if (container) container.dataset.schedulerUrl = '';
   });
 
   await fillLeadForm(page);
@@ -34,6 +34,6 @@ test('no horizontal scroll through the whole flow at 390 px', async ({ page }) =
 
   await page.locator(SELECTORS.submitButton).click();
   await expect(page.locator(SELECTORS.successContainer)).toBeVisible();
-  await expect(page.locator(SELECTORS.calendlyFallback)).toBeVisible();
+  await expect(page.locator(SELECTORS.schedulerFallback)).toBeVisible();
   await expectNoHorizontalScroll(page);
 });

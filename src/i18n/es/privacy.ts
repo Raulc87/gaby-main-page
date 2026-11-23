@@ -15,7 +15,7 @@ export const privacy: PrivacyDictionary = {
     p3:
       'Para qué los usamos: para contactarte sobre la llamada inicial y la Mentoría VIP, para priorizar las llamadas y, si usas la calculadora, para mostrarte tu resultado y enviártelo por correo con la guía y, solo si lo aceptas, enviarte los correos de Gaby, de los que puedes darte de baja en cualquier momento. No los usamos para ningún otro fin ni los vendemos.',
     p4:
-      'Con quién los compartimos: con Google (almacenamiento en Google Sheets) y Calendly (agendamiento de la llamada), que pueden almacenar información fuera de Costa Rica.',
+      'Con quién los compartimos: con Google (almacenamiento en Google Sheets) y GoHighLevel (agendamiento de la llamada: tu nombre, correo y teléfono, y los datos de tu reserva), que pueden almacenar información fuera de Costa Rica.',
     p5:
       'Carácter voluntario: brindar tus datos es opcional. Sin ellos no podemos procesar tu aplicación, agendar tu llamada ni mostrarte el resultado de la calculadora desde este sitio.',
     p6:

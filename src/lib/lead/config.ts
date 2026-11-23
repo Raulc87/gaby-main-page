@@ -7,7 +7,8 @@ export const LEAD_ENDPOINT: string = import.meta.env.PUBLIC_LEAD_ENDPOINT || '/a
 export const CALCULATOR_ENDPOINT: string =
   import.meta.env.PUBLIC_CALCULATOR_ENDPOINT || '/api/save-calculator-lead';
 
-export const CALENDLY_URL: string = import.meta.env.PUBLIC_CALENDLY_URL || '';
+/** The booking calendar's widget URL (Gaby's GoHighLevel calendar, ADR-006); empty when unset. */
+export const SCHEDULER_URL: string = import.meta.env.PUBLIC_SCHEDULER_URL || '';
 
 export const CONTACT_EMAIL: string =
   import.meta.env.PUBLIC_CONTACT_EMAIL || 'gkelly@poliartcr.com';

@@ -2,10 +2,10 @@
 // page), never calls an endpoint and loads no third party.
 // After client-side validation it shows the next screen per the routing with
 // `preview.form_note`; the scheduler is the static stand-in (`preview.scheduler`)
-// whatever PUBLIC_CALENDLY_URL is.
+// whatever PUBLIC_SCHEDULER_URL is.
 //
 // This spec builds its own preview build exactly as the preview workflow will
-// (PUBLIC_PREVIEW=true, SITE_BASE_PATH=/gaby-main-page/, plus a Calendly URL configured
+// (PUBLIC_PREVIEW=true, SITE_BASE_PATH=/gaby-main-page/, plus a scheduler URL configured
 // to prove it is ignored) into a temporary directory and serves it under that base on
 // its own port with no /api proxy, so it never touches the build the rest of the suite uses.
 import { execFileSync } from 'node:child_process';
@@ -38,7 +38,7 @@ test.beforeAll(async () => {
       ...process.env,
       PUBLIC_PREVIEW: 'true',
       SITE_BASE_PATH: `${BASE}/`,
-      PUBLIC_CALENDLY_URL: 'https://calendly.com/test-account/intro-call',
+      PUBLIC_SCHEDULER_URL: 'https://api.leadconnectorhq.com/widget/booking/TESTWIDGETID',
     },
     stdio: 'pipe',
   });
@@ -62,7 +62,7 @@ function trackRequests(page: Page): { forbidden: string[]; api: string[] } {
     const url = new URL(request.url());
     if (url.pathname.startsWith('/api')) tracked.api.push(request.url());
     const allowedHost = ['127.0.0.1', 'fonts.googleapis.com', 'fonts.gstatic.com'].includes(url.hostname);
-    if (!allowedHost || url.hostname.includes('calendly')) tracked.forbidden.push(request.url());
+    if (!allowedHost || /leadconnectorhq|msgsndr/.test(url.hostname)) tracked.forbidden.push(request.url());
   });
   return tracked;
 }
@@ -92,8 +92,8 @@ for (const lang of ['es', 'en'] as const) {
         common.preview.form_note,
       );
       await expect(page.locator('#scheduler-preview')).toHaveText(common.preview.scheduler);
-      expect(await page.locator('#calendly-container, #calendly-widget, iframe').count()).toBe(0);
-      expect(await page.locator('script[src*="calendly"]').count()).toBe(0);
+      expect(await page.locator('#scheduler-container, #scheduler-widget, iframe').count()).toBe(0);
+      expect(await page.locator('script[src*="msgsndr"], script[src*="leadconnectorhq"]').count()).toBe(0);
 
       await page.waitForLoadState('networkidle');
       expect(tracked.api).toEqual([]);
@@ -172,7 +172,7 @@ test('a normal build shows no preview note and no stand-in markup on the form sc
   await page.goto(routePath('vip', 'es'));
   await expect(page.locator('[data-preview-note]')).toHaveCount(0);
   await expect(page.locator('#scheduler-preview')).toHaveCount(0);
-  await expect(page.locator('#calendly-container')).toHaveCount(1);
+  await expect(page.locator('#scheduler-container')).toHaveCount(1);
 });
 
 // US-027 AC2 (Sprint 003 follow-up): the root page, the language chooser, carries the

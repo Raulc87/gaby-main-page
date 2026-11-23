@@ -34,8 +34,8 @@ describe('form dictionaries', () => {
     expect(enForm.consent.text).toContain('{privacy_notice_link}');
   });
 
-  it('carries the {contact_email} placeholder in the Calendly fallback message', () => {
-    expect(esForm.calendlyFallback).toContain('{contact_email}');
-    expect(enForm.calendlyFallback).toContain('{contact_email}');
+  it('carries the {contact_email} placeholder in the scheduler fallback message', () => {
+    expect(esForm.schedulerFallback).toContain('{contact_email}');
+    expect(enForm.schedulerFallback).toContain('{contact_email}');
   });
 });
