@@ -1048,7 +1048,8 @@ so that I know where I stand and what to do next.
 4. The result shows the months (or ∞), the zone pill (§6.7), the gauge (§6.8), the zone's title and message, the available money and monthly gap in the chosen currency, the concentration alert when it applies, the "how do I raise this number" card with the gold apply button and "Calcular otra vez", and the disclaimer.
 5. "Calcular otra vez" returns to step 1 with the figures kept; the details step shows again, prefilled, and stores a new lead.
 6. Preview builds store and send nothing and show `preview.form_note` (FR-030).
-7. E2E: figures → details → `201` → result, in both currencies; a failure keeps the result hidden; the concentration alert for "Entre 20% y 50%"; no request to `/api` in a preview build; one gold button per viewport at 360, 390, 768 and 1280 px.
+7. The shares question left on "Elegí una opción" shows its own error (copy from `CONTENT_PHASE_2D.md`) and nothing is sent; the details button keeps its busy state while the save and the GoHighLevel send run (up to `GHL_TIMEOUT_SECONDS`, 5 s), and the visitor can't submit twice.
+8. E2E: figures → details → `201` → result, in both currencies; the unanswered shares question blocks step 1; a failure keeps the result hidden; the concentration alert for "Entre 20% y 50%"; no request to `/api` in a preview build; one gold button per viewport at 360, 390, 768 and 1280 px.
 
 **Security**
 - The figures never leave the browser (FR-035): a test asserts the request body has only the contract's fields. Same honeypot and error handling as US-035.

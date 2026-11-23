@@ -26,7 +26,7 @@ Constraints: data minimization (only the result, never the figures: FR-035, pend
 ## Options Considered
 
 ### Option A — The backend calls GoHighLevel's contacts API (selected)
-After validation, the backend creates or updates the contact, matched on the email, with a private integration token from the server's environment, and records the outcome in the row (`crm_status`).
+After the row is saved, the backend creates or updates the contact, matched on the email, with a private integration token from the server's environment, and records the outcome in the row (`crm_status`).
 Pros: the token stays on the server; the backend controls exactly what is sent (no figures) and can be tested with a fake client; one module, replaceable later.
 Cons: a token to create, keep and rotate; GoHighLevel's API version and field ids to follow.
 
