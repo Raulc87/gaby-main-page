@@ -3,7 +3,7 @@
 ## Metadata
 - Version: 1.3
 - Status: v1.3 proposed in the phase 2d docs PR, LOCKED for Sprint 005 on merge; v1.2.1 (wording only) approved by the human owner on 2026-11-08; v1.2 proposed in the Sprint 004 planning PR, LOCKED for Sprint 004 on merge; v1.1 approved and locked for Sprint 002
-- Changes in 1.3 (2026-11-23, phase 2d, [`PROJECT_SPEC.md`](PROJECT_SPEC.md) v0.7 FR-034, FR-035, FR-041; [ADR-008](../decisions/ADR-008_GOHIGHLEVEL_CONTACTS.md)): section 11 follows Gaby's calculator: six zone codes instead of three, `months` with up to two decimals (rounded down by the client), two new required fields (`currency`, `concentration_alert`), and new sheet columns. New section 12: after each save, both endpoints send the contact to GoHighLevel, and the row records the outcome in a new last column, `crm_status` (sections 6 and 11.5). The request and responses of `/api/save-lead` (sections 2–5, 7, 8) are unchanged.
+- Changes in 1.3 (2026-11-23, phase 2d, [`PROJECT_SPEC.md`](PROJECT_SPEC.md) v0.7 FR-034, FR-035, FR-041; [ADR-008](../decisions/ADR-008_GOHIGHLEVEL_CONTACTS.md)): section 11 follows Gaby's calculator: six zone codes instead of three, `months` with up to two decimals (rounded down by the client), two new required fields (`currency`, `concentration_alert`), and new sheet columns. New section 12: after each save, both endpoints send the contact to GoHighLevel, and the row records the outcome in a new last column, `crm_status` (sections 6 and 11.5). Section 9: `PUBLIC_SCHEDULER_URL` replaces `PUBLIC_CALENDLY_URL` (US-037). The request and responses of `/api/save-lead` (sections 2–5, 7, 8) are unchanged.
 - Changes in 1.2.1 (2026-11-08, wording only, no change in behavior): section 7, `405`: the `Allow` header includes `POST` and may list other methods (Flask also lists `OPTIONS`, as `/api/save-lead` always has). Proposed by Agent 3 in #73, approved by the human owner ("yes, reword the contract to 'includes POST'"). References to v1.2 elsewhere stay valid.
 - Changes in 1.2 (2026-11-08, US-036, [`PROJECT_SPEC.md`](PROJECT_SPEC.md) v0.6 FR-035, FR-039): a second endpoint, `POST /api/save-calculator-lead`, for calculator leads (section 11), with its own sheet tab; the VIP endpoint (sections 2–10) is unchanged. Frontend configuration: `PUBLIC_SCHEDULER_URL` replaces `PUBLIC_CALENDLY_URL` (US-037, ADR-006).
 - Changes in 1.1 (2026-09-28, US-013, ADR-004): honeypot field `website` (sections 3 and 3.1); `429` / `rate_limited` is now emitted (sections 3.2 and 7); rate-limit configuration (section 9).
@@ -115,7 +115,7 @@ One row is appended per successful request, in this column order (header row in 
 | `consent` | request (`TRUE`) |
 | `privacy_notice_version` | server |
 | `status` | server (`started`) |
-| `crm_status` | server (v1.3): `sent`, `failed` or `off` (section 12) |
+| `crm_status` | server (v1.3): `pending`, `sent`, `failed` or `off` (section 12) |
 
 Allowed `status` values (maintained manually in the sheet by the business owner; the endpoint only writes `started`):
 
@@ -213,7 +213,7 @@ Frontend (Astro public build-time variables):
 | Variable | Purpose |
 |---|---|
 | `PUBLIC_LEAD_ENDPOINT` | Defaults to `/api/save-lead` |
-| `PUBLIC_CALENDLY_URL` | Calendly scheduling URL (placeholder until provided). Replaced by `PUBLIC_SCHEDULER_URL`, Gaby's GoHighLevel booking widget URL, when US-037 lands (ADR-006) |
+| `PUBLIC_SCHEDULER_URL` | Gaby's GoHighLevel booking widget URL (ADR-006, US-037; it replaces `PUBLIC_CALENDLY_URL`). Use the final widget URL, not one that redirects |
 | `PUBLIC_CALCULATOR_ENDPOINT` | Defaults to `/api/save-calculator-lead` (section 11) |
 | `PUBLIC_CRC_PER_USD` | Colones per US dollar for the calculator's currency switch (default `500`; v1.3, FR-034). Not sent to the API |
 | `PUBLIC_CONTACT_EMAIL` | Fallback contact email, currently `gkelly@poliartcr.com` |
@@ -314,7 +314,7 @@ One row per successful request, in the tab named by `GOOGLE_SHEET_CALCULATOR_TAB
 | `status` | server (`started`); same allowed values as section 6 |
 | `currency` | request (v1.3) |
 | `concentration_alert` | request (`TRUE` / `FALSE`, v1.3) |
-| `crm_status` | server (v1.3): `sent`, `failed` or `off` (section 12) |
+| `crm_status` | server (v1.3): `pending`, `sent`, `failed` or `off` (section 12) |
 
 The three v1.3 columns are added at the end, so rows written by v1.2 keep their columns; a v1.2 row's `months` has one decimal and its `zone` uses the v1.2 codes (`alert`, `building`, `freedom`). The preview stored nothing, so no production row exists in that format.
 
@@ -328,7 +328,7 @@ As section 10, for this endpoint: every rule of section 11.2 with a valid and an
 
 [ADR-008](../decisions/ADR-008_GOHIGHLEVEL_CONTACTS.md), [`PROJECT_SPEC.md`](PROJECT_SPEC.md) FR-041. Both endpoints send the person to Gaby's GoHighLevel account as a contact, through GoHighLevel's contacts API (create or update, matched on the email). It is a server-side step: the request and the responses of both endpoints do not change, and the browser never talks to GoHighLevel's API.
 
-**When.** After a request passes validation and is not a honeypot decoy, and before the row is appended. A honeypot decoy (section 3.1) and a request rejected with any `4xx` send nothing. With `GHL_SYNC` = `off`, nothing is sent and the row's `crm_status` is `off`.
+**When.** After the row is appended (the save, FR-041: the sheet is the record). In order: the row is appended with `crm_status` = `pending` (or `off` when `GHL_SYNC` is `off`); then the contact is sent; then the row's `crm_status` cell is updated to `sent` or `failed`. The response is sent only after these steps, so it never reports a lead that was not stored. If the append fails, the response is `503` and nothing is sent to GoHighLevel, so no contact exists for a result the visitor never saw. A honeypot decoy (section 3.1) and a request rejected with any `4xx` send nothing. If the process stops between the send and the cell update, the row stays `pending`; the resend command covers it (resending is safe: the contact is matched on its email).
 
 **What is sent.**
 
@@ -336,7 +336,7 @@ As section 10, for this endpoint: every rule of section 11.2 with a valid and an
 |---|---|---|
 | name, email, phone | from the request (phone only if given) | from the request |
 | tags | `lead-calculadora`; `idioma-es` or `idioma-en` (the request's `language`); plus `consentimiento-correos` when `marketing_consent` is `true` | `aplicacion-vip`; `idioma-es` or `idioma-en` |
-| custom field `meses` (`GHL_FIELD_MESES`) | the months as the visitor saw them, derived from `months` with Gaby's rule (below 10: rounded to the nearest tenth, written without a decimal when it is whole, as in the prototype; from 10: a whole number rounded to the nearest); empty when `months` is `null` | — |
+| custom field `meses` (`GHL_FIELD_MESES`) | the months as the visitor saw them, derived from `months` with Gaby's rule (below 10: rounded to the nearest tenth, written without a decimal when it is whole, as in the prototype; from 10: a whole number rounded to the nearest). Ties round **half up**, computed on the exact decimal value, never on binary floating point (Python: `decimal.Decimal` with `ROUND_HALF_UP`; the page uses the same rule, FR-034): 9.95 → `10`, 9.96 → `10`, 4.45 → `4.5` (written `4,5` in Spanish), 10.49 → `10`, 10.5 → `11`. Written with a decimal comma (the Spanish form the visitor saw). Empty when `months` is `null` | — |
 | custom field `zona` (`GHL_FIELD_ZONA`) | the zone's Spanish label: Zona crítica, Zona de alerta, Base en construcción, Camino a la libertad, Colchón sólido, Libre financieramente | — |
 | custom field `moneda` (`GHL_FIELD_MONEDA`) | `USD` or `CRC` | — |
 | custom field `alerta_concentracion` (`GHL_FIELD_ALERTA`) | `sí` or `no` | — |
@@ -344,8 +344,8 @@ As section 10, for this endpoint: every rule of section 11.2 with a valid and an
 
 Nothing else is sent: never the calculator's figures, the IP address or the honeypot. An existing contact keeps its other tags and fields; the ones above are set.
 
-**Outcome.** The row's last column, `crm_status`, records it: `sent` when GoHighLevel confirmed the contact; `failed` when it did not answer within `GHL_TIMEOUT_SECONDS`, refused the request, or the configuration is incomplete; `off` when `GHL_SYNC` is `off`. A failure in GoHighLevel never changes the endpoint's response: the lead is saved, the response is `201`, and the visitor sees their result or next screen. The server logs a failure without personal data (no name, email or phone; the status code and the row's `submitted_at` only). A failure in storage after a successful send still returns `503` (section 7); a retry then updates the same contact, so it does not create a second one.
+**Outcome.** The row's last column, `crm_status`, records it: `pending` while the send is under way (or left by an interrupted process); `sent` when GoHighLevel confirmed the contact; `failed` when it did not answer within `GHL_TIMEOUT_SECONDS`, refused the request, or the configuration is incomplete; `off` when `GHL_SYNC` is `off`. A failure in GoHighLevel never changes the endpoint's response: the lead is saved, the response is `201`, and the visitor sees their result or next screen. The server logs a failure without personal data (no name, email or phone; the status code and the row's `submitted_at` only). A failure in the cell update after a successful send leaves the row `pending` and still returns `201` (the lead is stored); the resend command settles it.
 
-**Resending.** A command on the server (documented in the runbook) resends the rows whose `crm_status` is `failed` and updates the column. It is run by hand.
+**Resending.** A command on the server (documented in the runbook) resends the rows whose `crm_status` is `failed` or `pending` and updates the column. It is run by hand.
 
-**Tests (pytest).** With a fake GoHighLevel client: the payload of each endpoint (tags, fields, the consent tag only with `marketing_consent`, `meses` derived with the rounding rule at 9.95, 9.96, 10.49 and 10.5, empty `meses` for `null`); no call for a honeypot decoy, a `4xx`, or `GHL_SYNC` = `off`; a timeout and an error response give `crm_status` = `failed` and still `201`; the token never appears in logs or responses. No test calls the real GoHighLevel API.
+**Tests (pytest).** With a fake GoHighLevel client: the payload of each endpoint (tags, fields, the consent tag only with `marketing_consent`, `meses` derived half up at 4.45, 9.95, 9.96, 10.49 and 10.5 with the outputs above, empty `meses` for `null`); the order (the row appended as `pending` before the send; a failed append returns `503` and sends nothing); no call for a honeypot decoy, a `4xx`, or `GHL_SYNC` = `off`; a timeout and an error response give `crm_status` = `failed` and still `201`; the resend command picks up `failed` and `pending` rows; the token never appears in logs or responses. No test calls the real GoHighLevel API.

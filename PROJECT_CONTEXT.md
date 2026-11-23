@@ -11,7 +11,7 @@
 
 ## Active documentation
 - Project spec: [`docs/specs/PROJECT_SPEC.md`](docs/specs/PROJECT_SPEC.md) (v0.7, phase 2d, proposed; v0.5 phase 2 source: Gaby's visual brief, https://claude.ai/artifact/LeuEgX7HC2otdkLEhcJM5j)
-- User stories: [`docs/specs/USER_STORIES.md`](docs/specs/USER_STORIES.md) (phase 2: US-019 to US-028; phase 2c: US-034 to US-039; Sprint 004 candidates from the kit v1.2.0 sync: US-029, US-030; US-031 to US-033 reserved for the next kit sync; Sprint 005 candidates: US-040 to US-046, phase 2d)
+- User stories: [`docs/specs/USER_STORIES.md`](docs/specs/USER_STORIES.md) (phase 2: US-019 to US-028; phase 2c: US-034 to US-039; Sprint 004 candidates from the kit v1.2.0 sync: US-029, US-030; US-031 to US-033 reserved for the next kit sync; Sprint 005 candidates: US-040 (self-hosted typefaces, from the Sprint 004 baseline) and US-041 to US-046 (phase 2d))
 - Phase 2 brief (text export): [`docs/ux/BRIEF_2026-10-15.md`](docs/ux/BRIEF_2026-10-15.md)
 - Phase 2c source, Gaby's Sprint 003 review (StoryBrand Home dummy, funnel document, review notes; text export and the owner's decisions): [`docs/ux/BRIEF_2026-11-08_STORYBRAND.md`](docs/ux/BRIEF_2026-11-08_STORYBRAND.md)
 - Phase 2d source, Gaby's final content (her email, the Wealth Mastery page, the adjusted Home, her calculator, the GoHighLevel calendar; text export and the owner's decisions): [`docs/ux/BRIEF_2026-11-23_WEALTH_MASTERY.md`](docs/ux/BRIEF_2026-11-23_WEALTH_MASTERY.md)

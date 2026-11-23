@@ -41,7 +41,7 @@ Pros: no backend code for the contact.
 Cons: the site loses its validation, its consent texts, its screening routing and the sheet; another third-party script on every form; the calculator's result step would depend on a GoHighLevel form. Rejected (brief §8 point 3).
 
 ## Decision
-Option A. Both endpoints, after validation and before the row is appended, create or update the contact through GoHighLevel's contacts API, with the fields of `LEAD_API_CONTRACT.md` section 12; the row's last column, `crm_status`, records `sent`, `failed` or `off`.
+Option A. Both endpoints, after the row is appended (with `crm_status` = `pending`), create or update the contact through GoHighLevel's contacts API, with the fields of `LEAD_API_CONTRACT.md` section 12, then update `crm_status` to `sent` or `failed` (`off` when sending is switched off). If the save fails, nothing is sent: no contact exists for a result the visitor never saw.
 
 ## Rationale
 It is the only option that keeps the secret off the browser, the data minimization in our code, and the behaviour under test. A webhook (option B) would trade a token for an equally secret URL and move the logic where CI cannot see it.
@@ -49,7 +49,7 @@ It is the only option that keeps the secret off the browser, the data minimizati
 ## Consequences
 ### Positive
 - Gaby's workflows start from the tag (email 1, her notification), and the consent tag gates the sequence (BR-012).
-- A GoHighLevel outage costs nothing at the moment: the lead is saved, the visitor sees the next screen, and the row says `failed` until it is resent.
+- A GoHighLevel outage costs nothing at the moment: the lead is saved, the visitor sees the next screen, and the row says `failed` (or `pending`, if the process stopped) until it is resent.
 ### Negative / Trade-offs
 - A secret to manage: Gaby creates a private integration token with access to contacts only, and the human owner puts it in the server's environment (never in chat, a PR or Git). Rotating it is documented in the runbook.
 - GoHighLevel becomes a processor of the contacts and their result; the privacy notice says so before phase 2d goes live.
@@ -57,7 +57,7 @@ It is the only option that keeps the secret off the browser, the data minimizati
 - A preview build and the honeypot never send anything (FR-030, section 3.1).
 
 ## Implementation Impact
-- Backend: a small GoHighLevel client (create or update a contact; set tags and custom fields; a time limit), used by both endpoints; a resend command for `failed` rows; configuration in `api/.env.example` without values; tests with a fake client (contract section 12). The endpoint, its version header and the payload shape are verified against GoHighLevel's API documentation in US-045, and the PR states what was verified.
+- Backend: a small GoHighLevel client (create or update a contact; set tags and custom fields; a time limit), used by both endpoints; a resend command for `failed` and `pending` rows; configuration in `api/.env.example` without values; tests with a fake client (contract section 12). The endpoint, its version header and the payload shape are verified against GoHighLevel's API documentation in US-045, and the PR states what was verified.
 - Sheet: the new last column `crm_status` in both tabs.
 - Runbook: [`GOOGLE_SHEETS_SETUP.md`](../runbooks/GOOGLE_SHEETS_SETUP.md) gains the new columns; a new GoHighLevel section (token, location id, custom fields, tags, workflows, resend, rotation).
 - Security baseline: GoHighLevel's API as a third party receiving personal data; the token as a secret (Agent 3's file).
