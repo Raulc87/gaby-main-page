@@ -115,7 +115,7 @@ Viewport rule (BR-010): a layout must not place two gold buttons in one viewport
 **Phase 2d route changes.** `tests/unit/site/routes.test.ts` checks the code against the table above, so each change is made to the table **in the same PR as the route**, by its story:
 - add `mastery`, `/es/wealth-mastery/` and `/en/wealth-mastery/` (US-041, with a stub page; US-042 fills it): done in the table above;
 - move `vip` to `/es/aplicar/` and `/en/apply/` (US-041; the id stays `vip`): done in the table above;
-- remove `method` (US-042, the Wealth Mastery page replaces it): done, its row is gone from the table above; and `resources` (US-046).
+- remove `method` (US-042, the Wealth Mastery page replaces it): done, its row is gone from the table above; and remove `resources` (US-046): done, its row is gone too.
 
 The site is not in production, so the old paths need no redirects; the preview stops serving them, and every link to them is removed.
 
