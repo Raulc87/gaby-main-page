@@ -1,23 +1,32 @@
 import { describe, expect, it } from 'vitest';
-import { formatMonths, monthsText } from '../../../src/lib/calculator/format';
+import { formatMoney, localizeMonths, monthsUnit } from '../../../src/lib/calculator/format';
 
-describe('formatMonths', () => {
-  it('uses a decimal comma in Spanish and a point in English, always with one decimal', () => {
-    expect(formatMonths(4.4, 'es')).toBe('4,4');
-    expect(formatMonths(4.4, 'en')).toBe('4.4');
-    expect(formatMonths(6, 'es')).toBe('6,0');
-    expect(formatMonths(0, 'en')).toBe('0.0');
-  });
+const unit = { one: 'mes', many: 'meses' };
 
-  it('has no upper limit', () => {
-    expect(formatMonths(3000, 'en')).toBe('3000.0');
-    expect(formatMonths(1234.5, 'es')).toBe('1234,5');
+describe('localizeMonths', () => {
+  it('uses a decimal comma in Spanish and a point in English; a whole value has no decimal', () => {
+    expect(localizeMonths('4.4', 'es')).toBe('4,4');
+    expect(localizeMonths('4.4', 'en')).toBe('4.4');
+    expect(localizeMonths('6', 'es')).toBe('6');
+    expect(localizeMonths('10', 'en')).toBe('10');
   });
 });
 
-describe('monthsText', () => {
-  it('fills {months} of calc.result.months', () => {
-    expect(monthsText('{months} meses', 4.4, 'es')).toBe('4,4 meses');
-    expect(monthsText('{months} months', 4.4, 'en')).toBe('4.4 months');
+describe('monthsUnit', () => {
+  it('is "mes" for exactly 1 and "meses" otherwise (0, 1.5, 10 and 11)', () => {
+    expect(monthsUnit('1', unit)).toBe('mes');
+    expect(monthsUnit('0', unit)).toBe('meses');
+    expect(monthsUnit('1.5', unit)).toBe('meses');
+    expect(monthsUnit('10', unit)).toBe('meses');
+    expect(monthsUnit('11', unit)).toBe('meses');
+  });
+});
+
+describe('formatMoney', () => {
+  it('writes the symbol and thousands separators of the language', () => {
+    expect(formatMoney(20000, 'USD', 'es')).toBe('$20.000');
+    expect(formatMoney(20000, 'USD', 'en')).toBe('$20,000');
+    expect(formatMoney(1250000, 'CRC', 'es')).toBe('₡1.250.000');
+    expect(formatMoney(0, 'CRC', 'en')).toBe('₡0');
   });
 });
