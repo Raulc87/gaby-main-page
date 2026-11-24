@@ -117,7 +117,7 @@ An agent edits only files it owns. If it needs a change in another agent's file,
 | `src/styles/**`, `src/layouts/**`, `src/components/layout/**`, `src/components/home/**`, `src/components/sections/**`, `src/lib/site/**`, `public/fonts/**` (new) | Agent 1 |
 | [`src/i18n/index.ts`](../../src/i18n/index.ts), [`src/i18n/routes.ts`](../../src/i18n/routes.ts), `src/i18n/{es,en}/common.ts`, `src/i18n/{es,en}/home.ts` | Agent 1 |
 | [`src/pages/index.astro`](../../src/pages/index.astro), `src/pages/{es,en}/index.astro`, `public/**` except the folders below | Agent 1 |
-| `src/components/method/**`, `src/i18n/{es,en}/method.ts`, `src/pages/es/metodo-polaris/**`, `src/pages/en/polaris-method/**`, [`tests/e2e/method.spec.ts`](../../tests/e2e/method.spec.ts) | Agent 3, **to delete them** in `GK-042-wealth-mastery-page` (they were Agent 1's) |
+| `src/components/method/**`, `src/i18n/{es,en}/method.ts`, `src/pages/es/metodo-polaris/**`, `src/pages/en/polaris-method/**`, `tests/e2e/method.spec.ts` (deleted in `GK-042-wealth-mastery-page`) | Agent 3, **to delete them** in `GK-042-wealth-mastery-page` (they were Agent 1's) |
 | `src/components/mastery/**` (new), `src/i18n/{es,en}/mastery.ts` (new), `src/pages/{es,en}/wealth-mastery/**` (stub by Agent 1 in the scaffold, then Agent 3's), `tests/e2e/mastery.spec.ts` (new) | Agent 3 |
 | `src/components/lead/**`, `src/components/resources/**` (to delete), `src/components/calculator/**`, `src/lib/lead/**`, `src/lib/calculator/**`, [`src/data/resources.ts`](../../src/data/resources.ts) (to delete) | Agent 2 |
 | `src/i18n/{es,en}/form.ts`, `vip.ts`, `resources.ts` (to delete), `privacy.ts`, `calculator.ts` | Agent 2 |

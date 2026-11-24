@@ -7,8 +7,6 @@ import { common as commonEs } from './es/common';
 import { common as commonEn } from './en/common';
 import { home as homeEs } from './es/home';
 import { home as homeEn } from './en/home';
-import { method as methodEs } from './es/method';
-import { method as methodEn } from './en/method';
 
 export const LANGUAGES = ['es', 'en'] as const;
 
@@ -75,7 +73,6 @@ export interface CommonContent {
     mastery: PageMeta;
     privacy: PageMeta;
     calculator: PageMeta;
-    method: PageMeta;
   };
   nav: {
     brand: string;
@@ -302,17 +299,4 @@ export interface HomeDictionary {
 /** The Home copy of a language. */
 export function getHome(lang: Language): HomeDictionary {
   return lang === 'es' ? homeEs : homeEn;
-}
-
-/** Método Polaris page copy (CONTENT.md section 12), keyed as in CONTENT.md. */
-export interface MethodDictionary {
-  method: {
-    lead: string;
-    steps: { placeholder: string };
-  };
-}
-
-/** The Método Polaris page copy of a language. */
-export function getMethod(lang: Language): MethodDictionary {
-  return lang === 'es' ? methodEs : methodEn;
 }

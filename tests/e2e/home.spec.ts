@@ -242,8 +242,8 @@ test.describe('360 px', () => {
   });
 });
 
-test('the page ids are the phase 2a pages plus method and calculator (phase 2c) and mastery (phase 2d)', () => {
-  const ids: PageId[] = ['home', 'story', 'resources', 'vip', 'privacy', 'method', 'calculator', 'mastery'];
+test('the page ids are the phase 2a pages plus calculator (phase 2c) and mastery (phase 2d)', () => {
+  const ids: PageId[] = ['home', 'story', 'resources', 'vip', 'privacy', 'calculator', 'mastery'];
   expect([...PAGE_IDS]).toEqual(ids);
 });
 
