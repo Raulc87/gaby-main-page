@@ -4,7 +4,7 @@
 // back and forth never drifts. The visitor's figures stay in the browser: `read` hands the form's
 // values to the validation, and nothing here sends them anywhere.
 import type { Language } from '../../i18n';
-import { digitsOf, groupThousands, sanitizePastedAmount, wholeDigits } from '../../lib/calculator/amounts';
+import { digitsOfTyped, groupThousands, sanitizePastedAmount, wholeDigits } from '../../lib/calculator/amounts';
 import {
   CURRENCY_SYMBOL,
   displayAmount,
@@ -65,7 +65,7 @@ export function initFiguresPanel(root: HTMLElement, { language, crcPerUsd }: Fig
       const caret = field.selectionStart ?? field.value.length;
       const digitsBeforeCaret = field.value.slice(0, caret).replace(/\D/g, '').length;
       const pasted = event instanceof InputEvent && /^insertFrom(Paste|Drop)/.test(event.inputType);
-      const digits = (pasted ? sanitizePastedAmount(field.value) : digitsOf(field.value)).slice(0, MAX_TYPED_DIGITS);
+      const digits = (pasted ? sanitizePastedAmount(field.value) : digitsOfTyped(field.value, language)).slice(0, MAX_TYPED_DIGITS);
       typed[key] = digits === '' ? null : { value: Number(digits), currency };
       field.value = groupThousands(digits, language);
       restoreCaret(field, Math.min(digitsBeforeCaret, digits.length));

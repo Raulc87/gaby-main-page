@@ -23,6 +23,21 @@ export function thousandsSeparator(lang: Language): string {
   return lang === 'en' ? ',' : '.';
 }
 
+/** The decimal mark of a language: a comma in Spanish, a point in English. */
+export function decimalMark(lang: Language): string {
+  return lang === 'en' ? '.' : ',';
+}
+
+/**
+ * The digits of what the visitor typed (or deleted). The field only ever shows grouped whole amounts,
+ * so a decimal mark of the language in its text was typed by the visitor, and what follows it is cut
+ * off ("4,500.50" in English is 4500, not 450050). The other mark is the grouping the field shows
+ * itself, which a Backspace can leave looking like a decimal ("4.50" is 450): it is not cut.
+ */
+export function digitsOfTyped(raw: string, lang: Language): string {
+  return digitsOf(raw.split(decimalMark(lang))[0]);
+}
+
 /** "4500" → "4.500" (es) or "4,500" (en). Takes digits, so a huge amount never loses precision. */
 export function groupThousands(digits: string, lang: Language): string {
   return digits.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparator(lang));

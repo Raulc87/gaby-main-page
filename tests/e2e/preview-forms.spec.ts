@@ -141,6 +141,8 @@ for (const lang of ['es', 'en'] as const) {
 
     await expect(page.locator('[data-preview-bar]')).toContainText(getCommon(lang).preview.banner);
     await answerQuestions(page);
+    // The details step's body is a provisional block: its badge shows in a preview build.
+    await expect(page.locator(CALC.stepDetails).getByText(getCommon(lang).pending.badge)).toBeVisible();
     await fillDetails(page, { marketing: true });
     await page.locator(CALC.submit).click();
 

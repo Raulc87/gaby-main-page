@@ -58,6 +58,7 @@ for (const lang of ['es', 'en'] as const) {
       await expect(page.locator(CALC.stepDetails)).toBeVisible();
       await expect(page.locator(CALC.stepResult)).toBeHidden();
       await expect(page.locator('#calc-details-title')).toBeFocused();
+      await expect(page.locator(CALC.stepDetails).getByText(common.pending.badge)).toHaveCount(0); // production-like build
 
       await fillDetails(page, { marketing: true });
       const [request, response] = await Promise.all([

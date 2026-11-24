@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  decimalMark,
   digitsOf,
+  digitsOfTyped,
   groupThousands,
   sanitizePastedAmount,
   thousandsSeparator,
@@ -27,6 +29,22 @@ describe('digitsOf (typing and deleting)', () => {
     expect(digitsOf('007')).toBe('7');
     expect(digitsOf('0')).toBe('0');
     expect(digitsOf('000')).toBe('0');
+  });
+});
+
+describe('digitsOfTyped', () => {
+  it('cuts what follows the decimal mark of the language, so "4,500.50" in English is 4500 and not 450050', () => {
+    expect(digitsOfTyped('4,500.50', 'en')).toBe('4500');
+    expect(digitsOfTyped('4,500.', 'en')).toBe('4500');
+    expect(digitsOfTyped('4.500,50', 'es')).toBe('4500');
+    expect(decimalMark('en')).toBe('.');
+    expect(decimalMark('es')).toBe(',');
+  });
+
+  it('keeps the grouping mark the field shows itself, so a Backspace still drops one digit', () => {
+    expect(digitsOfTyped('4.50', 'es')).toBe('450');
+    expect(digitsOfTyped('4,50', 'en')).toBe('450');
+    expect(digitsOfTyped('12.345', 'es')).toBe('12345');
   });
 });
 

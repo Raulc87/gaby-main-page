@@ -169,6 +169,14 @@ describe('the questions step', () => {
     expect(field.value).toBe('450');
   });
 
+  it('a decimal typed in the field is cut: "4500,50" in Spanish keeps 4.500', () => {
+    mount();
+    const field = $<HTMLInputElement>('#calc-expenses');
+    field.value = '4.500,50';
+    field.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText' }));
+    expect(field.value).toBe('4.500');
+  });
+
   it('a pasted decimal amount is cut to its whole part: 1234.56 → 1.234', () => {
     mount();
     const field = $<HTMLInputElement>('#calc-expenses');
