@@ -6,12 +6,12 @@
 - Repository: https://github.com/Raulc87/gaby-main-page
 - Starter Kit: https://github.com/Raulc87/sdd_starter_kit (private: attach it to the sessions that read its templates, guides and skills) · Edition: Full · Synced to kit v1.2.0 (tag on `bd756f9`). This is the project's only record of its kit version: templates, guides and kit skills are read at this ref, and each kit sync PR updates it.
 - Repository visibility: public, as the owner's portfolio (owner decision, kit issue Raulc87/sdd_starter_kit#16) · current setting public (only the owner changes it)
-- Status: Phase 2d delivered on the preview. Sprint 005 (phase 2d) closed 2026-11-24 ([`docs/sprints/SPRINT_005.md`](docs/sprints/SPRINT_005.md)); Sprint 006 not planned yet (next: a staging environment for the functional test with Gaby). Sprint 004 (phase 2c) closed 2026-11-24; Sprint 003 (phase 2a) closed 2026-11-08; Sprint 002 closed 2026-10-16; Sprint 001 closed 2026-09-28. Production deploy (US-014) on hold until the hosting is decided (the domain is gabykelly.com); progress is shown on the GitHub Pages preview (ADR-005)
+- Status: Phase 2d delivered on the preview. Sprint 005 (phase 2d) closed 2026-11-24 ([`docs/sprints/SPRINT_005.md`](docs/sprints/SPRINT_005.md)); Sprint 006 PLANNED ([`docs/sprints/SPRINT_006.md`](docs/sprints/SPRINT_006.md)): the demo environment for Gaby's functional test (ADR-009, US-047), waiting for the owner's go-ahead. Sprint 004 (phase 2c) closed 2026-11-24; Sprint 003 (phase 2a) closed 2026-11-08; Sprint 002 closed 2026-10-16; Sprint 001 closed 2026-09-28. Production deploy (US-014) on hold until the hosting is decided (the domain is gabykelly.com); progress is shown on the GitHub Pages preview (ADR-005)
 - Product owner / final reviewer: Human project owner
 
 ## Active documentation
 - Project spec: [`docs/specs/PROJECT_SPEC.md`](docs/specs/PROJECT_SPEC.md) (v0.7, phase 2d, proposed; v0.5 phase 2 source: Gaby's visual brief, https://claude.ai/artifact/LeuEgX7HC2otdkLEhcJM5j)
-- User stories: [`docs/specs/USER_STORIES.md`](docs/specs/USER_STORIES.md) (phase 2: US-019 to US-028; phase 2c: US-034 to US-039; Sprint 004 candidates from the kit v1.2.0 sync: US-029, US-030; US-031 to US-033 reserved for the next kit sync; Sprint 005 candidates: US-040 (self-hosted typefaces, from the Sprint 004 baseline) and US-041 to US-046 (phase 2d), all done; Sprint 006 candidate: US-047 (the demo environment, ADR-009))
+- User stories: [`docs/specs/USER_STORIES.md`](docs/specs/USER_STORIES.md) (phase 2: US-019 to US-028; phase 2c: US-034 to US-039; Sprint 004 candidates from the kit v1.2.0 sync: US-029, US-030; US-031 to US-033 reserved for the next kit sync; Sprint 005 candidates: US-040 (self-hosted typefaces, from the Sprint 004 baseline) and US-041 to US-046 (phase 2d), all done; Sprint 006: US-047 (the demo environment, ADR-009))
 - Phase 2 brief (text export): [`docs/ux/BRIEF_2026-10-15.md`](docs/ux/BRIEF_2026-10-15.md)
 - Phase 2c source, Gaby's Sprint 003 review (StoryBrand Home dummy, funnel document, review notes; text export and the owner's decisions): [`docs/ux/BRIEF_2026-11-08_STORYBRAND.md`](docs/ux/BRIEF_2026-11-08_STORYBRAND.md)
 - Phase 2d source, Gaby's final content (her email, the Wealth Mastery page, the adjusted Home, her calculator, the GoHighLevel calendar; text export and the owner's decisions): [`docs/ux/BRIEF_2026-11-23_WEALTH_MASTERY.md`](docs/ux/BRIEF_2026-11-23_WEALTH_MASTERY.md)
@@ -22,9 +22,9 @@
 - Content (visitor-facing copy): [`docs/ux/CONTENT.md`](docs/ux/CONTENT.md) (v0.3, phase 2d: Gaby's final content, voseo included; the phase 2c and 2d staging files, `CONTENT_PHASE_2C.md` and `CONTENT_PHASE_2D.md`, were deleted once every part had moved), the only copy source ([`AGENTS.md`](AGENTS.md) → Before implementing, step 5). The phase 1 copy (`UX_UI_DIRECTION.md` v0.8 §4) is retired; it stays in the history at commit `09d6ca6`.
 - Runbooks: [`docs/runbooks/`](docs/runbooks/) (`LOCAL_DEVELOPMENT.md`, `DEPLOYMENT.md`, `GOOGLE_SHEETS_SETUP.md`, [`GOHIGHLEVEL.md`](docs/runbooks/GOHIGHLEVEL.md) (the GoHighLevel contacts: token, location, custom fields, tags, workflows, resend; US-045); `RELEASE.md` written in Sprint 003 with the preview, US-027, and completed with the release sections before the first production release, ADR-005), written per the kit's [`docs/process/RUNBOOK_STYLE.md`](https://github.com/Raulc87/sdd_starter_kit/blob/v1.2.0/docs/process/RUNBOOK_STYLE.md) (read from the kit at the kit ref above; owner decision 2026-10-25, kit v1.2.0 sync) (the existing ones predate it; restyling them is an optional Agent 3 chore)
 - Tech stack: [`TECH_STACK.md`](TECH_STACK.md) (v0.4.2)
-- ADRs: [`docs/decisions/`](docs/decisions/) — ADR-001 backend hosting (working assumption), ADR-002 Google Sheets access, ADR-003 i18n routing (multipage update), ADR-004 spam protection, ADR-005 branching, preview and release, ADR-006 GoHighLevel calendar instead of Calendly (phase 2c), ADR-007 how the funnel emails are sent (GoHighLevel, decided in phase 2d), ADR-008 leads sent to GoHighLevel as contacts (phase 2d), ADR-009 a password-protected demo environment for Gaby's functional test (proposed)
+- ADRs: [`docs/decisions/`](docs/decisions/) — ADR-001 backend hosting (working assumption), ADR-002 Google Sheets access, ADR-003 i18n routing (multipage update), ADR-004 spam protection, ADR-005 branching, preview and release, ADR-006 GoHighLevel calendar instead of Calendly (phase 2c), ADR-007 how the funnel emails are sent (GoHighLevel, decided in phase 2d), ADR-008 leads sent to GoHighLevel as contacts (phase 2d), ADR-009 a password-protected demo environment for Gaby's functional test (accepted, #104)
 - Implementation plan: [`docs/plans/IMPLEMENTATION_PLAN.md`](docs/plans/IMPLEMENTATION_PLAN.md) (v0.5)
-- Active sprint plan: none (Sprint 006 not planned yet)
+- Active sprint plan: [`docs/sprints/SPRINT_006.md`](docs/sprints/SPRINT_006.md) (planned; agent prompts in [`docs/sprints/SPRINT_006_AGENT_PROMPTS.md`](docs/sprints/SPRINT_006_AGENT_PROMPTS.md))
 - Previous sprints: [`docs/sprints/SPRINT_005.md`](docs/sprints/SPRINT_005.md) (closed 2026-11-24; agent prompts and session IDs in [`SPRINT_005_AGENT_PROMPTS.md`](docs/sprints/SPRINT_005_AGENT_PROMPTS.md)), [`docs/sprints/SPRINT_004.md`](docs/sprints/SPRINT_004.md) (closed 2026-11-24), [`docs/sprints/SPRINT_003.md`](docs/sprints/SPRINT_003.md) (closed 2026-11-08), [`docs/sprints/SPRINT_002.md`](docs/sprints/SPRINT_002.md) (closed 2026-10-16), [`docs/sprints/SPRINT_001.md`](docs/sprints/SPRINT_001.md) (closed 2026-09-28), each with a close-out
 - Readiness checklist: [`docs/checklists/SPRINT_READINESS_CHECKLIST.md`](docs/checklists/SPRINT_READINESS_CHECKLIST.md)
 - Security baseline: [`docs/security/SECURITY_BASELINE.md`](docs/security/SECURITY_BASELINE.md) (approved by the owner, #75)
@@ -32,21 +32,18 @@
 - Developer guide: [`CONTRIBUTING.md`](CONTRIBUTING.md) (#77)
 
 ## Current sprint
-- Sprint: Sprint 005 (phase 2d)
-- Goal: Gaby's final content on the preview: voseo and the Wealth Mastery name with the new menu, the Wealth Mastery page, the Home with the pillars, Gaby's calculator, no resource library, the leads sent to GoHighLevel, self-hosted typefaces
-- Start: 2026-11-25
-- End: 2026-12-04
-- Duration: 8 business days, excluding Saturday and Sunday
-- Deliverable: the phase 2d preview in both languages; the GoHighLevel contacts working with the fake client in tests and in the owner's check; the owner's check of the GoHighLevel calendar; no production deployment
-- Status: CLOSED 2026-11-24 ([`SPRINT_005.md`](docs/sprints/SPRINT_005.md) close-out); go-ahead was given on 2026-11-24 (entry gate 16); sessions in [`SPRINT_005_AGENT_PROMPTS.md`](docs/sprints/SPRINT_005_AGENT_PROMPTS.md)
+- Sprint: Sprint 006 (the demo environment)
+- Goal: a password-protected demo at `gabydemo.digitalstrike-solutions.com` (ADR-009), with the runbook, the build artifact and the checklists, so Gaby can test the real funnel before deciding on gabykelly.com
+- Start: the first business day after the go-ahead
+- Duration: 3 business days, excluding Saturday and Sunday, then the owner's deploy and checks and Gaby's test
+- Deliverable: US-047 merged; the demo deployed by the owner and ADR-009 → Validation passed; Gaby's checklist run; no production deployment
+- Status: PLANNED — waiting for the human owner's go-ahead ([`SPRINT_006.md`](docs/sprints/SPRINT_006.md), entry gate 12)
 
 ## Agent allocation
-- Implementation Agent 1: the scaffold (voseo, the Wealth Mastery name, the menu and routes), the Home for phase 2d, self-hosted typefaces
-- Implementation Agent 2: Gaby's calculator, the withdrawal of the resource library, the cross-cutting e2e suite
-- Implementation Agent 3: calculator leads v1.3 and the GoHighLevel contacts (`api/**`), the Wealth Mastery page
+- Implementation Agent 1: the demo environment (US-047): the runbooks, Gaby's checklist, the demo build workflow, the security baseline
 - Review-only Agent: PR review only, no implementation; reviews when an author, the owner or the coordinator asks, and reports ready PRs to the coordinator
 - Coordinator: the planning session ([`AGENTS.md`](AGENTS.md) → Coordinator session)
-- Conflict resolution: human owner together with the owning agent, when conflicts occur
+- Conflict resolution: human owner together with the owning agent, when conflicts occur; one writer per branch
 
 ## Important constraints
 - Production domain: gabykelly.com (human owner, 2026-11-08); today it serves Gaby's GoHighLevel page, which the new site replaces. Hosting not decided; GoDaddy cPanel (ADR-001) is the working assumption; US-014 on hold
