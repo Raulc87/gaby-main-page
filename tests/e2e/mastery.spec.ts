@@ -253,17 +253,13 @@ for (const lang of LANGUAGES) {
       expect(text).not.toMatch(/[$₡€]|\bUSD\b|\bCRC\b|\bcolones\b|\bdólares\b|\bdollars?\b|\d{3,}/i);
     });
 
-    test('has no form and loads no third party of its own', async ({ page }) => {
-      // The page adds no third party. Google Fonts is a site-wide request that US-040 removes, so
-      // it is left out here; any other host (a video, a scheduler, GoHighLevel) would fail.
-      const siteWide = ['fonts.googleapis.com', 'fonts.gstatic.com'];
+    test('has no form and loads no third party', async ({ page }) => {
+      // Any host but the site's own (a video, a scheduler, GoHighLevel, a font host) would fail.
       const external: string[] = [];
       page.on('request', (request) => {
         const url = new URL(request.url());
         const local = ['127.0.0.1', 'localhost'].includes(url.hostname);
-        if (!local && url.protocol.startsWith('http') && !siteWide.includes(url.hostname)) {
-          external.push(request.url());
-        }
+        if (!local && url.protocol.startsWith('http')) external.push(request.url());
       });
       await page.goto(routePath('mastery', lang));
       await expect(page.locator('main form')).toHaveCount(0);
