@@ -4,7 +4,7 @@
 import type { Language } from '../../i18n';
 import type { FieldErrorCode } from '../lead/types';
 import { validateConsent, validateEmail, validateName, validatePhone } from '../lead/validation';
-import { sanitizeAmount } from './amounts';
+import { digitsOf } from './amounts';
 import type { CalculatorFigures, CalculatorResult } from './formula';
 import {
   FIGURE_KEYS,
@@ -31,7 +31,7 @@ export const MAX_FIGURE = Number.MAX_SAFE_INTEGER / 100;
  * only the expenses are required); too large an amount is an error.
  */
 export function parseAmount(raw: unknown): { value?: number; error?: 'number' } {
-  const digits = typeof raw === 'string' ? sanitizeAmount(raw) : '';
+  const digits = typeof raw === 'string' ? digitsOf(raw) : '';
   if (digits === '') return { value: 0 };
   const value = Number(digits);
   if (!Number.isFinite(value) || value > MAX_FIGURE) return { error: 'number' };

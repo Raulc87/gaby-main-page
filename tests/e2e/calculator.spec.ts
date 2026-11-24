@@ -42,6 +42,13 @@ for (const lang of ['es', 'en'] as const) {
       await expect(page.locator(CALC.shares).locator('option').first()).toHaveText(calc.figures.shares.placeholder);
     });
 
+    test('Backspace at the end of a formatted amount drops one digit (4.500 becomes 450)', async ({ page }) => {
+      await gotoCalculator(page, lang);
+      await page.locator('#calc-expenses').press('End');
+      await page.locator('#calc-expenses').press('Backspace');
+      await expect(page.locator('#calc-expenses')).toHaveValue('450');
+    });
+
     test('details, then a 201, then the result; the five figures are never sent', async ({ page }) => {
       await gotoCalculator(page, lang);
       await expect(page.locator(CALC.stepQuestions)).toBeVisible();

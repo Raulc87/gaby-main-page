@@ -161,6 +161,22 @@ describe('the questions step', () => {
     expect(value('#calc-savings')).toBe('');
   });
 
+  it('Backspace at the end of a formatted amount drops one digit: 4.500 → 450, not 4 (Codex finding on #93)', () => {
+    mount();
+    const field = $<HTMLInputElement>('#calc-expenses');
+    field.value = '4.50'; // what the field holds right after the Backspace
+    field.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'deleteContentBackward' }));
+    expect(field.value).toBe('450');
+  });
+
+  it('a pasted decimal amount is cut to its whole part: 1234.56 → 1.234', () => {
+    mount();
+    const field = $<HTMLInputElement>('#calc-expenses');
+    field.value = '1234.56';
+    field.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertFromPaste' }));
+    expect(field.value).toBe('1.234');
+  });
+
   it('an empty field other than the expenses counts as 0', async () => {
     mount();
     type('#calc-savings', '');

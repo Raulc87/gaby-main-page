@@ -3,14 +3,19 @@
 // a comma in English), and the amount is the digits. No decimals: Gaby's prototype takes whole amounts.
 import type { Language } from '../../i18n';
 
+/** The digits of a field's text, leading zeros dropped (a single 0 stays). The field shows only whole, grouped amounts. */
+export function digitsOf(raw: string): string {
+  return raw.replace(/\D/g, '').replace(/^0+(?=\d)/, '');
+}
+
 /**
- * The digits of what the visitor typed or pasted. A decimal part of one or two digits at the end
- * ("1234.56", "1.234,5") is cut off rather than glued on, so a pasted "1234.56" reads as 1234, not
- * 123456. Three digits after a mark are thousands ("1.234", "1,234"), as the field itself shows them.
+ * The digits of text the visitor pasted or dropped into a field. A decimal part of one or two digits
+ * at the end ("1234.56", "1.234,5") is cut off rather than glued on, so a pasted "1234.56" reads as
+ * 1234, not 123456. Three digits after a mark are thousands ("1.234", "1,234"). Typing and deleting
+ * use `digitsOf` instead: after a Backspace "4.500" is "4.50", which is 450, not a decimal.
  */
-export function sanitizeAmount(raw: string): string {
-  const withoutDecimals = raw.trim().replace(/[.,]\d{1,2}$/, '');
-  return withoutDecimals.replace(/\D/g, '').replace(/^0+(?=\d)/, '');
+export function sanitizePastedAmount(raw: string): string {
+  return digitsOf(raw.trim().replace(/[.,]\d{1,2}$/, ''));
 }
 
 /** The thousands separator of a language: a point in Spanish, a comma in English. */
