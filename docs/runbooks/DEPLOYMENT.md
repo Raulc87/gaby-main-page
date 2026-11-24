@@ -34,7 +34,7 @@ reachable by a real visitor while unprotected (US-014 AC6). Don't skip ahead.
   (US-014 AC4) — follow `docs/runbooks/GOOGLE_SHEETS_SETUP.md` end to end once, using her
   account rather than a development one. Keep the downloaded key file and the sheet ID at
   hand; you'll need them in section 6.
-- [ ] The final `PUBLIC_CALENDLY_URL` and `PUBLIC_CONTACT_EMAIL` (go-live gate item 3 in
+- [ ] The final `PUBLIC_SCHEDULER_URL` (the widget URL of Gaby's GoHighLevel booking calendar) and `PUBLIC_CONTACT_EMAIL` (go-live gate item 3 in
   `SPRINT_002.md`) — if either is still a placeholder, you can still deploy behind password
   protection, but go-live waits until both are real.
 - [ ] A local clone of this repository. You'll run `npm ci` fresh right before building
@@ -160,7 +160,7 @@ matters to you, use a `curl` config file (`-K`) with the credentials instead of 
 2. Create a local, git-ignored `.env.production` in the repository root (never commit it):
    ```
    PUBLIC_LEAD_ENDPOINT=/api/save-lead
-   PUBLIC_CALENDLY_URL=<the real Calendly URL>
+   PUBLIC_SCHEDULER_URL=<the real GoHighLevel booking widget URL>
    PUBLIC_CONTACT_EMAIL=<the real contact email>
    ```
    Astro (via Vite) picks up `.env.production` automatically for `npm run build` — no extra
@@ -171,7 +171,7 @@ matters to you, use a `curl` config file (`-K`) with the credentials instead of 
    ```
    This produces a `dist/` folder with `index.html`, `es/index.html` and `en/index.html`
    (confirmed locally: a production build with placeholder values produced exactly these
-   three pages, and the placeholder Calendly URL and contact email were both baked into the
+   three pages, and the placeholder scheduler URL and contact email were both baked into the
    built HTML — this is a build-time substitution, not a runtime one, so a wrong value here
    means rebuilding and re-uploading, not an environment variable you can fix in cPanel).
 4. Upload the **contents** of `dist/` (not the `dist` folder itself) to the site's document
@@ -298,8 +298,8 @@ value arrives non-empty (or the wrong JSON type), which is normally a bot, but A
 that a real visitor's browser or password manager once filled it despite the mitigations,
 silently dropping a real lead. A burst of these close together is spam protection working as
 intended — nothing to do. A handful spread through the day is worth a weekly check either way:
-**a decoy writes no row, so the sheet has no gap to find** — instead, compare Calendly's booked
-calls against the sheet. A visitor who reached Calendly got a `201` from this endpoint (contract
+**a decoy writes no row, so the sheet has no gap to find** — instead, compare the booking calendar's
+booked calls against the sheet. A visitor who reached the calendar got a `201` from this endpoint (contract
 section 7), so a booking with **no matching row** in the sheet around the same time means a real
 lead was silently dropped here. If that happens, apply ADR-004's review trigger (propose
 removing the honeypot through a spec change).
@@ -392,9 +392,9 @@ Run this while the site is still password-protected (section 3) — every reques
    can also verify the thank-you flow). Confirm a new row appears in the **production** sheet
    (not a dev sheet) with all nine columns from `LEAD_API_CONTRACT.md` section 6,
    `status = started`.
-6. **Thank-you and the real Calendly appear:** after that submission, confirm the thank-you
-   message shows and the real Calendly scheduler loads inline (not the `mailto:` fallback —
-   if it shows the fallback, `PUBLIC_CALENDLY_URL` wasn't set before the build in section 4,
+6. **Thank-you and the real calendar appear:** after that submission, confirm the thank-you
+   message shows and Gaby's GoHighLevel calendar loads inline (not the `mailto:` fallback —
+   if it shows the fallback, `PUBLIC_SCHEDULER_URL` wasn't set before the build in section 4,
    and you'll need to rebuild and re-upload).
 7. **A filled honeypot stores nothing:**
    ```bash
@@ -449,7 +449,7 @@ Mirrors the go-live gate in `docs/sprints/SPRINT_002.md` — all of these, not s
 - [ ] US-013, US-016 and US-018 are merged.
 - [ ] US-017 content is approved by Gabriela and merged; the human owner has decided which
   pending-validation markers, if any, remain.
-- [ ] The final Calendly URL and contact email are set in the production build (section 4) —
+- [ ] The final scheduler URL and contact email are set in the production build (section 4) —
   not placeholders.
 - [ ] This runbook's smoke test (section 8) passes on the live HTTPS domain.
 - [ ] Only once every item above is checked: remove the password protection (section 3), then

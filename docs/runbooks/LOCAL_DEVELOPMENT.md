@@ -62,7 +62,7 @@ npm run dev
 
 Serves `http://localhost:4321`. This Astro version runs the dev server in the background, so the command prints `Dev server running at http://localhost:4321` and returns to the prompt; stop it with `npx astro dev stop`. The dev server proxies `/api/*` to `http://127.0.0.1:5000` (see `astro.config.mjs`), so the frontend always calls the same relative path (`PUBLIC_LEAD_ENDPOINT=/api/save-lead`) in every environment.
 
-Open `http://localhost:4321/` and confirm the full flow: landing → language toggle → lead form → submit → thank-you → inline Calendly (or the `mailto:` fallback if `PUBLIC_CALENDLY_URL` is a placeholder).
+Open `http://localhost:4321/` and confirm the full flow: landing → language toggle → lead form → submit → thank-you → inline GoHighLevel calendar (or the `mailto:` fallback if `PUBLIC_SCHEDULER_URL` is unset, is not an https address or is still the `.env.example` placeholder, or the calendar does not load within 10 seconds, US-037 AC3).
 
 ## 5. Memory mode (no Google account needed)
 
@@ -114,7 +114,7 @@ These are the same checks GitHub Actions runs on every pull request and on pushe
 | `503`/`storage_unavailable` in Google Sheets mode | `GOOGLE_SERVICE_ACCOUNT_FILE` path wrong, key file unreadable, sheet not shared with the service account's email, or wrong `GOOGLE_SHEET_ID`/`GOOGLE_SHEET_TAB` — see `docs/runbooks/GOOGLE_SHEETS_SETUP.md` |
 | `ModuleNotFoundError` running `run_local.py` | Virtual environment not activated, or dependencies not installed (`pip install -r requirements.txt -r requirements-dev.txt`); also check you're running `python run_local.py` from inside `api/`, not `python api/run_local.py` after already `cd`-ing into `api/` |
 | `npm ci` reports an `EBADENGINE` warning | Some transitive devDependencies want a Node patch version slightly newer than the documented `22.12.0+` floor (e.g. `22.22.3+`). Harmless and doesn't block install; upgrade Node if you want it gone |
-| Thank-you shows but the Calendly scheduler never appears (mailto fallback shows instead) | Expected if `PUBLIC_CALENDLY_URL` is still the `.env.example` placeholder, or if outbound network access to `assets.calendly.com` is blocked (e.g. a restrictive proxy/firewall) — this is the documented fallback behavior (US-007 AC5), not a bug |
+| Thank-you shows but the booking calendar never appears (mailto fallback shows instead) | Expected if `PUBLIC_SCHEDULER_URL` is unset or not an https address, if it is still the `.env.example` placeholder (no real calendar is behind it), or if outbound network access to `api.leadconnectorhq.com` or `link.msgsndr.com` is blocked (e.g. a restrictive proxy/firewall) — this is the documented fallback behavior (US-037 AC3), not a bug |
 
 ## 9. Platform-specific setup notes
 
