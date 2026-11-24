@@ -38,7 +38,7 @@ account later requires no code change (ADR-002).
    |---|---|---|---|---|---|---|---|---|---|
    | `submitted_at` | `name` | `email` | `phone` | `screening_answer` | `language` | `consent` | `privacy_notice_version` | `status` | `crm_status` |
 
-   `crm_status` (contract v1.3, the last column) records whether the lead's contact reached GoHighLevel: `pending`, `sent`, `failed` or `off` ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md)). A sheet created before v1.3 gets the new header in the first free cell of row 1, to the right of `status`.
+   `crm_status` (contract v1.3, the last column) records whether the lead's contact reached GoHighLevel: `pending`, `sent`, `failed`, `off` or `superseded` ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md)). A sheet created before v1.3 gets the new header in the first free cell of row 1, to the right of `status`.
 
 4. Click **Share**, paste the service account's email address (from step 3), give it **Editor** access, and uncheck "Notify people" (a service account has no inbox).
 5. Copy the sheet ID from its URL: `https://docs.google.com/spreadsheets/d/<SHEET_ID>/edit` — this is `GOOGLE_SHEET_ID`.

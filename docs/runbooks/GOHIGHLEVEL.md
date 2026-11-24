@@ -2,7 +2,7 @@
 
 How the site sends every saved lead to Gaby's GoHighLevel account as a contact, and how to set it up, check it, resend what failed and rotate the token. Written for US-045 ([ADR-008](../decisions/ADR-008_GOHIGHLEVEL_CONTACTS.md), [`LEAD_API_CONTRACT.md`](../specs/LEAD_API_CONTRACT.md) v1.3 section 12), in the style of the kit's runbook guide. Version 1, 2026-11-24.
 
-The site keeps its forms and the Google Sheet as the record of every lead. After each save, the backend creates or updates the person's contact in GoHighLevel, matched on the email, then writes the outcome in the row's `crm_status` column: `sent`, `failed`, `pending` or `off`. If GoHighLevel is down, the visitor still gets their result or their next screen, and the row says `failed` until it is resent (section 6). Gaby's workflows send the emails ([ADR-007](../decisions/ADR-007_FUNNEL_EMAILS.md)): the site sends no email.
+The site keeps its forms and the Google Sheet as the record of every lead. After each save, the backend creates or updates the person's contact in GoHighLevel, matched on the email, then writes the outcome in the row's `crm_status` column: `sent`, `failed`, `pending`, `off` or `superseded`. If GoHighLevel is down, the visitor still gets their result or their next screen, and the row says `failed` until it is resent (section 7). Gaby's workflows send the emails ([ADR-007](../decisions/ADR-007_FUNNEL_EMAILS.md)): the site sends no email.
 
 ## Values to have ready
 
@@ -110,7 +110,7 @@ With `LEADS_STORAGE=google_sheets`, each of those rows also shows `crm_status` `
 
 A row is `failed` when GoHighLevel did not answer in time, refused the request or the configuration was incomplete. It is `pending` when the server stopped between sending and writing the outcome. Resending is safe: GoHighLevel matches the contact on its email, so a contact never doubles. A row saved while `GHL_SYNC` was `off` stays `off`; it is not resent.
 
-A row is not resent when the same email has a newer submission in the same tab that GoHighLevel already holds or still owes it: sending the older values again would overwrite the newer ones. Of several unsent rows for one email, only the newest is resent. The older rows keep their status (`failed` or `pending`) and are counted as superseded; the contact already carries the person's latest submission, so they need no action.
+`superseded` (contract 1.3.1) is set by the resend command only. A person can submit again after an earlier submission failed, and GoHighLevel matches contacts on the email, so sending the older values again would overwrite the newer submission's. The command works one tab at a time, oldest row first. When a `failed` or `pending` row has a later row in the same tab with the same email (compared without capitals or surrounding spaces), it marks the older row `superseded` and does not send it. The later row is sent on its own: when it was saved, or by this command if it is itself `failed` or `pending`. A `superseded` row is never resent, and needs no action. A row with no later row of the same email is resent as usual. The application tab and the calculator tab are separate: the same email in both never supersedes.
 
 Fix the cause first (section 9), then run the command on the server, in the application's folder, with the same environment variables as the application.
 
@@ -131,13 +131,13 @@ In cPanel, open the Python app's page in *Setup Python App*, copy the command it
 Expected output, one line per tab, with counts only:
 
 ```
-applications: sent 0, failed 0, sent but status not updated 0, superseded by a newer submission 0
-calculator: sent 2, failed 0, sent but status not updated 0, superseded by a newer submission 0
+applications: sent 0, failed 0, status not updated 0, marked superseded 0
+calculator: sent 2, failed 0, status not updated 0, marked superseded 1
 ```
 
-The rows' `crm_status` cells change to `sent`. If a count of `failed` is above 0, the cause is not fixed: see section 9. If `sent but status not updated` is above 0, the contact reached GoHighLevel but the sheet could not be written: those rows stay `pending`, and a second run settles them.
+The rows' `crm_status` cells change to `sent`, or to `superseded` for the rows counted as `marked superseded`. If a count of `failed` is above 0, the cause is not fixed: see section 9. If `status not updated` is above 0, the sheet could not be written for those rows: they keep their old status, and a second run settles them (a contact sent twice does no harm).
 
-No terminal: open the sheet, filter the `crm_status` column for `failed` and `pending`, and create or update each contact in GoHighLevel by hand with the tags and fields of section 3 and 4. Then change the cell to `sent`.
+No terminal: open the sheet, filter the `crm_status` column for `failed` and `pending`, and create or update each contact in GoHighLevel by hand with the tags and fields of section 3 and 4. Skip a row whose email appears in a later row of the same tab: write `superseded` in its cell instead. Then change the other cells to `sent`.
 
 ## 8. Rotate the token
 

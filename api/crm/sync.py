@@ -16,6 +16,7 @@ STATUS_PENDING = "pending"
 STATUS_SENT = "sent"
 STATUS_FAILED = "failed"
 STATUS_OFF = "off"
+STATUS_SUPERSEDED = "superseded"  # contract v1.3.1, section 12 (Resending)
 RESENDABLE_STATUSES = frozenset({STATUS_FAILED, STATUS_PENDING})
 
 

@@ -4,8 +4,9 @@
 
 Resends the rows whose `crm_status` is `failed` or `pending`, in both tabs
 (Wealth Mastery applications and calculator leads), and updates the column.
-A row is not resent when the same email has a newer submission in the tab (it
-would overwrite newer values). Prints only counts. Needs the server's environment (the same variables as the
+A row is not resent when a later row of the tab has the same email (it would
+overwrite the newer values): it is marked `superseded` instead (contract 1.3.1).
+Prints only counts. Needs the server's environment (the same variables as the
 application: storage, `GHL_*`) and `GHL_SYNC=on`. Run by hand; the runbook is
 docs/runbooks/GOHIGHLEVEL.md.
 """
@@ -56,8 +57,8 @@ def main() -> int:
             return EXIT_NOT_RUN
         print(
             f"{tab_name}: sent {result.sent}, failed {result.failed}, "
-            f"sent but status not updated {result.not_updated}, "
-            f"superseded by a newer submission {result.superseded}"
+            f"status not updated {result.not_updated}, "
+            f"marked superseded {result.superseded}"
         )
         total += result
 
