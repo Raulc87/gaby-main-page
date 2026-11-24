@@ -15,6 +15,11 @@ and it is the human owner's call.
 Every command below uses `<your-domain>` as a placeholder for the real domain — replace it
 throughout. Nothing in this file contains a real domain, sheet ID, key, or password.
 
+Section 11 is the **demo environment** for Gaby's functional test (US-047, ADR-009): the same
+deploy on a subdomain of the owner's domain, with the whole subdomain behind a password and test
+data only. It reuses sections 2 to 7 and 9 and says what differs. It is not the go-live, and
+section 10 does not apply to it.
+
 **Order matters.** Sections 2 and 3 put HTTPS and password protection in place *before*
 anything is uploaded or connected to a real sheet, precisely so the site and the API are never
 reachable by a real visitor while unprotected (US-014 AC6). Don't skip ahead.
@@ -212,9 +217,10 @@ both load. Don't worry yet that the lead form doesn't save anything — that nee
 8. Upload the contents of this repository's `api/` folder into the application root
    (`gaby-api/` from step 3), preserving the directory structure. Upload:
    - `app.py`, `config.py`, `errors.py`, `logging_utils.py`, `passenger_wsgi.py`,
-     `rate_limit.py`, `responses.py`, `time_utils.py`, `validation.py`
+     `rate_limit.py`, `resend_crm.py`, `responses.py`, `time_utils.py`, `validation.py`
    - `requirements.txt`
-   - the `routes/` and `storage/` folders (with their `.py` files)
+   - the `crm/`, `routes/` and `storage/` folders (with their `.py` files). Without `crm/` the
+     app does not start: `app.py` imports it
 
    Do **not** upload: `run_local.py` (local-dev only, harmless but unnecessary),
    `requirements-dev.txt` (pytest and `python-dotenv`, dev-only), `tests/`, `pytest.ini`,
@@ -460,3 +466,247 @@ Mirrors the go-live gate in `docs/sprints/SPRINT_002.md` — all of these, not s
 - [ ] Only once every item above is checked: remove the password protection (section 3), then
   re-run section 2's two HTTPS checks — both must now print `301`/`308` on the live, public
   site — before announcing it.
+
+## 11. The demo environment for Gaby's test (US-047, ADR-009)
+
+Where Gaby tests the real funnel before she decides on gabykelly.com: `https://gabydemo.digitalstrike-solutions.com/`, on the owner's cPanel account. It is the production build, not a preview: the forms store leads in a **test** Google Sheet and send contacts to Gaby's real GoHighLevel account, and the booking calendar is hers. It is private: a password covers the whole subdomain, `/api` included, and no search engine may index it. It carries test data only. Nothing here touches gabykelly.com or the owner's own site.
+
+The owner deploys it by hand, from the artifacts of the **Demo build** workflow, built from a `main` commit whose CI is green and that is already on the preview ([`RELEASE.md`](RELEASE.md) section 5.2). No agent logs into the owner's cPanel or Gaby's GoHighLevel; the owner does the steps below and the checks.
+
+**What this section reuses and what differs**
+
+| Section | For the demo |
+|---|---|
+| 1 Prerequisites | The host is the owner's account, not GoDaddy; the domain is the subdomain; the sheet is a test sheet owned by the owner |
+| 2 HTTPS | The same, for the subdomain (11.4) |
+| 3 Password | The same Directory Privacy, on the demo's own folder, and it is never removed: the demo is never made public. Section 11.6 checks that it covers `/api` |
+| 4 Build | Not done by hand: the Demo build workflow builds with the demo values (11.2) |
+| 5 Python app | The same steps, with the demo's names, mounted on the subdomain only; the files come from the workflow's artifact (11.6) |
+| 6 Environment variables | The same variables, with test values and `GHL_SYNC` = `on` (11.7) |
+| 7 Logs | The same |
+| 8 Smoke test | Replaced by the demo smoke check (11.8). Section 8 is written for the production sheet and the go-live |
+| 9 Updating and rolling back | The same, with the artifacts of a new run (11.10) |
+| 10 Go-live checklist | Does not apply |
+
+### Values to have ready
+
+Real values never go into Git, issues, pull requests or chat. The names below are placeholders to replace.
+
+| Name | Value |
+|---|---|
+| Demo address | `https://gabydemo.digitalstrike-solutions.com/` |
+| `<cpanel_user>` | The owner's cPanel user name |
+| Document root | `gabydemo`, that is `/home/<cpanel_user>/gabydemo`: outside `public_html` and not the owner's own site's folder |
+| Application root | `gabydemo-api`, that is `/home/<cpanel_user>/gabydemo-api`: outside every document root |
+| Key file | `/home/<cpanel_user>/secrets/gabydemo-service-account.json`: outside both roots, permissions `600` |
+| `<test-sheet-id>` | The id of the **test** Google Sheet, owned by the owner ([`GOOGLE_SHEETS_SETUP.md`](GOOGLE_SHEETS_SETUP.md)) |
+| `<gaby-calendar-url>` | The widget URL of Gaby's GoHighLevel booking calendar: the final URL, not one that redirects. It is public, not a secret. From Gaby |
+| `<demo-user>`, `<demo-password>` | The basic-authentication user and a strong password used nowhere else. The owner chooses them and gives them to Gaby **outside the repository, issues, pull requests and chat**: the address in one message and the password in another |
+| GoHighLevel values | The token (contacts access only), the location id and the five custom-field ids, from Gaby, handed to the owner directly ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) sections 1 to 3). The token is a secret |
+| Workflow runs | `https://github.com/Raulc87/gaby-main-page/actions/workflows/demo-build.yml` |
+
+### 11.1 Before you start
+
+- [ ] The pull request of US-047 is merged, and the newest commit on `main` has green checks and a finished **Preview** run ([`RELEASE.md`](RELEASE.md) section 5.2).
+- [ ] The subdomain does not exist yet, or exists with its own folder as in 11.3.
+- [ ] The test sheet exists with its two tabs and headers (`GOOGLE_SHEETS_SETUP.md` sections 1 to 4b), shared as **Editor** with the service account, and you have its key file. It is a sheet of its own: never a sheet that holds a real lead.
+- [ ] Gaby's GoHighLevel set-up exists (`GOHIGHLEVEL.md` sections 1 to 3b), including the check that GoHighLevel matches contacts on the email first (section 3b). If it is not ready yet, deploy with `GHL_SYNC` left at `off` (11.7): the site, the sheet and the calendar can be checked first, and the rows say `off`.
+- [ ] You have `<gaby-calendar-url>`.
+
+### 11.2 Build the artifacts (the owner, or the coordinator at the owner's request)
+
+1. Open the Workflow runs link, click **Run workflow**, leave the branch as `main`.
+2. Paste `<gaby-calendar-url>` in the **scheduler_url** field. If you leave it empty, the workflow reads the repository variable `DEMO_SCHEDULER_URL` (Settings, Secrets and variables, Actions, **Variables**, a variable and not a secret).
+3. Click the green **Run workflow** button and open the new run.
+4. When it ends, download the two artifacts at the bottom of the run page: `demo-site-<short commit>` and `demo-api-<short commit>`. GitHub gives each as a zip; you need to be signed in.
+
+The workflow runs four of CI's checks (lint, type check, unit tests, pytest). It does **not** repeat the end-to-end tests, `npm audit`, `pip-audit` or the docs link check: the green checks of 11.1 on the commit being deployed cover them. Then it builds with the demo values: `PUBLIC_PREVIEW` unset, base path `/`, `PUBLIC_SCHEDULER_URL` set to the calendar. It reads no secret and deploys nothing. There is no need to build by hand.
+
+**Check:** the jobs `main only`, `frontend`, `backend` and `package` have a green check; the run page shows the commit it ran on, and it is the newest commit of `main` (compare it with `https://github.com/Raulc87/gaby-main-page/commits/main`); the run's summary lists `dist/` with `es`, `en`, `index.html` and `demo-build.txt`, and `api-package/` with `passenger_wsgi.py`, `crm/`, `routes/` and `storage/`, and with no `tests`, `.env` or `.json` file. If the run fails on the calendar URL, it names the reason (empty, not https, or the placeholder of `.env.example`).
+
+### 11.3 Create the subdomain with its own document root
+
+1. cPanel, *Domains*, **Create A New Domain** (older cPanel: *Subdomains*): `gabydemo.digitalstrike-solutions.com`.
+2. If it offers **Share document root**, untick it. Set the **Document Root** to `gabydemo`, replacing the suggestion under `public_html`: a folder under `public_html` would also be reachable from the owner's own site.
+3. Do not change anything under `public_html`.
+4. *Security*, *SSL/TLS Status*: the subdomain must show a valid certificate. If it does not, run AutoSSL for it and wait until it does (section 1's check, for this subdomain).
+
+**Check:** `https://gabydemo.digitalstrike-solutions.com/` answers with no certificate warning (the folder is empty, so a `403` or `404` is fine for now), and the folder `/home/<cpanel_user>/gabydemo` exists outside `public_html`.
+
+### 11.4 HTTPS, password and `noindex`, before uploading anything
+
+This is sections 2 and 3, for the demo's folder, done **before** the site is uploaded, as there.
+
+1. **HTTPS.** If the demo's domain has a **Force HTTPS Redirect** toggle (*Domains*), turn it on: it redirects before any password is asked, which the `.htaccess` redirect below cannot do (section 2). Either way, type `https://` yourself and tell Gaby to do the same.
+2. **Password.** *Files*, **Directory Privacy**, open the demo's document root (`gabydemo`, reached from the home directory), tick **Password protect this directory**, name it, save, and create the user `<demo-user>` with `<demo-password>`. cPanel writes the basic-authentication lines into `gabydemo/.htaccess`.
+3. **The rest of the deploy-time file.** In *File Manager* (show hidden files), open `gabydemo/.htaccess`. Step 2 made cPanel write the authentication lines there: expect lines like `AuthType Basic`, `AuthName`, `AuthUserFile` (a path outside the document root) and `Require valid-user`. **Leave them exactly as they are, and do not paste them again.** Add only the block below, **under** them. This file is a deploy-time file: it is not in Git, and the password and its file never go there.
+
+```apache
+# Added by the owner (DEPLOYMENT.md section 11.4, ADR-009).
+# Never indexed. "always" puts it on the 401 answer too.
+<IfModule mod_headers.c>
+  Header always set X-Robots-Tag "noindex, nofollow"
+</IfModule>
+
+# HTTPS forced. Not needed when the cPanel toggle of step 1 is on, harmless if it is.
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+```
+
+Set the password in your terminal once per session, as section 3 shows (`read -rs DP_PASS`), and use `-u "<demo-user>:$DP_PASS"` below.
+
+**Check (nothing is uploaded yet):**
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" https://gabydemo.digitalstrike-solutions.com/
+curl -sI https://gabydemo.digitalstrike-solutions.com/ | grep -i '^x-robots-tag'
+```
+The first must print `401`. The second must print `x-robots-tag: noindex, nofollow`, on the `401` answer itself. If the second check prints nothing, `mod_headers` may be missing on this account: ask the host's support to enable it, and do not share the address until it prints. If the subdomain answers `500` after the edit, a line was mistyped: remove the lines you added and add them back one block at a time.
+
+### 11.5 Upload the site
+
+1. In *File Manager*, open `gabydemo`, upload the `demo-site-<short commit>` zip, **Extract** it in place, then delete the zip. (Or unzip it on your machine and upload the contents with SFTP.)
+2. Do not upload over `.htaccess`: the artifact has none. Leave alone any `.htaccess` that cPanel creates in a folder named after the app's URL (for example `gabydemo/api/`) when the app is set up in 11.6: it may hold the app's Passenger lines.
+
+**Check:** `gabydemo/` holds `index.html`, `es/`, `en/`, `_astro/`, `demo-build.txt` and, still, the `.htaccess` of 11.4. With the password, `curl -u "<demo-user>:$DP_PASS" -s -o /dev/null -w "%{http_code}\n" https://gabydemo.digitalstrike-solutions.com/es/` prints `200`.
+
+### 11.6 Create the Python app, mounted on the subdomain only
+
+This is section 5, with these differences.
+
+1. *Software*, **Setup Python App**, **Create Application**. Python version as in section 5 step 2. The demo's host is not the GoDaddy account of ADR-001, so record the version in the sprint's close-out; ADR-001's Validation keeps waiting for the production host.
+2. **Application root:** `gabydemo-api`, outside every document root.
+3. **Application URL:** choose the domain `gabydemo.digitalstrike-solutions.com` and the path `/api`. Never the owner's own domain.
+4. **Startup file** `passenger_wsgi.py`, **entry point** `application`, as section 5.
+5. Upload the `demo-api-<short commit>` zip into `gabydemo-api`, **Extract** it in place, then delete the zip. It holds exactly what section 5 step 8 lists, `crm/` and `resend_crm.py` included, and none of the files it says not to upload. Do not add a `.env` file.
+6. Install the dependencies (section 5 step 9, `requirements.txt`) and click **Restart**.
+7. Open `gabydemo/.htaccess` again, and look for an `.htaccess` in a folder named after the app's URL (for example `gabydemo/api/`): cPanel may have added lines for the app in either. All of 11.4 must still be there: the authentication lines, the `X-Robots-Tag` header and the redirect. Add back anything missing.
+
+**Check (this is the one that decides whether to go on):**
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" -X POST https://gabydemo.digitalstrike-solutions.com/api/save-lead \
+  -H "Content-Type: application/json" -d '{}'
+curl -s -o /dev/null -w "%{http_code}\n" -X POST https://gabydemo.digitalstrike-solutions.com/api/save-calculator-lead \
+  -H "Content-Type: application/json" -d '{}'
+curl -u "<demo-user>:$DP_PASS" -s -o /dev/null -w "%{http_code}\n" https://gabydemo.digitalstrike-solutions.com/api/save-lead
+```
+The first two must print `401` (no password: Apache answers before the app). The third must print `405` (with the password the app answers, and `GET` is not allowed). If either of the first two prints anything else, the password does not reach the app (section 3's warning): **stop here**. Do not do 11.7, set no token or sheet, and tell the coordinator. Fixing it needs a decision on `api/**`, not an improvised workaround (section 5).
+
+### 11.7 Environment variables
+
+Section 6, on the app's detail page, then **Restart**. Only after 11.6's `401` check has passed.
+
+| Variable | Demo value |
+|---|---|
+| `LEADS_STORAGE` | `google_sheets` |
+| `GOOGLE_SERVICE_ACCOUNT_FILE` | `/home/<cpanel_user>/secrets/gabydemo-service-account.json`: upload the key there with *File Manager*, outside both roots, then set its permissions to `600` (section 6). The key never goes in Git, a PR, chat or an artifact |
+| `GOOGLE_SHEET_ID` | `<test-sheet-id>`: the test sheet, never a sheet with a real lead |
+| `GOOGLE_SHEET_TAB`, `GOOGLE_SHEET_CALCULATOR_TAB` | `leads` and `calculator`, unless you renamed the tabs |
+| `PRIVACY_NOTICE_VERSION` | The value `api/.env.example` shows at the deployed commit (`https://github.com/Raulc87/gaby-main-page/blob/<commit>/api/.env.example`); do not hand-pick one (section 6). The privacy notice stays the draft: the demo is private and carries test data |
+| `RATE_LIMIT_MAX_REQUESTS` | Leave **unset** (5 requests per 10 minutes, for each endpoint and each address). Never `0`. Gaby's checklist stays within it; if she is told to wait, restart the app (it clears the in-memory limit, ADR-004) or set an explicit number above `0` |
+| `RATE_LIMIT_WINDOW_SECONDS` | Leave unset |
+| `GHL_SYNC` | `on`, so that contacts reach Gaby's account (ADR-008). Leave it `off` until the GoHighLevel values below exist. Rows saved while it is `off` stay `off` and are not resent |
+| `GHL_API_TOKEN` | Gaby's token, contacts access only. A secret: paste it only into this *Environment variables* screen, never into chat, a file, Git, a pull request or an artifact. She gives it to the owner directly |
+| `GHL_LOCATION_ID`, `GHL_FIELD_MESES`, `GHL_FIELD_ZONA`, `GHL_FIELD_MONEDA`, `GHL_FIELD_ALERTA`, `GHL_FIELD_PRESELECCION` | Gaby's location id and the five field ids ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) sections 2 and 3) |
+| `GHL_TIMEOUT_SECONDS` | Leave unset |
+
+**Check:** the app's log (section 7) has both startup lines: `Lead storage active: google_sheets (key_file_exists=True, key_file_readable=True, sheet_id_set=True, sheet_tab='leads')` and, with sync on, `GoHighLevel sync: on (token_set=True, location_id_set=True, custom_field_ids_missing=none)`. Anything else: section 7's table and [`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 9. No log line shows a value.
+
+### 11.8 Smoke check
+
+Run it from your terminal, after 11.7. `BASE` is the demo address.
+
+```bash
+BASE=https://gabydemo.digitalstrike-solutions.com
+```
+
+**Without the password**: nothing may answer.
+
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" $BASE/
+curl -s -o /dev/null -w "%{http_code}\n" $BASE/es/
+curl -s -o /dev/null -w "%{http_code}\n" -X POST $BASE/api/save-lead -H "Content-Type: application/json" -d '{}'
+curl -s -o /dev/null -w "%{http_code}\n" -X POST $BASE/api/save-calculator-lead -H "Content-Type: application/json" -d '{}'
+```
+
+**With the password** (`DP_PASS` set as in section 3): the pages load, and an empty `POST` gets its validation error.
+
+```bash
+curl -u "<demo-user>:$DP_PASS" -s -o /dev/null -w "%{http_code}\n" $BASE/es/
+curl -u "<demo-user>:$DP_PASS" -s -o /dev/null -w "%{http_code}\n" $BASE/en/
+curl -u "<demo-user>:$DP_PASS" -s -o /dev/null -w "%{http_code}\n" $BASE/es/calculadora/
+curl -u "<demo-user>:$DP_PASS" -s -o /dev/null -w "%{http_code}\n" $BASE/es/aplicar/
+curl -u "<demo-user>:$DP_PASS" -s -w "\n%{http_code}\n" -X POST $BASE/api/save-lead -H "Content-Type: application/json" -d '{}'
+curl -u "<demo-user>:$DP_PASS" -s -w "\n%{http_code}\n" -X POST $BASE/api/save-calculator-lead -H "Content-Type: application/json" -d '{}'
+```
+
+**Headers and HTTPS:**
+
+```bash
+curl -sI $BASE/ | grep -i '^x-robots-tag'
+curl -u "<demo-user>:$DP_PASS" -sI $BASE/es/ | grep -i '^x-robots-tag'
+curl -sI -X POST $BASE/api/save-lead | grep -i '^x-robots-tag'
+curl -s -o /dev/null -w "%{http_code}\n" http://gabydemo.digitalstrike-solutions.com/
+```
+
+**The commit:**
+
+```bash
+curl -u "<demo-user>:$DP_PASS" -s $BASE/demo-build.txt
+```
+
+| Check | Expected answer |
+|---|---|
+| Without the password: `/`, `/es/`, `POST /api/save-lead`, `POST /api/save-calculator-lead` | `401` for each of the four |
+| With the password: `/es/`, `/en/`, `/es/calculadora/`, `/es/aplicar/` | `200` for each |
+| With the password: the empty `POST` to each endpoint | `422`, and a body with `"error_code": "validation_error"` and the missing fields in `field_errors`, for each |
+| `X-Robots-Tag`, on `/` without the password, on `/es/` with it, and on an unauthenticated `/api` answer | `x-robots-tag: noindex, nofollow`, each time (the last shows the document root's `.htaccess` reaches `/api`) |
+| `http://` | `301` or `308` with the cPanel toggle; `401` with only the `.htaccess` redirect (section 2 explains why; the first request is then challenged over plain HTTP, so always use `https://`) |
+| `demo-build.txt` | The `commit:` line is the commit of the run you deployed (11.10) |
+
+Any other answer: fix the cause (section 7's table and 11.11) and run the whole check again; a partial pass is not a pass.
+
+**Then click Restart** on the app's page. The empty `POST`s above count toward the rate limit (5 per endpoint), and a restart clears it, so Gaby starts clean.
+
+### 11.9 The owner's checks and Gaby's test
+
+After 11.8, the owner runs ADR-009 → Validation, with the password, and records the results in the sprint's close-out (US-047 AC7). Use test email addresses and fictitious phone numbers only.
+
+**Phone numbers.** When no contact has the email, GoHighLevel can fall back to the phone ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 3b), so a number that two test applications share, or that a real contact holds, could merge test contacts or change a real one. Therefore:
+- Every application the owner sends uses **its own number** from `+50600000011` upward (`+50600000011`, `+50600000012`, and so on), each with its own test email, never repeated and **never** one of Gaby's two (`+50600000003`, `+50600000004`). Keep a note of which number went with which email, for the cleanup.
+- Optionally, check that GoHighLevel accepts Gaby's two numbers: send one application with each, check that it reaches GoHighLevel as its own contact with `crm_status` = `sent`, and then, **before** the checklist goes to Gaby, run the cleanup of [`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 10 for those two contacts and their rows, and search Contacts for each number: nothing may be found. When Gaby starts, no contact holds `+50600000003` or `+50600000004`.
+- If GoHighLevel refuses either of Gaby's numbers, pick another fictitious number that no contact has, and tell Gaby in the message that carries the checklist: that message overrides the numbers in the checklist's table (the tracked file changes only through a pull request).
+
+1. A calculator lead and an application, in Spanish and in English: each appears as a row in the test sheet and as a contact in Gaby's GoHighLevel, with its tags and fields ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 6, steps 2 to 5, and the tags of section 4), and the row's `crm_status` says `sent`.
+2. A qualified application shows Gaby's calendar with the applicant's details filled in; make one test booking, check that it appears in her calendar, then cancel it (`GOHIGHLEVEL.md` section 10).
+3. The `401` and `noindex` checks of 11.8 pass.
+
+Then send Gaby the address and, separately, the password, with her checklist, [`DEMO_GABY_CHECKLIST_ES.md`](DEMO_GABY_CHECKLIST_ES.md). When her round ends, run the cleanup list of [`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 10.
+
+### 11.10 Record what is deployed, update, roll back
+
+- **The commit deployed.** The run of the Demo build workflow names it, and `demo-build.txt` (in the demo's document root and in `gabydemo-api`) repeats it with the run number and the build time. After each deploy, write one line in the sprint's close-out: the full commit, the run, the date, and who deployed. The site and the app must come from the same run: compare the two `demo-build.txt` files.
+- **A newer commit.** Run the workflow again (11.2), then do section 9's steps with the new artifacts: keep the previous zips, upload the site over `gabydemo/` and the app over `gabydemo-api/` (never over `.htaccess` or the environment variables), run **Run Pip Install** if `requirements.txt` changed, **Restart**, and run 11.8 again. The demo can lag behind `main`; the recorded commit says by how much.
+- **Rolling back.** Section 9: upload the previous zips the same way, then **Restart** and run 11.8.
+
+### 11.11 Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| `/api` does not answer `401` without the password | The password does not reach the Python app (11.6) | Stop. Do not set the token or the sheet. Tell the coordinator |
+| `X-Robots-Tag` missing | `mod_headers` is not enabled, or the lines were lost when cPanel rewrote the file | Check `gabydemo/.htaccess` (11.4 and 11.6 step 7); ask the host's support. Do not share the address until it shows |
+| The app shows a Passenger error page, or the log says it cannot import `crm` | The app root misses files of the artifact | Upload the whole `demo-api` artifact again (11.6 step 5), then restart |
+| `503` and `storage_unavailable` on a submission | Google Sheets access | Section 7's table |
+| Rows say `failed`, or `off` | GoHighLevel's configuration, or `GHL_SYNC` | [`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 9; then its section 7 to resend `failed` rows |
+| The qualified screen shows the `mailto:` fallback instead of the calendar | The calendar URL was not set in the build, or the browser cannot reach `api.leadconnectorhq.com` or `link.msgsndr.com` | Run the workflow again with the URL (11.2) and redeploy the site; try another network |
+| Gaby sees "Recibimos varios intentos seguidos desde tu conexión" | The rate limit: 5 requests per endpoint in 10 minutes from one address | Wait ten minutes, or restart the app |
+| The browser asks for the password again and again | The user or password is wrong, or the address was opened over `http://` | Use `https://` and the user and password of 11.4 |
+
+### 11.12 Taking the demo down
+
+The demo lives until Gaby decides ([ADR-009](../decisions/ADR-009_DEMO_ENVIRONMENT.md) decision 7). When it ends, and ADR-009 is updated, the owner:
+
+1. Deletes the Python app, the subdomain and the folders `gabydemo` and `gabydemo-api`.
+2. Deletes the key file from the host, and the key from the service account ([`GOOGLE_SHEETS_SETUP.md`](GOOGLE_SHEETS_SETUP.md) section 7).
+3. Archives or deletes the test sheet, after the cleanup of [`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 10.
+4. Removes the token from the host's environment variables. The token itself is Gaby's: she deletes it in GoHighLevel, or keeps it if the production site will use the same integration.
