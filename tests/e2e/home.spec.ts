@@ -243,7 +243,7 @@ test.describe('360 px', () => {
 });
 
 test('the page ids are the phase 2a pages plus method and calculator (phase 2c) and mastery (phase 2d)', () => {
-  const ids: PageId[] = ['home', 'story', 'resources', 'vip', 'privacy', 'method', 'calculator', 'mastery'];
+  const ids: PageId[] = ['home', 'story', 'vip', 'privacy', 'method', 'calculator', 'mastery'];
   expect([...PAGE_IDS]).toEqual(ids);
 });
 
@@ -321,7 +321,6 @@ for (const lang of LANGUAGES) {
 
     test('links to no resource library page and to no page that does not exist', async ({ page }) => {
       await page.goto(routePath('home', lang));
-      await expect(page.locator(`a[href*="${routePath('resources', lang)}"]`)).toHaveCount(0);
       await expect(page.locator('a[href*="/recursos"], a[href*="/resources"]')).toHaveCount(0);
       await expect(page.locator('[data-library-link]')).toHaveCount(0);
     });

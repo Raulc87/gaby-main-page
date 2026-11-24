@@ -18,11 +18,6 @@ export const common: CommonContent = {
       title: 'My story — Gaby Kelly',
       description: 'From corporate life to my freedom: Gaby Kelly\'s story.',
     },
-    resources: {
-      title: 'Free resources — Gaby Kelly',
-      description:
-        'Free guides, templates and mini-courses to organize, invest and grow.',
-    },
     vip: {
       title: 'Apply to Wealth Mastery — Gaby Kelly',
       description:
@@ -75,8 +70,6 @@ export const common: CommonContent = {
   cta: {
     vip_long: 'Work directly with Gaby · Wealth Mastery',
     vip_apply: 'Apply to Wealth Mastery',
-    start_free: 'Or start free with the resources',
-    all_resources: 'See the full library',
     read_story: 'Read my full story',
   },
   vip_band: {
@@ -84,8 +77,6 @@ export const common: CommonContent = {
     title: 'Do you want to work *directly with me*?',
     body:
       'Imagine knowing exactly what you have, having your money work for you, and making career decisions from freedom, not necessity. And when you\'re with your family, truly being there. Fill in a short application and book your initial call.',
-    short_title:
-      'Would you prefer a plan made for you? *Work directly with Gaby.*',
   },
   preview: {
     badge: 'Preview',

@@ -35,14 +35,12 @@ describe('pending badge visibility', () => {
       'story.bio',
       'vip.video',
       'method.steps_placeholder',
-      'resource.file_pending',
     ];
     const provisional: PendingBlockId[] = [
       'home.method',
       'home.guide_stat',
       'vip.steps',
       'thanks.not_ready',
-      'resource.provisional_title',
     ];
     for (const block of placeholders) expect(PENDING_BLOCKS[block]).toBe('placeholder');
     for (const block of provisional) expect(PENDING_BLOCKS[block]).toBe('provisional');
