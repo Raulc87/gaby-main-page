@@ -4,7 +4,7 @@ First pilot project built with the [Spec-Driven Development Starter Kit](https:/
 
 ## Project status
 
-**Phase 2 (brand redesign and multipage site).** Sprints 001 and 002 are CLOSED (phase 1, one-page site); Sprint 003 is CLOSED (phase 2a, closed 2026-11-08 after Gaby's review). Sprint 004 is CLOSED (phase 2c, closed 2026-11-24: the StoryBrand Home, the calculator, the Método Polaris page, the security baseline, the GoHighLevel calendar). **Sprint 005 is ACTIVE** (phase 2d, 2026-11-25 to 2026-12-04; Gaby's final content of 2026-11-23: voseo, Wealth Mastery, her calculator, the leads in GoHighLevel). Production deployment is on hold until the hosting is decided (the domain is gabykelly.com); progress is shown on a GitHub Pages preview.
+**Phase 2 (brand redesign and multipage site).** Sprints 001 and 002 are CLOSED (phase 1, one-page site); Sprint 003 is CLOSED (phase 2a, closed 2026-11-08 after Gaby's review). Sprint 004 is CLOSED (phase 2c, closed 2026-11-24: the StoryBrand Home, the calculator, the Método Polaris page, the security baseline, the GoHighLevel calendar). Sprint 005 is CLOSED (phase 2d, closed 2026-11-24; Gaby's final content of 2026-11-23: voseo, Wealth Mastery, her calculator, the leads in GoHighLevel). Production deployment is on hold until the hosting is decided (the domain is gabykelly.com); progress is shown on a GitHub Pages preview.
 
 See `PROJECT_CONTEXT.md` for the document map and current status.
 

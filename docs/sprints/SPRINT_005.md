@@ -1,7 +1,7 @@
-# SPRINT 005 — ACTIVE
+# SPRINT 005 — CLOSED
 
 ## Metadata
-- Status: ACTIVE — the human owner gave the go-ahead on 2026-11-24 (Entry Gates, gate 16); agents launched the same day ([`SPRINT_005_AGENT_PROMPTS.md`](SPRINT_005_AGENT_PROMPTS.md) → Session IDs)
+- Status: CLOSED on 2026-11-24 (close-out below; approved by the human owner by merging it). The go-ahead was given on 2026-11-24 (Entry Gates, gate 16); agents launched the same day ([`SPRINT_005_AGENT_PROMPTS.md`](SPRINT_005_AGENT_PROMPTS.md) → Session IDs)
 - Duration: 8 business days
 - Saturdays and Sundays excluded
 - Start: 2026-11-25 (the first business day after the go-ahead; agents began on their own files on 2026-11-24)
@@ -69,13 +69,13 @@ Non-blocking items, for the human owner and Gaby:
 
 | Story | Points | Owner | Dependencies | Branch | Status |
 |---|---:|---|---|---|---|
-| US-041 Voseo, the Wealth Mastery name, the menu and routes (the scaffold) | 5 | Agent 1 | Gate 6 (the staged copy) | `GK-041-voseo-wealth-mastery` | To do |
-| US-043 Home for phase 2d | 3 | Agent 1 | `GK-041-voseo-wealth-mastery` | `GK-043-home` | To do |
-| US-040 Self-hosted typefaces | 2 | Agent 1 | `GK-041-voseo-wealth-mastery` (both touch the layout) | `GK-040-self-hosted-fonts` | To do |
-| US-046 Withdraw the resource library | 3 | Agent 2 | `GK-041-voseo-wealth-mastery`; `GK-043-home` merged (the Home's calculator teaser imports the resource data and links the library) | `GK-046-withdraw-library` | To do |
-| US-044 Gaby's calculator | 5 | Agent 2 | `GK-041-voseo-wealth-mastery`; built on `GK-045-ghl-contacts`, and its PR targets that branch (the v1.3 client and endpoint land together, merge order step 3) | `GK-044-calculator` | To do |
-| US-045 Calculator leads v1.3 and the GoHighLevel contacts | 5 | Agent 3 | `GK-041-voseo-wealth-mastery` (both touch `privacy.ts`); merges to `main` only together with `GK-044-calculator` (merge order step 3) | `GK-045-ghl-contacts` | To do |
-| US-042 Wealth Mastery page | 5 | Agent 3 | `GK-041-voseo-wealth-mastery` (the route and its stub) | `GK-042-wealth-mastery-page` | To do |
+| US-041 Voseo, the Wealth Mastery name, the menu and routes (the scaffold) | 5 | Agent 1 | Gate 6 (the staged copy) | `GK-041-voseo-wealth-mastery` | Done (#91) |
+| US-043 Home for phase 2d | 3 | Agent 1 | `GK-041-voseo-wealth-mastery` | `GK-043-home` | Done (#95) |
+| US-040 Self-hosted typefaces | 2 | Agent 1 | `GK-041-voseo-wealth-mastery` (both touch the layout) | `GK-040-self-hosted-fonts` | Done (#96) |
+| US-046 Withdraw the resource library | 3 | Agent 2 | `GK-041-voseo-wealth-mastery`; `GK-043-home` merged (the Home's calculator teaser imports the resource data and links the library) | `GK-046-withdraw-library` | Done (#101) |
+| US-044 Gaby's calculator | 5 | Agent 2 | `GK-041-voseo-wealth-mastery`; built on `GK-045-ghl-contacts`, and its PR targets that branch (the v1.3 client and endpoint land together, merge order step 3) | `GK-044-calculator` | Done (#93, in #92) |
+| US-045 Calculator leads v1.3 and the GoHighLevel contacts | 5 | Agent 3 | `GK-041-voseo-wealth-mastery` (both touch `privacy.ts`); merges to `main` only together with `GK-044-calculator` (merge order step 3) | `GK-045-ghl-contacts` | Done (#92) |
+| US-042 Wealth Mastery page | 5 | Agent 3 | `GK-041-voseo-wealth-mastery` (the route and its stub) | `GK-042-wealth-mastery-page` | Done (#97) |
 
 Total: 28 points.
 
@@ -205,3 +205,52 @@ Planned on 2026-11-24 by the coordinator, after the human owner's "add it to the
 1. archives the Sprint 004 sessions;
 2. launches the agents and the review-only agent with the prompts in [`SPRINT_005_AGENT_PROMPTS.md`](SPRINT_005_AGENT_PROMPTS.md);
 3. records the session IDs there.
+
+## Close-out (2026-11-24)
+
+Every planned story is merged, eight business days early, in the planned order: the scaffold first (#91), then the Home (#95), the self-hosted typefaces (#96) and the Wealth Mastery page (#97); the calculator (#93) merged into the GoHighLevel branch, and the pair reached `main` together as #92 (merge order step 3); the library removal (#101) last, after the Home. Every implementation PR had a review-only agent review ("Ready for human approval" at its merged head, or confirmed for that head right after the merge: #101) and a Codex review before the human owner merged it.
+
+**Integration check** (merge order step 4, Agent 2, 2026-11-24, on `main` at `d9db8cd`): passed.
+- On a fresh checkout: lint clean; `astro check` 0 errors; 574 unit, 432 pytest and 309 e2e tests (backend in memory mode); the build has 13 pages and none of the removed ones; the docs link check 0 broken.
+- A sweep at 390 and 1280 px of every page in both languages, on the normal build (with the backend) and the preview build: 1,286 checks, 0 failures; on the deployed preview: 656 checks, 0 failures. No request to Google Fonts, GoHighLevel or any other host (and none to `/api` in the preview); no link to a removed page; the removed paths answer 404 on a static host; the language toggle keeps the page; the calculator stores exactly the v1.3 fields (no figures) and shows "4,4" in the alert zone with the concentration alert, a failed save keeps the result hidden, and the preview stores nothing; the application routes qualified and not-ready answers in both languages.
+
+**Done (28 points):** US-041 (#91), US-043 (#95), US-040 (#96), US-044 (#93, inside #92), US-045 (#92), US-042 (#97), US-046 (#101). Chores: #98 (the security baseline records the self-hosted typefaces), #100 (dead pending-badge entries), #102 (library-withdrawal e2e checks). Docs PRs: #88 (Sprint 004 close-out, this plan), #89 (the staged phase 2d copy), #90 (go-ahead and session IDs), #94 (contract 1.3.1), #99 (self-hosted typefaces in UX 1.2.1 and TECH_STACK 0.4.2; the GoHighLevel runbook). Before the go-ahead: #86 and #87 (the `PUBLIC_SCHEDULER_URL` rename).
+
+**Owner decisions recorded during the sprint** (given in the coordinator's session and relayed on the PRs; merging this docs PR confirms them in the owner's name):
+- #86, 2026-11-24: the `.env.example` placeholder for `PUBLIC_SCHEDULER_URL` kept as written (merged as is; Agent 3 had recommended an empty value).
+- #91, 2026-11-24: "Accept both": the voseo of six descriptions in Agent 2's `src/data/resources.ts`, and two header-link tests removed from Agent 3's `tests/e2e/method.spec.ts`, beyond the scaffold's written exception.
+- #92, 2026-11-24: "Accept + 'superseded'": the resend command marks an older duplicate row `superseded` instead of resending it; contract 1.3.1 (#94), refined in review so that only a later `sent`, `failed` or `pending` row supersedes (a later `off` row does not).
+- #93, 2026-11-24: "Only the body": of the calculator's three team-written lines, only `calc.capture.body` carries the pending badge.
+- US-046, 2026-11-24: "Exception for GK-046": Agent 2 removes what only the library used in Agent 1's and Agent 3's files, and points My story's link at the calculator.
+- #97, 2026-11-24: the three uses of others' files listed in its Ownership (Agent 1's `index.ts`/`common.ts` and two e2e specs; one plain-text link in this plan), accepted by merging, as the reviewer and the coordinator recommended.
+- 2026-11-24: the coordinator resolved the main-merge conflicts of #92, #95, #97 and #101 at the owner's request ("resolve … conflicts"); for #92 and #95 the author's identical merge was pushed first and kept.
+
+**Process incidents and what changed:**
+- **Crossing messages on a shared branch.** When the coordinator announced a hold and merged `main` into an agent's branch itself (#92, #95), the agent had already pushed the same merge; for #97, an agent pushed two follow-ups after a "do not push" that had not reached it yet. Scheduled messages arrive one to two minutes late, and in one case 9 h 40 min late. No work was lost (the trees were identical, and the follow-ups were kept on the owner's side of the trade-off), but it cost review rounds. Rule for the next sprint: before touching an agent's branch, the coordinator checks the remote head, asks the author, and waits for its acknowledgement; or, simpler, asks the author to do the merge with the exact resolution.
+- **A hung CI job.** On #91 the `e2e` job sat for 30 minutes on "Install Playwright browsers" before any test ran. The coordinator's attempt to cancel it was blocked by the session's permissions; Agent 1 cancelled and re-ran it once (allowed: no test had run), and it passed.
+- **#93 merged into its base branch before that branch had merged `main`**, earlier than step 3 said. No harm: the combined head was merged with `main` afterwards and re-reviewed before #92 reached `main`.
+- **A contract wording gap**, caught in review: the first text of 1.3.1 let a later `off` row supersede an older unsent one, which would have left a lead never sent. Fixed before merge (#94); the code already handled it.
+- **A coordinator instruction broke a check:** asking Agent 2 to leave `PROJECT_CONTEXT.md` alone left a link to the deleted staging file, turning #101's docs link check red; fixed in #101 with a one-line edit at the coordinator's request.
+- **A plan gap found by an agent:** UX 1.2 added two colour tokens (`terracotta-soft`, `alert-tint`) that no story assigned; Agent 2 found it and Agent 1 added them in the scaffold (#91).
+
+**Sprint Definition of Done:**
+- [x] Stories meet their acceptance criteria and moved their copy out of `CONTENT_PHASE_2D.md`, deleted once empty (#101).
+- [x] GitHub Actions green on `main`; the preview publishes (checked by the integration check).
+- [ ] The owner's calendar check (US-037): carried. It needs a build with a backend and a real calendar URL; see "Testing with Gaby" below.
+- [ ] The preview reviewed with Gaby (Sprint Review): carried to the functional test with Gaby (below).
+- [x] No known critical regression.
+- [x] Human reviewer approves the sprint: the human owner, 2026-11-24 (verbatim, in the coordinator's session): "102 merged, write the close-out now".
+
+**Testing with Gaby (proposal, owner decision needed).** The GitHub Pages preview cannot test the funnel: it is static, has no backend, and by design (ADR-005, FR-030) stores and sends nothing and shows a stand-in instead of the calendar. A functional test, a calculator lead or an application reaching the sheet and Gaby's GoHighLevel and her real calendar, needs a **staging environment**: the site built without preview mode, pointing at a running backend with a test Google Sheet, `GHL_SYNC` on with Gaby's token, and `PUBLIC_SCHEDULER_URL` set. Options and the coordinator's recommendation are in the owner's session; the chosen one becomes an ADR and a story for Sprint 006.
+
+**Follow-ups, for the Sprint 006 plan:**
+- The staging environment (above), then the owner's checks with it: the calendar (US-037), the contacts with Gaby's token (US-045, ADR-008 → Validation), and the Sprint Review with Gaby on it.
+- Gaby's GoHighLevel set-up (token with contacts access only, location id, custom fields, tags; `docs/runbooks/GOHIGHLEVEL.md`) and her workflows and texts (US-038, US-039).
+- From Gaby: the "Flags for Gaby" list (formerly at the end of the staging file; in the history at #89), her answers on brief §8 points 4 and 6, the FAQ answers, the "Quién te guía" photo, the hero photo, testimonials, the English review; deleting the test contact `ana.perez@example.com` (Sprint 004 incident).
+- Owner: compare the typefaces on the preview (US-040 AC3, partly evidenced: the agents could not reach Google Fonts for a before/after).
+- Kept in the backlog: the `LeadForm` defaults and `SECTION_IDS` cleanup; moving `PendingBadge`; the Vite preview server answering unknown paths with 200 in e2e (a static host returns 404).
+
+**Retrospective (short):**
+- What worked: the staged copy in parts, each moved by its story, kept seven stories editing `CONTENT.md` without one wrong value (the reviewer verified 226 staged rows by key); the joint merge of the calculator and its endpoint kept `main` green through a breaking contract change; the integration check found nothing to fix.
+- What to keep: owner decisions quoted on the PR they concern; the reviewer re-checking every merge of `main`.
+- What to change: one writer per branch (see the first incident); plan every token and shared string a story needs (the colour tokens); a staging environment before the next review with Gaby.
