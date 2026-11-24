@@ -75,6 +75,8 @@ The site adds these tags. GoHighLevel creates a tag the first time it is added, 
 
 The custom fields are set before the tags are added, so a workflow that starts on a tag finds the fields filled.
 
+The site only ever adds tags. It never removes `consentimiento-correos`: a person who ticked the follow-up consent once and later uses the calculator without ticking it keeps the tag, and the sequence keeps running until they unsubscribe in GoHighLevel. Not ticking a box again is not withdrawing consent; the privacy notice's legal review (US-018) should confirm this.
+
 Gaby's workflows (US-038 and US-039; hers to build, the site cannot test them):
 
 1. Email 1, with the result and the ebook, for every contact with `lead-calculadora`, in the language of `idioma-es` or `idioma-en`.
@@ -165,4 +167,4 @@ If the token was exposed in Git, chat or a log, treat step 4 as urgent: do it fi
 | A contact got another person's tags or fields | GoHighLevel matched on the phone first | Fix section 3b, check it as in section 6 step 6, and correct the contact by hand |
 | The contact exists but the email workflow did not start | The tag is missing or the workflow's trigger names another tag | Compare the contact's tags with section 4 |
 | The command prints `GHL_SYNC is off` | Its environment has `GHL_SYNC` off or unset | Run it with the application's variables (section 7) |
-| The command prints `the rows could not be read from storage` | The sheet is not reachable, or its header has no `crm_status` column | Check [`GOOGLE_SHEETS_SETUP.md`](GOOGLE_SHEETS_SETUP.md) sections 4 and 4b |
+| The command prints `the rows could not be read from storage` | The sheet is not reachable, or its header has no `crm_status` column, or the column is not in the position of the setup runbook | Check [`GOOGLE_SHEETS_SETUP.md`](GOOGLE_SHEETS_SETUP.md) sections 4 and 4b |

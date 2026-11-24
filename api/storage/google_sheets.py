@@ -116,6 +116,11 @@ class GoogleSheetsLeadStorage(LeadStorage):
         if not values or CRM_STATUS_COLUMN not in values[0]:
             raise StorageError("The sheet has no crm_status column.")
         header = values[0]
+        # set_crm_status writes by the column's expected position (as append_row
+        # does), so a header that moved crm_status would make a resend update
+        # the wrong cell. Fail loudly instead.
+        if header.index(CRM_STATUS_COLUMN) != self._columns.index(CRM_STATUS_COLUMN):
+            raise StorageError("The crm_status column is not where the contract puts it.")
         return [
             (row_number, dict(zip(header, cells + [""] * (len(header) - len(cells)))))
             for row_number, cells in enumerate(values[1:], start=2)

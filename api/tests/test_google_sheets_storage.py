@@ -297,6 +297,15 @@ def test_saved_rows_requires_the_column_in_the_header():
         storage.saved_rows()
 
 
+def test_saved_rows_fails_when_crm_status_is_not_in_its_contract_position():
+    header = list(CALCULATOR_COLUMN_ORDER)
+    header[-1], header[-2] = header[-2], header[-1]  # someone moved a column
+    storage = _calculator_storage(_FakeWorksheet(values=[header]))
+
+    with pytest.raises(StorageError):
+        storage.saved_rows()
+
+
 def test_saved_rows_wraps_failure_in_storage_error():
     storage = GoogleSheetsLeadStorage(
         service_account_file="/secure/service-account.json",
