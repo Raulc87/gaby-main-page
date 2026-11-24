@@ -1,0 +1,11 @@
+Typefaces served by the site itself (US-040), unmodified WOFF2 files, Latin subset
+(U+0000-00FF and the punctuation of U+2000-206F, which covers Spanish accents and the letter ñ).
+
+Manrope 400, 600, 700            Manrope-OFL.txt
+Playfair Display 500, italic 500 PlayfairDisplay-OFL.txt
+
+Obtained from the Fontsource packages of the upstream projects (npm, license OFL-1.1):
+  @fontsource/manrope 5.3.0           files/manrope-latin-{400,600,700}-normal.woff2
+  @fontsource/playfair-display 5.3.0  files/playfair-display-latin-500-{normal,italic}.woff2
+The license texts are the LICENSE files of those packages. Each font keeps its own license;
+neither is sold on its own, and no file here is renamed Font Software.

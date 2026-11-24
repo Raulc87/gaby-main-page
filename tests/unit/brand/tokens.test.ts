@@ -84,8 +84,9 @@ describe('brand tokens (UX_UI_DIRECTION.md section 2.1)', () => {
     expect(css).toMatch(/--font-sans:\s*'Manrope'/);
     expect(css).toMatch(/--font-serif:\s*'Playfair Display'/);
     const layout = readFileSync(join(ROOT, 'src/layouts/BaseLayout.astro'), 'utf8');
-    expect(layout).toContain('family=Manrope:wght@400;600;700');
-    expect(layout).toContain('family=Playfair+Display:ital,wght@0,500;1,500');
+    // The weights are self-hosted (US-040); the files and rules are checked in fonts.test.ts.
+    expect(css).toMatch(/font-family:\s*'Manrope';[^}]*font-weight:\s*400/);
+    expect(css).toMatch(/font-family:\s*'Playfair Display';[^}]*font-style:\s*italic;[^}]*font-weight:\s*500/);
     expect(layout).not.toMatch(/Crimson|IBM\+Plex|Inter/);
     expect(css).not.toMatch(/Crimson|IBM Plex|Inter\b/);
   });
