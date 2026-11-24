@@ -1,4 +1,4 @@
-"""Route tests for US-036 (LEAD_API_CONTRACT.md v1.2 section 11, test obligations 11.6).
+"""Route tests for US-036 and US-045 (LEAD_API_CONTRACT.md v1.3 section 11, test obligations 11.6).
 
 The `app`/`client`/`storage`/`calculator_storage` fixtures come from
 conftest.py, where both rate limiters are disabled by default.
@@ -25,8 +25,10 @@ VALID_PAYLOAD = {
     "language": "es",
     "consent": True,
     "marketing_consent": False,
-    "months": 4.4,
+    "months": 4.43,
     "zone": "alert",
+    "currency": "USD",
+    "concentration_alert": True,
 }
 
 VIP_PAYLOAD = {
@@ -104,19 +106,25 @@ def test_stored_row_has_exactly_the_contract_columns(client, calculator_storage)
         "source",
         "privacy_notice_version",
         "status",
+        "currency",
+        "concentration_alert",
+        "crm_status",
     ]
     assert SUBMITTED_AT_PATTERN.match(saved["submitted_at"])
     assert saved["name"] == "Ana María Pérez Soto"
     assert saved["email"] == "ana.perez@example.com"
     assert saved["phone"] == "+50684104791"
     assert saved["language"] == "es"
-    assert saved["months"] == "4.4"
+    assert saved["months"] == "4.43"
     assert saved["zone"] == "alert"
     assert saved["consent"] is True
     assert saved["marketing_consent"] is True
     assert saved["source"] == "calculator"
     assert saved["privacy_notice_version"] == "2026-09-draft-1"
     assert saved["status"] == "started"
+    assert saved["currency"] == "USD"
+    assert saved["concentration_alert"] is True
+    assert saved["crm_status"] == "off"
 
 
 def test_lead_is_stored_in_the_calculator_storage_only(client, storage, calculator_storage):
@@ -223,7 +231,10 @@ def test_invalid_field_returns_422_with_its_code(client, calculator_storage, ove
     assert calculator_storage.leads == []
 
 
-@pytest.mark.parametrize("field", ["name", "email", "language", "consent", "months", "zone"])
+@pytest.mark.parametrize(
+    "field",
+    ["name", "email", "language", "consent", "months", "zone", "currency", "concentration_alert"],
+)
 def test_missing_required_field_is_required(client, field):
     response = _post(client, _without(field))
 
@@ -269,20 +280,24 @@ def test_marketing_consent_with_wrong_type_is_invalid_type(client, value):
 @pytest.mark.parametrize(
     ("months", "zone", "stored"),
     [
-        (0, "alert", "0.0"),
-        (4.4, "alert", "4.4"),
-        (5.9, "alert", "5.9"),
-        (6, "building", "6.0"),
-        (6.0, "building", "6.0"),
-        (11.9, "building", "11.9"),
-        (12, "freedom", "12.0"),
-        (12.5, "freedom", "12.5"),
-        (1500, "freedom", "1500.0"),
-        (1234567.8, "freedom", "1234567.8"),
-        (1e20, "freedom", "100000000000000000000.0"),
+        (0, "critical", "0.00"),
+        (2.99, "critical", "2.99"),
+        (3, "alert", "3.00"),
+        (4.43, "alert", "4.43"),
+        (5.99, "alert", "5.99"),
+        (6, "building", "6.00"),
+        (6.0, "building", "6.00"),
+        (11.99, "building", "11.99"),
+        (12, "path_to_freedom", "12.00"),
+        (35.99, "path_to_freedom", "35.99"),
+        (36, "solid_cushion", "36.00"),
+        (1500, "solid_cushion", "1500.00"),
+        (1234567.8, "solid_cushion", "1234567.80"),
+        (1e20, "solid_cushion", "100000000000000000000.00"),
+        (4.4, "alert", "4.40"),
     ],
 )
-def test_months_and_zone_accepted_with_one_decimal_text(
+def test_months_and_zone_accepted_with_two_decimals_text(
     client, calculator_storage, months, zone, stored
 ):
     response = _post(client, _payload(months=months, zone=zone))
@@ -292,25 +307,33 @@ def test_months_and_zone_accepted_with_one_decimal_text(
     assert calculator_storage.leads[0]["zone"] == zone
 
 
+def test_months_above_one_thousand_are_accepted(client, calculator_storage):
+    # No upper limit (section 11.2).
+    assert _post(client, _payload(months=1001.25, zone="solid_cushion")).status_code == 201
+    assert calculator_storage.leads[0]["months"] == "1001.25"
+
+
 def test_negative_zero_months_is_stored_as_zero(client, calculator_storage):
-    # A hand-made request can send -0.0; the stored text must still be "0.0".
-    body = json.dumps(VALID_PAYLOAD).replace("4.4", "-0.0")
+    # A hand-made request can send -0.0; the stored text must still be "0.00".
+    body = json.dumps(_payload(zone="critical")).replace("4.43", "-0.0")
 
     response = client.post(ENDPOINT, data=body, content_type="application/json")
 
     assert response.status_code == 201
-    assert calculator_storage.leads[0]["months"] == "0.0"
+    assert calculator_storage.leads[0]["months"] == "0.00"
 
 
-def test_months_null_with_freedom_is_covered_and_stored_empty(client, calculator_storage):
-    response = _post(client, _payload(months=None, zone="freedom"))
+def test_months_null_with_financially_free_is_stored_empty(client, calculator_storage):
+    response = _post(client, _payload(months=None, zone="financially_free"))
 
     assert response.status_code == 201
     assert calculator_storage.leads[0]["months"] == ""
-    assert calculator_storage.leads[0]["zone"] == "freedom"
+    assert calculator_storage.leads[0]["zone"] == "financially_free"
 
 
-@pytest.mark.parametrize("zone", ["alert", "building"])
+@pytest.mark.parametrize(
+    "zone", ["critical", "alert", "building", "path_to_freedom", "solid_cushion"]
+)
 def test_months_null_with_another_zone_is_a_mismatch(client, zone):
     response = _post(client, _payload(months=None, zone=zone))
 
@@ -321,26 +344,30 @@ def test_months_null_with_another_zone_is_a_mismatch(client, zone):
 @pytest.mark.parametrize(
     ("months", "zone"),
     [
-        (5.9, "building"),
-        (5.9, "freedom"),
+        (2.99, "alert"),
+        (3, "critical"),
+        (5.99, "building"),
         (6, "alert"),
-        (11.9, "freedom"),
+        (11.99, "path_to_freedom"),
         (12, "building"),
-        (12, "alert"),
-        (0, "freedom"),
+        (35.99, "solid_cushion"),
+        (36, "path_to_freedom"),
+        (0, "financially_free"),
         (30, "building"),
+        (4.43, "freedom"),  # a v1.2 code is no longer a zone
     ],
 )
-def test_zone_that_does_not_match_months_is_zone_mismatch(client, calculator_storage, months, zone):
+def test_zone_that_does_not_match_months_is_rejected(client, calculator_storage, months, zone):
     response = _post(client, _payload(months=months, zone=zone))
 
     assert response.status_code == 422
-    assert response.get_json()["field_errors"] == {"zone": "zone_mismatch"}
+    errors = response.get_json()["field_errors"]
+    assert errors == {"zone": "invalid_option" if zone == "freedom" else "zone_mismatch"}
     assert calculator_storage.leads == []
 
 
-@pytest.mark.parametrize("months", [-1, -0.1, 4.45, 4.44, 0.05, 1e-7])
-def test_months_negative_or_more_than_one_decimal_is_invalid_format(client, months):
+@pytest.mark.parametrize("months", [-1, -0.1, 4.445, 4.001, 0.005, 1e-7])
+def test_months_negative_or_more_than_two_decimals_is_invalid_format(client, months):
     response = _post(client, _payload(months=months))
 
     assert response.status_code == 422
@@ -350,7 +377,7 @@ def test_months_negative_or_more_than_one_decimal_is_invalid_format(client, mont
 @pytest.mark.parametrize("literal", ["NaN", "Infinity", "-Infinity"])
 def test_months_not_finite_is_invalid_format(client, literal):
     # Python's JSON parser accepts these literals, so the server must reject them.
-    body = json.dumps(VALID_PAYLOAD).replace("4.4", literal)
+    body = json.dumps(VALID_PAYLOAD).replace("4.43", literal)
 
     response = client.post(ENDPOINT, data=body, content_type="application/json")
 
@@ -382,9 +409,48 @@ def test_zone_with_wrong_type_is_invalid_type(client):
 
 
 def test_invalid_months_does_not_also_report_a_zone_mismatch(client):
-    response = _post(client, _payload(months=-3, zone="freedom"))
+    response = _post(client, _payload(months=-3, zone="financially_free"))
 
     assert response.get_json()["field_errors"] == {"months": "invalid_format"}
+
+
+# --- currency and concentration_alert (v1.3) ------------------------------
+
+
+@pytest.mark.parametrize("currency", ["USD", "CRC"])
+def test_currency_is_stored_as_sent(client, calculator_storage, currency):
+    assert _post(client, _payload(currency=currency)).status_code == 201
+    assert calculator_storage.leads[0]["currency"] == currency
+
+
+@pytest.mark.parametrize(
+    ("currency", "code"),
+    [("EUR", "invalid_option"), ("usd", "invalid_option"), ("", "required"), (None, "required"), (5, "invalid_type")],
+)
+def test_invalid_currency_is_rejected(client, calculator_storage, currency, code):
+    response = _post(client, _payload(currency=currency))
+
+    assert response.status_code == 422
+    assert response.get_json()["field_errors"] == {"currency": code}
+    assert calculator_storage.leads == []
+
+
+@pytest.mark.parametrize("value", [True, False])
+def test_concentration_alert_is_stored_as_sent(client, calculator_storage, value):
+    assert _post(client, _payload(concentration_alert=value)).status_code == 201
+    assert calculator_storage.leads[0]["concentration_alert"] is value
+
+
+@pytest.mark.parametrize(
+    ("value", "code"),
+    [(None, "required"), ("true", "invalid_type"), (1, "invalid_type"), ([True], "invalid_type")],
+)
+def test_invalid_concentration_alert_is_rejected(client, calculator_storage, value, code):
+    response = _post(client, _payload(concentration_alert=value))
+
+    assert response.status_code == 422
+    assert response.get_json()["field_errors"] == {"concentration_alert": code}
+    assert calculator_storage.leads == []
 
 
 # --- HTTP-level checks (section 7) -------------------------------------

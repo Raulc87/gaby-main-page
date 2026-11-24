@@ -96,7 +96,7 @@ Success: one line containing `<meta name="robots" content="noindex` appears. No 
 
 ### 5.5 In the browser: the forms send nothing
 
-1. Open the Spanish VIP page: `https://raulc87.github.io/gaby-main-page/es/mentoria-vip/`.
+1. Open the Spanish application page: `https://raulc87.github.io/gaby-main-page/es/aplicar/`.
 2. Open the browser's developer tools and select the **Network** tab.
 3. Fill the application form with made-up data (no real person's data) and submit it.
 

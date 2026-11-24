@@ -15,7 +15,7 @@
 - Phase 2 brief (text export): [`docs/ux/BRIEF_2026-10-15.md`](docs/ux/BRIEF_2026-10-15.md)
 - Phase 2c source, Gaby's Sprint 003 review (StoryBrand Home dummy, funnel document, review notes; text export and the owner's decisions): [`docs/ux/BRIEF_2026-11-08_STORYBRAND.md`](docs/ux/BRIEF_2026-11-08_STORYBRAND.md)
 - Phase 2d source, Gaby's final content (her email, the Wealth Mastery page, the adjusted Home, her calculator, the GoHighLevel calendar; text export and the owner's decisions): [`docs/ux/BRIEF_2026-11-23_WEALTH_MASTERY.md`](docs/ux/BRIEF_2026-11-23_WEALTH_MASTERY.md)
-- Integration contracts: [`docs/specs/LEAD_API_CONTRACT.md`](docs/specs/LEAD_API_CONTRACT.md) (v1.3, proposed, locked for Sprint 005 on merge: Gaby's calculator in section 11, the GoHighLevel contacts in section 12; v1.2.1 locked for Sprint 004)
+- Integration contracts: [`docs/specs/LEAD_API_CONTRACT.md`](docs/specs/LEAD_API_CONTRACT.md) (v1.3.1, locked for Sprint 005: Gaby's calculator in section 11, the GoHighLevel contacts in section 12; v1.3.1 adds the resend rule and `superseded`, owner 2026-11-24; v1.2.1 locked for Sprint 004)
 - Feature specs: Not required for the current simple scope
 - Architecture spec: Not required for the current simple scope (covered by ADRs)
 - UX/UI direction: [`docs/ux/UX_UI_DIRECTION.md`](docs/ux/UX_UI_DIRECTION.md) (v1.2, phase 2d, proposed)

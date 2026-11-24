@@ -1,38 +1,34 @@
-// Wires the calculator markup (CalculatorPage.astro) to the formula, the validation
-// and the API client (US-035). Three steps in place; focus moves to each step's title.
-// The five figures stay in the browser: only the details, the months and the zone are
-// sent, and only after the visitor's details are valid. The result appears only after
-// a 201 (NFR-006); preview builds send nothing and go straight to the result (FR-030).
+// Wires the calculator markup (CalculatorPage.astro) to the formula, the validation and the API
+// client (US-044). Three steps in place; focus moves to each step's title. The five figures stay in
+// the browser: only the details, the months, the zone, the currency and the concentration answer are
+// sent (contract v1.3 section 11.2), and only after the visitor's details are valid. The result
+// appears only after a 201 (NFR-006); preview builds send nothing and go straight to the result (FR-030).
 import { submitCalculatorLead, type SubmitLeadResult } from '../../lib/lead/api';
-import { calculateFreedom, type CalculatorResult, type CalculatorZone } from '../../lib/calculator/formula';
-import { formatMonths } from '../../lib/calculator/format';
-import {
-  FIGURE_KEYS,
-  type CalculatorDetailsField,
-  type FigureKey,
-} from '../../lib/calculator/types';
+import { calculateFreedom, type CalculatorResult } from '../../lib/calculator/formula';
+import { FIGURE_KEYS, type CalculatorDetailsField, type Currency, type SharesAnswer } from '../../lib/calculator/types';
 import {
   buildCalculatorPayload,
+  raisesConcentrationAlert,
   validateDetails,
   validateFigures,
   type DetailsValidation,
   type FigureErrorCode,
 } from '../../lib/calculator/validation';
+import { initFiguresPanel } from './figuresPanel';
+import { renderResult, type ResultCopy } from './resultView';
 
-interface CalculatorCopy {
+interface CalculatorCopy extends ResultCopy {
   preview?: boolean;
   language: 'es' | 'en';
   endpoint: string;
   contactEmail: string;
+  /** Colones per US dollar (`PUBLIC_CRC_PER_USD`, FR-034). */
+  crcPerUsd: number;
   figureErrors: Record<FigureErrorCode, string>;
   fieldErrors: Partial<Record<string, string>>;
   submit: { idle: string; submitting: string };
   submissionError: { before: string; after: string };
   rateLimited: { before: string; after: string };
-  /** `calc.result.months`, with `{months}`. */
-  monthsTemplate: string;
-  zones: Record<CalculatorZone, { title: string; body: string }>;
-  covered: string;
 }
 
 const DETAIL_FIELDS: CalculatorDetailsField[] = ['name', 'email', 'phone', 'consent'];
@@ -48,6 +44,13 @@ function detailErrorMessage(copy: CalculatorCopy, field: CalculatorDetailsField,
   }
   if (code === 'invalid_type') return fallback;
   return copy.fieldErrors[code] ?? fallback;
+}
+
+/** What the questions step produced and the details step sends. */
+interface Calculation {
+  result: CalculatorResult;
+  currency: Currency;
+  sharesAnswer: SharesAnswer;
 }
 
 export function initCalculator(root: HTMLElement): void {
@@ -70,17 +73,22 @@ export function initCalculator(root: HTMLElement): void {
   const submissionErrorEl = q<HTMLElement>('#calc-submission-error');
   if (!questionsForm || !detailsForm || !submitButton || !submissionErrorEl) return;
 
-  // The card is rendered hidden: without JavaScript it stays hidden (US-035 AC8).
+  // The card is rendered hidden: without JavaScript it stays hidden.
   root.hidden = false;
 
-  const dialog = q<HTMLDialogElement>('#privacy-notice-dialog') ?? document.querySelector<HTMLDialogElement>('#privacy-notice-dialog');
+  const figuresPanel = initFiguresPanel(root, { language: copy.language, crcPerUsd: copy.crcPerUsd });
+
+  const dialog =
+    q<HTMLDialogElement>('#privacy-notice-dialog') ?? document.querySelector<HTMLDialogElement>('#privacy-notice-dialog');
   q('#privacy-notice-trigger')?.addEventListener('click', () => dialog?.showModal());
   document.querySelector('#privacy-notice-close')?.addEventListener('click', () => dialog?.close());
   // The honeypot form has no submit button; Enter inside it must never reload the page.
   q('#calc-hp-form')?.addEventListener('submit', (event) => event.preventDefault());
 
-  /** The result of the last valid questions step; the details step sends it. */
-  let current: CalculatorResult | null = null;
+  /** The last valid questions step; the details step sends it. */
+  let current: Calculation | null = null;
+  /** True while a save is in flight: the visitor cannot submit twice (US-044 AC7). */
+  let saving = false;
 
   function show(step: Step): void {
     for (const key of Object.keys(steps) as Step[]) {
@@ -95,27 +103,8 @@ export function initCalculator(root: HTMLElement): void {
     if (el) el.textContent = text;
   }
 
-  function showResult(result: CalculatorResult): void {
-    const zone = copy.zones[result.zone];
-    setText(
-      '#calc-result-months',
-      result.covered || result.months === null
-        ? copy.covered
-        : copy.monthsTemplate.replace('{months}', formatMonths(result.months, copy.language)),
-    );
-    q('#calc-zone-pill')?.setAttribute('data-zone', result.zone);
-    setText('#calc-zone-title', zone.title);
-    // The covered text replaces the months; the zone body is replaced too (CONTENT.md 11.3).
-    const body = q('#calc-zone-body');
-    if (body) {
-      body.textContent = result.covered ? '' : zone.body;
-      body.hidden = result.covered;
-    }
-    show('result');
-  }
-
   function clearFigureErrors(): void {
-    for (const key of FIGURE_KEYS) {
+    for (const key of [...FIGURE_KEYS, 'shares']) {
       setText(`#calc-${key}-error`, '');
       q(`#calc-${key}`)?.removeAttribute('aria-invalid');
     }
@@ -156,17 +145,6 @@ export function initCalculator(root: HTMLElement): void {
     return unmapped;
   }
 
-  function setPending(pending: boolean): void {
-    submitButton!.disabled = pending;
-    const label = pending ? copy.submit.submitting : undefined;
-    if (label !== undefined) {
-      submitButton!.dataset.idleLabel ??= submitButton!.textContent?.trim() ?? '';
-      replaceLabel(submitButton!, label);
-    } else if (submitButton!.dataset.idleLabel) {
-      replaceLabel(submitButton!, submitButton!.dataset.idleLabel);
-    }
-  }
-
   function replaceLabel(button: HTMLElement, text: string): void {
     const node = Array.from(button.childNodes).find(
       (n) => n.nodeType === Node.TEXT_NODE && (n.textContent ?? '').trim() !== '',
@@ -174,10 +152,12 @@ export function initCalculator(root: HTMLElement): void {
     if (node) node.textContent = text;
   }
 
-  function readFigures(): Record<FigureKey, unknown> {
-    const out = {} as Record<FigureKey, unknown>;
-    for (const key of FIGURE_KEYS) out[key] = q<HTMLInputElement>(`#calc-${key}`)?.value ?? '';
-    return out;
+  /** The busy state: the button is disabled and says so until the save and the GoHighLevel send finish. */
+  function setSaving(busy: boolean): void {
+    saving = busy;
+    submitButton!.disabled = busy;
+    detailsForm!.toggleAttribute('aria-busy', busy);
+    replaceLabel(submitButton!, busy ? copy.submit.submitting : copy.submit.idle);
   }
 
   function readDetails(): Parameters<typeof validateDetails>[0] {
@@ -192,37 +172,48 @@ export function initCalculator(root: HTMLElement): void {
     };
   }
 
+  function showResult({ result, currency, sharesAnswer }: Calculation): void {
+    renderResult(root, copy, copy.language, {
+      result,
+      currency,
+      concentrationAlert: raisesConcentrationAlert(sharesAnswer),
+    });
+    show('result');
+  }
+
   questionsForm.addEventListener('submit', (event) => {
     event.preventDefault();
     clearFigureErrors();
-    const { errors, figures } = validateFigures(readFigures());
-    if (!figures) {
+    const { figures: raw, shares } = figuresPanel.read();
+    const { errors, figures, shares: sharesAnswer } = validateFigures(raw, shares);
+    if (!figures || !sharesAnswer) {
       let first: HTMLElement | null = null;
-      for (const key of FIGURE_KEYS) {
+      for (const key of [...FIGURE_KEYS, 'shares'] as const) {
         const code = errors[key];
         if (!code) continue;
         setText(`#calc-${key}-error`, copy.figureErrors[code]);
-        const input = q<HTMLElement>(`#calc-${key}`);
-        input?.setAttribute('aria-invalid', 'true');
-        first ??= input;
+        const field = q<HTMLElement>(`#calc-${key}`);
+        field?.setAttribute('aria-invalid', 'true');
+        first ??= field;
       }
       first?.focus();
       return;
     }
     // The figures are used here and not kept: only the result goes on to the next step.
-    current = calculateFreedom(figures);
+    current = { result: calculateFreedom(figures), currency: figuresPanel.currency(), sharesAnswer };
     clearDetailErrors();
     show('details');
   });
 
   detailsForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    if (saving) return;
     clearDetailErrors();
     if (!current) {
       show('questions');
       return;
     }
-    const result = current;
+    const calculation = current;
     const validation: DetailsValidation = validateDetails(readDetails());
     if (!validation.values) {
       if (applyDetailErrors(validation.errors)) renderBanner(copy.submissionError);
@@ -231,16 +222,16 @@ export function initCalculator(root: HTMLElement): void {
 
     // Preview builds never call an endpoint: the result is a demonstration.
     if (copy.preview) {
-      showResult(result);
+      showResult(calculation);
       return;
     }
 
-    const payload = buildCalculatorPayload(validation.values, result, copy.language);
-    setPending(true);
+    const payload = buildCalculatorPayload(validation.values, calculation, copy.language);
+    setSaving(true);
     submitCalculatorLead(payload, copy.endpoint)
       .then((outcome: SubmitLeadResult) => {
         if (outcome.kind === 'success') {
-          showResult(result);
+          showResult(calculation);
           return;
         }
         if (outcome.kind === 'validation_error') {
@@ -251,11 +242,11 @@ export function initCalculator(root: HTMLElement): void {
         }
         renderBanner(outcome.kind === 'rate_limited' ? copy.rateLimited : copy.submissionError);
       })
-      .finally(() => setPending(false));
+      .finally(() => setSaving(false));
   });
 
   // "Calculate again": back to the questions (still filled in); the details step then
-  // shows again, prefilled, and submitting it stores a new row (US-035 AC6).
+  // shows again, prefilled, and submitting it stores a new row (US-044 AC5).
   q('#calc-restart')?.addEventListener('click', () => {
     current = null;
     clearFigureErrors();

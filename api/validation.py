@@ -36,10 +36,19 @@ SCREENING_ANSWER_CODES = frozenset(
 LANGUAGE_CODES = frozenset({"es", "en"})
 
 # LEAD_API_CONTRACT.md section 11.2: zones and the months that bound them.
-ZONE_CODES = frozenset({"alert", "building", "freedom"})
-BUILDING_ZONE_MIN_MONTHS = Decimal(6)
-FREEDOM_ZONE_MIN_MONTHS = Decimal(12)
-MONTHS_MAX_DECIMAL_PLACES = 1
+# Each pair is (lowest months of the zone, zone code), highest zone first;
+# `months` null (nothing left to cover) is `financially_free`.
+FINANCIALLY_FREE_ZONE = "financially_free"
+ZONE_LOWER_LIMITS = (
+    (Decimal(36), "solid_cushion"),
+    (Decimal(12), "path_to_freedom"),
+    (Decimal(6), "building"),
+    (Decimal(3), "alert"),
+    (Decimal(0), "critical"),
+)
+ZONE_CODES = frozenset({FINANCIALLY_FREE_ZONE, *(code for _, code in ZONE_LOWER_LIMITS)})
+CURRENCY_CODES = frozenset({"USD", "CRC"})
+MONTHS_MAX_DECIMAL_PLACES = 2
 
 
 def validate_lead(payload: dict) -> tuple[dict, dict]:
@@ -73,6 +82,8 @@ def validate_calculator_lead(payload: dict) -> tuple[dict, dict]:
     _validate_marketing_consent(payload, normalized, errors)
     months = _validate_months(payload, normalized, errors)
     _validate_zone(payload, normalized, errors, months)
+    _validate_choice(payload, normalized, errors, "currency", CURRENCY_CODES)
+    _validate_concentration_alert(payload, normalized, errors)
 
     return normalized, errors
 
@@ -200,8 +211,8 @@ def _validate_marketing_consent(payload: dict, normalized: dict, errors: dict) -
 def _validate_months(payload: dict, normalized: dict, errors: dict) -> Decimal | None:
     """Validate `months`; returns it as a Decimal, or None when it is null or invalid.
 
-    `normalized["months"]` is the text to store: one decimal and a point
-    (section 11.2), or "" when the months are null ("covered").
+    `normalized["months"]` is the text to store: two decimals and a point
+    (section 11.2), or "" when the months are null (financially free).
     """
     if "months" not in payload:
         errors["months"] = "required"
@@ -235,11 +246,12 @@ def _validate_months(payload: dict, normalized: dict, errors: dict) -> Decimal |
 
 
 def _expected_zone(months: Decimal | None) -> str:
-    if months is None or months >= FREEDOM_ZONE_MIN_MONTHS:
-        return "freedom"
-    if months >= BUILDING_ZONE_MIN_MONTHS:
-        return "building"
-    return "alert"
+    if months is None:
+        return FINANCIALLY_FREE_ZONE
+    for lower_limit, zone in ZONE_LOWER_LIMITS:
+        if months >= lower_limit:
+            return zone
+    raise ValueError("months below zero must be rejected before the zone is derived")
 
 
 def _validate_zone(
@@ -249,9 +261,20 @@ def _validate_zone(
     if "zone" not in normalized:
         return
     # `months` that failed its own validation has no zone to compare with;
-    # null months mean "covered", which is the freedom zone.
+    # null months mean financially free.
     if "months" in errors:
         return
     if normalized["zone"] != _expected_zone(months):
         errors["zone"] = "zone_mismatch"
         del normalized["zone"]
+
+
+def _validate_concentration_alert(payload: dict, normalized: dict, errors: dict) -> None:
+    if payload.get("concentration_alert") is None:
+        errors["concentration_alert"] = "required"
+        return
+    value = payload["concentration_alert"]
+    if not isinstance(value, bool):
+        errors["concentration_alert"] = "invalid_type"
+        return
+    normalized["concentration_alert"] = value
