@@ -32,7 +32,6 @@ export const ANCHORS = {
     story: 'historia',
     opportunity: 'oportunidad',
     method: 'metodo',
-    mastery: 'wealth-mastery',
     change: 'antes-despues',
     testimonials: 'testimonios',
     calculator: 'calculadora',

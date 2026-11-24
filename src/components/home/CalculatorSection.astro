@@ -1,16 +1,14 @@
 ---
-// Free diagnosis `#calculadora` (UX_UI_DIRECTION.md section 5.1 item 10): surface, two
+// Free diagnosis `#calculadora` (UX_UI_DIRECTION.md section 5.1 item 9): ivory, two
 // columns on desktop. Left: eyebrow, title, lead, the "receive" line, the blue
-// `home.calculator.cta` to the calculator page. Right: an example result card (ivory,
+// `home.calculator.cta` to the calculator page. Right: an example result card (surface,
 // sand border) with the label, the value in large Playfair and the zone pill (the alert
-// zone, section 6.7: written in words, never colour alone). Below both: `home.calculator.more`
-// and the titles of two library resources as text links. Stacked on mobile, the card after
-// the button. This section replaces the free-resources teaser: the calculator is the
-// Home's only lead magnet.
+// zone, section 6.7: written in words, never colour alone). No links below it: the
+// calculator is the Home's only free offer (phase 2d, no resource library). Stacked on
+// mobile, the card after the button.
 import Button from '../layout/Button.astro';
 import { getHome, type Language } from '../../i18n';
 import { ANCHORS } from '../../i18n/routes';
-import { getResource } from '../../data/resources';
 import { pageHref } from '../../lib/site/links';
 import Emphasized from './Emphasized.astro';
 
@@ -18,17 +16,14 @@ interface Props {
   lang: Language;
 }
 
-const LIBRARY_LINK_IDS = ['diagnostic-benefits', 'diagnostic-investor'];
-
 const { lang } = Astro.props;
 const { calculator } = getHome(lang).home;
-const libraryLinks = LIBRARY_LINK_IDS.map((id) => getResource(id));
 // `home.calculator.receive_with_guide` replaces this line once the guide is sent by
 // email (US-038); until then the page never promises an email that is not sent.
 const receiveLine = calculator.receive;
 ---
 
-<section id={ANCHORS.home.calculator} tabindex="-1" class="scroll-mt-16 outline-none bg-surface">
+<section id={ANCHORS.home.calculator} tabindex="-1" class="scroll-mt-16 outline-none bg-ivory">
   <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
     <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
       <div>
@@ -44,7 +39,7 @@ const receiveLine = calculator.receive;
           <Button variant="blue" href={pageHref('calculator', lang)} label={calculator.cta} class="w-full sm:w-auto" />
         </div>
       </div>
-      <div class="rounded-[4px] border border-sand bg-ivory p-8" data-calculator-example>
+      <div class="rounded-[4px] border border-sand bg-surface p-8" data-calculator-example>
         <p class="text-sm font-semibold text-muted">{calculator.example.label}</p>
         <p class="mt-2 font-serif text-6xl font-medium text-heritage-blue">{calculator.example.value}</p>
         <p
@@ -54,20 +49,6 @@ const receiveLine = calculator.receive;
           {calculator.example.zone}
         </p>
       </div>
-    </div>
-    <div class="mt-10 flex flex-wrap items-center gap-x-4 gap-y-1" data-calculator-library>
-      <p class="text-charcoal">{calculator.more}</p>
-      {
-        libraryLinks.map((resource) => (
-          <a
-            href={pageHref('resources', lang)}
-            data-library-link={resource.id}
-            class="inline-flex min-h-11 items-center font-semibold text-heritage-blue underline-offset-4 hover:underline"
-          >
-            {resource.title[lang]}
-          </a>
-        ))
-      }
     </div>
   </div>
 </section>

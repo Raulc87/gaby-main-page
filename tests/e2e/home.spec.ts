@@ -257,7 +257,6 @@ const SECTION_ORDER = [
   'historia',
   'oportunidad',
   'metodo',
-  'wealth-mastery',
   'antes-despues',
   'testimonios',
   'calculadora',
@@ -298,7 +297,7 @@ for (const lang of LANGUAGES) {
   const plain = (text: string) => text.replace(/\*/g, '');
 
   test.describe(`Home (${lang})`, () => {
-    test('has the eleven sections in order, one h1, no application form and no #recursos', async ({ page }) => {
+    test('has the ten sections in order, one h1, no application form, no #recursos and no #wealth-mastery', async ({ page }) => {
       await page.goto(routePath('home', lang));
       const ids = await page.$$eval('main > section', (sections) => sections.map((section) => section.id));
       expect(ids).toEqual(SECTION_ORDER);
@@ -306,6 +305,25 @@ for (const lang of LANGUAGES) {
       await expect(page.locator('h1')).toHaveCount(1);
       await expect(page.locator('#recursos')).toHaveCount(0);
       await expect(page.locator('a[href*="#recursos"]')).toHaveCount(0);
+      await expect(page.locator('#wealth-mastery')).toHaveCount(0);
+      await expect(page.locator('a[href*="#wealth-mastery"]')).toHaveCount(0);
+    });
+
+    test('alternates ivory and surface bands, with the closing band the one heritage-blue band (UX section 5.1)', async ({ page }) => {
+      await page.goto(routePath('home', lang));
+      const IVORY = 'rgb(245, 241, 234)';
+      const SURFACE = 'rgb(255, 255, 255)';
+      const backgrounds = await page.$$eval('main > section', (sections) =>
+        sections.map((section) => getComputedStyle(section).backgroundColor),
+      );
+      expect(backgrounds).toEqual([IVORY, SURFACE, IVORY, SURFACE, IVORY, SURFACE, IVORY, SURFACE, IVORY, BLUE]);
+    });
+
+    test('links to no resource library page and to no page that does not exist', async ({ page }) => {
+      await page.goto(routePath('home', lang));
+      await expect(page.locator(`a[href*="${routePath('resources', lang)}"]`)).toHaveCount(0);
+      await expect(page.locator('a[href*="/recursos"], a[href*="/resources"]')).toHaveCount(0);
+      await expect(page.locator('[data-library-link]')).toHaveCount(0);
     });
 
     test('hero: copy verbatim, gold call to action to the VIP page, blue one to the calculator, photo placeholder with its badge', async ({ page }) => {
@@ -331,7 +349,7 @@ for (const lang of LANGUAGES) {
     test('sections show their copy verbatim, with no emphasis markers on screen', async ({ page }) => {
       await page.goto(routePath('home', lang));
       expect(await page.locator('main').innerText()).not.toContain('*');
-      const { ladder, stakes, opportunity, method, mastery, change } = home.home;
+      const { ladder, stakes, opportunity, change } = home.home;
       await expect(page.locator('#escalera h2')).toHaveText(plain(ladder.title));
       await expect(page.locator('#escalera')).toContainText(ladder.p2.replace(/\*/g, ''));
       await expect(page.locator('#escalera')).not.toContainText('Cada vez más cosas dependen de ti');
@@ -344,13 +362,41 @@ for (const lang of LANGUAGES) {
         await expect(page.locator('#oportunidad')).toContainText(opportunity[n].title);
         await expect(page.locator('#oportunidad')).toContainText(opportunity[n].body);
       }
-      await expect(page.locator('#metodo [data-method-step]')).toHaveCount(3);
-      await expect(page.locator('#metodo')).toContainText(method['3'].body);
-      await expect(page.locator('#wealth-mastery [data-mastery-module]')).toHaveCount(7);
-      await expect(page.locator('#wealth-mastery')).toContainText(mastery.lead);
       await expect(page.locator('#antes-despues [data-change-column="before"] li')).toHaveCount(5);
       await expect(page.locator('#antes-despues [data-change-column="after"] li')).toHaveCount(5);
       await expect(page.locator('#antes-despues')).toContainText(change.before.label);
+    });
+
+    test('the Método Polaris section: three pillars with their official names, no numbers, no arrows, the closing line, the apply button and the link to the Wealth Mastery page', async ({ page }) => {
+      await page.goto(routePath('home', lang));
+      const { method } = home.home;
+      const section = page.locator('#metodo');
+      await expect(section.locator('h2')).toHaveText(plain(method.title));
+      await expect(section).toContainText(method.eyebrow);
+      await expect(section).toContainText(method.lead);
+      const pillars = section.locator('[data-method-pillar]');
+      await expect(pillars).toHaveCount(3);
+      for (const [index, n] of (['1', '2', '3'] as const).entries()) {
+        await expect(pillars.nth(index)).toContainText(method[n].label);
+        await expect(pillars.nth(index)).toContainText(method[n].title);
+        await expect(pillars.nth(index)).toContainText(method[n].body);
+      }
+      await expect(section).toContainText(method.closing);
+      // Worked in parallel: not an ordered list, no step numbers, no arrows between the pillars.
+      await expect(section.locator('ol')).toHaveCount(0);
+      const pillarsText = await pillars.allInnerTexts();
+      for (const text of pillarsText) {
+        expect(text).not.toMatch(/(^|\s)0?[1-3](\s|$|[.)])/);
+        expect(text).not.toMatch(/[→←↓↑]|&rarr;/);
+      }
+      await expect(pillars.locator('svg, [aria-hidden="true"]')).toHaveCount(0);
+      // Stacked below 768 px, in one row from there.
+      await page.setViewportSize({ width: 767, height: 900 });
+      const tops767 = await pillars.evaluateAll((els) => els.map((el) => Math.round(el.getBoundingClientRect().top)));
+      expect(new Set(tops767).size).toBe(3);
+      await page.setViewportSize({ width: 1280, height: 900 });
+      const tops1280 = await pillars.evaluateAll((els) => els.map((el) => Math.round(el.getBoundingClientRect().top)));
+      expect(new Set(tops1280).size).toBe(1);
     });
 
     test('the guide: the studio portrait only here, three figures, media names as text, link to the story page', async ({ page }) => {
@@ -379,7 +425,7 @@ for (const lang of LANGUAGES) {
       await expect(page.getByText(home.home.testimonials.cta)).toHaveCount(0);
     });
 
-    test('the calculator teaser: example result, "receive" without the guide, links to the calculator and the library', async ({ page }) => {
+    test('the calculator teaser: example result, "receive" without the guide, one link to the calculator and none to the library', async ({ page }) => {
       await page.goto(routePath('home', lang));
       const teaser = page.locator('#calculadora');
       await expect(teaser).toContainText(home.home.calculator.receive);
@@ -391,25 +437,25 @@ for (const lang of LANGUAGES) {
       await expect(example).toContainText(home.home.calculator.example.label);
       await expect(example).toContainText(home.home.calculator.example.value);
       await expect(example).toContainText(home.home.calculator.example.zone);
-      await expect(teaser).toContainText(home.home.calculator.more);
-      const links = teaser.locator('[data-library-link]');
-      await expect(links).toHaveCount(2);
-      for (const link of await links.all()) await expect(link).toHaveAttribute('href', routePath('resources', lang));
+      await expect(teaser.getByRole('link')).toHaveCount(1);
     });
 
-    test('the other VIP calls to action are blue and lead to the VIP page', async ({ page }) => {
+    test('the Método Polaris call to apply is blue and leads to the application page; its text link leads to the Wealth Mastery page', async ({ page }) => {
       await page.goto(routePath('home', lang));
-      const method = page.locator('#metodo').getByRole('link', { name: home.home.method.cta });
-      const mastery = page.locator('#wealth-mastery').getByRole('link', { name: common.cta.vip_apply });
-      for (const link of [method, mastery]) {
-        await expect(link).toHaveAttribute('href', routePath('vip', lang));
-        expect(await link.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(BLUE);
-      }
+      const apply = page.locator('#metodo').getByRole('link', { name: common.cta.vip_apply });
+      await expect(apply).toHaveAttribute('href', routePath('vip', lang));
+      expect(await apply.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(BLUE);
+      const more = page.locator('#metodo').getByRole('link', { name: home.home.method.link });
+      await expect(more).toHaveAttribute('href', routePath('mastery', lang));
+      await expect(more).toContainText('→');
+      expect(await more.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
+      await more.click();
+      await page.waitForURL(`**${routePath('mastery', lang)}`);
     });
 
     test('pending badges follow the block list: the hero photo and testimonials show, provisional blocks do not in a normal build', async ({ page }) => {
       await page.goto(routePath('home', lang));
-      for (const id of ['escalera', 'historia', 'metodo', 'wealth-mastery']) {
+      for (const id of ['escalera', 'historia', 'metodo']) {
         await expect(page.locator(`#${id}`).getByText(common.pending.badge)).toHaveCount(0);
       }
       await expect(page.getByRole('main').getByText(common.pending.badge)).toHaveCount(4); // hero photo + 3 testimonials

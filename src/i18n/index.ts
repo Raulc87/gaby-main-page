@@ -213,51 +213,24 @@ export interface HomeDictionary {
     method: {
       eyebrow: string;
       title: string;
-      '1': {
-        title: string;
-        body: string;
-      };
-      '2': {
-        title: string;
-        body: string;
-      };
-      '3': {
-        title: string;
-        body: string;
-      };
-      cta: string;
-    };
-    mastery: {
-      title: string;
       lead: string;
       '1': {
+        label: string;
         title: string;
         body: string;
       };
       '2': {
+        label: string;
         title: string;
         body: string;
       };
       '3': {
+        label: string;
         title: string;
         body: string;
       };
-      '4': {
-        title: string;
-        body: string;
-      };
-      '5': {
-        title: string;
-        body: string;
-      };
-      '6': {
-        title: string;
-        body: string;
-      };
-      '7': {
-        title: string;
-        body: string;
-      };
+      closing: string;
+      link: string;
     };
     change: {
       title: string;
@@ -294,7 +267,6 @@ export interface HomeDictionary {
         value: string;
         zone: string;
       };
-      more: string;
     };
     vip: {
       body: string;

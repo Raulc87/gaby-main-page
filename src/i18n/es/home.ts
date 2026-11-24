@@ -1,8 +1,8 @@
 // Home copy (docs/ux/CONTENT.md section 5), copied verbatim by key: `home.hero.title`
 // is `home.hero.title` here. Keys that CONTENT.md defines as another key
 // (`home.story.media.label` = `story.media.label`, `home.story.cta` = `cta.read_story`,
-// `home.mastery.eyebrow` and `home.vip.eyebrow` = `vip_band.eyebrow`, `home.vip.title`
-// = `vip_band.title`, `home.mastery.cta` and `home.vip.cta` = `cta.vip_apply`) are read
+// `home.vip.eyebrow` = `vip_band.eyebrow`, `home.vip.title`
+// = `vip_band.title`, `home.method.cta` and `home.vip.cta` = `cta.vip_apply`) are read
 // from common.ts, never copied. `*text*` marks the italic emphasis. Changing copy
 // means changing CONTENT.md first.
 import type { HomeDictionary } from '../index';
@@ -147,75 +147,37 @@ export const home: HomeDictionary = {
       eyebrow:
         'El Método Polaris',
       title:
-        'Tres pasos para que tu salario *trabaje para vos.*',
-      '1': {
-        title:
-          'Definí tu Norte',
-        body:
-          'Claridad sobre lo que querés y sobre tu relación con el dinero.',
-      },
-      '2': {
-        title:
-          'Ordená tu dinero',
-        body:
-          'Tu sistema de billeteras: cada ingreso y cada beneficio con un propósito.',
-      },
-      '3': {
-        title:
-          'Invertí y construí patrimonio',
-        body:
-          'Decisiones conscientes, alineadas con la vida que querés.',
-      },
-      cta:
-        'Quiero aplicar el Método Polaris con Gaby',
-    },
-    mastery: {
-      title:
-        'Lo que aprendés *en la mentoría.*',
+        'Tres pilares que avanzan juntos, *con cada salario.*',
       lead:
-        'No es teoría: es lo mismo que aplico en mi propio portafolio desde hace más de 10 años, explicado para que vos lo podás entender, evaluar y decidir.',
+        'Polaris es la Estrella Polar: tu norte, el que guía el camino. Así nació mi método, de más de 10 años construyendo mi propio portafolio: un norte claro para que cada decisión con tu dinero vaya en la misma dirección.',
       '1': {
+        label:
+          'Mentalidad Millonaria',
         title:
-          'Tu Norte y tu relación con el dinero',
+          'Mentalidad',
         body:
-          'Claridad sobre la vida que querés y las creencias que hoy te frenan.',
+          'Tus creencias y patrones con el dinero, y la vida que querés construir.',
       },
       '2': {
+        label:
+          'Administración del Dinero',
         title:
-          'Sistema de billeteras',
+          'Administración',
         body:
-          'Ordenás cada ingreso y cada beneficio con un propósito.',
+          'Tu sistema de billeteras y tu protección: cada ingreso y cada beneficio con un propósito.',
       },
       '3': {
+        label:
+          'Inversiones e Ingresos Pasivos',
         title:
-          'Beneficios corporativos y flujo',
+          'Inversión',
         body:
-          'Convertís lo que tu empresa ya te da en capital para invertir.',
+          'Bolsa, bienes raíces, oro, plata y cripto: entender, evaluar y decidir.',
       },
-      '4': {
-        title:
-          'Bolsa y ETFs',
-        body:
-          'Entendés cómo funcionan los mercados y cómo evaluar una inversión.',
-      },
-      '5': {
-        title:
-          'Bienes raíces',
-        body:
-          'Cómo analizar una propiedad como inversión, no como gasto.',
-      },
-      '6': {
-        title:
-          'Commodities: oro y plata',
-        body:
-          'Su papel como protección dentro de un portafolio.',
-      },
-      '7': {
-        title:
-          'Cripto',
-        body:
-          'Entendés cómo funciona y cómo pensarla con criterio y sin euforia.',
-      },
+      closing:
+        'No es primero una cosa y después la otra: con cada ingreso avanzás en los tres al mismo tiempo.',
+      link:
+        'Conocé Wealth Mastery',
     },
     change: {
       title:
@@ -276,8 +238,6 @@ export const home: HomeDictionary = {
         zone:
           'Zona de alerta',
       },
-      more:
-        'Más recursos en la biblioteca:',
     },
     vip: {
       body:

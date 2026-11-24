@@ -39,9 +39,7 @@ describe('pending badge visibility', () => {
     ];
     const provisional: PendingBlockId[] = [
       'home.method',
-      'home.ladder_p2',
       'home.guide_stat',
-      'home.mastery',
       'vip.steps',
       'thanks.not_ready',
       'resource.provisional_title',
