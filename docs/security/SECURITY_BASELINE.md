@@ -161,7 +161,6 @@ Penetration tests are run only by people the owner authorizes in writing, under 
 | Third party | Role | What it receives | Note |
 |---|---|---|---|
 | Google (Sheets) | Storage | The lead rows | ADR-002 |
-| Google (Fonts) | Typefaces, loaded when any page opens | The visitor's address and browser details | R-1 |
 | GoHighLevel (Gaby's booking calendar) | Booking widget: an iframe from `api.leadconnectorhq.com` and its embed script `form_embed.js` from `link.msgsndr.com`, loaded only on the qualified thank-you screen after a saved application, never in preview builds or CI | The applicant's first name, last name, email and phone, through the iframe URL, plus what the applicant types in the calendar | US-007, US-037, ADR-006; named in the privacy notice (US-018) |
 | GoHighLevel (Gaby's contacts API, from phase 2d) | The backend sends each saved lead as a contact over HTTPS with certificate checks, from `services.leadconnectorhq.com`, through a private integration token with contacts access only; GoHighLevel then sends the funnel's emails from Gaby's workflows | The contact's name, email, phone if given and language, with tags and custom fields: for a calculator lead the result (months as shown, zone, currency, concentration answer) and the consent tag when the visitor gave the optional consent; for an application the screening answer. Never the calculator's figures, the IP address or the honeypot value | US-045, ADR-007, ADR-008; named in the privacy notice (US-045 AC7). The outcome is recorded per row in `crm_status`; a failure never changes the visitor's response |
 | Hosting provider (cPanel, ADR-001) | Hosts the site and the backend | All traffic; its web-server logs may record visitors' addresses, outside the application | Hosting not decided; the privacy notice must say so (O-5) |
@@ -195,14 +194,14 @@ In this public repository, no unfixed, exploitable vulnerability is recorded her
 | O-5 Retention period; the privacy notice to name the hosting provider's logs and every processor in section 6 | Human owner with the legal review (US-018) | Before go-live |
 | O-6 Write and approve `docs/security/PENTEST_PLAN.md` | Human owner and the coordinator | Before the go-live sprint starts (US-029 AC5) |
 | O-7 Implement and verify the criteria added by US-029: US-004 AC9 (Agent 2), US-013 AC9 and US-016 AC8 (Agent 3), US-038 AC7 and US-039 AC6 (with those stories); US-014 AC7 and AC8 at go-live. These reopen Done stories: each needs a small fix branch and the owner's scheduling decision | Human owner | Proposed for Sprint 005; the inventory rows turn to "Verified" as each merges |
-| O-8 Propose a story to self-host the typefaces (R-1). Not drafted here because [`USER_STORIES.md`](../specs/USER_STORIES.md) is the owner's and numbers US-031 to US-033 are reserved | Human owner | Owner decides |
+| O-8 Propose a story to self-host the typefaces (R-1). Closed: US-040 self-hosts Playfair Display and Manrope as WOFF2 files in `public/fonts/` with their SIL OFL texts (#96, merged 2026-11-24), and `tests/e2e/fonts.spec.ts` fails on any request to `fonts.googleapis.com` or `fonts.gstatic.com` | Agent 1 (US-040) | Done |
 | O-9 Set `permissions` explicitly in every workflow: done in this pull request for `frontend.yml` and `backend.yml` (the other two already had it) | Agent 3 | Done |
 
 **Accepted risks** (accepted by the owner by approving this baseline)
 
 | Risk | Reason it is accepted, and when to revisit |
 |---|---|
-| R-1 Google Fonts are loaded from Google, so Google receives each visitor's address when a page opens, before any consent | The cost of removing it is small but touches Agent 1's layout; the privacy notice must name Google as a recipient until it is removed. Revisit by O-8 |
+| R-1 Google Fonts were loaded from Google, so Google received each visitor's address when a page opened, before any consent. **Closed** | Removed by US-040 (#96, merged 2026-11-24): the typefaces are served by the site itself and no page requests a Google Fonts host (`tests/e2e/fonts.spec.ts`, checked by code search on 2026-11-24). The row stays so that the earlier references to R-1 keep their meaning; it is no longer an accepted risk |
 | R-2 No separate log system and no alerting; the owner reads the application log in cPanel | Volume is low, and the site has no accounts. Revisit if the hosting changes or traffic grows |
 | R-3 Secrets live in cPanel environment variables and a `600` key file, not in a secrets vault | Shared hosting offers no vault (ADR-001); the key reaches one sheet only, and the GoHighLevel token has contacts access only and is rotated by the runbook ([`GOHIGHLEVEL.md`](../runbooks/GOHIGHLEVEL.md) section 8). Revisit if the hosting changes |
 | R-4 No outbound network allowlist at the host | Shared hosting offers none; the code calls only Google's and GoHighLevel's fixed endpoints. Revisit if the hosting changes |
