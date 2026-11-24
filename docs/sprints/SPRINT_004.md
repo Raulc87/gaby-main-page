@@ -132,7 +132,7 @@ An agent edits only files it owns. If it needs a change in another agent's file,
 | `src/styles/**`, `src/layouts/**`, `src/components/layout/**`, `src/components/home/**`, `src/components/sections/**`, `src/components/method/**` (new), `src/lib/site/**` | Agent 1 |
 | [`src/i18n/index.ts`](../../src/i18n/index.ts), [`src/i18n/routes.ts`](../../src/i18n/routes.ts), `src/i18n/{es,en}/common.ts`, `src/i18n/{es,en}/home.ts`, `src/i18n/{es,en}/method.ts` (new) | Agent 1 |
 | [`src/pages/index.astro`](../../src/pages/index.astro), `src/pages/{es,en}/index.astro`, `src/pages/es/metodo-polaris/**`, `src/pages/en/polaris-method/**`, `public/**` except the folders below | Agent 1 |
-| `src/components/lead/**`, `src/components/resources/**`, `src/components/calculator/**` (new), `src/lib/lead/**`, `src/lib/calculator/**` (new; the formula), [`src/data/resources.ts`](../../src/data/resources.ts) | Agent 2 |
+| `src/components/lead/**`, `src/components/resources/**`, `src/components/calculator/**` (new), `src/lib/lead/**`, `src/lib/calculator/**` (new; the formula), `src/data/resources.ts` | Agent 2 |
 | `src/i18n/{es,en}/form.ts`, `vip.ts`, `resources.ts`, `privacy.ts`, `calculator.ts` (new) | Agent 2 |
 | `src/pages/es/{mentoria-vip,recursos,privacidad,calculadora}/**`, `src/pages/en/{vip-mentorship,resources,privacy,calculator}/**`, `public/resources/**` | Agent 2 |
 | `src/components/story/**`, `src/i18n/{es,en}/story.ts`, `src/pages/es/mi-historia/**`, `src/pages/en/my-story/**`, `public/logos/**` | Agent 3 (no story this sprint) |

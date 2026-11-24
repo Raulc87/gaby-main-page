@@ -1,6 +1,6 @@
 // My story page copy (docs/ux/CONTENT.md section 6), copied verbatim by key:
 // `story.media.label` is `story.media.label` here. `*text*` marks the italic
-// emphasis of a heading. `story.resources_link` is `cta.start_free` (common.ts).
+// emphasis of a heading. `story.resources_link` leads to the calculator (US-046).
 // Changing copy means changing CONTENT.md first.
 export interface StoryContent {
   eyebrow: string;
@@ -16,6 +16,8 @@ export interface StoryContent {
   };
   bio: { placeholder: string };
   photo: { placeholder: string };
+  /** `story.resources_link`: the text link to the calculator, the site's only free resource. */
+  resources_link: string;
 }
 
 export const story: StoryContent = {
@@ -38,4 +40,5 @@ export const story: StoryContent = {
   },
   bio: { placeholder: 'Biografía y credenciales' },
   photo: { placeholder: 'Fotos de la sesión' },
+  resources_link: 'O empezá gratis: calculá tus meses de libertad',
 };

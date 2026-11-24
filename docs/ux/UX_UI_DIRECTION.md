@@ -106,7 +106,6 @@ Viewport rule (BR-010): a layout must not place two gold buttons in one viewport
 |---|---|---|---|
 | `home` | `/es/` | `/en/` | 2a |
 | `story` | `/es/mi-historia/` | `/en/my-story/` | 2a |
-| `resources` | `/es/recursos/` | `/en/resources/` | 2a; withdrawn in 2d (US-046) |
 | `vip` | `/es/aplicar/` | `/en/apply/` | 2a; moved in 2d (US-041; was `/es/mentoria-vip/`, `/en/vip-mentorship/`) |
 | `privacy` | `/es/privacidad/` | `/en/privacy/` | 2a |
 | `blog` | `/es/blog/` | `/en/blog/` | 2b (US-026) |
@@ -152,7 +151,7 @@ Full-width `heritage-blue` band, `ivory` text: eyebrow `vip_band.eyebrow` in `iv
 
 ### 5.1 Home (US-034; phase 2d: US-043)
 
-Order and anchors (copy: `CONTENT.md` §5; phase 2d changes staged in `CONTENT_PHASE_2D.md`). Phase 2d removes the Wealth Mastery section (it moves to the Wealth Mastery page, §5.7), so the Home has ten sections. Backgrounds alternate `ivory` and `surface`; the closing VIP section is the page's one `heritage-blue` band (§4.3).
+Order and anchors (copy: `CONTENT.md` §5). Phase 2d removes the Wealth Mastery section (it moves to the Wealth Mastery page, §5.7), so the Home has ten sections. Backgrounds alternate `ivory` and `surface`; the closing VIP section is the page's one `heritage-blue` band (§4.3).
 
 1. **Hero `#hero`** (`ivory`): two columns on desktop. Left: eyebrow, H1 (italic second half), lead, the gold `home.hero.cta` (to the VIP page), the blue `home.hero.secondary` (to the calculator), and the trust line in `muted`. Right: the "desired state" photo (Gaby living her freedom, or a real client; not a studio portrait), in a rounded 4:5 frame with a `soft-gold` polar star; until it arrives, a `sand` frame with `home.hero.photo.placeholder` and the pending badge. Mobile: copy first, then the photo frame; the two buttons stack full width.
 2. **Problem `#escalera`** (`surface`): narrow text column; `home.ladder.closing` as an editorial Playfair italic line with a `terracotta` left rule.
@@ -190,7 +189,7 @@ Plain reading page: title, the notice text (`CONTENT.md` §9) in a narrow column
 
 ### 5.6 Calculator (US-035; Gaby's calculator from phase 2d, US-044)
 
-Copy: `CONTENT.md` §11 (Gaby's texts, staged in `CONTENT_PHASE_2D.md`). Layout from Gaby's prototype ([`BRIEF_2026-11-23_WEALTH_MASTERY.md`](BRIEF_2026-11-23_WEALTH_MASTERY.md) §4), in the site's tokens: one column, max width 640 px, on `ivory`; one step at a time (the prototype's recording shows all three at once: a fault of the prototype, brief §5).
+Copy: `CONTENT.md` §11 (Gaby's texts). Layout from Gaby's prototype ([`BRIEF_2026-11-23_WEALTH_MASTERY.md`](BRIEF_2026-11-23_WEALTH_MASTERY.md) §4), in the site's tokens: one column, max width 640 px, on `ivory`; one step at a time (the prototype's recording shows all three at once: a fault of the prototype, brief §5).
 
 1. **Header:** eyebrow, H1 (italic second half), lead.
 2. **Step 1, "Tus números"** (`surface` card): the title and, at its right, the currency switch (§6.10: USD / Colones); the example note in a soft `ivory` box; five money inputs, each with a label, an input with the currency symbol inside it at the left (`$` or `₡`), and a hint where Gaby has one; then the company-shares question as a select with four options. The money inputs open with Gaby's example figures, which the visitor replaces; the select opens on "Elegí una opción" and is required (FR-034: the prototype preselects "Entre 20% y 50%", but a preselected answer would be stored as the visitor's own). Money inputs take whole amounts and show thousands separators while typing (a point in Spanish, a comma in English); `inputmode="numeric"`. The error appears above the button when the expenses are empty or 0. Then the blue `calc.next` button.
@@ -207,7 +206,7 @@ Focus moves to each step's title when it appears. Without JavaScript the page sh
 
 ### 5.7 Wealth Mastery page (phase 2d, US-042; replaces the Método Polaris page of US-028)
 
-Copy: Gaby's page (staged in `CONTENT_PHASE_2D.md`). Eight sections, in her order; backgrounds alternate `ivory` and `surface`, and the closing band is the page's one `heritage-blue` band (§4.3):
+Copy: Gaby's page (`CONTENT.md` §12). Eight sections, in her order; backgrounds alternate `ivory` and `surface`, and the closing band is the page's one `heritage-blue` band (§4.3):
 
 1. **Hero** (`ivory`): eyebrow ("Mentoría Wealth Mastery"), H1 (italic second half), lead; the gold apply button and, beside it, the blue "Calculá tus meses de libertad gratis" (to the calculator). One gold button.
 2. **For you / not for you `#para-vos`** (`surface`): title; two cards side by side (stacked on mobile): "Es para vos si…" (`surface`, 2 px `heritage-blue` border, a `heritage-blue` check before each item) and "No es para vos si…" (`ivory`, a thin `sand` cross before each item). Each is a list.

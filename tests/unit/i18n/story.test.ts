@@ -33,8 +33,8 @@ describe.each([
     for (const [key, value] of entries) expect(value, key).toBe(table.get(key)![column]);
   });
 
-  it('has every story key of CONTENT.md except the shared resources link', () => {
-    const expected = [...table.keys()].filter((key) => key !== 'story.resources_link').sort();
+  it('has every story key of CONTENT.md', () => {
+    const expected = [...table.keys()].sort();
     expect(entries.map(([key]) => key).sort()).toEqual(expected);
   });
 });

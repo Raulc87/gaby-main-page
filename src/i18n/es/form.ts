@@ -48,7 +48,7 @@ export const form: FormDictionary = {
   },
   notReady: {
     title: 'Gracias por contarnos dónde estás hoy.',
-    text: 'Es posible que te contactemos por correo electrónico o WhatsApp. Cuando sea tu momento, aquí estaremos. Mientras tanto, podés empezar gratis con el minicurso:',
+    text: 'Es posible que te contactemos por correo electrónico o WhatsApp. Cuando sea tu momento, aquí estaremos. Mientras tanto, podés empezar gratis: descubrí cuántos meses podrías sostenerte hoy.',
   },
   schedulerFallback:
     'No pudimos cargar el calendario. Escribinos a {contact_email} y coordinamos tu llamada.',

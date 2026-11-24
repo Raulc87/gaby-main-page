@@ -19,11 +19,6 @@ export const common: CommonContent = {
       description:
         'Del mundo corporativo a mi libertad: la historia de Gaby Kelly.',
     },
-    resources: {
-      title: 'Recursos gratis — Gaby Kelly',
-      description:
-        'Guías, plantillas y minicursos gratuitos para ordenar, invertir y crecer.',
-    },
     vip: {
       title: 'Aplicá a Wealth Mastery — Gaby Kelly',
       description:
@@ -70,8 +65,6 @@ export const common: CommonContent = {
   cta: {
     vip_long: 'Trabajá directamente con Gaby · Wealth Mastery',
     vip_apply: 'Aplicá a Wealth Mastery',
-    start_free: 'O empezá gratis con los recursos',
-    all_resources: 'Ver la biblioteca completa',
     read_story: 'Leé mi historia completa',
   },
   vip_band: {
@@ -79,8 +72,6 @@ export const common: CommonContent = {
     title: '¿Querés trabajar *directamente conmigo*?',
     body:
       'Imaginá saber exactamente con cuánto contás, tener tu dinero trabajando a tu favor y decidir sobre tu carrera desde la libertad, no desde la necesidad. Y, cuando estés con tu familia, estar ahí de verdad. Llená una breve aplicación y agendá tu llamada inicial.',
-    short_title:
-      '¿Preferís un plan hecho a tu medida? *Trabajá directamente con Gaby.*',
   },
   preview: {
     badge: 'Vista previa',

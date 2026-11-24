@@ -9,7 +9,7 @@ Sources, received by the human owner from Gaby Kelly and shared with the coordin
 5. **`calculador_de_pagina_web.mp4`**: a 13-second screen recording of the prototype, with no narration. Section 5.
 6. **The embed code of her GoHighLevel calendar** (ADR-006, US-037). Section 6.
 
-This file keeps those sources in the repository so the source of `PROJECT_SPEC.md` v0.7 stays reviewable. As with [`BRIEF_2026-11-08_STORYBRAND.md`](BRIEF_2026-11-08_STORYBRAND.md), it is a **reference**, not a source agents implement from: copy comes from [`CONTENT.md`](CONTENT.md) (phase 2d copy staged in [`CONTENT_PHASE_2D.md`](CONTENT_PHASE_2D.md)), layout from [`UX_UI_DIRECTION.md`](UX_UI_DIRECTION.md). Page text is verbatim (Spanish, voseo), one quoted line per text block, in reading order. How the files were read, and what was lost in them, is in section 7. The human owner's decisions on these sources are in section 8.
+This file keeps those sources in the repository so the source of `PROJECT_SPEC.md` v0.7 stays reviewable. As with [`BRIEF_2026-11-08_STORYBRAND.md`](BRIEF_2026-11-08_STORYBRAND.md), it is a **reference**, not a source agents implement from: copy comes from [`CONTENT.md`](CONTENT.md), layout from [`UX_UI_DIRECTION.md`](UX_UI_DIRECTION.md). Page text is verbatim (Spanish, voseo), one quoted line per text block, in reading order. How the files were read, and what was lost in them, is in section 7. The human owner's decisions on these sources are in section 8.
 
 ## 1 · Gaby's email (2026-11-23)
 

@@ -36,7 +36,7 @@ Readiness checklist run on 2026-11-24 on the documents as #85 and this planning 
 | 3 | [`AGENTS.md`](../../AGENTS.md), [`CLAUDE.md`](../../CLAUDE.md) and the checklist match the Starter Kit (§1, blocking) | Done: kit v1.2.0. The kit's later versions are not synced (the owner's choice, 2026-11-08) |
 | 4 | [`README.md`](../../README.md) status matches [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md) (§1) | Done in #88, kept current by #90 |
 | 5 | Branch names for every story (§1, blocking) | Done (Planned Stories) |
-| 6 | Spec v0.7, stories US-040–US-046, UX v1.2, contract v1.3, ADR-007, ADR-008 and the staged phase 2d copy agree (§2, blocking) | Spec, contract, ADRs, UX and stories: done in #85. The staged copy ([`CONTENT_PHASE_2D.md`](../ux/CONTENT_PHASE_2D.md)): done in #89 |
+| 6 | Spec v0.7, stories US-040–US-046, UX v1.2, contract v1.3, ADR-007, ADR-008 and the staged phase 2d copy agree (§2, blocking) | Spec, contract, ADRs, UX and stories: done in #85. The staged copy (`CONTENT_PHASE_2D.md`, deleted with the last part, US-046): done in #89 |
 | 7 | Every sprint story has testable acceptance criteria (§3, blocking) | Done (#85; reviewed) |
 | 8 | Shared interfaces locked (§4, blocking): [`LEAD_API_CONTRACT.md`](../specs/LEAD_API_CONTRACT.md) v1.3 (§11, §12) locked by #85; the route map changes of [`UX_UI_DIRECTION.md`](../ux/UX_UI_DIRECTION.md) §3 are made by the scaffold (merge order step 1) | Done |
 | 9 | Personal data (§5, blocking): Ley 8968; two consents; only the result goes to GoHighLevel (pending Gaby's confirmation, brief §8 point 4); the privacy notice names GoHighLevel's role (US-045 AC7). Nothing is public: the preview stores and sends nothing | Done. If Gaby asks for the figures, a docs PR changes FR-035, the notice and its consent before US-045 merges |
@@ -119,7 +119,7 @@ An agent edits only files it owns. If it needs a change in another agent's file,
 | [`src/pages/index.astro`](../../src/pages/index.astro), `src/pages/{es,en}/index.astro`, `public/**` except the folders below | Agent 1 |
 | `src/components/method/**`, `src/i18n/{es,en}/method.ts`, `src/pages/es/metodo-polaris/**`, `src/pages/en/polaris-method/**`, `tests/e2e/method.spec.ts` (deleted in `GK-042-wealth-mastery-page`) | Agent 3, **to delete them** in `GK-042-wealth-mastery-page` (they were Agent 1's) |
 | `src/components/mastery/**` (new), `src/i18n/{es,en}/mastery.ts` (new), `src/pages/{es,en}/wealth-mastery/**` (stub by Agent 1 in the scaffold, then Agent 3's), `tests/e2e/mastery.spec.ts` (new) | Agent 3 |
-| `src/components/lead/**`, `src/components/resources/**` (to delete), `src/components/calculator/**`, `src/lib/lead/**`, `src/lib/calculator/**`, [`src/data/resources.ts`](../../src/data/resources.ts) (to delete) | Agent 2 |
+| `src/components/lead/**`, `src/components/resources/**` (to delete), `src/components/calculator/**`, `src/lib/lead/**`, `src/lib/calculator/**`, `src/data/resources.ts` (to delete) | Agent 2 |
 | `src/i18n/{es,en}/form.ts`, `vip.ts`, `resources.ts` (to delete), `privacy.ts`, `calculator.ts` | Agent 2 |
 | `src/pages/es/{aplicar,mentoria-vip,recursos,privacidad,calculadora}/**`, `src/pages/en/{apply,vip-mentorship,resources,privacy,calculator}/**` (the scaffold moves the VIP pages to the new paths), `public/resources/**` (to delete) | Agent 2 |
 | `src/components/story/**`, `src/i18n/{es,en}/story.ts`, `src/pages/es/mi-historia/**`, `src/pages/en/my-story/**`, `public/logos/**` | Agent 3 |

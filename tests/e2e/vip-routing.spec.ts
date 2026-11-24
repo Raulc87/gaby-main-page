@@ -1,16 +1,17 @@
 // US-023 AC4, AC5, AC6: the screening answer decides the screen after a 201.
 // Qualified answers (ready_to_invest, needs_investment_info) get the thank-you and
 // the scheduler; the others (no_capacity_now, exploring) get the not-ready screen
-// with the mini-course card and never load the calendar. One of each, in both languages,
+// with a blue button to the calculator (no mini-course card, the library is withdrawn)
+// and never load the calendar. One of each, in both languages,
 // against the real backend (LEADS_STORAGE=memory).
 import { expect, test } from '@playwright/test';
-import { getCommon } from '../../src/i18n';
-import { getForm, getResources } from '../../src/lib/lead/dictionaries';
+import { getHome } from '../../src/i18n';
+import { routePath } from '../../src/i18n/routes';
+import { getForm } from '../../src/lib/lead/dictionaries';
 import { fillLeadForm, gotoVip, SELECTORS } from './support/lead-form';
 
 for (const lang of ['es', 'en'] as const) {
   const form = getForm(lang);
-  const common = getCommon(lang);
 
   test(`qualified answer (${lang}): thank-you and the scheduler fallback, no not-ready screen`, async ({ page }) => {
     await gotoVip(page, lang);
@@ -46,19 +47,14 @@ for (const lang of ['es', 'en'] as const) {
     await expect(title).toBeFocused();
     await expect(page.locator(SELECTORS.successContainer)).toBeHidden();
 
-    // The mini-course card in its current state: pending (no file yet), no link to a file.
-    const card = page.locator('#lead-not-ready-container [data-resource-id="minicourse-debt"]');
-    await expect(card).toBeVisible();
-    await expect(card).not.toContainText('{');
-    // The mini-course is delivered by email: `resource.email.coming_soon`, not `resource.pending`.
-    await expect(card).toContainText(getResources(lang).resource.email.coming_soon);
-    await expect(card).not.toContainText(getResources(lang).resource.pending);
-    await expect(card.locator('a')).toHaveCount(0);
-
-    // The blue link to the library; no gold button on this screen.
-    await expect(
-      page.locator('#lead-not-ready-container').getByRole('link', { name: common.cta.all_resources }),
-    ).toBeVisible();
+    // The library is withdrawn (US-046): no mini-course card; a blue button leads to the calculator,
+    // and there is no gold button on this screen.
+    const notReady = page.locator('#lead-not-ready-container');
+    await expect(notReady.locator('[data-resource-id]')).toHaveCount(0);
+    const more = notReady.getByRole('link', { name: getHome(lang).home.hero.secondary });
+    await expect(more).toBeVisible();
+    await expect(more).toHaveAttribute('href', routePath('calculator', lang));
+    await expect(notReady.locator('a[href*="recursos"], a[href*="resources"]')).toHaveCount(0);
     expect(schedulerRequests).toEqual([]);
     expect(await page.locator('script[src*="msgsndr"], iframe').count()).toBe(0);
   });

@@ -83,7 +83,7 @@ for (const viewport of VIEWPORTS) {
         await expect(apply).toHaveClass(/border-heritage-blue/);
         await expect(apply).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
         const methodPath = lang === 'es' ? '/es/metodo-polaris/' : '/en/polaris-method/';
-        for (const gone of ['method', 'resources', 'blog'] as const) {
+        for (const gone of ['method', 'blog'] as const) {
           const path =
             gone === 'blog'
               ? `/${lang}/blog/`

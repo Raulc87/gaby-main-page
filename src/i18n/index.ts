@@ -68,7 +68,6 @@ export interface CommonContent {
     site_name: string;
     home: PageMeta;
     story: PageMeta;
-    resources: PageMeta;
     vip: PageMeta;
     mastery: PageMeta;
     privacy: PageMeta;
@@ -97,15 +96,12 @@ export interface CommonContent {
   cta: {
     vip_long: string;
     vip_apply: string;
-    start_free: string;
-    all_resources: string;
     read_story: string;
   };
   vip_band: {
     eyebrow: string;
     title: string;
     body: string;
-    short_title: string;
   };
   preview: {
     badge: string;

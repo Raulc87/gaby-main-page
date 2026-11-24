@@ -21,4 +21,5 @@ export const story: StoryContent = {
   },
   bio: { placeholder: 'Bio and credentials' },
   photo: { placeholder: 'Session photos' },
+  resources_link: 'Or start free: calculate your months of freedom',
 };

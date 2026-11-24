@@ -31,7 +31,7 @@ test('the video module loads no third-party resource and the page has one gold b
   const thirdParty: string[] = [];
   page.on('request', (request) => {
     const url = new URL(request.url());
-    if (!['127.0.0.1', 'fonts.googleapis.com', 'fonts.gstatic.com'].includes(url.hostname)) {
+    if (url.hostname !== '127.0.0.1') {
       thirdParty.push(request.url());
     }
   });

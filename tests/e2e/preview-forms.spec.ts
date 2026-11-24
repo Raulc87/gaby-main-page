@@ -55,13 +55,13 @@ test.afterAll(async () => {
   if (outDir) rmSync(outDir, { recursive: true, force: true });
 });
 
-/** Records every request that is not to the preview build itself or to Google Fonts (the site's own fonts). */
+/** Records every request that is not to the preview build itself (the typefaces are self-hosted, US-040). */
 function trackRequests(page: Page): { forbidden: string[]; api: string[] } {
   const tracked = { forbidden: [] as string[], api: [] as string[] };
   page.on('request', (request) => {
     const url = new URL(request.url());
     if (url.pathname.startsWith('/api')) tracked.api.push(request.url());
-    const allowedHost = ['127.0.0.1', 'fonts.googleapis.com', 'fonts.gstatic.com'].includes(url.hostname);
+    const allowedHost = url.hostname === '127.0.0.1';
     if (!allowedHost || /leadconnectorhq|msgsndr/.test(url.hostname)) tracked.forbidden.push(request.url());
   });
   return tracked;

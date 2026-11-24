@@ -48,7 +48,7 @@ export const form: FormDictionary = {
   },
   notReady: {
     title: 'Thank you for telling us where you are today.',
-    text: "We may reach out by email or WhatsApp. When the time is right for you, we'll be here. In the meantime, you can start for free with the mini-course:",
+    text: "We may reach out by email or WhatsApp. When the time is right for you, we'll be here. In the meantime, you can start for free: find out how many months you could sustain yourself today.",
   },
   schedulerFallback:
     "We couldn't load the calendar. Email us at {contact_email} and we'll arrange your call.",

@@ -15,12 +15,10 @@ export const PENDING_BLOCKS = {
   'story.photo': 'placeholder',
   'story.bio': 'placeholder',
   'vip.video': 'placeholder',
-  'resource.file_pending': 'placeholder',
   // Provisional copy blocks
   'home.guide_stat': 'provisional',
   'vip.steps': 'provisional',
   'thanks.not_ready': 'provisional',
-  'resource.provisional_title': 'provisional',
 } as const satisfies Record<string, PendingKind>;
 
 export type PendingBlockId = keyof typeof PENDING_BLOCKS;
