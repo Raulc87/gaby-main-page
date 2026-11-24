@@ -1,4 +1,6 @@
-# UX_UI_DIRECTION — v1.1 (phase 2c)
+# UX_UI_DIRECTION — v1.2 (phase 2d)
+
+v1.2 (2026-11-23): phase 2d, Gaby's final content (`PROJECT_SPEC.md` v0.7, [`BRIEF_2026-11-23_WEALTH_MASTERY.md`](BRIEF_2026-11-23_WEALTH_MASTERY.md)): the routes and the header (§3, §4.1), the Wealth Mastery page that replaces the Método Polaris page (§5.7), the Home without its Wealth Mastery section and with the pillars (§5.1), Gaby's calculator (§5.6, §6.7, §6.8), the resource library withdrawn (§5.3, §6.1), two colour tokens for the calculator (§2.1). Proposed in this PR.
 
 v1.1 (2026-11-08): phase 2c, Gaby's StoryBrand review (`PROJECT_SPEC.md` v0.6, [`BRIEF_2026-11-08_STORYBRAND.md`](BRIEF_2026-11-08_STORYBRAND.md)): the Home's new order (§5.1), the calculator page and component (§5.6, §6.7), the Método Polaris page (§5.7), the scheduler (§6.4, ADR-006), the hero photo (§8), and which VIP calls to action are gold (§2.4). Proposed in this PR.
 
@@ -8,7 +10,7 @@ Earlier versions: v0.8 (2026-09-30) honeypot redesign after the autofill inciden
 
 ## 1. Experience goal
 
-Calm, premium and trustworthy, for corporate professionals. Many free resources and one premium door (the VIP mentorship). Hopeful, never fear-based or "get rich"; no pressure.
+Calm, premium and trustworthy, for corporate professionals. One free diagnosis (the calculator) and one premium door (Wealth Mastery). Hopeful, never fear-based or "get rich"; no pressure.
 
 ## 2. Brand
 
@@ -27,6 +29,8 @@ Source: Gaby's brief, board 1 ("Paleta", "Tipografía", "Botones y motivo gráfi
 | `surface` | (derived) | `#FFFFFF` | Cards and the form card on `ivory` |
 | `muted` | (derived) | `#5A5148` | Secondary text, hints, captions (the brief's own secondary text color) |
 | `field-line` | (derived) | `#8C7B6B` | Borders of form controls (inputs, screening option cards, the consent checkbox) |
+| `terracotta-soft` | (Gaby's calculator) | `#E0A98F` | The calculator's "Zona de alerta" pill and its gauge segment (phase 2d); `charcoal` text only (6.91) |
+| `alert-tint` | (Gaby's calculator) | `#F3DED4` | Background of the calculator's concentration alert (phase 2d); `charcoal` text only (10.93) |
 
 Error text keeps Tailwind `red-700` (as in phase 1; no brand token).
 
@@ -41,6 +45,8 @@ Text (4.5:1, or 3:1 for large text of at least 24 px, or 18.66 px bold):
 | `charcoal` | `sand` | 8.46 | All text |
 | `charcoal` | `soft-gold` | 6.86 | All text (the VIP button) |
 | `charcoal` | `terracotta` | 4.67 | All text |
+| `charcoal` | `terracotta-soft` | 6.91 | All text (phase 2d: the alert zone pill) |
+| `charcoal` | `alert-tint` | 10.93 | All text (phase 2d: the concentration alert) |
 | `heritage-blue` | `ivory` | 5.80 | All text (links, eyebrows, italic emphasis) |
 | `heritage-blue` | `surface` | 6.53 | All text |
 | `muted` | `ivory` | 6.89 | All text |
@@ -69,10 +75,10 @@ Non-text (3:1, WCAG 1.4.11): form control borders use `field-line` (3.61 on `ivo
 
 | Style | Look | Used for |
 |---|---|---|
-| Gold (VIP) | `soft-gold` fill, `charcoal` text, Manrope 700, arrow, min height 52 px, 2 px radius | In-page VIP calls to action only: the Home hero (`home.hero.cta`), VIP bands (`cta.vip_apply`), the VIP form submit, the calculator result (`calc.result.cta`). At most one visible per viewport (BR-010). The Home's other VIP calls to action (`home.method.cta`, `home.mastery.cta`, `home.testimonials.cta`) use the blue style |
-| Blue | `heritage-blue` fill, `surface` text, same shape | Free actions: downloads, "see the library", resource calls to action |
-| Outlined | 1.5 px `heritage-blue` border, `heritage-blue` text, transparent | The header VIP link (`nav.vip`) on every page |
-| Text link | `heritage-blue`, underlined on hover and focus, arrow where the brief shows one | "Read my full story", "Calculate it for free" (`home.stakes.cta`), the library links under the calculator teaser |
+| Gold (VIP) | `soft-gold` fill, `charcoal` text, Manrope 700, arrow, min height 52 px, 2 px radius | In-page calls to apply ("Aplicá a Wealth Mastery") only: the Home hero (`home.hero.cta`), the closing bands (`cta.vip_apply`), the Wealth Mastery page's hero and closing band, the application form's submit, the calculator result (`calc.result.cta`). At most one visible per viewport (BR-010). The Home's other calls to apply (`home.method.cta`, `home.testimonials.cta`) use the blue style |
+| Blue | `heritage-blue` fill, `surface` text, same shape | Free actions: the calculator's steps, "calculate your months" |
+| Outlined | 1.5 px `heritage-blue` border, `heritage-blue` text, transparent | The header link to apply (`nav.vip`) on every page; on a `heritage-blue` card, `ivory` border and text (the calculator's "Calcular otra vez") |
+| Text link | `heritage-blue`, underlined on hover and focus, arrow where Gaby's pages show one | "Leé mi historia completa →", "Calculalo gratis" (`home.stakes.cta`), "Conocé Wealth Mastery →" (`home.method.link`) |
 
 Hover: the gold button darkens slightly and lifts 2 px; the blue button shifts toward `charcoal`. Focus: 2 px `heritage-blue` ring with 2 px offset (on blue bands, `ivory` ring). Disabled: 50% opacity, no lift.
 
@@ -96,16 +102,23 @@ Viewport rule (BR-010): a layout must not place two gold buttons in one viewport
 |---|---|---|---|
 | `home` | `/es/` | `/en/` | 2a |
 | `story` | `/es/mi-historia/` | `/en/my-story/` | 2a |
-| `resources` | `/es/recursos/` | `/en/resources/` | 2a |
-| `vip` | `/es/mentoria-vip/` | `/en/vip-mentorship/` | 2a |
+| `resources` | `/es/recursos/` | `/en/resources/` | 2a; withdrawn in 2d (US-046) |
+| `vip` | `/es/mentoria-vip/` | `/en/vip-mentorship/` | 2a; renamed in 2d (US-041) |
 | `privacy` | `/es/privacidad/` | `/en/privacy/` | 2a |
 | `blog` | `/es/blog/` | `/en/blog/` | 2b (US-026) |
-| `method` | `/es/metodo-polaris/` | `/en/polaris-method/` | 2c (US-028, placeholder steps) |
-| `calculator` | `/es/calculadora/` | `/en/calculator/` | 2c (US-035) |
+| `method` | `/es/metodo-polaris/` | `/en/polaris-method/` | 2c (US-028, placeholder steps); withdrawn in 2d (US-042) |
+| `calculator` | `/es/calculadora/` | `/en/calculator/` | 2c (US-035); "Diagnóstico gratis" in the menu from 2d |
+
+**Phase 2d route changes.** `tests/unit/site/routes.test.ts` checks the code against the table above, so each change is made to the table **in the same PR as the route**, by its story:
+- add `mastery`, `/es/wealth-mastery/` and `/en/wealth-mastery/` (US-041, with a stub page; US-042 fills it);
+- move `vip` to `/es/aplicar/` and `/en/apply/` (US-041; the id stays `vip`);
+- remove `method` (US-042, the Wealth Mastery page replaces it) and `resources` (US-046).
+
+The site is not in production, so the old paths need no redirects; the preview stops serving them, and every link to them is removed.
 
 - `/` keeps the ADR-003 detection (saved choice, else browser language) and sends the visitor to the Home in their language.
 - The language toggle (`ES | EN`) switches to the same page id in the other language and keeps the section anchor; it saves the choice.
-- Section anchors are shared by both languages (they are identifiers, not copy): Home `#hero`, `#escalera`, `#en-juego`, `#historia`, `#oportunidad`, `#metodo`, `#wealth-mastery`, `#antes-despues`, `#testimonios`, `#calculadora`, `#vip` (phase 2c; `#recursos` is retired, and a link to it lands on the Home's top); VIP page `#aplicar`.
+- Section anchors are shared by both languages (they are identifiers, not copy): Home `#hero`, `#escalera`, `#en-juego`, `#historia`, `#oportunidad`, `#metodo`, `#antes-despues`, `#testimonios`, `#calculadora`, `#vip` (phase 2d; `#recursos` and `#wealth-mastery` are retired, and a link to either lands on the Home's top); application page `#aplicar`; Wealth Mastery page `#para-vos`, `#metodo`, `#como-funciona`, `#guia`, `#testimonios`, `#preguntas`, `#aplicar`.
 - All internal links and assets are built from the site's base path, so the same build works at the domain root (production) and under `/gaby-main-page/` (GitHub Pages preview, ADR-005).
 - Every page has its own `<title>` and meta description (`CONTENT.md` §1).
 
@@ -115,7 +128,7 @@ Viewport rule (BR-010): a layout must not place two gold buttons in one viewport
 
 - Sticky, `ivory` background, 1 px `sand` bottom border; content max width 1160 px.
 - Left: wordmark (`nav.brand`, Playfair 26 px, `charcoal`), linking to the Home.
-- Desktop (≥ 1024 px): navigation `nav.story`, `nav.method`, `nav.resources` (Manrope 600, `charcoal`, `heritage-blue` underline for the current page with `aria-current="page"`), the `ES | EN` toggle, then the outlined `nav.vip` link.
+- Desktop (≥ 1024 px): navigation `nav.story`, `nav.mastery`, `nav.diagnosis` (phase 2d: Mi historia · Wealth Mastery · Diagnóstico gratis; Manrope 600, `charcoal`, `heritage-blue` underline for the current page with `aria-current="page"`), the `ES | EN` toggle, then the outlined `nav.vip` link ("Aplicá a Wealth Mastery").
 - Below 1024 px: wordmark, the outlined `nav.vip_short` link and a menu button (`nav.menu_open` / `nav.menu_close`); the menu opens as a panel under the header with the navigation and the toggle. Escape and the close button close it; focus moves into the panel when it opens and back to the button when it closes; the page behind does not scroll while it is open (US-020 AC3).
 - A skip link (`skip_link`) is the first focusable element.
 
@@ -129,45 +142,38 @@ Alternate `ivory` and `surface` bands, with one `heritage-blue` band (the VIP ba
 
 ### 4.4 VIP band
 
-Full-width `heritage-blue` band, `ivory` text: eyebrow `vip_band.eyebrow` in `ivory` (13 px: `soft-gold` on blue is only 3.17:1), Playfair title `vip_band.title` (italic part in `soft-gold`, large text, 3.17:1 allowed for large text), `vip_band.body`, and the gold `cta.vip_apply` button to the VIP page. A `soft-gold` polar star at one side. The resource library uses the short variant (`vip_band.short_title`, no eyebrow, no body).
+Full-width `heritage-blue` band, `ivory` text: eyebrow `vip_band.eyebrow` in `ivory` (13 px: `soft-gold` on blue is only 3.17:1), Playfair title `vip_band.title` (italic part in `soft-gold`, large text, 3.17:1 allowed for large text), `vip_band.body`, and the gold `cta.vip_apply` button to the VIP page. A `soft-gold` polar star at one side. Phase 2d: the short variant (`vip_band.short_title`) is withdrawn with the resource library.
 
 ## 5. Pages
 
-### 5.1 Home (US-034; replaces the US-021 order)
+### 5.1 Home (US-034; phase 2d: US-043)
 
-Order and anchors (copy: `CONTENT_PHASE_2C.md` §5). Backgrounds alternate `ivory` and `surface`; the closing VIP section is the page's one `heritage-blue` band (§4.3).
+Order and anchors (copy: `CONTENT.md` §5; phase 2d changes staged in `CONTENT_PHASE_2D.md`). Phase 2d removes the Wealth Mastery section (it moves to the Wealth Mastery page, §5.7), so the Home has ten sections. Backgrounds alternate `ivory` and `surface`; the closing VIP section is the page's one `heritage-blue` band (§4.3).
 
 1. **Hero `#hero`** (`ivory`): two columns on desktop. Left: eyebrow, H1 (italic second half), lead, the gold `home.hero.cta` (to the VIP page), the blue `home.hero.secondary` (to the calculator), and the trust line in `muted`. Right: the "desired state" photo (Gaby living her freedom, or a real client; not a studio portrait), in a rounded 4:5 frame with a `soft-gold` polar star; until it arrives, a `sand` frame with `home.hero.photo.placeholder` and the pending badge. Mobile: copy first, then the photo frame; the two buttons stack full width.
 2. **Problem `#escalera`** (`surface`): narrow text column; `home.ladder.closing` as an editorial Playfair italic line with a `terracotta` left rule.
 3. **Stakes `#en-juego`** (`ivory`): Playfair title; three cards (`surface`, `sand` border), each a bold title and body, 3 columns on desktop, stacked below 768 px; `home.stakes.closing` as an editorial italic line; the text link `home.stakes.cta` to the calculator.
 4. **Guide `#historia`** (`surface`; `terracotta` only as an accent: the portrait frame and a 4 px rule on the title block): the studio portrait (the only place it appears; the provisional phase 1 photo until the session photos arrive), eyebrow, title, the two paragraphs, three figures in a row (Playfair `heritage-blue` value, `muted` label; one per row below 390 px), the media names row (§5.2's chips), and the text link `home.story.cta`.
 5. **Opportunity `#oportunidad`** (`ivory`): eyebrow, title, lead; six benefit cards in 3 columns on desktop, 2 at 768 px, 1 on mobile (as before).
-6. **Método Polaris `#metodo`** (`surface`): eyebrow, title; the three numbered steps (pending badge while provisional); the blue `home.method.cta` to the VIP page; the polar star beside the title.
-7. **Wealth Mastery `#wealth-mastery`** (`ivory`): eyebrow, title, lead; seven module cards (title and one line each; 4 + 3 on desktop, 2 columns at 768 px, 1 on mobile; pending badge on the block while provisional); the blue `home.mastery.cta`.
-8. **Before and after `#antes-despues`** (`surface`): title; two columns, "Hoy" (`muted` heading, a thin `sand` cross before each item) and "Con el Método Polaris" (`heritage-blue` heading, a `heritage-blue` check before each item), stacked on mobile with "Hoy" first. Icons are decorative (`aria-hidden`); each column is a list.
-9. **Proof `#testimonios`** (`ivory`): title; three cards (§6.3: two with a photo and text, one video) with the pending badge; the blue `home.testimonials.cta`, shown only once at least one real testimonial is published (`CONTENT_PHASE_2C.md` §5.9).
-10. **Calculator teaser `#calculadora`** (`surface`): two columns on desktop. Left: eyebrow, title, lead and the "receive" line, the blue `home.calculator.cta` to the calculator page. Right: an example result card (`ivory`, `sand` border): `home.calculator.example.label` in `muted`, the value in large Playfair, and the zone in a small pill (the alert zone colour, §6.7). Below both, `home.calculator.more` and the two library links as text links. Stacked on mobile, the example card after the button.
-11. **Work with me `#vip`** (§4.4): the blue band with `home.vip.body`, the three steps as a numbered row (`soft-gold` numbers, `ivory` text; stacked on mobile), and the gold `cta.vip_apply`.
+6. **Método Polaris `#metodo`** (`surface`): eyebrow, title, lead (Polaris is the North Star); the three pillars as three equal cards in a row (stacked below 768 px), each with its official name as a small label (eyebrow style) above its short name (card title) and one line; **no numbers, no arrows, no order** between them (Gaby: they are worked in parallel); the closing line in bold; then the blue `home.method.cta` (apply) and, beside it, the text link `home.method.link` ("Conocé Wealth Mastery →") to the Wealth Mastery page; the polar star beside the title.
+7. **Before and after `#antes-despues`** (`ivory`; phase 2d alternation): title; two columns, "Hoy" (`muted` heading, a thin `sand` cross before each item) and "Con el Método Polaris" (`heritage-blue` heading, a `heritage-blue` check before each item), stacked on mobile with "Hoy" first. Icons are decorative (`aria-hidden`); each column is a list.
+8. **Proof `#testimonios`** (`surface`): title; three cards (§6.3: two with a photo and text, one video) with the pending badge; the blue `home.testimonials.cta`, shown only once at least one real testimonial is published (`CONTENT.md` §5.9).
+9. **Calculator teaser `#calculadora`** (`ivory`): two columns on desktop. Left: eyebrow, title, lead and the "receive" line, the blue `home.calculator.cta` to the calculator page. Right: an example result card (`surface`, `sand` border): `home.calculator.example.label` in `muted`, the value in large Playfair, and the zone in a small pill (the alert zone colour, §6.7). No links below it (phase 2d: no library). Stacked on mobile, the example card after the button. The example card uses the zone pill of §6.7 for "Zona de alerta".
+10. **Work with me `#vip`** (§4.4): the blue band with `home.vip.body`, the three steps as a numbered row (`soft-gold` numbers, `ivory` text; stacked on mobile), and the gold `cta.vip_apply`.
 
 Gold check (BR-010): gold appears only in the hero and the closing band, which are never in one viewport. The hero's blue `home.hero.secondary` sits next to the gold button; that is allowed (one gold).
 
 ### 5.2 My story (US-022)
 
-Copy: `CONTENT.md` §6. Layout: hero with eyebrow and title and a photo placeholder (`story.photo.placeholder`, pending); the three paragraphs in a narrow column; "media" row: `story.media.label` then the names as text chips in a row that can hold logos later without a redesign (same height boxes, 56 px); "experience" row: Microsoft and Oracle logos (monochrome `charcoal`, max height 28 px, from files committed with their source noted in the PR) and the name "Intel" as text; a bio/credentials placeholder card (pending); the text link to the resources; the VIP band.
+Copy: `CONTENT.md` §6. Layout: hero with eyebrow and title and a photo placeholder (`story.photo.placeholder`, pending); the three paragraphs in a narrow column; "media" row: `story.media.label` then the names as text chips in a row that can hold logos later without a redesign (same height boxes, 56 px); "experience" row: Microsoft and Oracle logos (monochrome `charcoal`, max height 28 px, from files committed with their source noted in the PR) and the name "Intel" as text; a bio/credentials placeholder card (pending); the text link to the free diagnosis (phase 2d, instead of the resources); the closing band.
 
-### 5.3 Free resources (US-024)
+### 5.3 Free resources (withdrawn in phase 2d)
 
-Copy: `CONTENT.md` §7.
+Gaby, 2026-11-23: no resource library; the calculator is the only free resource. The page, its route, its navigation link, its components (§6.1) and its copy (`CONTENT.md` §7) are removed by US-046.
 
-- Header block: eyebrow, title, lead.
-- Featured mini-course: a wide card (cover placeholder left, text right) with `resources.featured.label`, the title and description of `minicourse-debt`, and its state (§6.1).
-- Topic filters: a row of toggle buttons (`resources.filter.all` and the four topics) with `aria-pressed`; the list updates without reloading; without JavaScript all resources are shown and the filters are hidden. Wraps to two lines on mobile.
-- Grid of resource cards (§6.1): 3 columns desktop, 2 at 768 px, 1 on mobile; `resources.empty` when a topic has none.
-- Short VIP band at the end.
+### 5.4 Wealth Mastery application (US-023; renamed in phase 2d)
 
-### 5.4 VIP mentorship (US-023)
-
-Copy: `CONTENT.md` §8.
+Copy: `CONTENT.md` §8. Phase 2d: the page keeps its layout and behaviour; its name, path (§3) and copy follow FR-043.
 
 1. Intro (`ivory`): eyebrow, title, lead, and the three steps as a numbered row (no button: the only gold button on this page is the form submit).
 2. Video module: 16:9 frame with a `heritage-blue` background, a `soft-gold` polar star and `vip.video.placeholder`, with the pending badge. Nothing is loaded from a third party. It holds Gaby's VSL once she records it; how it is hosted and embedded is decided then (the host is a data processor, `PROJECT_SPEC.md` §10).
@@ -178,27 +184,43 @@ Copy: `CONTENT.md` §8.
 
 Plain reading page: title, the notice text (`CONTENT.md` §9) in a narrow column, the DRAFT badge until US-018.
 
-### 5.6 Calculator (US-035)
+### 5.6 Calculator (US-035; Gaby's calculator from phase 2d, US-044)
 
-Copy: `CONTENT_PHASE_2C.md` §11. One page, three steps in place (no page reloads), in a `surface` card on `ivory`, max width 640 px:
+Copy: `CONTENT.md` §11 (Gaby's texts, staged in `CONTENT_PHASE_2D.md`). Layout from Gaby's prototype ([`BRIEF_2026-11-23_WEALTH_MASTERY.md`](BRIEF_2026-11-23_WEALTH_MASTERY.md) §4), in the site's tokens: one column, max width 640 px, on `ivory`; one step at a time (the prototype's recording shows all three at once: a fault of the prototype, brief §5).
 
-1. **Questions:** eyebrow, title, lead; five number inputs (the §6.2 input style, `inputmode="decimal"`, a label and a hint each); `calc.next` (blue). Errors as in §6.2.
-2. **Your details:** `calc.capture.title` and `.body`; name, email, optional WhatsApp, the required consent checkbox (with the privacy-dialog link) and the optional, unticked `calc.capture.marketing` checkbox below it; `calc.capture.submit` (blue). The same honeypot pattern as the VIP form (§6.2, contract `website` field), and the same submission error handling (NFR-006).
-3. **Result:** `calc.result.label`, the months in large Playfair `heritage-blue` (or `calc.result.covered`), the zone pill and its body (§6.7), the email note (only once US-038 is done), the disclaimer in `muted`, the gold `calc.result.cta` to the VIP page, the blue `calc.result.secondary` to the library, and the text link `calc.restart`.
+1. **Header:** eyebrow, H1 (italic second half), lead.
+2. **Step 1, "Tus números"** (`surface` card): the title and, at its right, the currency switch (§6.10: USD / Colones); the example note in a soft `ivory` box; five money inputs, each with a label, an input with the currency symbol inside it at the left (`$` or `₡`), and a hint where Gaby has one; then the company-shares question as a select with four options. The money inputs open with Gaby's example figures, which the visitor replaces; the select opens on "Elegí una opción" and is required (FR-034: the prototype preselects "Entre 20% y 50%", but a preselected answer would be stored as the visitor's own). Money inputs take whole amounts and show thousands separators while typing (a point in Spanish, a comma in English); `inputmode="numeric"`. The error appears above the button when the expenses are empty or 0. Then the blue `calc.next` button.
+3. **Step 2, "Tu resultado está listo"** (`surface` card): title, body (it mentions the guide), name, email, optional WhatsApp (placeholder `+506`), the required consent and the optional, unticked follow-up consent (two checkboxes: FR-035), errors, and the blue `calc.capture.submit`. No prototype note. The same honeypot pattern and submission error handling as the application form (§6.2, NFR-006).
+4. **Step 3, the result** (only after a `201`):
+   - a `heritage-blue` card, 4 px radius: the label `calc.result.label` in `ivory` (eyebrow style; never `soft-gold` at that size, §2.2), the months in large Playfair `ivory` with "meses" / "mes" small beside them (or "∞"), and the zone pill (§6.7);
+   - a `surface` card: the gauge (§6.8), the zone's title (Playfair) and message, two rows (available money and the monthly gap, with their amounts in the chosen currency), and, when it applies, the concentration alert (an `alert-tint` box, `charcoal` text, bold lead-in);
+   - a `heritage-blue` card: the "how do I raise this number?" title and body, the gold `calc.result.cta` (to the application page; the only gold button in its viewport) and the outlined `calc.restart` in `ivory`;
+   - the legal note `calc.result.disclaimer` in `muted`, small.
 
-Focus moves to each step's title when it appears. Without JavaScript the page shows a short message with the VIP link and the library link (the calculator needs the browser to compute). Preview builds: step 2 stores nothing, and step 3 shows `preview.form_note` (§6.6).
+   "Calcular otra vez" returns to step 1 with the figures kept; the details step shows again, prefilled, and stores a new lead (US-035 AC6).
 
-### 5.7 Método Polaris page (US-028)
+Focus moves to each step's title when it appears. Without JavaScript the page shows a short message with the link to apply (the calculator needs the browser). Preview builds: step 2 stores and sends nothing, and step 3 shows `preview.form_note` (§6.6).
 
-Copy: `CONTENT_PHASE_2C.md` §12. Eyebrow, title, lead; the three provisional steps as on the Home (§5.1 item 6, with the pending badge); the `method.steps.placeholder` block (a `sand` card with the polar star, badge in every build); the VIP band. The header's `nav.method` now links here.
+### 5.7 Wealth Mastery page (phase 2d, US-042; replaces the Método Polaris page of US-028)
+
+Copy: Gaby's page (staged in `CONTENT_PHASE_2D.md`). Eight sections, in her order; backgrounds alternate `ivory` and `surface`, and the closing band is the page's one `heritage-blue` band (§4.3):
+
+1. **Hero** (`ivory`): eyebrow ("Mentoría Wealth Mastery"), H1 (italic second half), lead; the gold apply button and, beside it, the blue "Calculá tus meses de libertad gratis" (to the calculator). One gold button.
+2. **For you / not for you `#para-vos`** (`surface`): title; two cards side by side (stacked on mobile): "Es para vos si…" (`surface`, 2 px `heritage-blue` border, a `heritage-blue` check before each item) and "No es para vos si…" (`ivory`, a thin `sand` cross before each item). Each is a list.
+3. **Método Polaris `#metodo`** (`ivory`): eyebrow, title, lead; the three pillars as three equal cards (the official name as a label above the short name; three bullet points each), **no numbers, no arrows**; below them a full-width `heritage-blue` card, "En paralelo, no en orden", with `ivory` text (a card, not a second band).
+4. **How it works `#como-funciona`** (`surface`): title; four cards (a 3-month programme, sessions every 15 days, a content library, a community of graduates), 2 × 2 on desktop, one column on mobile. No prices.
+5. **Who guides you `#guia`** (`ivory`): Gaby's photo (a different one from the Home's portrait; a marked placeholder until it arrives, BR-011) and the text, with the text link to My story.
+6. **Testimonials `#testimonios`** (`surface`): the Home's testimonial cards (§6.3), with their placeholders and badges.
+7. **FAQ `#preguntas`** (`ivory`): title and the accordion (§6.9); the answers show the pending badge until Gaby confirms them (her note).
+8. **Apply `#aplicar`** (§4.4): the closing band with the three steps and the gold apply button.
+
+The header's `nav.mastery` links here and carries `aria-current="page"` on this page.
 
 ## 6. Components
 
-### 6.1 Resource card
+### 6.1 Resource card (withdrawn in phase 2d)
 
-`surface`, 1 px `sand` border, 4 px radius. Cover area (4:3, `sand` fill with the type label and a small polar star, until real covers exist), type label + `resource.free` (eyebrow style), access label (`resource.access.*`, `muted`), title (Manrope 700), description, topic (small, `muted`), and the action:
-- file delivered: blue button (`download`) or blue button with the email CTA label (email resources show `resource.email.coming_soon` until US-025, without a form);
-- file not delivered: `resource.pending` as plain text, no link, plus the pending badge.
+Removed with the resource library (§5.3).
 
 ### 6.2 Application form (unchanged behavior, new skin)
 
@@ -217,7 +239,7 @@ Copy: `CONTENT_PHASE_2C.md` §12. Eyebrow, title, lead; the three provisional st
 ### 6.4 Thank-you screens (US-023 AC4, AC5)
 
 - Qualified: `thanks.qualified.title` and `.body`, then the inline scheduler (full width of the content column, at least 700 px tall on desktop): the GoHighLevel booking calendar (ADR-006, US-037), with name, email and phone pre-filled when the calendar supports it. The `thanks.scheduler_fallback` message replaces it if the URL is unset, the embed fails, or nothing appears within 10 seconds (US-007).
-- Not ready: `thanks.not_ready.title` and `.body`, then the `minicourse-debt` resource card (§6.1, in its current state), then the blue `thanks.not_ready.more` link to the library. The scheduler is not loaded. No gold button.
+- Not ready: `thanks.not_ready.title` and `.body`, then the blue `thanks.not_ready.more` button to the free diagnosis (phase 2d: the mini-course card and the library link are withdrawn). The scheduler is not loaded. No gold button.
 - Focus moves to the screen's title when it appears.
 
 ### 6.5 Pending badge
@@ -230,7 +252,28 @@ In preview builds only: a slim `charcoal` bar above the header with `preview.bad
 
 ### 6.7 Calculator zone pill
 
-A small pill (Manrope 600, 13 px) next to the result: alert, building and freedom. Colours must meet §2.2 (AA for small text): alert in `terracotta`-tinted `surface` with `charcoal` text and a `terracotta` dot; building in `sand` with `charcoal` text; freedom in a light `heritage-blue` tint with `charcoal` text and a `heritage-blue` dot. The zone is also written in words, never shown by colour alone.
+A pill (Manrope 700, 12–13 px, uppercase, 0.14em tracking, `charcoal` text, full radius) under the months, with the zone written in words, never shown by colour alone. Colours are Gaby's, all AA with `charcoal` (§2.2):
+
+| Zone | Fill |
+|---|---|
+| Zona crítica | `terracotta` |
+| Zona de alerta | `terracotta-soft` |
+| Base en construcción | `soft-gold` |
+| Camino a la libertad | `sand` |
+| Colchón sólido | `sand` |
+| Libre financieramente | `soft-gold` |
+
+### 6.8 Calculator gauge
+
+A horizontal bar (14 px high, rounded) under the result, decorative (`aria-hidden`: the months and the zone are already in words). It follows the months scale 0 · 6 · 12 · 24 · 36+: 0–3 `terracotta`, 3–6 `terracotta-soft`, 6–12 `soft-gold`, 12 and above `sand`. A thin `charcoal` marker sits at the result, piecewise: 0–6 over the first quarter, 6–12 the second, 12–24 the third, 24–36 the fourth; 36 or more, and ∞, at the end. The scale's labels are in `muted` below it.
+
+### 6.9 FAQ accordion
+
+Native `<details>` / `<summary>` elements, one per question, so the keyboard and screen readers work without script: a `surface` card with a 1 px `sand` border; the question in Manrope 700 with a chevron that turns when open; the answer below. All closed at first.
+
+### 6.10 Currency switch
+
+Two toggle buttons (USD, Colones) in a pill-shaped group (`surface`, 1.5 px `field-line` border); the selected one is `heritage-blue` with `surface` text, with `aria-pressed`. Switching converts the figures at `PUBLIC_CRC_PER_USD` and changes the symbol in every input. Each conversion starts from the amounts as the visitor typed them (kept with the currency they were typed in), not from the last converted value, so switching back and forth never drifts (₡1,250 → $3 → ₡1,250); the inputs show the converted amounts rounded to whole units. At least 44 px high.
 
 ## 7. Provisional copy in code
 
