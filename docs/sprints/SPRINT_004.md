@@ -251,7 +251,7 @@ All planned stories are merged, in the planned order: the scaffold first (#74, 2
 - #84 merged while US-037 AC1's rename of `PUBLIC_CALENDLY_URL` in other owners' files was still open (the owner had not chosen between companion PRs and an exception). The files' owners fix it in #86 (Agent 3: `.env.example`, `CONTRIBUTING.md`, the runbooks, the baseline's third parties) and #87 (Agent 1: `src/env.d.ts`), and this PR fixes `README.md` and `TECH_STACK.md`.
 
 **Sprint Definition of Done:**
-- [x] Stories meet their acceptance criteria and moved their copy out of [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md), which #84 left empty (deleted in the phase 2d copy PR, with the links to it).
+- [x] Stories meet their acceptance criteria and moved their copy out of `CONTENT_PHASE_2C.md`, which #84 left empty (deleted in the phase 2d copy PR, with the links to it).
 - [x] GitHub Actions green on `main`; the preview publishes.
 - [x] `SECURITY_BASELINE.md` approved by the owner (#75).
 - [ ] The preview reviewed with Gaby: carried to Sprint 005. Gaby's final content (2026-11-23) reached us before she reviewed this sprint's preview; the review now happens on the Sprint 005 preview, which applies it.
