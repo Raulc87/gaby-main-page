@@ -76,19 +76,26 @@ describe('voseo (US-041 AC1)', () => {
 });
 
 describe('the programme name (US-041 AC2)', () => {
-  const everything = [
+  const everything: Array<[string, string]> = [
     ...allStrings(spanishModules),
     ...allStrings(englishModules),
-    ...RESOURCES.flatMap((resource) => [
-      resource.title.es,
-      resource.title.en,
-      resource.description.es,
-      resource.description.en,
+    ...RESOURCES.flatMap((resource): Array<[string, string]> => [
+      [`${resource.id}.title.es`, resource.title.es],
+      [`${resource.id}.title.en`, resource.title.en],
+      [`${resource.id}.description.es`, resource.description.es],
+      [`${resource.id}.description.en`, resource.description.en],
     ]),
   ];
 
+  const offendersFor = (entries: Array<[string, string]>, name: string) =>
+    entries.filter(([, value]) => value.includes(name)).map(([path]) => path);
+
+  it('checks the resource data too', () => {
+    expect(everything.some(([path]) => path.startsWith(`${RESOURCES[0].id}.`))).toBe(true);
+    expect(offendersFor([['guide.title.es', 'Mentoría VIP de ejemplo']], 'Mentoría VIP')).toEqual(['guide.title.es']);
+  });
+
   it.each(['Mentoría VIP', 'VIP Mentorship'])('does not show "%s"', (name) => {
-    const offenders = everything.filter(([, value]) => value.includes(name)).map(([path]) => path);
-    expect(offenders).toEqual([]);
+    expect(offendersFor(everything, name)).toEqual([]);
   });
 });
