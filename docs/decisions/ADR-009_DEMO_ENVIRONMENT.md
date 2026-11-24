@@ -1,6 +1,6 @@
 # ADR-009 — A password-protected demo environment for Gaby's functional test
 
-- Status: **Proposed** (accepted when the human owner merges the docs PR that adds it)
+- Status: **Accepted** by the human owner by merging #104 (2026-11-24)
 - Date: 2026-11-24
 - Decision owner: Human project owner
 - Related: [ADR-001](ADR-001_BACKEND_HOSTING.md) (Python endpoint on cPanel, same origin), [ADR-005](ADR-005_BRANCHING_AND_RELEASE_MODEL.md) (preview and release), [ADR-006](ADR-006_SCHEDULER_GOHIGHLEVEL.md) (calendar), [ADR-008](ADR-008_GOHIGHLEVEL_CONTACTS.md) (contacts); [`DEPLOYMENT.md`](../runbooks/DEPLOYMENT.md), [`GOHIGHLEVEL.md`](../runbooks/GOHIGHLEVEL.md), [`GOOGLE_SHEETS_SETUP.md`](../runbooks/GOOGLE_SHEETS_SETUP.md); [`SPRINT_005.md`](../sprints/SPRINT_005.md) close-out ("Testing with Gaby")

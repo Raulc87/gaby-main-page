@@ -1121,7 +1121,7 @@ so that I don't land on a library that no longer exists.
 ## US-047 — Demo environment for Gaby's functional test
 - Priority: High
 - Story Points: 5
-- Status: Proposed — Sprint 006 candidate
+- Status: Planned — Sprint 006 ([`SPRINT_006.md`](../sprints/SPRINT_006.md))
 - Related Requirements: FR-030 (the preview stays demonstration-only), FR-034 to FR-041, NFR-007
 - Related ADR: [ADR-009](../decisions/ADR-009_DEMO_ENVIRONMENT.md); ADR-001, ADR-005, ADR-006, ADR-008
 - Source: the human owner, 2026-11-24 (Gaby decides on gabykelly.com only after seeing the funnel work)

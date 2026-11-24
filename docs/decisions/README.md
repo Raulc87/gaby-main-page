@@ -10,6 +10,6 @@
 | [ADR-006](ADR-006_SCHEDULER_GOHIGHLEVEL.md) | Call scheduling: GoHighLevel calendar replaces Calendly | Accepted on merge (phase 2c) |
 | [ADR-007](ADR-007_FUNNEL_EMAILS.md) | How the funnel emails are sent | Accepted on merge (phase 2d): GoHighLevel, option C |
 | [ADR-008](ADR-008_GOHIGHLEVEL_CONTACTS.md) | Leads sent to GoHighLevel as contacts through its API | Accepted on merge (phase 2d) |
-| [ADR-009](ADR-009_DEMO_ENVIRONMENT.md) | A password-protected demo environment for Gaby's functional test (`gabydemo.digitalstrike-solutions.com`) | Proposed (accepted on merge) |
+| [ADR-009](ADR-009_DEMO_ENVIRONMENT.md) | A password-protected demo environment for Gaby's functional test (`gabydemo.digitalstrike-solutions.com`) | Accepted (#104) |
 
 Create an ADR when a technical or architectural decision has meaningful alternatives, trade-offs, or long-term consequences. Use the Starter Kit's `docs/decisions/ADR_TEMPLATE.md`.
