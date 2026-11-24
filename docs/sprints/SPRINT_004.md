@@ -40,10 +40,10 @@ Readiness checklist run on 2026-11-08 on the documents as this planning PR merge
 | 3 | [`AGENTS.md`](../../AGENTS.md), [`CLAUDE.md`](../../CLAUDE.md) and the checklist match the Starter Kit (§1, blocking) | Done: kit v1.2.0 (#67). The kit's v1.3.0 is not synced (the owner closed #68 on 2026-11-08 and will sync a later version) |
 | 4 | [`README.md`](../../README.md) status matches [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md) (§1) | Done in this PR |
 | 5 | Branch names for every story (§1, blocking) | Done (Planned Stories) |
-| 6 | Spec v0.6, stories US-028–US-037, UX v1.1, the staged copy ([`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md)), contract v1.2, ADR-006 and this plan agree (§2, blocking) | Done in #69 and this PR |
+| 6 | Spec v0.6, stories US-028–US-037, UX v1.1, the staged copy (`CONTENT_PHASE_2C.md`), contract v1.2, ADR-006 and this plan agree (§2, blocking) | Done in #69 and this PR |
 | 7 | Every sprint story has testable acceptance criteria (§3, blocking) | Done |
 | 8 | Shared interfaces locked (§4, blocking): [`LEAD_API_CONTRACT.md`](../specs/LEAD_API_CONTRACT.md) v1.2 (the calculator endpoint, section 11) is locked by this PR; the route map for `method` and `calculator` is defined by the scaffold (merge order step 1) | Done in this PR |
-| 9 | Personal data: jurisdiction, consent mechanism, privacy notice (§5, blocking): Ley 8968; the calculator's two consents (owner, 2026-11-08); the notice text of [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) A.8, still DRAFT. Nothing is public: the preview stores nothing | Done |
+| 9 | Personal data: jurisdiction, consent mechanism, privacy notice (§5, blocking): Ley 8968; the calculator's two consents (owner, 2026-11-08); the notice text of `CONTENT_PHASE_2C.md` A.8, still DRAFT. Nothing is public: the preview stores nothing | Done |
 | 10 | Security baseline (§5): GK already wrote code when it adopted the baseline (kit v1.2.0 sync, #67), so the baseline is a story in this sprint (US-029) and the item blocks from Sprint 005 | Done (US-029 planned) |
 | 11 | Every sprint story that touches an applicable OWASP risk has acceptance criteria that verify it (§5, blocking) | Done: each story has its Security section (US-028's is added in this PR); US-029 AC3 adds any missing criterion |
 | 12 | Secret and dependency scanning set up, or planned as a story in this sprint (§5) | Planned: US-029 AC4 |
@@ -103,7 +103,7 @@ The first two touch files of two agents at once, which this sprint's parallel wo
   - stub pages in both languages with their titles and descriptions (`meta.calculator.*`, `meta.method.*`);
   - `nav.method` keeps linking to the Home's `#metodo` section; `GK-028-method-page` switches it to the page, so the header never leads to an empty stub;
   - the header's `nav.vip` and `nav.vip_short` (§4.1);
-  - it moves [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) A.2 and A.3 into [`CONTENT.md`](../ux/CONTENT.md).
+  - it moves `CONTENT_PHASE_2C.md` A.2 and A.3 into [`CONTENT.md`](../ux/CONTENT.md).
   The calculator stub pages belong to Agent 2 once the PR merges.
 - `GK-034-home`: the new Home (US-034).
 - `GK-028-method-page`: the Método Polaris page (US-028).
@@ -112,7 +112,7 @@ The first two touch files of two agents at once, which this sprint's parallel wo
 - `GK-035-calculator`: the calculator page (US-035).
   - Built against contract v1.2 with the request stubbed in unit tests.
   - Its e2e test runs against the endpoint once `GK-036-calculator-leads` is merged.
-  - It also moves the privacy-notice text for the calculator ([`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) A.8: `privacy.p2`, `privacy.p3`, `privacy.p5`).
+  - It also moves the privacy-notice text for the calculator (`CONTENT_PHASE_2C.md` A.8: `privacy.p2`, `privacy.p3`, `privacy.p5`).
 - `GK-037-ghl-scheduler`: the GoHighLevel calendar (US-037), when its embed URL arrives.
 - `GK-CHORE-root-marker-e2e`: the e2e test for the root page's preview marker ([`SPRINT_003.md`](SPRINT_003.md) follow-ups).
 - Keeps the cross-cutting e2e suite green, and runs the integration check (merge order step 4).
@@ -142,7 +142,7 @@ An agent edits only files it owns. If it needs a change in another agent's file,
 | `docs/**` except `docs/runbooks/**` and `docs/security/**`, [`AGENTS.md`](../../AGENTS.md), [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md), [`README.md`](../../README.md) | Human owner (agents propose changes through PRs, per change management) |
 
 **Recorded exceptions (human owner, by approving this plan):**
-- **Copy moves:** each agent edits [`docs/ux/CONTENT.md`](../ux/CONTENT.md) and [`docs/ux/CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) only to move its own staged parts, as its story's acceptance criteria say. The copy moves in the same PR as the code, and the moved text is deleted from the staging file. The staging file's part table says who moves what.
+- **Copy moves:** each agent edits [`docs/ux/CONTENT.md`](../ux/CONTENT.md) and `docs/ux/CONTENT_PHASE_2C.md` only to move its own staged parts, as its story's acceptance criteria say. The copy moves in the same PR as the code, and the moved text is deleted from the staging file. The staging file's part table says who moves what.
 - **US-029 AC3:** Agent 3 may add a missing security acceptance criterion to a story in [`docs/specs/USER_STORIES.md`](../specs/USER_STORIES.md), in `GK-029-security-baseline`, and names each one in the PR.
 - **The privacy-notice version:** Agent 2 may change the one `PRIVACY_NOTICE_VERSION` line in [`api/.env.example`](../../api/.env.example) in `GK-035-calculator` and in `GK-037-ghl-scheduler`, because each changes the notice text (`privacy.ts` is Agent 2's). The version and the text it names always change in the same PR.
 
@@ -170,7 +170,7 @@ Shared, and owned by Agent 1 once `GK-034-site-scaffold` merges: the route map (
    - the calculator flow against the backend in memory mode (stores, then shows the result; an error keeps the result hidden);
    - the VIP routing.
 
-**Copy across PRs:** no PR depends on copy another PR moves. The staged keys that two pages share are written out in full (`calc.eyebrow`, `calc.title`, `home.calculator.example.zone`), and aliases point only at keys already in `CONTENT.md`. The Método Polaris page shows the `home.method.*` steps as they are when it merges; `GK-034-home` updates step 3's body for both pages ([`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md), note above the part table).
+**Copy across PRs:** no PR depends on copy another PR moves. The staged keys that two pages share are written out in full (`calc.eyebrow`, `calc.title`, `home.calculator.example.zone`), and aliases point only at keys already in `CONTENT.md`. The Método Polaris page shows the `home.method.*` steps as they are when it merges; `GK-034-home` updates step 3's body for both pages (`CONTENT_PHASE_2C.md`, note above the part table).
 
 **Cycle check (AGENTS.md → Parallel agent rules):**
 - The waits are: home, method and calculator wait on the scaffold; calculator waits on calculator-leads; contributing waits on calculator-leads.
@@ -181,7 +181,7 @@ Shared, and owned by Agent 1 once `GK-034-site-scaffold` merges: the route map (
 
 - Merge conflicts are resolved when found, by the human owner together with the agent that owns the conflicting file.
 - An agent must not rewrite another agent's files to resolve a conflict.
-- [`CONTENT.md`](../ux/CONTENT.md) and [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) are edited by several PRs, each in its own sections. When one falls behind, its author merges `main` and keeps every other PR's moves intact.
+- [`CONTENT.md`](../ux/CONTENT.md) and `CONTENT_PHASE_2C.md` are edited by several PRs, each in its own sections. When one falls behind, its author merges `main` and keeps every other PR's moves intact.
 - If a conflict reveals a contract or requirement gap, stop and apply change management (spec first).
 
 ## Review Model
@@ -203,7 +203,7 @@ Parallel work is not complete until:
 
 ## Sprint Definition of Done
 
-- Selected stories satisfy their acceptance criteria, and each moved its copy out of [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md).
+- Selected stories satisfy their acceptance criteria, and each moved its copy out of `CONTENT_PHASE_2C.md`.
 - GitHub Actions green on `main`; the preview publishes.
 - `SECURITY_BASELINE.md` approved by the human owner (US-029 AC7).
 - The preview reviewed by the human owner and shared with Gaby.

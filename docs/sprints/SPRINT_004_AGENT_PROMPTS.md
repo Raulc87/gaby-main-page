@@ -11,7 +11,7 @@ At the go-ahead the coordinator also archives the Sprint 003 sessions, and recor
 
 | Agent | Model | Effort | Why |
 |---|---|---|---|
-| Agent 1 — Site scaffold, Home, Método Polaris page | Sonnet 5.5 | high | The largest story (the eleven-section Home) and the scaffold everyone builds on; fully specified in [`UX_UI_DIRECTION.md`](../ux/UX_UI_DIRECTION.md) v1.1 and [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) |
+| Agent 1 — Site scaffold, Home, Método Polaris page | Sonnet 5.5 | high | The largest story (the eleven-section Home) and the scaffold everyone builds on; fully specified in [`UX_UI_DIRECTION.md`](../ux/UX_UI_DIRECTION.md) v1.1 and `CONTENT_PHASE_2C.md` |
 | Agent 2 — Calculator, scheduler, e2e | Sonnet 5.5 | high | A form bound to contract v1.2 and its formula, the privacy text, and the cross-cutting e2e suite |
 | Agent 3 — Backend, security baseline, developer guide | Sonnet 5.5 | high | An endpoint bound to contract v1.2, the scaled ASVS inventory and the scanning set-up |
 | Review-only agent | Opus 5.5 | high | Copy fidelity, the gold rule, consent and personal-data handling, and the security baseline are where a stronger model pays off |
