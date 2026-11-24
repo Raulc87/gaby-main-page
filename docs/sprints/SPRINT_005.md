@@ -119,7 +119,7 @@ An agent edits only files it owns. If it needs a change in another agent's file,
 | [`src/pages/index.astro`](../../src/pages/index.astro), `src/pages/{es,en}/index.astro`, `public/**` except the folders below | Agent 1 |
 | `src/components/method/**`, `src/i18n/{es,en}/method.ts`, `src/pages/es/metodo-polaris/**`, `src/pages/en/polaris-method/**`, [`tests/e2e/method.spec.ts`](../../tests/e2e/method.spec.ts) | Agent 3, **to delete them** in `GK-042-wealth-mastery-page` (they were Agent 1's) |
 | `src/components/mastery/**` (new), `src/i18n/{es,en}/mastery.ts` (new), `src/pages/{es,en}/wealth-mastery/**` (stub by Agent 1 in the scaffold, then Agent 3's), `tests/e2e/mastery.spec.ts` (new) | Agent 3 |
-| `src/components/lead/**`, `src/components/resources/**` (to delete), `src/components/calculator/**`, `src/lib/lead/**`, `src/lib/calculator/**`, [`src/data/resources.ts`](../../src/data/resources.ts) (to delete) | Agent 2 |
+| `src/components/lead/**`, `src/components/resources/**` (to delete), `src/components/calculator/**`, `src/lib/lead/**`, `src/lib/calculator/**`, `src/data/resources.ts` (to delete) | Agent 2 |
 | `src/i18n/{es,en}/form.ts`, `vip.ts`, `resources.ts` (to delete), `privacy.ts`, `calculator.ts` | Agent 2 |
 | `src/pages/es/{aplicar,mentoria-vip,recursos,privacidad,calculadora}/**`, `src/pages/en/{apply,vip-mentorship,resources,privacy,calculator}/**` (the scaffold moves the VIP pages to the new paths), `public/resources/**` (to delete) | Agent 2 |
 | `src/components/story/**`, `src/i18n/{es,en}/story.ts`, `src/pages/es/mi-historia/**`, `src/pages/en/my-story/**`, `public/logos/**` | Agent 3 |
