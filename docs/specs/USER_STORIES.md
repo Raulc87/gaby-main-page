@@ -666,7 +666,7 @@ so that I understand how Gaby works before applying.
 2. The header navigation item (`nav.method`) leads to the page: this PR switches it from the Home's `#metodo` section (where the scaffold leaves it) to the page. The Home keeps its short Método Polaris section (US-034).
 3. The page ends with a VIP band; existing tests stay green and e2e covers the navigation in both languages.
 
-4. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §12 and its row of A.1. `meta.method.*` moves with the scaffold (US-034).
+4. The PR moves its copy from `CONTENT_PHASE_2C.md` into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §12 and its row of A.1. `meta.method.*` moves with the scaffold (US-034).
 
 **Security**
 - None: a static page with no form or third party.
@@ -756,7 +756,7 @@ so that I see myself in it and know my next step: apply, or find out where I sta
 6. The calculator teaser links to the calculator page, shows the example result, and shows `home.calculator.receive` (not `receive_with_guide`) until US-038 is done; its two library links go to the resource library, where both resources show as coming soon.
 7. Pending badges follow `CONTENT.md` → Metadata (the new provisional blocks in preview and development builds; the hero photo and testimonial placeholders in every build).
 8. Existing tests are updated for the new order and anchors; e2e covers both languages, the hero's two calls to action, the gold rule at the four widths, and that no link points at the removed `#recursos` anchor.
-9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: A.2 and A.3 (in the scaffold PR, `GK-034-site-scaffold`, Sprint 004 plan); then, in the Home PR, its rows of A.1, A.4 to A.6b, and §5 (replacing [`CONTENT.md`](../ux/CONTENT.md) §5), and bumps [`CONTENT.md`](../ux/CONTENT.md) to v0.2.
+9. The PR moves its copy from `CONTENT_PHASE_2C.md` into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: A.2 and A.3 (in the scaffold PR, `GK-034-site-scaffold`, Sprint 004 plan); then, in the Home PR, its rows of A.1, A.4 to A.6b, and §5 (replacing [`CONTENT.md`](../ux/CONTENT.md) §5), and bumps [`CONTENT.md`](../ux/CONTENT.md) to v0.2.
 
 **Security**
 - None: static content. No new form or third party.
@@ -787,7 +787,7 @@ so that I understand where I stand and whether I need a plan.
 6. The result shows the zone in words and colour (§6.7), the disclaimer, the gold `calc.result.cta` to the VIP page, the library link and "Calculate again". "Calculate again" returns to the questions; the details step then shows again, prefilled, and submitting it stores a new row with the new result (the calculator has its own rate-limit budget, contract v1.2 §11.1). `calc.result.email_note` is not shown until US-038 is done.
 7. The questions, zones and result show the pending badge in preview and development builds (placeholder formula).
 8. Accessibility: every input has a label and hint linked to it; focus moves to each step's title; errors are announced; the page works at 360 px with no horizontal scroll. Without JavaScript the page shows the VIP and library links instead of the calculator.
-9. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §11, its row of A.1, and the calculator's privacy text (A.8: `privacy.p2`, `privacy.p3`, `privacy.p5`), and bumps the `PRIVACY_NOTICE_VERSION` line in [`api/.env.example`](../../api/.env.example) in the same PR, so the version and the text it names change together (recorded exception, Sprint 004 plan). `meta.calculator.*` moves with the scaffold (US-034).
+9. The PR moves its copy from `CONTENT_PHASE_2C.md` into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: §11, its row of A.1, and the calculator's privacy text (A.8: `privacy.p2`, `privacy.p3`, `privacy.p5`), and bumps the `PRIVACY_NOTICE_VERSION` line in [`api/.env.example`](../../api/.env.example) in the same PR, so the version and the text it names change together (recorded exception, Sprint 004 plan). `meta.calculator.*` moves with the scaffold (US-034).
 
 **Security**
 - OWASP Top 10 (2025) A05 Injection and the API's input validation are covered by US-036. This story sends only what FR-035 lists (data minimization); the five figures never leave the browser.
@@ -845,7 +845,7 @@ so that I don't pay for Calendly as well and all my bookings are in one place.
 4. The not-ready screen loads no scheduler. Preview builds still show the static stand-in and load nothing from GoHighLevel (FR-030).
 5. The privacy notice names GoHighLevel instead of Calendly (`CONTENT_PHASE_2C.md` A.8 (`privacy.p4`)), and `PRIVACY_NOTICE_VERSION` is bumped in the same PR.
 6. Tests: unit tests for the fallback timing and the URL handling; e2e for both screens with the scheduler stubbed (no network call to GoHighLevel in CI).
-7. The PR moves its copy from [`CONTENT_PHASE_2C.md`](../ux/CONTENT_PHASE_2C.md) into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: A.7 (the renamed key) and A.8 `privacy.p4`.
+7. The PR moves its copy from `CONTENT_PHASE_2C.md` into [`CONTENT.md`](../ux/CONTENT.md) in the same PR as the code, and deletes it from the staging file: A.7 (the renamed key) and A.8 `privacy.p4`.
 
 **Security**
 - A third-party script (GoHighLevel's embed) runs on the thank-you screen only, after the save; it is listed in the security baseline's third parties (US-029). No secret is involved: the widget URL is public.
