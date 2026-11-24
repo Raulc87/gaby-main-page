@@ -21,6 +21,8 @@
   --color-surface: #ffffff;
   --color-muted: #5a5148;
   --color-field-line: #8c7b6b;
+  --color-terracotta-soft: #e0a98f;
+  --color-alert-tint: #f3ded4;
 
   /*
    * Transitional aliases of the Proposal A token names, kept only because

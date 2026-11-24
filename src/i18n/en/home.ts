@@ -10,9 +10,9 @@ export const home: HomeDictionary = {
       title:
         'You earn well, but your money *isn\'t giving you peace of mind.*',
       lead:
-        'I help you organize your money, turn your career\'s benefits into capital, and invest to build wealth and freedom, without giving up what you\'ve built.',
+        'I help you organize your money, turn your career\'s benefits into capital, and invest to build wealth and freedom, without giving up what you\'ve already built.',
       cta:
-        'Apply to the VIP Mentorship',
+        'Apply to Wealth Mastery',
       secondary:
         'Calculate your months of freedom for free',
       trust:
@@ -30,7 +30,7 @@ export const home: HomeDictionary = {
       p1:
         'A higher rank, more people reporting to you, ever-higher quotas, raises, travel. From the outside, everything is going well.',
       p2:
-        'But even when you work from home, your mind isn\'t there. It\'s on the quota, the team, the next meeting. You feel that *everything depends on you*.',
+        'But even when you work from home, your mind isn\'t there. It\'s on the quota, the team, the next meeting. More and more depends on you, and you feel that *everything depends on you*.',
       p3:
         'Meanwhile, every raise goes into a slightly more expensive lifestyle.',
       closing:
@@ -288,7 +288,7 @@ export const home: HomeDictionary = {
           title:
             'An initial call with me',
           body:
-            'We look at where you are and whether the mentorship is for you.',
+            'We look at where you are and whether Wealth Mastery is for you.',
         },
         '3': {
           title:

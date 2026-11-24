@@ -41,7 +41,7 @@ function sourceFiles(dir: string): string[] {
 describe('brand tokens (UX_UI_DIRECTION.md section 2.1)', () => {
   const colors = themeColors();
 
-  it('declares the nine brand colors with the specified values', () => {
+  it('declares the brand colors with the specified values', () => {
     expect(colors).toMatchObject({
       'heritage-blue': '#3c5f8d',
       ivory: '#f5f1ea',
@@ -52,6 +52,9 @@ describe('brand tokens (UX_UI_DIRECTION.md section 2.1)', () => {
       surface: '#ffffff',
       muted: '#5a5148',
       'field-line': '#8c7b6b',
+      // Gaby's calculator (phase 2d, UX_UI_DIRECTION.md section 2.1; used by US-044)
+      'terracotta-soft': '#e0a98f',
+      'alert-tint': '#f3ded4',
     });
   });
 
@@ -68,6 +71,8 @@ describe('brand tokens (UX_UI_DIRECTION.md section 2.1)', () => {
         'soft-gold',
         'surface',
         'terracotta',
+        'terracotta-soft',
+        'alert-tint',
       ].sort(),
     );
     for (const alias of ['paper', 'ink', 'navy', 'brand', 'gold', 'gold-ink', 'line']) {
@@ -96,6 +101,8 @@ describe('allowed color pairs (UX_UI_DIRECTION.md section 2.2, AC5, AC7)', () =>
     ['charcoal', 'sand', 8.46, 4.5],
     ['charcoal', 'soft-gold', 6.86, 4.5],
     ['charcoal', 'terracotta', 4.67, 4.5],
+    ['charcoal', 'terracotta-soft', 6.91, 4.5],
+    ['charcoal', 'alert-tint', 10.93, 4.5],
     ['heritage-blue', 'ivory', 5.8, 4.5],
     ['heritage-blue', 'surface', 6.53, 4.5],
     ['muted', 'ivory', 6.89, 4.5],

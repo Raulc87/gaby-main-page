@@ -20,12 +20,17 @@ const { nav, lang: langStrings } = getCommon(lang);
 
 const links = [
   { id: 'story', label: nav.story, href: pageHref('story', lang), current: pageId === 'story' },
-  { id: 'method', label: nav.method, href: pageHref('method', lang), current: pageId === 'method' },
   {
-    id: 'resources',
-    label: nav.resources,
-    href: pageHref('resources', lang),
-    current: pageId === 'resources',
+    id: 'mastery',
+    label: nav.mastery,
+    href: pageHref('mastery', lang),
+    current: pageId === 'mastery',
+  },
+  {
+    id: 'calculator',
+    label: nav.diagnosis,
+    href: pageHref('calculator', lang),
+    current: pageId === 'calculator',
   },
 ];
 ---
