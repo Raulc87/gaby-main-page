@@ -1,0 +1,239 @@
+name: Demo build
+
+# US-047 / ADR-009: package what the human owner deploys by hand to the demo
+# environment (https://gabydemo.digitalstrike-solutions.com/): the static site built
+# with the demo values, and api/ without its tests. See docs/runbooks/DEPLOYMENT.md
+# section 11.
+#
+# Started by hand, on main only. It runs the same checks as CI, then uploads two
+# artifacts. It holds no secret and deploys nothing: the owner downloads the
+# artifacts and uploads them to the host. The calendar URL is public (Gaby's
+# GoHighLevel booking widget): it is a run input, or the repository variable
+# DEMO_SCHEDULER_URL (a variable, not a secret).
+#
+# Demo values: PUBLIC_PREVIEW is not set (the forms store and send for real), the
+# base path is / (SITE_BASE_PATH is not set), PUBLIC_SCHEDULER_URL is the calendar.
+
+on:
+  workflow_dispatch:
+    inputs:
+      scheduler_url:
+        description: "Gaby's GoHighLevel booking widget URL (public, https, the final one that does not redirect). Empty: the repository variable DEMO_SCHEDULER_URL"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  # workflow_dispatch can be started on any branch; the demo is deployed from main only.
+  guard:
+    name: main only
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stop unless this run is on main
+        env:
+          RUN_REF: ${{ github.ref }}
+        run: |
+          if [ "$RUN_REF" != "refs/heads/main" ]; then
+            echo "::error::The demo build runs on main only (this run is on $RUN_REF). Start it again with the branch set to main."
+            exit 1
+          fi
+
+  # The same checks as .github/workflows/frontend.yml (the frontend job).
+  frontend:
+    needs: guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run check
+
+      - name: Unit tests
+        run: npm run test
+
+  # The same check as .github/workflows/backend.yml.
+  backend:
+    needs: guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: api
+    env:
+      # As in backend.yml: pytest is never affected by the rate limiter.
+      RATE_LIMIT_MAX_REQUESTS: "0"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: Run pytest
+        run: pytest
+
+  package:
+    needs: [frontend, backend]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Resolve the calendar URL
+        id: scheduler
+        env:
+          INPUT_URL: ${{ inputs.scheduler_url }}
+          VARIABLE_URL: ${{ vars.DEMO_SCHEDULER_URL }}
+        run: |
+          url="${INPUT_URL:-$VARIABLE_URL}"
+          if [ -z "$url" ]; then
+            echo "::error::No calendar URL. Give the scheduler_url input, or set the repository variable DEMO_SCHEDULER_URL (Settings, Secrets and variables, Actions, Variables)."
+            exit 1
+          fi
+          # One https URL with no spaces or line breaks: it goes into the build as it is.
+          pattern='^https://[A-Za-z0-9._~:/?#@%&=+,;-]+$'
+          if ! [[ "$url" =~ $pattern ]]; then
+            echo "::error::The calendar URL must be one https address with no spaces."
+            exit 1
+          fi
+          case "$url" in
+            *your-calendar-id*)
+              echo "::error::That is the placeholder of .env.example, not a real calendar."
+              exit 1
+              ;;
+          esac
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the static site with the demo values
+        env:
+          PUBLIC_SCHEDULER_URL: ${{ steps.scheduler.outputs.url }}
+          # Not set, on purpose: PUBLIC_PREVIEW (the forms store and send for real),
+          # SITE_BASE_PATH (the base path is /), PUBLIC_CONTACT_EMAIL and the endpoint
+          # variables (their defaults are the ones of the contract, section 9).
+        run: npm run build
+
+      - name: Check that dist/ is the demo build
+        env:
+          PUBLIC_SCHEDULER_URL: ${{ steps.scheduler.outputs.url }}
+        run: |
+          set -euo pipefail
+          test -f dist/es/aplicar/index.html
+          if grep -rqi 'noindex' dist; then
+            echo "::error::dist/ has a noindex tag: this is a preview build."
+            exit 1
+          fi
+          if grep -rq 'gaby-main-page' dist; then
+            echo "::error::dist/ refers to the preview's base path /gaby-main-page/."
+            exit 1
+          fi
+          # The attribute holds the URL with & written as &amp;.
+          expected="data-scheduler-url=\"${PUBLIC_SCHEDULER_URL//&/&amp;}\""
+          if ! grep -qF "$expected" dist/es/aplicar/index.html; then
+            echo "::error::The calendar URL is not in the application page."
+            exit 1
+          fi
+          if find dist \( -name '.env*' -o -name '.htaccess' -o -name '*service-account*' \) | grep -q .; then
+            echo "::error::dist/ holds a file that must never be uploaded."
+            exit 1
+          fi
+
+      - name: Package api/ without its tests
+        run: |
+          set -euo pipefail
+          mkdir api-package
+          tar -C api \
+            --exclude='tests' \
+            --exclude='pytest.ini' \
+            --exclude='.pytest_cache' \
+            --exclude='requirements-dev.txt' \
+            --exclude='run_local.py' \
+            --exclude='__pycache__' \
+            --exclude='*.pyc' \
+            --exclude='.venv' \
+            --exclude='.env' \
+            --exclude='.env.*' \
+            -cf - . | tar -C api-package -xf -
+          for required in passenger_wsgi.py app.py requirements.txt crm/sync.py resend_crm.py; do
+            test -f "api-package/$required"
+          done
+          if find api-package \( -path '*/tests/*' -o -name '.env*' -o -name '*.json' -o -name '*.pem' -o -name '*.key' -o -name 'requirements-dev.txt' \) | grep -q .; then
+            echo "::error::api-package/ holds a file that must never be uploaded."
+            exit 1
+          fi
+
+      - name: Record the commit in both packages
+        id: meta
+        run: |
+          set -euo pipefail
+          {
+            echo "commit: $GITHUB_SHA"
+            echo "workflow run: $GITHUB_RUN_ID (attempt $GITHUB_RUN_ATTEMPT)"
+            echo "built: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > demo-build.txt
+          cp demo-build.txt dist/demo-build.txt
+          cp demo-build.txt api-package/demo-build.txt
+          echo "short=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Summary
+        run: |
+          {
+            echo "## Demo build"
+            echo
+            echo "Commit \`$GITHUB_SHA\`. Preview mode off, base path \`/\`, the calendar URL set. No secret is used, and nothing is deployed."
+            echo
+            echo "### Site (\`dist/\`): $(find dist -type f | wc -l) files, top level"
+            echo '```'
+            ls -A dist
+            echo '```'
+            echo "### API (\`api-package/\`): $(find api-package -type f | wc -l) files"
+            echo '```'
+            (cd api-package && find . -type f | sort)
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the static site
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-site-${{ steps.meta.outputs.short }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload api/ without its tests
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-api-${{ steps.meta.outputs.short }}
+          path: api-package/
+          if-no-files-found: error
+          retention-days: 14

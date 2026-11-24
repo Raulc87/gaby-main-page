@@ -1,6 +1,6 @@
 # GOHIGHLEVEL — the leads in Gaby's account
 
-How the site sends every saved lead to Gaby's GoHighLevel account as a contact, and how to set it up, check it, resend what failed and rotate the token. Written for US-045 ([ADR-008](../decisions/ADR-008_GOHIGHLEVEL_CONTACTS.md), [`LEAD_API_CONTRACT.md`](../specs/LEAD_API_CONTRACT.md) v1.3 section 12), in the style of the kit's runbook guide. Version 1, 2026-11-24.
+How the site sends every saved lead to Gaby's GoHighLevel account as a contact, and how to set it up, check it, resend what failed and rotate the token. Written for US-045 ([ADR-008](../decisions/ADR-008_GOHIGHLEVEL_CONTACTS.md), [`LEAD_API_CONTRACT.md`](../specs/LEAD_API_CONTRACT.md) v1.3 section 12), in the style of the kit's runbook guide. Version 2, 2026-11-24: section 10 is the cleanup after a test round on the demo environment (US-047, [ADR-009](../decisions/ADR-009_DEMO_ENVIRONMENT.md)).
 
 The site keeps its forms and the Google Sheet as the record of every lead. After each save, the backend creates or updates the person's contact in GoHighLevel, matched on the email, then writes the outcome in the row's `crm_status` column: `sent`, `failed`, `pending`, `off` or `superseded`. If GoHighLevel is down, the visitor still gets their result or their next screen, and the row says `failed` until it is resent (section 7). Gaby's workflows send the emails ([ADR-007](../decisions/ADR-007_FUNNEL_EMAILS.md)): the site sends no email.
 
@@ -168,3 +168,31 @@ If the token was exposed in Git, chat or a log, treat step 4 as urgent: do it fi
 | The contact exists but the email workflow did not start | The tag is missing or the workflow's trigger names another tag | Compare the contact's tags with section 4 |
 | The command prints `GHL_SYNC is off` | Its environment has `GHL_SYNC` off or unset | Run it with the application's variables (section 7) |
 | The command prints `the rows could not be read from storage` | The sheet is not reachable, or its header has no `crm_status` column, or the column is not in the position of the setup runbook | Check [`GOOGLE_SHEETS_SETUP.md`](GOOGLE_SHEETS_SETUP.md) sections 4 and 4b |
+
+## 10. Clean up after a demo test round (US-047, ADR-009)
+
+The demo environment ([`DEPLOYMENT.md`](DEPLOYMENT.md) section 11) sends contacts to Gaby's real GoHighLevel account and saves rows in a test sheet. After each test round, and before the demo is taken down, remove what the test made. Done by Gaby, or by the owner in her account; no agent does it.
+
+**The rule: delete only what the test made.** Work from the test email addresses in the test sheet, never from a tag alone: Gaby's real contacts may carry the same tags (`lead-calculadora`, `aplicacion-vip`).
+
+**Order matters:** bookings first, then contacts, then the sheet. Do not run the resend command (section 7) after step 3: it would create the deleted contacts again.
+
+1. **List the test rows.** Open the **test** sheet (check its name: never a sheet that holds a real lead). In the tabs `leads` and `calculator`, note the email of every row the round made (filter by the date in `submitted_at`). If a row you still want to see in GoHighLevel says `failed` or `pending`, resend it first (section 7); otherwise leave it.
+
+   Expected: a list of the test email addresses and nothing else.
+
+2. **Cancel the test bookings.** In GoHighLevel, open **Calendars**, then the appointments list of the demo's calendar. Find each appointment booked by a test address, and cancel it. If the screen names differ on Gaby's plan, use the equivalent.
+
+   Expected: no appointment of a test address stays booked, and its time is free again in the calendar. GoHighLevel may email the cancellation to the test address.
+
+3. **Delete the test contacts.** Open **Contacts**, search each email of step 1, check that the name and email are the test's, and delete the contact. Include the test contact of the earlier checks, `ana.perez@example.com`, if it still exists.
+
+   Expected: searching each test email finds no contact. A contact of a person who is not a test stays untouched.
+
+4. **Clear or archive the test sheet's rows.** Archive first if you want a record: **File**, **Make a copy**, and name the copy for the round. Then, in each tab (`leads` and `calculator`), select the rows from row 2 down and delete them. Never delete row 1: it is the header, `crm_status` included, and the backend writes under it.
+
+   Expected: each tab holds only its header row, and the next test's row appears in row 2.
+
+5. **Note it.** Write the date and the result (for example "2 contacts, 1 booking, 3 rows") in the sprint's close-out.
+
+Emails that Gaby's workflows already sent cannot be recalled; they went to test addresses only.
