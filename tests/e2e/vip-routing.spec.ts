@@ -31,7 +31,7 @@ for (const lang of ['es', 'en'] as const) {
     await expect(page.locator('#lead-not-ready-container')).toBeHidden();
   });
 
-  test(`not-ready answer (${lang}): not-ready screen with the mini-course card, no calendar`, async ({ page }) => {
+  test(`not-ready answer (${lang}): not-ready screen with a link to the calculator, no calendar, no gold button`, async ({ page }) => {
     const schedulerRequests: string[] = [];
     page.on('request', (request) => {
       if (/leadconnectorhq|msgsndr/.test(request.url())) schedulerRequests.push(request.url());
@@ -55,6 +55,13 @@ for (const lang of ['es', 'en'] as const) {
     await expect(more).toBeVisible();
     await expect(more).toHaveAttribute('href', routePath('calculator', lang));
     await expect(notReady.locator('a[href*="recursos"], a[href*="resources"]')).toHaveCount(0);
+    // Gold is #D6B04D (rgb(214, 176, 77)): none of the not-ready screen's buttons or links may use it.
+    const gold = await notReady.evaluate((root) =>
+      [...root.querySelectorAll<HTMLElement>('a, button')].filter(
+        (el) => getComputedStyle(el).backgroundColor === 'rgb(214, 176, 77)',
+      ).length,
+    );
+    expect(gold).toBe(0);
     expect(schedulerRequests).toEqual([]);
     expect(await page.locator('script[src*="msgsndr"], iframe').count()).toBe(0);
   });
