@@ -4,8 +4,8 @@
 
 Resends the rows whose `crm_status` is `failed` or `pending`, in both tabs
 (Wealth Mastery applications and calculator leads), and updates the column.
-A row is not resent when a later row of the tab has the same email (it would
-overwrite the newer values): it is marked `superseded` instead (contract 1.3.1).
+A row is not resent when a later row of the tab has the same email and a status of
+sent, failed or pending (it would overwrite the newer values): it is marked `superseded` instead (contract 1.3.1).
 Prints only counts. Needs the server's environment (the same variables as the
 application: storage, `GHL_*`) and `GHL_SYNC=on`. Run by hand; the runbook is
 docs/runbooks/GOHIGHLEVEL.md.

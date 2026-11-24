@@ -153,20 +153,47 @@ def test_of_several_unsent_rows_only_the_latest_is_sent_and_the_older_are_supers
     assert _statuses(storage) == ["superseded", "superseded", "sent"]
 
 
-def test_a_later_row_of_any_status_supersedes_an_older_unsent_one():
+@pytest.mark.parametrize("later_status", ["sent", "failed", "pending"])
+def test_a_later_row_that_is_sent_failed_or_pending_supersedes_an_older_unsent_one(later_status):
     storage = _storage_of(
-        _row("a@example.com", "failed", "4.40", "alert", 0),
-        _row("a@example.com", "off", "36.00", "solid_cushion", 1),
-        _row("b@example.com", "failed", "4.40", "alert", 2),
-        _row("b@example.com", "superseded", "36.00", "solid_cushion", 3),
+        _row("ana@example.com", "failed", "4.40", "alert", 0),
+        _row("ana@example.com", later_status, "36.00", "solid_cushion", 1),
+    )
+    fake = FakeCrmClient()
+
+    resend_contacts(storage, CrmSync(enabled=True, client=fake), calculator_contact)
+
+    assert _statuses(storage)[0] == "superseded"
+    # Only a later row that is itself failed or pending is sent, and only once.
+    assert len(fake.contacts) == (1 if later_status != "sent" else 0)
+
+
+def test_a_later_off_row_does_not_supersede_so_the_older_row_is_still_resent():
+    # An `off` row (saved while GHL_SYNC was off) was never sent, so it does not hold the contact.
+    storage = _storage_of(
+        _row("ana@example.com", "failed", "4.40", "alert", 0),
+        _row("ana@example.com", "off", "36.00", "solid_cushion", 1),
     )
     fake = FakeCrmClient()
 
     result = resend_contacts(storage, CrmSync(enabled=True, client=fake), calculator_contact)
 
-    assert fake.contacts == []
-    assert result == ResendResult(superseded=2)
-    assert _statuses(storage) == ["superseded", "off", "superseded", "superseded"]
+    assert [c.custom_fields["zona"] for c in fake.contacts] == ["Zona de alerta"]
+    assert result == ResendResult(sent=1)
+    assert _statuses(storage) == ["sent", "off"]
+
+
+def test_a_later_superseded_row_does_not_supersede_on_its_own():
+    storage = _storage_of(
+        _row("ana@example.com", "failed", "4.40", "alert", 0),
+        _row("ana@example.com", "superseded", "36.00", "solid_cushion", 1),
+    )
+    fake = FakeCrmClient()
+
+    result = resend_contacts(storage, CrmSync(enabled=True, client=fake), calculator_contact)
+
+    assert result == ResendResult(sent=1)
+    assert _statuses(storage) == ["sent", "superseded"]
 
 
 def test_a_superseded_row_is_never_resent():
