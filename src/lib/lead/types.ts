@@ -98,8 +98,8 @@ export interface FormDictionary {
   thankYou: { title: string; text: string };
   /** Not-ready screen (`thanks.not_ready.title` and `.body`, US-023 AC5). */
   notReady: { title: string; text: string };
-  /** Shown when Calendly is unavailable; contains one `{contact_email}` placeholder. */
-  calendlyFallback: string;
+  /** Shown when the booking calendar is unavailable; contains one `{contact_email}` placeholder. */
+  schedulerFallback: string;
   /**
    * Keyed by contract field error code (section 8), except `invalid_format`
    * which UX_UI_DIRECTION.md gives distinct copy per field: use

@@ -20,7 +20,7 @@
 // 4. `429` / `rate_limited` (AC3/AC4), forced via route mocking (deliberately
 //    independent of the real rate limiter's timing/window, which pytest
 //    already covers): the localized "too many attempts" message is shown,
-//    the entered data stays, and neither success nor Calendly appear.
+//    the entered data stays, and neither success nor the calendar appear.
 import { expect, test, type Page } from '@playwright/test';
 import { form as enForm } from '../../src/i18n/en/form';
 import { form as esForm } from '../../src/i18n/es/form';
@@ -261,7 +261,7 @@ test.describe('429 / rate_limited (mocked)', () => {
 
     await expect(page.locator(SELECTORS.formContainer)).toBeVisible();
     await expect(page.locator(SELECTORS.successContainer)).toBeHidden();
-    await expect(page.locator(SELECTORS.calendlyWidget)).toBeHidden();
+    await expect(page.locator(SELECTORS.schedulerWidget)).toBeHidden();
 
     // Data kept for retry (US-013 AC4).
     await expect(page.locator(SELECTORS.nameInput)).toHaveValue(VALID_LEAD.name);

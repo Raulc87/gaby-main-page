@@ -1,26 +1,26 @@
 ---
-// Inline Calendly embed (US-007). Only ever initialized after a real 201
-// (schedulingController.ts listens for the `lead:success` event dispatched
-// by leadFormController.ts's `onSuccess`), so the Calendly script is never
-// requested before a successful save (AC2). Falls back to a mailto link
-// when PUBLIC_CALENDLY_URL is unset, the widget script fails to load, or no
-// iframe renders within 10 seconds (AC5). In preview builds (US-027 AC3) it is a
-// static `sand` stand-in with `preview.scheduler`: no Calendly script, no URL,
-// whatever PUBLIC_CALENDLY_URL is.
+// Inline booking calendar: Gaby's GoHighLevel calendar (US-037, ADR-006). Only ever
+// initialized after a real 201 (schedulingController.ts listens for the `lead:success`
+// event dispatched by leadFormController.ts's `onSuccess`), so nothing is requested from
+// GoHighLevel before a successful save, and never on the not-ready screen. Falls back to
+// a mailto link when PUBLIC_SCHEDULER_URL is unset, the embed fails to load, or the
+// calendar does not appear within 10 seconds (US-007 AC5, US-037 AC3). In preview builds
+// (US-027 AC3) it is a static `sand` stand-in with `preview.scheduler`: no iframe, no
+// script, no URL, whatever PUBLIC_SCHEDULER_URL is.
 import { splitTemplate } from '../../lib/lead/format';
-import { CALENDLY_URL, CONTACT_EMAIL } from '../../lib/lead/config';
+import { SCHEDULER_URL, CONTACT_EMAIL } from '../../lib/lead/config';
 import type { FormDictionary } from '../../lib/lead/types';
 
 interface Props {
-  calendlyFallback: FormDictionary['calendlyFallback'];
+  schedulerFallback: FormDictionary['schedulerFallback'];
   /** Preview build: show the stand-in instead of the scheduler. */
   preview?: boolean;
   /** `preview.scheduler`. */
   previewNote?: string;
 }
 
-const { calendlyFallback, preview = false, previewNote = '' } = Astro.props;
-const fallbackParts = splitTemplate(calendlyFallback, 'contact_email');
+const { schedulerFallback, preview = false, previewNote = '' } = Astro.props;
+const fallbackParts = splitTemplate(schedulerFallback, 'contact_email');
 
 const fallbackCopy = {
   before: fallbackParts.before,
@@ -36,13 +36,13 @@ const fallbackCopy = {
     </div>
   ) : (
     <div
-      id="calendly-container"
+      id="scheduler-container"
       class="mt-6"
-      data-calendly-url={CALENDLY_URL}
+      data-scheduler-url={SCHEDULER_URL}
       data-fallback={JSON.stringify(fallbackCopy)}
     >
-      <div id="calendly-widget" class="min-h-[630px] w-full" hidden></div>
-      <p id="calendly-fallback" hidden class="text-sm text-muted"></p>
+      <div id="scheduler-widget" class="min-h-[630px] w-full" hidden></div>
+      <p id="scheduler-fallback" hidden class="text-sm text-muted"></p>
     </div>
   )
 }
@@ -50,7 +50,7 @@ const fallbackCopy = {
 <script>
   import { initScheduling } from './schedulingController';
 
-  const container = document.getElementById('calendly-container');
+  const container = document.getElementById('scheduler-container');
   const successContainer = document.getElementById('lead-success-container');
   if (container && successContainer) initScheduling(container, successContainer);
 </script>

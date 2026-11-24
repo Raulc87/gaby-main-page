@@ -191,7 +191,7 @@ const scriptCopy = {
   >
     <ThankYou thankYou={form.thankYou} />
     {preview && <p data-preview-note class="mt-3 text-sm font-semibold text-charcoal">{common.preview.form_note}</p>}
-    <Scheduling calendlyFallback={form.calendlyFallback} preview={preview} previewNote={common.preview.scheduler} />
+    <Scheduling schedulerFallback={form.schedulerFallback} preview={preview} previewNote={common.preview.scheduler} />
   </div>
 
   <!-- Not-ready screen (US-023 AC5, UX_UI_DIRECTION.md section 6.4): no scheduler, no gold button. -->
