@@ -4,6 +4,6 @@
 // (docs/specs/LEAD_API_CONTRACT.md section 9).
 interface ImportMetaEnv {
   readonly PUBLIC_LEAD_ENDPOINT?: string;
-  readonly PUBLIC_CALENDLY_URL?: string;
+  readonly PUBLIC_SCHEDULER_URL?: string;
   readonly PUBLIC_CONTACT_EMAIL?: string;
 }
