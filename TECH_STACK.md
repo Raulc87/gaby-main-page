@@ -1,10 +1,10 @@
 # TECH_STACK — Gabriela Kelly Pilot
 
 ## Metadata
-- Version: 0.4.1
+- Version: 0.4.2
 - Status: Approved for Sprint 001; v0.4 proposed for Sprint 003 (phase 2)
 - Complexity: Simple
-- Last updated: 2026-11-24 (v0.4.1: the GoHighLevel booking widget replaces Calendly, ADR-006, US-037). 2026-10-16 (v0.4: phase 2 — GitHub Pages preview, ADR-005; production host undecided; multipage routes, ADR-003 update; fonts Playfair Display and Manrope, `UX_UI_DIRECTION.md` v1.0). v0.3 (2026-09-23: Node floor raised from 20 LTS to 22 LTS, section 4 — see GK-010-frontend-scaffold PR #4)
+- Last updated: 2026-11-24 (v0.4.2: self-hosted typefaces, US-040). 2026-11-24 (v0.4.1: the GoHighLevel booking widget replaces Calendly, ADR-006, US-037). 2026-10-16 (v0.4: phase 2 — GitHub Pages preview, ADR-005; production host undecided; multipage routes, ADR-003 update; fonts Playfair Display and Manrope, `UX_UI_DIRECTION.md` v1.0). v0.3 (2026-09-23: Node floor raised from 20 LTS to 22 LTS, section 4 — see GK-010-frontend-scaffold PR #4)
 
 ## 1. Complexity Assessment
 
@@ -40,6 +40,7 @@ Use the least-complex stack that satisfies the requirements and works reliably i
 - Astro (static output) with built-in i18n routing (`/es/`, `/en/`)
 - TypeScript
 - Tailwind CSS
+- Typefaces: Playfair Display and Manrope, self-hosted as WOFF2 (SIL Open Font License) in `public/fonts/`; no request to Google Fonts (US-040)
 - Node.js 22 LTS for development and CI (raised from 20 LTS in v0.3: the
   Node-20-compatible majors of Astro/Vitest/`eslint-plugin-astro` carry
   unpatched critical advisories — XSS, SSRF, RCE via AVIF image
