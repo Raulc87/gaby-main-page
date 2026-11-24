@@ -1,11 +1,11 @@
-# SPRINT 006 — PLANNED
+# SPRINT 006 — ACTIVE
 
 ## Metadata
-- Status: PLANNED — waiting for the human owner's go-ahead (Entry Gates, gate 12)
+- Status: ACTIVE — the human owner gave the go-ahead on 2026-11-24 (Entry Gates, gate 12); agents launched the same day ([`SPRINT_006_AGENT_PROMPTS.md`](SPRINT_006_AGENT_PROMPTS.md) → Session IDs)
 - Duration: 3 business days
 - Saturdays and Sundays excluded
-- Start: the first business day after the go-ahead
-- End: 3 business days after the start, then the owner's deploy and checks, and Gaby's test on the demo
+- Start: 2026-11-25 (the first business day after the go-ahead; the agents began reading on 2026-11-24)
+- End: 2026-11-27 (3 business days), then the owner's deploy and checks, and Gaby's test on the demo
 - Final reviewer: Human project owner
 
 ## Sprint Goal
@@ -40,8 +40,8 @@ Readiness checklist run on 2026-11-24 on the documents as #104 and this planning
 | 8 | Shared interfaces locked (§4, blocking) | Nothing changes: contract v1.3.1 and the build variables of contract §9 are used as they are |
 | 9 | Personal data (§5, blocking): the demo is private (basic authentication over everything, `/api` included) and carries test data only (ADR-009 decision 4); the draft privacy notice stays (ADR-009 → Consequences) | Done |
 | 10 | Security (§5, blocking): the baseline exists (#75); US-047 has security criteria (no secret in Git, a workflow, an artifact or chat; the whole subdomain behind the password; test data only); secret scanning, Dependabot, `npm audit` and `pip-audit` required on `main` | Done |
-| 11 | **No agent uses a third party's live account, the owner's cPanel or Gaby's GoHighLevel** (Sprint 005 gate 13, extended to the owner's hosting) | Approved by merging this plan |
-| 12 | Go-ahead from the human owner (§8, blocking) | Pending |
+| 11 | **No agent uses a third party's live account, the owner's cPanel or Gaby's GoHighLevel** (Sprint 005 gate 13, extended to the owner's hosting) | Done: approved by merging #105 (2026-11-24) |
+| 12 | Go-ahead from the human owner (§8, blocking) | Done: given on 2026-11-24, after #105 merged |
 
 Non-blocking items, needed for the owner's checks after the sprint, not for merging:
 - **From Gaby:** her GoHighLevel set-up ([`GOHIGHLEVEL.md`](../runbooks/GOHIGHLEVEL.md)), consisting of:
