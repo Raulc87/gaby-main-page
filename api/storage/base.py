@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Collection, Protocol
+from typing import Protocol
 
 # Where a saved row can be found again (a sheet row number, a list index).
 # None means the adapter could not tell, so the row's crm_status stays as written.
@@ -23,8 +23,6 @@ class LeadStorage(Protocol):
         """
         ...
 
-    def rows_with_crm_status(
-        self, crm_statuses: Collection[str]
-    ) -> list[tuple[RowReference, dict]]:
-        """The saved rows whose `crm_status` is one of `crm_statuses`, for the resend command."""
+    def saved_rows(self) -> list[tuple[RowReference, dict]]:
+        """Every saved row, oldest first, each with its reference (for the resend command)."""
         ...

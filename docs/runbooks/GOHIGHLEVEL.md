@@ -53,6 +53,15 @@ What each field holds:
 
 An existing contact keeps its other tags and fields; the ones above are set again each time.
 
+## 3b. Make GoHighLevel match contacts on the email (Gaby, or the owner in her account)
+
+The site creates or updates a contact by its email, and sends the phone too when it has one. GoHighLevel decides which existing contact matches from the sub-account's duplicate-contact setting, not from the request: if it checks the phone first, an email that belongs to one contact and a phone that belongs to another would update the phone's contact, and put the tags and fields on the wrong person.
+
+1. In the sub-account's settings, find the **Allow Duplicate Contact** setting (GoHighLevel's help names the screen).
+2. Turn duplicates off, and set the fields it checks so that **email comes first**, before phone.
+
+Expected: the setting shows duplicates not allowed with email first. Section 6 checks it with two test contacts. Do not turn sync on in production before that check passes.
+
 ## 4. Tags and workflows
 
 The site adds these tags. GoHighLevel creates a tag the first time it is added, and Gaby may create them before to pick them in her workflows.
@@ -90,13 +99,16 @@ Done once, with Gaby's token in a development environment and your own name and 
 3. In GoHighLevel, open the contact with your email. Expected: the tags `lead-calculadora`, the language tag and `consentimiento-correos`; the fields `meses`, `zona`, `moneda` and `alerta_concentracion` filled.
 4. Send a Wealth Mastery application with the same email. Expected: the same contact now also has `aplicacion-vip`, the earlier tags are still there, and `preseleccion` is filled.
 5. Run the calculator again without the optional consent, with the same email. Expected: the tags added before stay (the site never removes a tag).
-6. Delete the test contact in GoHighLevel, and note the date and result in the sprint close-out.
+6. Check the matching of section 3b. In GoHighLevel, create a second test contact with another email and a phone number. Send a calculator lead with your first email and that phone number. Expected: the first contact is updated and the second keeps its own email, tags and fields. If the second contact changed, fix section 3b before going on.
+7. Delete both test contacts in GoHighLevel, and note the date and result in the sprint close-out.
 
 With `LEADS_STORAGE=google_sheets`, each of those rows also shows `crm_status` `sent`.
 
 ## 7. Resend what was not sent
 
 A row is `failed` when GoHighLevel did not answer in time, refused the request or the configuration was incomplete. It is `pending` when the server stopped between sending and writing the outcome. Resending is safe: GoHighLevel matches the contact on its email, so a contact never doubles. A row saved while `GHL_SYNC` was `off` stays `off`; it is not resent.
+
+A row is not resent when the same email has a newer submission in the same tab that GoHighLevel already holds or still owes it: sending the older values again would overwrite the newer ones. Of several unsent rows for one email, only the newest is resent. The older rows keep their status (`failed` or `pending`) and are counted as superseded; the contact already carries the person's latest submission, so they need no action.
 
 Fix the cause first (section 9), then run the command on the server, in the application's folder, with the same environment variables as the application.
 
@@ -117,8 +129,8 @@ In cPanel, open the Python app's page in *Setup Python App*, copy the command it
 Expected output, one line per tab, with counts only:
 
 ```
-applications: sent 0, failed 0, sent but status not updated 0
-calculator: sent 2, failed 0, sent but status not updated 0
+applications: sent 0, failed 0, sent but status not updated 0, superseded by a newer submission 0
+calculator: sent 2, failed 0, sent but status not updated 0, superseded by a newer submission 0
 ```
 
 The rows' `crm_status` cells change to `sent`. If a count of `failed` is above 0, the cause is not fixed: see section 9. If `sent but status not updated` is above 0, the contact reached GoHighLevel but the sheet could not be written: those rows stay `pending`, and a second run settles them.
@@ -150,6 +162,7 @@ If the token was exposed in Git, chat or a log, treat step 4 as urgent: do it fi
 | The log says `invalid_response` | GoHighLevel answered without a contact id | Section 7; if it repeats, tell the developer: its API may have changed (ADR-008 review trigger) |
 | The log says `network` | The server cannot reach GoHighLevel (a firewall or DNS) | Fix the hosting's outbound network access, then section 7 |
 | Rows stay `pending` | The process stopped between sending and writing the outcome, or the sheet could not be written | Section 7 |
+| A contact got another person's tags or fields | GoHighLevel matched on the phone first | Fix section 3b, check it as in section 6 step 6, and correct the contact by hand |
 | The contact exists but the email workflow did not start | The tag is missing or the workflow's trigger names another tag | Compare the contact's tags with section 4 |
 | The command prints `GHL_SYNC is off` | Its environment has `GHL_SYNC` off or unset | Run it with the application's variables (section 7) |
 | The command prints `the rows could not be read from storage` | The sheet is not reachable, or its header has no `crm_status` column | Check [`GOOGLE_SHEETS_SETUP.md`](GOOGLE_SHEETS_SETUP.md) sections 4 and 4b |

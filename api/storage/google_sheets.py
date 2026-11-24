@@ -12,7 +12,7 @@ StorageError with a generic message only.
 from __future__ import annotations
 
 import re
-from typing import Any, Callable, Collection
+from typing import Any, Callable
 
 from .base import LeadStorage, RowReference, StorageError
 
@@ -104,10 +104,8 @@ class GoogleSheetsLeadStorage(LeadStorage):
         except Exception as exc:  # noqa: BLE001 - any failure degrades to a generic StorageError
             raise StorageError("Failed to update crm_status in Google Sheets.") from exc
 
-    def rows_with_crm_status(
-        self, crm_statuses: Collection[str]
-    ) -> list[tuple[RowReference, dict]]:
-        """Rows whose crm_status is in `crm_statuses`, read by the header row's names."""
+    def saved_rows(self) -> list[tuple[RowReference, dict]]:
+        """Every row below the header, oldest first, read by the header row's names."""
         try:
             values = self._worksheet().get_all_values()
         except StorageError:
@@ -118,13 +116,10 @@ class GoogleSheetsLeadStorage(LeadStorage):
         if not values or CRM_STATUS_COLUMN not in values[0]:
             raise StorageError("The sheet has no crm_status column.")
         header = values[0]
-        status_index = header.index(CRM_STATUS_COLUMN)
-        matching_rows: list[tuple[RowReference, dict]] = []
-        for row_number, cells in enumerate(values[1:], start=2):
-            padded = cells + [""] * (len(header) - len(cells))
-            if padded[status_index] in crm_statuses:
-                matching_rows.append((row_number, dict(zip(header, padded))))
-        return matching_rows
+        return [
+            (row_number, dict(zip(header, cells + [""] * (len(header) - len(cells)))))
+            for row_number, cells in enumerate(values[1:], start=2)
+        ]
 
 
 def _appended_row_number(append_response: Any) -> RowReference:

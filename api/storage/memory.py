@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Collection
-
 from .base import RowReference
 
 
@@ -19,14 +17,8 @@ class MemoryLeadStorage:
         if reference is not None:
             self._leads[reference]["crm_status"] = crm_status
 
-    def rows_with_crm_status(
-        self, crm_statuses: Collection[str]
-    ) -> list[tuple[RowReference, dict]]:
-        return [
-            (index, dict(lead))
-            for index, lead in enumerate(self._leads)
-            if lead.get("crm_status") in crm_statuses
-        ]
+    def saved_rows(self) -> list[tuple[RowReference, dict]]:
+        return [(index, dict(lead)) for index, lead in enumerate(self._leads)]
 
     @property
     def leads(self) -> list[dict]:

@@ -270,30 +270,34 @@ def test_set_crm_status_wraps_failure_in_storage_error():
         storage.set_crm_status(7, "sent")
 
 
-def test_rows_with_crm_status_reads_rows_by_header_name():
+def test_saved_rows_reads_every_row_by_header_name_oldest_first():
     header = list(CALCULATOR_COLUMN_ORDER)
     row_sent = ["1", "A B", "a@example.com"] + [""] * (len(header) - 4) + ["sent"]
     row_failed = ["2", "C D", "c@example.com"] + [""] * (len(header) - 4) + ["failed"]
     row_short = ["3", "E F", "e@example.com"]  # a v1.2 row without the new columns
-    row_pending = ["4", "G H", "g@example.com"] + [""] * (len(header) - 4) + ["pending"]
-    worksheet = _FakeWorksheet(values=[header, row_sent, row_failed, row_short, row_pending])
+    worksheet = _FakeWorksheet(values=[header, row_sent, row_failed, row_short])
 
-    rows = _calculator_storage(worksheet).rows_with_crm_status({"failed", "pending"})
+    rows = _calculator_storage(worksheet).saved_rows()
 
-    assert [(reference, row["name"]) for reference, row in rows] == [(3, "C D"), (5, "G H")]
-    assert rows[0][1]["email"] == "c@example.com"
-    assert rows[0][1]["crm_status"] == "failed"
+    assert [(reference, row["name"]) for reference, row in rows] == [
+        (2, "A B"),
+        (3, "C D"),
+        (4, "E F"),
+    ]
+    assert rows[1][1]["email"] == "c@example.com"
+    assert rows[1][1]["crm_status"] == "failed"
+    assert rows[2][1]["crm_status"] == ""
 
 
-def test_rows_with_crm_status_requires_the_column_in_the_header():
+def test_saved_rows_requires_the_column_in_the_header():
     header = [column for column in CALCULATOR_COLUMN_ORDER if column != "crm_status"]
     storage = _calculator_storage(_FakeWorksheet(values=[header]))
 
     with pytest.raises(StorageError):
-        storage.rows_with_crm_status({"failed"})
+        storage.saved_rows()
 
 
-def test_rows_with_crm_status_wraps_failure_in_storage_error():
+def test_saved_rows_wraps_failure_in_storage_error():
     storage = GoogleSheetsLeadStorage(
         service_account_file="/secure/service-account.json",
         sheet_id="sheet-123",
@@ -303,4 +307,4 @@ def test_rows_with_crm_status_wraps_failure_in_storage_error():
     )
 
     with pytest.raises(StorageError):
-        storage.rows_with_crm_status({"failed"})
+        storage.saved_rows()

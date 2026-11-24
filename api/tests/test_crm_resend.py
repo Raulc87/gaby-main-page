@@ -7,7 +7,7 @@ import logging
 import pytest
 
 import resend_crm
-from crm.contacts import calculator_contact, vip_contact
+from crm.contacts import Contact, calculator_contact, vip_contact
 from crm.resend import ResendResult, resend_contacts
 from crm.sync import CrmSync
 from storage.base import StorageError
@@ -75,6 +75,108 @@ def _raise_storage_error(reference, crm_status):
     raise StorageError("boom")
 
 
+# --- a resend never rolls a contact back to older values ----------------------------
+
+
+def _row(email: str, status: str, months: str, zone: str, second: int) -> dict:
+    return {
+        **CALCULATOR_ROW,
+        "email": email,
+        "months": months,
+        "zone": zone,
+        "crm_status": status,
+        "submitted_at": f"24/11/2026 10:00:0{second}",
+    }
+
+
+def _storage_of(*rows: dict) -> MemoryLeadStorage:
+    storage = MemoryLeadStorage()
+    for row in rows:
+        storage.save(row)
+    return storage
+
+
+def test_an_older_failed_row_is_not_resent_over_a_newer_sent_submission():
+    storage = _storage_of(
+        _row("ana@example.com", "failed", "4.40", "alert", 0),
+        _row("ana@example.com", "sent", "36.00", "solid_cushion", 1),
+    )
+    fake = FakeCrmClient()
+
+    result = resend_contacts(storage, CrmSync(enabled=True, client=fake), calculator_contact)
+
+    assert fake.contacts == []
+    assert result == ResendResult(superseded=1)
+    assert _statuses(storage) == ["failed", "sent"]
+
+
+def test_only_the_newest_of_several_unsent_rows_of_an_email_is_resent():
+    storage = _storage_of(
+        _row("ana@example.com", "failed", "4.40", "alert", 0),
+        _row("ana@example.com", "pending", "7.00", "building", 1),
+        _row("ana@example.com", "failed", "36.00", "solid_cushion", 2),
+    )
+    fake = FakeCrmClient()
+
+    result = resend_contacts(storage, CrmSync(enabled=True, client=fake), calculator_contact)
+
+    assert [c.custom_fields["zona"] for c in fake.contacts] == ["Colchón sólido"]
+    assert result == ResendResult(sent=1, superseded=2)
+    assert _statuses(storage) == ["failed", "pending", "sent"]
+
+
+def test_a_newer_row_saved_with_sync_off_does_not_supersede_an_older_failed_one():
+    # An `off` row never reached GoHighLevel, so the older row still owes its values.
+    storage = _storage_of(
+        _row("ana@example.com", "failed", "4.40", "alert", 0),
+        _row("ana@example.com", "off", "36.00", "solid_cushion", 1),
+    )
+    fake = FakeCrmClient()
+
+    result = resend_contacts(storage, CrmSync(enabled=True, client=fake), calculator_contact)
+
+    assert result == ResendResult(sent=1)
+    assert _statuses(storage) == ["sent", "off"]
+
+
+def test_rows_of_different_emails_do_not_supersede_each_other():
+    storage = _storage_of(
+        _row("ana@example.com", "failed", "4.40", "alert", 0),
+        _row("luis@example.com", "sent", "36.00", "solid_cushion", 1),
+    )
+
+    result = resend_contacts(storage, CrmSync(enabled=True, client=FakeCrmClient()), calculator_contact)
+
+    assert result == ResendResult(sent=1)
+
+
+def test_the_email_comparison_ignores_case_and_spaces():
+    storage = _storage_of(
+        _row("ana@example.com", "failed", "4.40", "alert", 0),
+        _row(" Ana@Example.com ", "sent", "36.00", "solid_cushion", 1),
+    )
+
+    result = resend_contacts(storage, CrmSync(enabled=True, client=FakeCrmClient()), calculator_contact)
+
+    assert result == ResendResult(superseded=1)
+
+
+def test_the_contact_ends_with_the_newest_values_after_a_resend():
+    """A stateful fake of GoHighLevel: the last contact sent for an email is what it holds."""
+    held: dict[str, Contact] = {}
+    storage = _storage_of(
+        _row("ana@example.com", "failed", "4.40", "alert", 0),
+        _row("ana@example.com", "sent", "36.00", "solid_cushion", 1),
+    )
+    held["ana@example.com"] = calculator_contact(storage.saved_rows()[1][1])
+    fake = FakeCrmClient(on_send=lambda contact: held.__setitem__(contact.email, contact))
+
+    resend_contacts(storage, CrmSync(enabled=True, client=fake), calculator_contact)
+
+    assert held["ana@example.com"].custom_fields["zona"] == "Colchón sólido"
+    assert held["ana@example.com"].custom_fields["meses"] == "36"
+
+
 def test_nothing_to_resend_sends_nothing():
     fake = FakeCrmClient()
 
@@ -118,3 +220,4 @@ def test_the_command_reports_counts_for_both_tabs(command_environment, monkeypat
     output = capsys.readouterr().out
     assert "applications: sent 0, failed 0" in output
     assert "calculator: sent 0, failed 0" in output
+    assert "superseded by a newer submission 0" in output
