@@ -1,0 +1,34 @@
+---
+// The Wealth Mastery page (US-042, UX_UI_DIRECTION.md section 5.7, CONTENT.md section 12): Gaby's
+// eight sections in her order: hero, is it for you, the Método Polaris, how it works, who guides
+// you, testimonials, frequently asked questions and the closing apply band. No prices, no forms
+// and no third parties. The testimonials are the Home's section (Agent 1's component, imported
+// unchanged): its ivory background is switched to surface here so the sections keep alternating
+// (the guide above it and the FAQ below it are ivory).
+import TestimonialsSection from '../home/TestimonialsSection.astro';
+import type { Language } from '../../i18n';
+import ApplySection from './ApplySection.astro';
+import FaqSection from './FaqSection.astro';
+import FitSection from './FitSection.astro';
+import GuideSection from './GuideSection.astro';
+import HowSection from './HowSection.astro';
+import MasteryHero from './MasteryHero.astro';
+import PillarsSection from './PillarsSection.astro';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+---
+
+<MasteryHero lang={lang} />
+<FitSection lang={lang} />
+<PillarsSection lang={lang} />
+<HowSection lang={lang} />
+<GuideSection lang={lang} />
+<div class="[&>section]:bg-surface" data-mastery-testimonials>
+  <TestimonialsSection lang={lang} />
+</div>
+<FaqSection lang={lang} />
+<ApplySection lang={lang} />

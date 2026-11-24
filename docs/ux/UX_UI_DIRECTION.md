@@ -106,14 +106,13 @@ Viewport rule (BR-010): a layout must not place two gold buttons in one viewport
 | `vip` | `/es/aplicar/` | `/en/apply/` | 2a; moved in 2d (US-041; was `/es/mentoria-vip/`, `/en/vip-mentorship/`) |
 | `privacy` | `/es/privacidad/` | `/en/privacy/` | 2a |
 | `blog` | `/es/blog/` | `/en/blog/` | 2b (US-026) |
-| `method` | `/es/metodo-polaris/` | `/en/polaris-method/` | 2c (US-028, placeholder steps); withdrawn in 2d (US-042) |
 | `calculator` | `/es/calculadora/` | `/en/calculator/` | 2c (US-035); "Diagnóstico gratis" in the menu from 2d |
-| `mastery` | `/es/wealth-mastery/` | `/en/wealth-mastery/` | 2d (US-041, stub page; US-042 fills it) |
+| `mastery` | `/es/wealth-mastery/` | `/en/wealth-mastery/` | 2d (US-041, stub page; US-042 fills it, and replaces the Método Polaris page of 2c, whose route `method`, `/es/metodo-polaris/` and `/en/polaris-method/`, it removes) |
 
 **Phase 2d route changes.** `tests/unit/site/routes.test.ts` checks the code against the table above, so each change is made to the table **in the same PR as the route**, by its story:
 - add `mastery`, `/es/wealth-mastery/` and `/en/wealth-mastery/` (US-041, with a stub page; US-042 fills it): done in the table above;
 - move `vip` to `/es/aplicar/` and `/en/apply/` (US-041; the id stays `vip`): done in the table above;
-- remove `method` (US-042, the Wealth Mastery page replaces it) and `resources` (US-046).
+- remove `method` (US-042, the Wealth Mastery page replaces it): done, its row is gone from the table above; and `resources` (US-046).
 
 The site is not in production, so the old paths need no redirects; the preview stops serving them, and every link to them is removed.
 

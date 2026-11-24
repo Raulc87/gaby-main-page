@@ -16,9 +16,9 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
   - **All English values are provisional** until Gaby validates them (one review of the English as a whole); that does not add badges.
 - Values are copied verbatim and never contain markers. The code keeps the list of provisional keys next to the strings (`UX_UI_DIRECTION.md` §7).
 - **Pending badge (which keys show one):** only content blocks, never navigation, accessibility labels, alt text, metadata or state messages. Two kinds (`UX_UI_DIRECTION.md` §6.5):
-  - **Placeholders** (content that has not arrived; BR-011), badge in **every** build, production included, until the real content replaces them: the Home hero photo (§5.1), the testimonial cards (§5.9), the Método Polaris page's steps placeholder (`method.steps.placeholder`, §12), the story photo and bio placeholders (§6), the VIP video module (§8.2), and every resource card whose file has not been delivered (§7.3).
-  - **Provisional copy blocks**, badge in preview and development builds only: the Método Polaris steps (§5.6), the third figure of the guide (§5.4), the Wealth Mastery modules (§5.7), the calculator's questions, zones and result (§11, placeholder formula), the VIP steps (§8.1), the not-ready screen (§8.5), and resource cards with provisional titles. Before any production release, each of these is approved or the human owner decides per block whether it ships (as the phase 1 go-live gate did).
-  - No badge: `nav.*`, `skip_link`, `lang.*`, `meta.*`, `*_alt`, `resource.cover_alt`, `resources.filter.label`, `resources.empty`, `resource.pending`, `resource.email.coming_soon`, `story.media.label`, `story.experience.label`, `preview.*`, `privacy.*` (the notice has its own DRAFT label).
+  - **Placeholders** (content that has not arrived; BR-011), badge in **every** build, production included, until the real content replaces them: the Home hero photo (§5.1), the testimonial cards (§5.9), the Wealth Mastery page's guide photo (`mastery.guide.photo.placeholder`, §12), the story photo and bio placeholders (§6), the VIP video module (§8.2), and every resource card whose file has not been delivered (§7.3).
+  - **Provisional copy blocks**, badge in preview and development builds only: the Método Polaris steps (§5.6), the third figure of the guide (§5.4), the Wealth Mastery modules (§5.7), the Wealth Mastery page's FAQ answers and its three adapted lines (`mastery.fit.no.2`, `mastery.fit.no.3`, `mastery.how.4.body`, §12), the calculator's questions, zones and result (§11, placeholder formula), the VIP steps (§8.1), the not-ready screen (§8.5), and resource cards with provisional titles. Before any production release, each of these is approved or the human owner decides per block whether it ships (as the phase 1 go-live gate did).
+  - No badge: `nav.*`, `skip_link`, `lang.*`, `meta.*`, `*_alt`, `resource.cover_alt`, `resources.filter.label`, `resources.empty`, `resource.pending`, `resource.email.coming_soon`, `story.media.label`, `story.experience.label`, `mastery.guide.photo_alt`, `preview.*`, `privacy.*` (the notice has its own DRAFT label).
 - `*text*` marks the italic emphasis (Playfair italic, `UX_UI_DIRECTION.md` §2) inside a heading; the asterisks are not part of the text.
 - `{contact_email}` is replaced with a `mailto:` link to `PUBLIC_CONTACT_EMAIL`.
 
@@ -43,8 +43,6 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
 | `meta.privacy.description` | Cómo tratamos tus datos personales según la Ley 8968. | How we handle your personal data under Costa Rica Law 8968. | provisional |
 | `meta.calculator.title` | ¿Cuántos meses podrías sostenerte? — Gaby Kelly | How many months could you sustain yourself? — Gaby Kelly | provisional |
 | `meta.calculator.description` | Diagnóstico gratis en 3 minutos: descubrí cuánto tiempo te da hoy tu dinero sin tu salario. | A free 3-minute diagnosis: find out how long your money would last today without your salary. | provisional |
-| `meta.method.title` | Método Polaris — Gaby Kelly | The Polaris Method — Gaby Kelly | provisional |
-| `meta.method.description` | Los tres pasos del Método Polaris para que tu salario trabaje para vos. | The three steps of the Polaris Method so your salary works for you. | provisional |
 
 ## 2. Header, navigation and language
 
@@ -559,15 +557,125 @@ Name and email use `form.name.*` and `form.email.*`; the optional WhatsApp uses 
 
 `{months}` has one decimal, with a decimal comma in Spanish ("4,4 meses") and a point in English ("4.4 months"). `calc.result.covered` replaces the months and the zone body when other income covers the monthly outflow; the zone is then "freedom". "Zona de alerta" is Gaby's label (her example result); the other zone names are the team's. `calc.result.email_note` is shown only once the guide is sent by email (US-038). In preview builds the capture step stores nothing and the result shows `preview.form_note` (§8.6).
 
-## 12. Método Polaris page (`/es/metodo-polaris/`, `/en/polaris-method/`)
+## 12. Wealth Mastery page (`/es/wealth-mastery/`, `/en/wealth-mastery/`)
 
-US-028, placeholder version (human owner, 2026-11-08: "in the meantime let's placeholder it").
+Gaby's page (brief §2), verbatim, in her eight sections (US-042). It replaces the Método Polaris page of phase 2c (US-028), which is removed.
+
+### 12.1 Hero
 
 | Key | Español | English | Status |
 |---|---|---|---|
-| `method.eyebrow` | = `home.method.eyebrow` | = `home.method.eyebrow` | approved |
-| `method.title` | = `home.method.title` | = `home.method.title` | approved |
-| `method.lead` | Un camino simple para ordenar tu dinero, convertir tus beneficios en capital e invertir con claridad. | A simple path to organize your money, turn your benefits into capital and invest with clarity. | provisional |
-| `method.steps.placeholder` | Los pasos oficiales del Método Polaris: disponibles pronto | The official steps of the Polaris Method: coming soon | provisional |
+| `mastery.eyebrow` | = `vip_band.eyebrow` | = `vip_band.eyebrow` | approved |
+| `mastery.title` | Convertí tu salario en patrimonio, *con un sistema y conmigo a tu lado.* | Turn your salary into wealth, *with a system and with me by your side.* | approved |
+| `mastery.lead` | Una mentoría individual para ejecutivos y profesionales del mundo corporativo que ganan bien y quieren que su dinero les dé tranquilidad y libertad. Trabajamos con el Método Polaris, el mismo que aplico en mi propio portafolio desde hace más de 10 años. | One-to-one mentorship for corporate executives and professionals who earn well and want their money to give them peace of mind and freedom. We work with the Polaris Method, the same one I've applied in my own portfolio for more than 10 years. | approved |
+| `mastery.cta` | = `cta.vip_apply` | = `cta.vip_apply` | approved |
+| `mastery.secondary` | = `home.hero.secondary` | = `home.hero.secondary` | approved |
 
-Until Gaby sends the official steps, the page shows the three provisional steps of §5.6 (same keys, with the pending badge) and, below them, `method.steps.placeholder` as a placeholder block (badge in every build). It ends with the VIP band (§4).
+### 12.2 Is it for you? (`#para-vos`)
+
+| Key | Español | English | Status |
+|---|---|---|---|
+| `mastery.fit.title` | ¿Es para vos? | Is it for you? | approved |
+| `mastery.fit.yes.title` | Es para vos si… | It's for you if… | approved |
+| `mastery.fit.yes.1` | Ganás bien, subiste de puesto y aun así sentís que tu dinero no avanza. | You earn well, you've been promoted, and you still feel your money isn't moving forward. | approved |
+| `mastery.fit.yes.2` | Tenés beneficios corporativos que no estás aprovechando. | You have corporate benefits you aren't making the most of. | approved |
+| `mastery.fit.yes.3` | Querés invertir, pero no sabés por dónde empezar o te da miedo equivocarte. | You want to invest, but you don't know where to start or you're afraid of getting it wrong. | approved |
+| `mastery.fit.yes.4` | Gran parte de tus ahorros está en la acción de tu propia empresa. | A large part of your savings is in your own company's stock. | approved |
+| `mastery.fit.yes.5` | Querés decidir sobre tu carrera desde la libertad, no desde la necesidad. | You want to make career decisions from freedom, not necessity. | approved |
+| `mastery.fit.no.title` | No es para vos si… | It's not for you if… | approved |
+| `mastery.fit.no.1` | Buscás que alguien invierta por vos o te diga qué comprar. | You want someone to invest for you or tell you what to buy. | approved |
+| `mastery.fit.no.2` | Querés enriquecerte rápido o aprender trading. | You want to get rich quick or learn trading. | provisional |
+| `mastery.fit.no.3` | No tenés la disposición de cambiar hábitos con tu dinero. | You aren't willing to change your habits with money. | provisional |
+
+`mastery.fit.no.2` and `.no.3` adapt Gaby's "Querés hacerte rico rápido…" and "No estás dispuesto a cambiar hábitos…" to gender-neutral wording (BR-005); provisional until she confirms.
+
+### 12.3 The Método Polaris (`#metodo`)
+
+| Key | Español | English | Status |
+|---|---|---|---|
+| `mastery.method.eyebrow` | = `home.method.eyebrow` | = `home.method.eyebrow` | approved |
+| `mastery.method.title` | Un norte claro para tu dinero, *en tres pilares.* | A clear north for your money, *in three pillars.* | approved |
+| `mastery.method.lead` | Polaris es la Estrella Polar: tu norte, el que guía el camino. El método nació de mi propio portafolio y del patrimonio que construyo con mi familia: no es teoría, es lo que aplico y lo que me funcionó, ordenado para que vos lo podás aplicar. | Polaris is the North Star: your north, the one that guides the way. The method was born from my own portfolio and the wealth I'm building with my family: it isn't theory, it's what I apply and what worked for me, organized so you can apply it. | approved |
+| `mastery.method.1.label` | Mentalidad Millonaria | Millionaire Mindset | approved |
+| `mastery.method.1.title` | Mentalidad | Mindset | approved |
+| `mastery.method.1.point.1` | Las creencias sobre el dinero que heredaste y que hoy te frenan. | The beliefs about money you inherited that hold you back today. | approved |
+| `mastery.method.1.point.2` | Tus patrones con el dinero, con evaluaciones de psicología financiera. | Your patterns with money, with financial psychology assessments. | approved |
+| `mastery.method.1.point.3` | Tu norte: la vida que querés construir y para qué. | Your north: the life you want to build, and why. | approved |
+| `mastery.method.2.label` | Administración del Dinero | Money Management | approved |
+| `mastery.method.2.title` | Administración | Management | approved |
+| `mastery.method.2.point.1` | Tu sistema de billeteras: cada ingreso se reparte con un propósito apenas entra. | Your wallet system: every income is split with a purpose as soon as it comes in. | approved |
+| `mastery.method.2.point.2` | Tu billetera de confianza y tu protección: seguros médicos, de vida y de casa. | Your safety wallet and your protection: health, life and home insurance. | approved |
+| `mastery.method.2.point.3` | Tus beneficios corporativos (aumentos, solidarista, allowances) convertidos en capital. | Your corporate benefits (raises, solidarity association, allowances) turned into capital. | approved |
+| `mastery.method.3.label` | Inversiones e Ingresos Pasivos | Investments and Passive Income | approved |
+| `mastery.method.3.title` | Inversión | Investing | approved |
+| `mastery.method.3.point.1` | Bolsa y ETFs: un portafolio simple y global, con aportes mensuales y sin trading. | Stocks and ETFs: a simple, global portfolio, with monthly contributions and no trading. | approved |
+| `mastery.method.3.point.2` | Bienes raíces: analizar una propiedad como inversión, no como gasto. | Real estate: analyzing a property as an investment, not an expense. | approved |
+| `mastery.method.3.point.3` | Oro, plata y cripto: qué papel juegan y cómo guardarlos de forma segura. | Gold, silver and crypto: the role they play and how to store them safely. | approved |
+| `mastery.method.parallel.title` | En paralelo, no en orden | In parallel, not in order | approved |
+| `mastery.method.parallel.body` | No tenés que pagar todas tus deudas antes de empezar a invertir. Con cada salario avanzás en los tres pilares al mismo tiempo: así se crea el hábito y tu patrimonio empieza a crecer desde ya. | You don't have to pay off all your debts before you start investing. With every paycheck you move forward in all three pillars at the same time: that's how the habit forms and your wealth starts growing right away. | approved |
+
+No numbers and no arrows between the pillars, and the wallet system is only named, never detailed (Gaby's note, brief §2).
+
+### 12.4 How it works (`#como-funciona`)
+
+| Key | Español | English | Status |
+|---|---|---|---|
+| `mastery.how.title` | Cómo funciona. | How it works. | approved |
+| `mastery.how.1.title` | Programa de 3 meses | A 3-month programme | approved |
+| `mastery.how.1.body` | Tres meses para dejar tu sistema funcionando en los tres pilares. | Three months to get your system working in all three pillars. | approved |
+| `mastery.how.2.title` | Sesiones 1 a 1 conmigo | One-to-one sessions with me | approved |
+| `mastery.how.2.body` | Por videollamada, cada 15 días. Trabajamos con tus números y tu situación real. | By video call, every 15 days. We work with your numbers and your real situation. | approved |
+| `mastery.how.3.title` | Biblioteca de contenido | Content library | approved |
+| `mastery.how.3.body` | Acceso a mis cursos y materiales para repasar a tu ritmo entre sesiones. | Access to my courses and materials to review at your own pace between sessions. | approved |
+| `mastery.how.4.title` | Comunidad de graduados | Graduate community | approved |
+| `mastery.how.4.body` | Al terminar seguís en compañía de otras personas que también están construyendo su libertad. | When you finish, you stay in the company of other people who are also building their freedom. | provisional |
+
+`mastery.how.4.body` adapts "seguís acompañado" to gender-neutral wording (BR-005), provisional until Gaby confirms. No prices (Gaby's note).
+
+### 12.5 Who guides you (`#guia`)
+
+| Key | Español | English | Status |
+|---|---|---|---|
+| `mastery.guide.eyebrow` | Quién te guía | Who guides you | approved |
+| `mastery.guide.title` | Soy Gaby Kelly. | I'm Gaby Kelly. | approved |
+| `mastery.guide.p1` | Pasé 18 años en el mundo corporativo, con partners de Intel, Microsoft y Oracle. Hoy invierto desde hace más de 10 años y administro el patrimonio de mi familia con el mismo método que te enseño. | I spent 18 years in the corporate world, with Intel, Microsoft and Oracle partners. I've been investing for more than 10 years and I manage my family's wealth with the same method I teach you. | approved |
+| `mastery.guide.p2` | Soy inversora y mentora, no asesora financiera: no te digo qué comprar. Te enseño a entender, evaluar y decidir, para que tu dinero trabaje para vos. | I'm an investor and mentor, not a financial advisor: I don't tell you what to buy. I teach you to understand, evaluate and decide, so your money works for you. | approved |
+| `mastery.guide.photo.placeholder` | Foto de Gaby | Photo of Gaby | provisional |
+| `mastery.guide.photo_alt` | Gaby Kelly | Gaby Kelly | provisional |
+| `mastery.guide.cta` | = `cta.read_story` | = `cta.read_story` | approved |
+
+The photo is a different one from the Home's portrait (Gaby's note); until it arrives the frame shows `mastery.guide.photo.placeholder` with the pending badge in every build (BR-011).
+
+### 12.6 Testimonials (`#testimonios`)
+
+| Key | Español | English | Status |
+|---|---|---|---|
+| `mastery.testimonials.title` | = `home.testimonials.title` | = `home.testimonials.title` | approved |
+
+The cards are the Home's (`testimonial.placeholder.*`, §5.9), with their badges (Gaby's note: "los mismos testimonios de la home sirven aquí").
+
+### 12.7 Frequently asked questions (`#preguntas`)
+
+| Key | Español | English | Status |
+|---|---|---|---|
+| `mastery.faq.title` | Preguntas frecuentes. | Frequently asked questions. | approved |
+| `mastery.faq.1.question` | ¿Me vas a decir en qué invertir? | Are you going to tell me what to invest in? | approved |
+| `mastery.faq.1.answer` | No. Aprendés a entender cómo funciona cada inversión y a evaluarla. Las decisiones son tuyas, con criterio propio. | No. You learn to understand how each investment works and to evaluate it. The decisions are yours, with your own judgment. | provisional |
+| `mastery.faq.2.question` | ¿Tengo que pagar mis deudas antes de empezar? | Do I have to pay off my debts before I start? | approved |
+| `mastery.faq.2.answer` | No. Con cada ingreso avanzás en paralelo: deudas, protección e inversión al mismo tiempo. | No. With every income you move forward in parallel: debts, protection and investing at the same time. | provisional |
+| `mastery.faq.3.question` | ¿Es presencial? | Is it in person? | approved |
+| `mastery.faq.3.answer` | No, todo es por videollamada. Podés estar en cualquier país. | No, everything is by video call. You can be in any country. | provisional |
+| `mastery.faq.4.question` | ¿Cuánto cuesta? | How much does it cost? | approved |
+| `mastery.faq.4.answer` | Lo conversamos en la llamada inicial, cuando ya sepamos si Wealth Mastery es para vos. | We talk about it in the initial call, once we know whether Wealth Mastery is for you. | provisional |
+
+The answers are Gaby's text but `provisional`: her note says she confirms them before publishing, so they carry the pending badge (US-042 AC3). The questions are approved.
+
+### 12.8 Apply (`#aplicar`)
+
+| Key | Español | English | Status |
+|---|---|---|---|
+| `mastery.apply.eyebrow` | = `vip_band.eyebrow` | = `vip_band.eyebrow` | approved |
+| `mastery.apply.title` | ¿Empezamos a construir *tu libertad?* | Shall we start building *your freedom?* | approved |
+| `mastery.apply.cta` | = `cta.vip_apply` | = `cta.vip_apply` | approved |
+
+The three steps are the Home's (`home.vip.step.*`, §5.11): Gaby's steps here are the same text, except "tu norte" in lower case in step 3, which the Home spells "Norte" (a flag for Gaby).

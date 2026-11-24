@@ -43,11 +43,6 @@ export const common: CommonContent = {
       description:
         'A free 3-minute diagnosis: find out how long your money would last today without your salary.',
     },
-    method: {
-      title: 'The Polaris Method — Gaby Kelly',
-      description:
-        'The three steps of the Polaris Method so your salary works for you.',
-    },
   },
   nav: {
     brand: 'Gaby Kelly',

@@ -1,0 +1,52 @@
+---
+// Who guides you `#guia` (UX_UI_DIRECTION.md section 5.7 item 5): ivory; Gaby's photo and the
+// text, with the text link to My story. The photo is a different one from the Home's portrait
+// (the studio portrait appears only on the Home); until it arrives the round frame is a marked
+// placeholder with the pending badge in every build (BR-011).
+import PendingBadge from '../sections/PendingBadge.astro';
+import { getCommon, type Language } from '../../i18n';
+import { pageHref } from '../../lib/site/links';
+import { MASTERY_ANCHORS } from './anchors';
+import { getMastery } from './dictionary';
+import { showsMasteryBadge } from './pending';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { guide } = getMastery(lang).mastery;
+const { cta, pending } = getCommon(lang);
+---
+
+<section id={MASTERY_ANCHORS.guide} tabindex="-1" class="scroll-mt-16 outline-none bg-ivory">
+  <div class="mx-auto grid max-w-[1160px] gap-10 px-4 py-16 lg:grid-cols-[auto_1fr] lg:gap-16 lg:py-24">
+    <div class="flex flex-col items-start gap-4 lg:items-center">
+      <div
+        data-guide-photo-frame
+        role="img"
+        aria-label={guide.photo_alt}
+        class="flex h-56 w-56 items-center justify-center rounded-full border-[6px] border-ivory bg-sand p-6 text-center lg:h-64 lg:w-64"
+      >
+        <p class="font-serif text-xl text-charcoal">{guide.photo.placeholder}</p>
+      </div>
+      {showsMasteryBadge('mastery.guide_photo') && <PendingBadge label={pending.badge} />}
+    </div>
+    <div class="max-w-[44rem]">
+      <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+        {guide.eyebrow}
+      </p>
+      <h2 class="mt-3 text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">{guide.title}</h2>
+      <p class="mt-6 text-charcoal">{guide.p1}</p>
+      <p class="mt-6 text-charcoal">{guide.p2}</p>
+      <p class="mt-8">
+        <a
+          href={pageHref('story', lang)}
+          class="inline-flex min-h-11 items-center font-semibold text-heritage-blue underline-offset-4 hover:underline"
+        >
+          {cta.read_story}
+        </a>
+      </p>
+    </div>
+  </div>
+</section>

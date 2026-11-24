@@ -1,0 +1,60 @@
+---
+// The Método Polaris `#metodo` (UX_UI_DIRECTION.md section 5.7 item 3): ivory; eyebrow, title and
+// lead; the three pillars as three equal cards (the official name as a label above the short
+// name, three bullet points each), with no numbers and no arrows (they are worked in parallel);
+// below them a full-width heritage-blue card, "En paralelo, no en orden", with ivory text (a
+// card, not a second band: the page's one band is the closing one).
+import Emphasized from '../home/Emphasized.astro';
+import { getHome, type Language } from '../../i18n';
+import { MASTERY_ANCHORS } from './anchors';
+import { getMastery } from './dictionary';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { method } = getMastery(lang).mastery;
+const { method: homeMethod } = getHome(lang).home;
+const pillars = [method['1'], method['2'], method['3']];
+---
+
+<section id={MASTERY_ANCHORS.method} tabindex="-1" class="scroll-mt-16 outline-none bg-ivory">
+  <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
+    <div class="max-w-[44rem]">
+      <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+        {homeMethod.eyebrow}
+      </p>
+      <h2 class="mt-3 text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">
+        <Emphasized text={method.title} />
+      </h2>
+      <p class="mt-5 max-w-[65ch] text-charcoal">{method.lead}</p>
+    </div>
+    <div class="mt-12 grid gap-6 md:grid-cols-3" data-pillars>
+      {
+        pillars.map((pillar) => (
+          <article data-pillar class="flex flex-col rounded-[4px] border border-sand bg-surface p-6 lg:p-8">
+            <p class="text-[13px] font-semibold uppercase tracking-[0.16em] text-heritage-blue">
+              {pillar.label}
+            </p>
+            <h3 class="mt-3 font-serif text-3xl font-medium leading-tight text-charcoal">{pillar.title}</h3>
+            <ul class="mt-5 space-y-3">
+              {[pillar.point['1'], pillar.point['2'], pillar.point['3']].map((point) => (
+                <li class="flex gap-3 text-charcoal">
+                  <span aria-hidden="true" class="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-heritage-blue" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+    <div data-parallel class="on-blue mt-6 rounded-[4px] bg-heritage-blue p-6 text-ivory lg:p-10">
+      <h3 class="font-serif text-[1.75rem] font-medium leading-tight text-ivory lg:text-3xl">
+        {method.parallel.title}
+      </h3>
+      <p class="mt-3 max-w-[65ch] text-ivory">{method.parallel.body}</p>
+    </div>
+  </div>
+</section>
