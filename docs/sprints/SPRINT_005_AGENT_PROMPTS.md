@@ -39,11 +39,13 @@ Filled in by the coordinator at launch.
 | Role | Session |
 |---|---|
 | Coordinator | `session_01AgwMvvPepgrLbwGJBETbN9` |
-| Review-only agent | `<REVIEWER_SESSION>` |
-| Agent 1 | — |
-| Agent 2 | — |
-| Agent 3 | — |
-| Sprint 004 sessions archived | — |
+| Review-only agent | `session_01DVcaZxahidvJRQFzBMU7LN` |
+| Agent 1 | `session_01DVcaZxGgkTBoDsNPvTq2vQ` |
+| Agent 2 | `session_01DVcaZyqHLdNB4p6TRKAWzo` |
+| Agent 3 | `session_01DVcaZxNi9NA63NVZJe1w19` |
+| Sprint 004 sessions archived (2026-11-24) | `session_01DVcaZzj3KLrxs4MDCQrWwv` (reviewer), `session_01DVcaZvWHFdkQNprDdf3oN5`, `session_01DVcaZwUYcJUBXSdcAj6hsC`, `session_01DVcaZy7qxywZkhJzCL5kje` |
+
+Launched on 2026-11-24 with the prompts below, `<REVIEWER_SESSION>` replaced by the reviewer's ID. Agent 3's prompt also names the kit's runbook style guide (`Raulc87/sdd_starter_kit` at `v1.2.0`, `docs/process/RUNBOOK_STYLE.md`), attached by the agent with `add_repo` when needed, as in Sprint 004.
 
 ---
 
