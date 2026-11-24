@@ -27,7 +27,7 @@ export const resources: ResourcesDictionary = {
   resources: {
     eyebrow: 'Biblioteca gratuita',
     title: 'Herramientas para ordenar, *invertir y crecer.*',
-    lead: 'Guías, plantillas y minicursos que puedes usar hoy. Algunos se descargan directo; otros te llegan al correo.',
+    lead: 'Guías, plantillas y minicursos que podés usar hoy. Algunos se descargan directo; otros te llegan al correo.',
     filter: { label: 'Filtrar por tema', all: 'Todos' },
     topic: {
       debt: 'Salir de deudas',

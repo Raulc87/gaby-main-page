@@ -22,8 +22,8 @@ describe('detectPageLanguage under a base path (GitHub Pages preview, ADR-005)',
 
   it('reads the language after the base', () => {
     expect(detectPageLanguage('/gaby-main-page/en/', base)).toBe('en');
-    expect(detectPageLanguage('/gaby-main-page/en/vip-mentorship/', base)).toBe('en');
-    expect(detectPageLanguage('/gaby-main-page/es/mentoria-vip/', base)).toBe('es');
+    expect(detectPageLanguage('/gaby-main-page/en/apply/', base)).toBe('en');
+    expect(detectPageLanguage('/gaby-main-page/es/aplicar/', base)).toBe('es');
     expect(detectPageLanguage('/gaby-main-page/en/#lead-form', base)).toBe('en');
   });
 

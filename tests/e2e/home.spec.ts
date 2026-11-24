@@ -38,13 +38,13 @@ test.describe('header and footer on every page', () => {
           'href',
           routePath('story', lang),
         );
-        await expect(header.getByRole('link', { name: common.nav.method })).toHaveAttribute(
+        await expect(header.getByRole('link', { name: common.nav.mastery, exact: true })).toHaveAttribute(
           'href',
-          routePath('method', lang),
+          routePath('mastery', lang),
         );
-        await expect(header.getByRole('link', { name: common.nav.resources })).toHaveAttribute(
+        await expect(header.getByRole('link', { name: common.nav.diagnosis })).toHaveAttribute(
           'href',
-          routePath('resources', lang),
+          routePath('calculator', lang),
         );
         await expect(header.locator('[data-nav="vip"]')).toHaveAttribute(
           'href',
@@ -90,8 +90,8 @@ test.describe('header and footer on every page', () => {
   test('the current page is marked in the navigation', async ({ page }) => {
     await page.goto(routePath('story', 'es'));
     await expect(page.locator('header [aria-current="page"]')).toHaveText(es.nav.story);
-    await page.goto(routePath('resources', 'en'));
-    await expect(page.locator('header [aria-current="page"]')).toHaveText(en.nav.resources);
+    await page.goto(routePath('calculator', 'en'));
+    await expect(page.locator('header [aria-current="page"]')).toHaveText(en.nav.diagnosis);
   });
 });
 
@@ -207,11 +207,11 @@ test.describe('mobile menu (AC3)', () => {
     await expect(button).toBeFocused();
   });
 
-  test('following a link in the panel leads to its page (the Método Polaris page)', async ({ page }) => {
+  test('following a link in the panel leads to its page (the Wealth Mastery page)', async ({ page }) => {
     await page.goto(routePath('home', 'es'));
     await page.locator('[data-menu-button]').click();
-    await page.locator('[data-nav="method"]').click();
-    await page.waitForURL(`**${routePath('method', 'es')}`);
+    await page.locator('[data-nav="mastery"]').click();
+    await page.waitForURL(`**${routePath('mastery', 'es')}`);
     await expect(page.locator('html')).not.toHaveClass(/overflow-hidden/);
   });
 
@@ -242,8 +242,8 @@ test.describe('360 px', () => {
   });
 });
 
-test('the page ids are the phase 2a pages plus method and calculator (phase 2c)', () => {
-  const ids: PageId[] = ['home', 'story', 'resources', 'vip', 'privacy', 'method', 'calculator'];
+test('the page ids are the phase 2a pages plus method and calculator (phase 2c) and mastery (phase 2d)', () => {
+  const ids: PageId[] = ['home', 'story', 'resources', 'vip', 'privacy', 'method', 'calculator', 'mastery'];
   expect([...PAGE_IDS]).toEqual(ids);
 });
 

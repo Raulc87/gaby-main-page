@@ -20,22 +20,6 @@ for (const lang of LANGUAGES) {
   const { common, home, method } = copy[lang];
 
   test.describe(`Método Polaris page (${lang})`, () => {
-    test('the header link leads to the page, which is marked as the current page', async ({ page }) => {
-      await page.setViewportSize({ width: 1280, height: 800 });
-      await page.goto(routePath('home', lang));
-      await page.locator('header [data-nav="method"]').click();
-      await page.waitForURL(`**${routePath('method', lang)}`);
-      await expect(page.locator('header [data-nav="method"]')).toHaveAttribute('aria-current', 'page');
-    });
-
-    test('the header link leads to the page from the mobile menu', async ({ page }) => {
-      await page.setViewportSize({ width: 390, height: 844 });
-      await page.goto(routePath('home', lang));
-      await page.locator('[data-menu-button]').click();
-      await page.locator('[data-nav="method"]').click();
-      await page.waitForURL(`**${routePath('method', lang)}`);
-    });
-
     test('title, description and the page copy', async ({ page }) => {
       await page.goto(routePath('method', lang));
       await expect(page).toHaveTitle(common.meta.method.title);

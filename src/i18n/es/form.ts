@@ -5,21 +5,21 @@
 import type { FormDictionary } from '../../lib/lead/types';
 
 export const form: FormDictionary = {
-  formTitle: 'Aplica a la Mentoría VIP',
+  formTitle: 'Aplicá a Wealth Mastery',
   name: {
     label: 'Nombre completo',
-    hint: 'Escribe tu nombre y apellido(s).',
+    hint: 'Escribí tu nombre y apellido(s).',
   },
   email: {
     label: 'Correo electrónico',
   },
   phone: {
     label: 'WhatsApp',
-    hint: 'Incluye el código de país. Ejemplo: +50684104791',
+    hint: 'Incluí el código de país. Ejemplo: +50684104791',
   },
   screening: {
     prompt:
-      'Si este programa encaja con lo que buscas, ¿cuál es tu disposición para invertir en mejorar tu salud financiera?',
+      'Si este programa encaja con lo que buscás, ¿cuál es tu disposición para invertir en mejorar tu salud financiera?',
     options: [
       { code: 'ready_to_invest', label: 'Quiero invertir si el programa es adecuado para mí.' },
       {
@@ -44,27 +44,27 @@ export const form: FormDictionary = {
   trust: 'Llamada inicial sin costo · Tus datos protegidos (Ley 8968)',
   thankYou: {
     title: '¡Gracias por tu información!',
-    text: 'Es posible que te contactemos por correo electrónico o WhatsApp. Si lo deseas, puedes agendar ahora tu llamada inicial:',
+    text: 'Es posible que te contactemos por correo electrónico o WhatsApp. Si lo deseás, podés agendar ahora tu llamada inicial:',
   },
   notReady: {
     title: 'Gracias por contarnos dónde estás hoy.',
-    text: 'Es posible que te contactemos por correo electrónico o WhatsApp. Cuando sea tu momento, aquí estaremos. Mientras tanto, puedes empezar gratis con el minicurso:',
+    text: 'Es posible que te contactemos por correo electrónico o WhatsApp. Cuando sea tu momento, aquí estaremos. Mientras tanto, podés empezar gratis con el minicurso:',
   },
   schedulerFallback:
-    'No pudimos cargar el calendario. Escríbenos a {contact_email} y coordinamos tu llamada.',
+    'No pudimos cargar el calendario. Escribinos a {contact_email} y coordinamos tu llamada.',
   fieldErrors: {
     required: 'Este campo es obligatorio.',
     too_short: 'Es demasiado corto.',
     too_long: 'Es demasiado largo.',
-    invalid_characters: 'Usa solo letras, espacios, apóstrofos, guiones o puntos.',
-    full_name_required: 'Escribe tu nombre completo: nombre y al menos un apellido.',
-    invalid_format_email: 'Escribe un correo válido, por ejemplo nombre@dominio.com.',
-    invalid_format_phone: 'Escribe el número con código de país, por ejemplo +50684104791.',
-    invalid_option: 'Selecciona una opción.',
+    invalid_characters: 'Usá solo letras, espacios, apóstrofos, guiones o puntos.',
+    full_name_required: 'Escribí tu nombre completo: nombre y al menos un apellido.',
+    invalid_format_email: 'Escribí un correo válido, por ejemplo nombre@dominio.com.',
+    invalid_format_phone: 'Escribí el número con código de país, por ejemplo +50684104791.',
+    invalid_option: 'Elegí una opción.',
     consent_required: 'Necesitamos tu aceptación para poder guardar tus datos.',
   },
   submissionError:
-    'No pudimos guardar tu información. Por favor, inténtalo de nuevo en unos minutos. Si el problema continúa, escríbenos a {contact_email}.',
+    'No pudimos guardar tu información. Por favor, intentalo de nuevo en unos minutos. Si el problema continúa, escribinos a {contact_email}.',
   rateLimited:
-    'Recibimos varios intentos seguidos desde tu conexión. Por favor, espera unos minutos e inténtalo de nuevo. Si lo prefieres, escríbenos a {contact_email}.',
+    'Recibimos varios intentos seguidos desde tu conexión. Por favor, esperá unos minutos e intentalo de nuevo. Si lo preferís, escribinos a {contact_email}.',
 };

@@ -3,11 +3,11 @@
 import type { VipDictionary } from '../../lib/lead/types';
 
 export const vip: VipDictionary = {
-  eyebrow: 'VIP Mentorship · Wealth Mastery',
+  eyebrow: 'Wealth Mastery Mentorship',
   title: 'Do you want to work *directly with me*?',
   steps: ['Fill in the application', "Watch Gaby's video", 'Book your initial call (if you qualify)'],
   video: {
-    title: 'Get to know the mentorship',
+    title: 'Get to know Wealth Mastery',
     placeholder: "Gaby's video: coming soon",
   },
 };

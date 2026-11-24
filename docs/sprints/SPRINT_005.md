@@ -31,10 +31,10 @@ Readiness checklist run on 2026-11-24 on the documents as #85 and this planning 
 
 | # | Gate (checklist section) | Status |
 |---|---|---|
-| 1 | Sprint 004 closed ([`SPRINT_004.md`](SPRINT_004.md) close-out) | Done in this PR (approved by the human owner, 2026-11-24) |
+| 1 | Sprint 004 closed ([`SPRINT_004.md`](SPRINT_004.md) close-out) | Done in #88 (approved by the human owner, 2026-11-24) |
 | 2 | Paths in [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md) exist (§1, blocking) | Done, except `docs/ux/CONTENT_PHASE_2D.md`, which gate 6 adds; `docs/security/PENTEST_PLAN.md` stays "written before the go-live sprint" (US-029 AC5) |
 | 3 | [`AGENTS.md`](../../AGENTS.md), [`CLAUDE.md`](../../CLAUDE.md) and the checklist match the Starter Kit (§1, blocking) | Done: kit v1.2.0. The kit's later versions are not synced (the owner's choice, 2026-11-08) |
-| 4 | [`README.md`](../../README.md) status matches [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md) (§1) | Done in this PR |
+| 4 | [`README.md`](../../README.md) status matches [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md) (§1) | Done in #88, kept current by #90 |
 | 5 | Branch names for every story (§1, blocking) | Done (Planned Stories) |
 | 6 | Spec v0.7, stories US-040–US-046, UX v1.2, contract v1.3, ADR-007, ADR-008 and the staged phase 2d copy agree (§2, blocking) | Spec, contract, ADRs, UX and stories: done in #85. The staged copy ([`CONTENT_PHASE_2D.md`](../ux/CONTENT_PHASE_2D.md)): done in #89 |
 | 7 | Every sprint story has testable acceptance criteria (§3, blocking) | Done (#85; reviewed) |
@@ -43,9 +43,9 @@ Readiness checklist run on 2026-11-24 on the documents as #85 and this planning 
 | 10 | Security baseline exists and is approved (§5, blocking from this sprint) | Done: [`SECURITY_BASELINE.md`](../security/SECURITY_BASELINE.md) (#75) |
 | 11 | Every story touching an OWASP risk has acceptance criteria that verify it (§5, blocking) | Done: US-044 (only the contract's fields leave the browser), US-045 (the token, the outbound request, data minimization), US-040 (a third party removed) |
 | 12 | Secret and dependency scanning (§5) | Done: secret scanning with push protection, Dependabot alerts, `npm audit` and `pip-audit` required on `main` |
-| 13 | **No agent uses a third party's live account** (owner decision asked on 2026-11-23; this plan proposes it, and merging approves it): agents never load Gaby's live GoHighLevel widget or call its API. Tests use stubs and a fake client; checks against the real account are the owner's, by hand | Proposed in this PR |
+| 13 | **No agent uses a third party's live account** (owner decision asked on 2026-11-23; this plan proposes it, and merging approves it): agents never load Gaby's live GoHighLevel widget or call its API. Tests use stubs and a fake client; checks against the real account are the owner's, by hand | Approved by the human owner by merging #88 |
 | 14 | Developer guide (§6) | Done: [`CONTRIBUTING.md`](../../CONTRIBUTING.md) (#77), corrected by #86 |
-| 15 | Workstreams, ownership map, scaffold-first merge order with no cycle, conflict rule, prompts with the merge, review-flow, attribution and reviewer-independence rules (§7, §7.1, blocking) | Done in this PR ([`SPRINT_005_AGENT_PROMPTS.md`](SPRINT_005_AGENT_PROMPTS.md)) |
+| 15 | Workstreams, ownership map, scaffold-first merge order with no cycle, conflict rule, prompts with the merge, review-flow, attribution and reviewer-independence rules (§7, §7.1, blocking) | Done in #88 ([`SPRINT_005_AGENT_PROMPTS.md`](SPRINT_005_AGENT_PROMPTS.md)) |
 | 16 | Go-ahead from the human owner (§8, blocking) | Done: given on 2026-11-24, after #86, #87, #88 and #89 merged |
 
 Non-blocking items, for the human owner and Gaby:

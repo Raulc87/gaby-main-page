@@ -62,7 +62,7 @@ export const RESOURCES: readonly Resource[] = [
       en: 'How to make the most of your corporate benefits',
     },
     description: {
-      es: 'Convierte los beneficios de tu carrera en capital para invertir.',
+      es: 'Convertí los beneficios de tu carrera en capital para invertir.',
       en: "Turn your career's benefits into capital to invest.",
     },
   },
@@ -73,7 +73,7 @@ export const RESOURCES: readonly Resource[] = [
     access: 'download',
     title: { es: 'Plantilla para salir de deudas', en: 'Debt payoff template' },
     description: {
-      es: 'Organiza tus deudas y define el orden para pagarlas.',
+      es: 'Organizá tus deudas y definí el orden para pagarlas.',
       en: 'Organize your debts and decide the order to pay them.',
     },
   },
@@ -106,7 +106,7 @@ export const RESOURCES: readonly Resource[] = [
     access: 'email',
     title: { es: 'Guía para invertir desde tu salario', en: 'Guide to investing from your salary' },
     description: {
-      es: 'Primeros pasos para que tu salario trabaje para ti.',
+      es: 'Primeros pasos para que tu salario trabaje para vos.',
       en: 'First steps so your salary works for you.',
     },
   },
@@ -117,7 +117,7 @@ export const RESOURCES: readonly Resource[] = [
     access: 'download',
     title: { es: 'Plantilla de presupuesto por billeteras', en: 'Wallet budget template' },
     description: {
-      es: 'Reparte tu ingreso en billeteras con propósito.',
+      es: 'Repartí tu ingreso en billeteras con propósito.',
       en: 'Split your income into wallets with a purpose.',
     },
   },
@@ -128,7 +128,7 @@ export const RESOURCES: readonly Resource[] = [
     access: 'email',
     title: { es: 'Radiografía de beneficios corporativos', en: 'Corporate benefits X-ray' },
     description: {
-      es: 'Descubre cuánto valen hoy los beneficios de tu empresa y cómo convertirlos en capital.',
+      es: 'Descubrí cuánto valen hoy los beneficios de tu empresa y cómo convertirlos en capital.',
       en: "Find out what your company's benefits are worth today and how to turn them into capital.",
     },
   },
@@ -139,7 +139,7 @@ export const RESOURCES: readonly Resource[] = [
     access: 'email',
     title: { es: 'Diagnóstico de inversionista', en: 'Investor diagnosis' },
     description: {
-      es: 'Descubre qué tipo de inversionista eres hoy y por dónde empezar.',
+      es: 'Descubrí qué tipo de inversionista sos hoy y por dónde empezar.',
       en: 'Find out what kind of investor you are today and where to start.',
     },
   },
