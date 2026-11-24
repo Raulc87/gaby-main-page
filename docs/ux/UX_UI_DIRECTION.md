@@ -1,4 +1,6 @@
-# UX_UI_DIRECTION — v1.2 (phase 2d)
+# UX_UI_DIRECTION — v1.2.1 (phase 2d)
+
+v1.2.1 (2026-11-24): §2.3, the typefaces are self-hosted (US-040, #96), no longer loaded from Google Fonts.
 
 v1.2 (2026-11-23): phase 2d, Gaby's final content (`PROJECT_SPEC.md` v0.7, [`BRIEF_2026-11-23_WEALTH_MASTERY.md`](BRIEF_2026-11-23_WEALTH_MASTERY.md)): the routes and the header (§3, §4.1), the Wealth Mastery page that replaces the Método Polaris page (§5.7), the Home without its Wealth Mastery section and with the pillars (§5.1), Gaby's calculator (§5.6, §6.7, §6.8), the resource library withdrawn (§5.3, §6.1), two colour tokens for the calculator (§2.1). Proposed in this PR.
 
@@ -64,9 +66,11 @@ Non-text (3:1, WCAG 1.4.11): form control borders use `field-line` (3.61 on `ivo
 
 | Role | Face | Notes |
 |---|---|---|
-| Headings H1–H2, editorial phrases, italic emphasis | Playfair Display (Google Fonts), 500; italic 500 | Replaces Crimson Pro. The `*...*` parts of a heading in `CONTENT.md` are italic `heritage-blue` |
-| Everything functional: body, buttons, forms, navigation, labels, H3 | Manrope (Google Fonts), 400, 600, 700 | Replaces IBM Plex Sans; body 17–18 px on desktop, 16–17 px on mobile |
+| Headings H1–H2, editorial phrases, italic emphasis | Playfair Display (self-hosted), 500; italic 500 | Replaces Crimson Pro. The `*...*` parts of a heading in `CONTENT.md` are italic `heritage-blue` |
+| Everything functional: body, buttons, forms, navigation, labels, H3 | Manrope (self-hosted), 400, 600, 700 | Replaces IBM Plex Sans; body 17–18 px on desktop, 16–17 px on mobile |
 | Wordmark | Playfair Display 500, "Gaby Kelly" | Until a logo file arrives |
+
+The faces are WOFF2 files (Latin subset) in `public/fonts/`, with their SIL Open Font License texts and `SOURCES.txt`; the body and heading faces are preloaded, the others load on use with `font-display: swap` and the fallback stacks. No page requests Google Fonts (US-040; `tests/e2e/fonts.spec.ts` fails if one does).
 
 - Scale: hero headline 40–64 px fluid; section titles 30–44 px; card titles (H3, Manrope 700) 19–20 px; eyebrows 13 px uppercase, 0.16em tracking, `heritage-blue`.
 - Headings use `text-wrap: balance`; running text at most ~65 characters wide.
