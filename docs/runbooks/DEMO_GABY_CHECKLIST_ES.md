@@ -45,10 +45,10 @@ Cada paso dice **qué hacer** y **qué deberías ver**.
 
 **Qué hacer**
 
-1. Tocá «Calcular otra vez» (o volvé a abrir la calculadora).
+1. Abrí de nuevo la calculadora desde «Diagnóstico gratis» en el menú. No uses «Calcular otra vez»: ese botón conserva los datos y los casilleros de la prueba anterior.
 2. Cambiá la moneda a **Colones**.
 3. En la pregunta de las acciones elegí **«No tengo acciones de mi empresa»** y tocá «Calcular mis meses».
-4. Escribí el nombre **Prueba Dos** y el **correo de prueba 2**. Si querés, poné tu WhatsApp.
+4. Revisá que el nombre y el correo estén vacíos y que **los dos casilleros estén sin marcar**. Escribí el nombre **Prueba Dos** y el **correo de prueba 2**. Si querés, poné tu WhatsApp.
 5. Primero tocá **«Ver mi resultado»** sin marcar nada.
 6. Ahora marcá **solo el primer casillero** (el del tratamiento de datos) y dejá **sin marcar** el de recibir los correos de Gaby. Tocá «Ver mi resultado» otra vez.
 
