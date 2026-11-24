@@ -222,7 +222,7 @@ Updating this file: when a story's pull request verifies a row, that pull reques
 | `v5.0.0-13.4.5` | L2 | US-014 AC8 (the application has only the two lead routes) | Planned |  |
 | `v5.0.0-14.1.1` | L2 | Data is identified and classified in the baseline section 6 (personal data, financial indicators, credentials) | Verified 2026-11-08 |  |
 | `v5.0.0-14.1.2` | L2 | Protection requirements per class are in the baseline section 6 | Verified 2026-11-08 |  |
-| `v5.0.0-14.2.1` | L1 | The lead endpoints take their data in the JSON body, never in the URL or query string (contract sections 2 and 11). The scheduler's prefilled URL carries the visitor's name and email to the booking provider by design (US-007, US-037); the provider is listed in the baseline section 6 | Verified 2026-11-08 |  |
+| `v5.0.0-14.2.1` | L1 | The lead endpoints take their data in the JSON body, never in the URL or query string (contract sections 2 and 11). The scheduler's prefilled URL carries the applicant's first name, last name, email and phone to the booking provider by design (US-037); the provider is listed in the baseline section 6 | Verified 2026-11-08 |  |
 | `v5.0.0-14.2.2` | L2 | The application has no server-side cache and its responses carry no personal data (contract section 7) | Verified 2026-11-08 |  |
 | `v5.0.0-14.2.3` | L2 | No analytics, tracker or advertising script is loaded (code search of `src/` and `api/` on 2026-11-08: the only third-party requests are Google Fonts and the booking widget). Google Fonts receives the visitor's address at page load: see R-1 | Verified 2026-11-08 |  |
 | `v5.0.0-14.2.4` | L2 | The retention period and access rules for stored leads are decided by US-018 (final privacy notice); until then see the baseline section 6 and item O-5 | Planned |  |
@@ -256,7 +256,7 @@ Updating this file: when a story's pull request verifies a row, that pull reques
 | `v5.0.0-16.4.2` | L2 | US-014 AC8: the application log is readable only through the hosting account | Planned |  |
 | `v5.0.0-16.4.3` | L2 | Logs stay on the hosting account; there is no separate log system or alerting. See R-2 | Accepted risk |  |
 | `v5.0.0-16.5.1` | L2 | Failures return a fixed, generic message and an error code, never internals (contract section 7; US-006 AC3; `api/tests/test_error_logging.py`) | Verified 2026-11-08 |  |
-| `v5.0.0-16.5.2` | L2 | A failed Sheets write returns `503` and never success (NFR-006); a scheduler widget that fails to load shows the contact fallback (US-007 AC5; `tests/e2e/calendly-fallback.spec.ts`) | Verified 2026-11-08 |  |
+| `v5.0.0-16.5.2` | L2 | A failed Sheets write returns `503` and never success (NFR-006); a scheduler widget that fails to load shows the contact fallback (US-007 AC5; `tests/e2e/scheduler-fallback.spec.ts`) | Verified 2026-11-08 |  |
 | `v5.0.0-16.5.3` | L2 | Unexpected exceptions are caught and return `500` without continuing; a failed save never reports success (NFR-006; `api/tests/test_save_lead.py`) | Verified 2026-11-08 |  |
 | `v5.0.0-17.1.1` | L2 | | Not applicable | The site uses no WebRTC. |
 | `v5.0.0-17.2.1` | L2 | | Not applicable | The site uses no WebRTC. |

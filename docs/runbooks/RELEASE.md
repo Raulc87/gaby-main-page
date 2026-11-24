@@ -26,7 +26,7 @@ This runbook has one section today: the **preview**. The production release, smo
 
 - No backend: nothing is saved, no lead reaches the Google Sheet, no email is sent.
 - Forms send nothing. After the visitor's answers are checked in the browser, the form shows the next screen as a demonstration with the note "This is a demonstration: nothing was sent or saved." (Spanish: "Esto es una demostración: no se envió ni se guardó nada.").
-- The scheduler is a static box, never the real Calendly.
+- The scheduler is a static box, never the real calendar.
 - Search engines are asked not to index it (`noindex` on every page).
 - Pending content (placeholders, provisional copy) shows the pending badge. That is expected.
 - It has no password: the address is public to anyone who has it. Do not put private material in the repository.
@@ -100,7 +100,7 @@ Success: one line containing `<meta name="robots" content="noindex` appears. No 
 2. Open the browser's developer tools and select the **Network** tab.
 3. Fill the application form with made-up data (no real person's data) and submit it.
 
-Success: the demonstration screen with the "nothing was sent" note appears, and the Network tab lists no request to `/api` and none to `calendly.com`.
+Success: the demonstration screen with the "nothing was sent" note appears, and the Network tab lists no request to `/api` and none to `api.leadconnectorhq.com` or `link.msgsndr.com`.
 
 ## 6. Troubleshooting
 
@@ -112,5 +112,5 @@ Success: the demonstration screen with the "nothing was sent" note appears, and 
 | The preview shows older content than `main` | The newest run failed or has not finished, or an older run finished after a newer one | Open the workflow runs, wait for the newest run, or run section 4 again |
 | No preview bar | The build did not run in preview mode | Open the **build** job log and check the preview settings; do not share the link until fixed |
 | `noindex` missing | Same as above | Same as above |
-| The form sends a request to `/api` or loads Calendly | Forms are not in preview mode | Stop sharing the link and tell the project owner and the agent that owns the form: this is a blocker for the preview |
+| The form sends a request to `/api` or loads the booking calendar | Forms are not in preview mode | Stop sharing the link and tell the project owner and the agent that owns the form: this is a blocker for the preview |
 | The workflow does not start after a merge | Actions are disabled, or the workflow file is not on `main` | Open the repository's **Actions** tab and enable workflows; check that `.github/workflows/preview.yml` exists on `main` |
