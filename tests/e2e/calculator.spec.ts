@@ -83,7 +83,7 @@ for (const lang of ['es', 'en'] as const) {
       expect((await request).postDataJSON()).toMatchObject({ consent: true, marketing_consent: false });
     });
 
-    test('the result links to the VIP page (gold) and the library (blue), and shows no email note', async ({ page }) => {
+    test('the result links to the VIP page (gold), has no library link, and shows no email note', async ({ page }) => {
       await gotoCalculator(page, lang);
       await answerQuestions(page);
       await fillDetails(page);
@@ -92,10 +92,7 @@ for (const lang of ['es', 'en'] as const) {
 
       const result = page.locator(CALC.stepResult);
       await expect(result.getByRole('link', { name: common.cta.vip_apply })).toHaveAttribute('href', routePath('vip', lang));
-      await expect(result.getByRole('link', { name: common.cta.all_resources })).toHaveAttribute(
-        'href',
-        routePath('resources', lang),
-      );
+      await expect(result.locator('a[href*="recursos"], a[href*="resources"]')).toHaveCount(0);
       await expect(page.getByText(calc.result.emailNote)).toHaveCount(0);
     });
 
@@ -238,11 +235,11 @@ for (const lang of ['es', 'en'] as const) {
 test.describe('calculator without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
-  test('shows the VIP and library links instead of the calculator', async ({ page }) => {
+  test('shows the link to apply instead of the calculator, and no library link', async ({ page }) => {
     await gotoCalculator(page, 'es');
     await expect(page.locator('#calc-root')).toBeHidden();
     await expect(page.getByRole('link', { name: esCommon.cta.vip_apply }).last()).toBeVisible();
-    await expect(page.getByRole('link', { name: esCommon.cta.all_resources }).first()).toBeVisible();
+    await expect(page.locator('main a[href*="recursos"]')).toHaveCount(0);
   });
 });
 

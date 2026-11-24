@@ -16,9 +16,9 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
   - **All English values are provisional** until Gaby validates them (one review of the English as a whole); that does not add badges.
 - Values are copied verbatim and never contain markers. The code keeps the list of provisional keys next to the strings (`UX_UI_DIRECTION.md` §7).
 - **Pending badge (which keys show one):** only content blocks, never navigation, accessibility labels, alt text, metadata or state messages. Two kinds (`UX_UI_DIRECTION.md` §6.5):
-  - **Placeholders** (content that has not arrived; BR-011), badge in **every** build, production included, until the real content replaces them: the Home hero photo (§5.1), the testimonial cards (§5.9), the Método Polaris page's steps placeholder (`method.steps.placeholder`, §12), the story photo and bio placeholders (§6), the VIP video module (§8.2), and every resource card whose file has not been delivered (§7.3).
-  - **Provisional copy blocks**, badge in preview and development builds only: the third figure of the guide (§5.4), the calculator's questions, zones and result (§11, placeholder formula), the VIP steps (§8.1), the not-ready screen (§8.5), and resource cards with provisional titles. Before any production release, each of these is approved or the human owner decides per block whether it ships (as the phase 1 go-live gate did).
-  - No badge: `nav.*`, `skip_link`, `lang.*`, `meta.*`, `*_alt`, `resource.cover_alt`, `resources.filter.label`, `resources.empty`, `resource.pending`, `resource.email.coming_soon`, `story.media.label`, `story.experience.label`, `preview.*`, `privacy.*` (the notice has its own DRAFT label).
+  - **Placeholders** (content that has not arrived; BR-011), badge in **every** build, production included, until the real content replaces them: the Home hero photo (§5.1), the testimonial cards (§5.9), the Método Polaris page's steps placeholder (`method.steps.placeholder`, §12), the story photo and bio placeholders (§6), and the VIP video module (§8.2).
+  - **Provisional copy blocks**, badge in preview and development builds only: the third figure of the guide (§5.4), the calculator's questions, zones and result (§11, placeholder formula), the VIP steps (§8.1), and the not-ready screen (§8.5). Before any production release, each of these is approved or the human owner decides per block whether it ships (as the phase 1 go-live gate did).
+  - No badge: `nav.*`, `skip_link`, `lang.*`, `meta.*`, `*_alt`, `story.media.label`, `story.experience.label`, `preview.*`, `privacy.*` (the notice has its own DRAFT label).
 - `*text*` marks the italic emphasis (Playfair italic, `UX_UI_DIRECTION.md` §2) inside a heading; the asterisks are not part of the text.
 - `{contact_email}` is replaced with a `mailto:` link to `PUBLIC_CONTACT_EMAIL`.
 
@@ -33,8 +33,6 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
 | `meta.home.description` | Mentoría financiera para ejecutivos y profesionales corporativos: ordená tu dinero, convertí los beneficios de tu carrera en capital e invertí para construir patrimonio. | Financial mentorship for corporate executives and professionals: organize your money, turn your career's benefits into capital and invest to build wealth. | provisional |
 | `meta.story.title` | Mi historia — Gaby Kelly | My story — Gaby Kelly | provisional |
 | `meta.story.description` | Del mundo corporativo a mi libertad: la historia de Gaby Kelly. | From corporate life to my freedom: Gaby Kelly's story. | provisional |
-| `meta.resources.title` | Recursos gratis — Gaby Kelly | Free resources — Gaby Kelly | provisional |
-| `meta.resources.description` | Guías, plantillas y minicursos gratuitos para ordenar, invertir y crecer. | Free guides, templates and mini-courses to organize, invest and grow. | provisional |
 | `meta.vip.title` | Aplicá a Wealth Mastery — Gaby Kelly | Apply to Wealth Mastery — Gaby Kelly | provisional |
 | `meta.vip.description` | Aplicá para trabajar directamente con Gaby y agendá tu llamada inicial sin costo. | Apply to work directly with Gaby and book your free initial call. | provisional |
 | `meta.mastery.title` | Wealth Mastery — Gaby Kelly | Wealth Mastery — Gaby Kelly | provisional |
@@ -83,15 +81,12 @@ No Terms link until a Terms page exists (`PROJECT_SPEC.md` FR-020).
 |---|---|---|---|
 | `cta.vip_long` | Trabajá directamente con Gaby · Wealth Mastery | Work directly with Gaby · Wealth Mastery | approved |
 | `cta.vip_apply` | Aplicá a Wealth Mastery | Apply to Wealth Mastery | approved |
-| `cta.start_free` | O empezá gratis con los recursos | Or start free with the resources | approved |
-| `cta.all_resources` | Ver la biblioteca completa | See the full library | approved |
 | `cta.read_story` | Leé mi historia completa | Read my full story | approved |
 | `vip_band.eyebrow` | Mentoría Wealth Mastery | Wealth Mastery Mentorship | approved |
 | `vip_band.title` | ¿Querés trabajar *directamente conmigo*? | Do you want to work *directly with me*? | approved |
 | `vip_band.body` | Imaginá saber exactamente con cuánto contás, tener tu dinero trabajando a tu favor y decidir sobre tu carrera desde la libertad, no desde la necesidad. Y, cuando estés con tu familia, estar ahí de verdad. Llená una breve aplicación y agendá tu llamada inicial. | Imagine knowing exactly what you have, having your money work for you, and making career decisions from freedom, not necessity. And when you're with your family, truly being there. Fill in a short application and book your initial call. | approved |
-| `vip_band.short_title` | ¿Preferís un plan hecho a tu medida? *Trabajá directamente con Gaby.* | Would you prefer a plan made for you? *Work directly with Gaby.* | approved |
 
-My story uses `vip_band.title` and `vip_band.body`; the Home's closing band uses `vip_band.title` with its own body and steps (§5.11); the resource library uses `vip_band.short_title`. All bands use `cta.vip_apply` (the gold button).
+My story uses `vip_band.title` and `vip_band.body`; the Home's closing band uses `vip_band.title` with its own body and steps (§5.11). All bands use `cta.vip_apply` (the gold button).
 
 ## 5. Home (`/es/`, `/en/`)
 
@@ -290,70 +285,13 @@ The Home's VIP band: the blue band of §4 with `home.vip.body` and the three ste
 | `story.experience.intel` | Intel | Intel | approved |
 | `story.bio.placeholder` | Biografía y credenciales | Bio and credentials | provisional |
 | `story.photo.placeholder` | Fotos de la sesión | Session photos | provisional |
-| `story.resources_link` | = `cta.start_free` | = `cta.start_free` | approved |
+| `story.resources_link` | O empezá gratis: calculá tus meses de libertad | Or start free: calculate your months of freedom | provisional |
 
 Media are shown as names only, without logos, until their logo use is authorized (FR-029). Microsoft and Oracle are shown with logos as prior experience; Intel is named without a logo until confirmed (US-022 AC3). The page ends with the VIP band (§4: `vip_band.*`, `cta.vip_apply`).
 
-## 7. Free resources (`/es/recursos/`, `/en/resources/`)
+## 7. Free resources — withdrawn in phase 2d (US-046): the calculator (§11) is the site's only free resource.
 
-### 7.1 Page
-
-| Key | Español | English | Status |
-|---|---|---|---|
-| `resources.eyebrow` | Biblioteca gratuita | Free library | approved |
-| `resources.title` | Herramientas para ordenar, *invertir y crecer.* | Tools to organize, *invest and grow.* | approved |
-| `resources.lead` | Guías, plantillas y minicursos que podés usar hoy. Algunos se descargan directo; otros te llegan al correo. | Guides, templates and mini-courses you can use today. Some download directly; others arrive in your inbox. | approved |
-| `resources.filter.label` | Filtrar por tema | Filter by topic | provisional |
-| `resources.filter.all` | Todos | All | approved |
-| `resources.topic.debt` | Salir de deudas | Getting out of debt | approved |
-| `resources.topic.wallets` | Billeteras y presupuesto | Wallets and budget | approved |
-| `resources.topic.investing` | Inversión | Investing | approved |
-| `resources.topic.mindset` | Mentalidad y dinero | Mindset and money | approved |
-| `resources.featured.label` | Minicurso destacado · gratis | Featured mini-course · free | approved |
-| `resources.empty` | No hay recursos en este tema todavía. | There are no resources in this topic yet. | provisional |
-
-### 7.2 Card labels and states
-
-| Key | Español | English | Status |
-|---|---|---|---|
-| `resource.type.minicourse` | Minicurso | Mini-course | approved |
-| `resource.type.guide` | Guía | Guide | approved |
-| `resource.type.template` | Plantilla | Template | approved |
-| `resource.type.checklist` | Checklist | Checklist | approved |
-| `resource.type.class` | Clase grabada | Recorded class | approved |
-| `resource.free` | gratis | free | approved |
-| `resource.access.download` | Descarga libre | Free download | approved |
-| `resource.access.email` | Con tu correo | By email | approved |
-| `resource.cta.download` | Descargar gratis | Download for free | approved |
-| `resource.cta.guide` | Recibir la guía | Get the guide | approved |
-| `resource.cta.class` | Ver la clase | Watch the class | approved |
-| `resource.cta.minicourse` | Quiero el minicurso | I want the mini-course | approved |
-| `resource.pending` | Disponible pronto | Coming soon | provisional |
-| `resource.email.coming_soon` | La entrega por correo estará disponible pronto. | Delivery by email will be available soon. | provisional |
-| `resource.cover_alt` | Portada de {title} | Cover of {title} | provisional |
-
-A card whose file has not been delivered shows `resource.pending` instead of its call to action, with no link (US-024 AC4). An email-delivered resource shows `resource.email.coming_soon` and no form until US-025.
-
-### 7.3 Resource list
-
-The code keeps this list in one typed data file (US-024 AC3). `id` is the stable identifier; `file` is filled only when the real file has been delivered.
-
-| `id` | Type | Topic | Access | `home` | Title ES | Title EN | Description ES | Description EN | Status |
-|---|---|---|---|---|---|---|---|---|---|
-| `minicourse-debt` | minicourse | debt | email | yes (1st) | Cómo salir de deudas | How to get out of debt | Un minicurso para salir de deudas paso a paso. | A mini-course to get out of debt step by step. | provisional |
-| `guide-wallets` | guide | wallets | email | yes (2nd) | Sistema de Billeteras | The Wallet System | Cada ingreso y cada beneficio con un propósito. | Every income and every benefit with a purpose. | provisional |
-| `guide-corporate-benefits` | guide | investing | download | yes (3rd) | Cómo aprovechar tus beneficios corporativos | How to make the most of your corporate benefits | Convertí los beneficios de tu carrera en capital para invertir. | Turn your career's benefits into capital to invest. | provisional |
-| `template-debt` | template | debt | download | no | Plantilla para salir de deudas | Debt payoff template | Organizá tus deudas y definí el orden para pagarlas. | Organize your debts and decide the order to pay them. | provisional |
-| `checklist-investing` | checklist | investing | download | no | Checklist para empezar a invertir | Checklist to start investing | Lo que conviene tener claro antes de tu primera inversión. | What to be clear about before your first investment. | provisional |
-| `class-mindset` | class | mindset | email | no | Clase: tu relación con el dinero | Class: your relationship with money | Una clase grabada sobre mentalidad y dinero. | A recorded class on mindset and money. | provisional |
-| `guide-investing` | guide | investing | email | no | Guía para invertir desde tu salario | Guide to investing from your salary | Primeros pasos para que tu salario trabaje para vos. | First steps so your salary works for you. | provisional |
-| `template-budget` | template | wallets | download | no | Plantilla de presupuesto por billeteras | Wallet budget template | Repartí tu ingreso en billeteras con propósito. | Split your income into wallets with a purpose. | provisional |
-| `diagnostic-benefits` | guide | investing | email | no | Radiografía de beneficios corporativos | Corporate benefits X-ray | Descubrí cuánto valen hoy los beneficios de tu empresa y cómo convertirlos en capital. | Find out what your company's benefits are worth today and how to turn them into capital. | provisional |
-| `diagnostic-investor` | guide | investing | email | no | Diagnóstico de inversionista | Investor diagnosis | Descubrí qué tipo de inversionista sos hoy y por dónde empezar. | Find out what kind of investor you are today and where to start. | provisional |
-
-All titles and descriptions are provisional: the brief marks the resource names as still to come (`PROJECT_SPEC.md` §16). `diagnostic-benefits` and `diagnostic-investor` are the two resources Gaby's review names (2026-11-08); their titles are hers, their descriptions are the team's, and both are under construction (human owner, 2026-11-08). The `home` column no longer places cards on the Home (the calculator replaced the resources teaser, §5.10); it is kept for the resource data file. `minicourse-debt` is the featured mini-course (§7.1) and the one the VIP not-ready screen offers (§8.5). The call to action of each card follows its type and access: `download` → `resource.cta.download`; `email` → `resource.cta.guide`, `resource.cta.class` or `resource.cta.minicourse` by type.
-
-The page ends with the short VIP band (§4: `vip_band.short_title`, `cta.vip_apply`).
+---
 
 ## 8. Wealth Mastery application (`/es/aplicar/`, `/en/apply/`)
 
@@ -436,10 +374,10 @@ Not-ready answers (`no_capacity_now`, `exploring`), US-023 AC5:
 | Key | Español | English | Status |
 |---|---|---|---|
 | `thanks.not_ready.title` | Gracias por contarnos dónde estás hoy. | Thank you for telling us where you are today. | provisional |
-| `thanks.not_ready.body` | Es posible que te contactemos por correo electrónico o WhatsApp. Cuando sea tu momento, aquí estaremos. Mientras tanto, podés empezar gratis con el minicurso: | We may reach out by email or WhatsApp. When the time is right for you, we'll be here. In the meantime, you can start for free with the mini-course: | provisional |
-| `thanks.not_ready.more` | = `cta.all_resources` | = `cta.all_resources` | approved |
+| `thanks.not_ready.body` | Es posible que te contactemos por correo electrónico o WhatsApp. Cuando sea tu momento, aquí estaremos. Mientras tanto, podés empezar gratis: descubrí cuántos meses podrías sostenerte hoy. | We may reach out by email or WhatsApp. When the time is right for you, we'll be here. In the meantime, you can start for free: find out how many months you could sustain yourself today. | provisional |
+| `thanks.not_ready.more` | = `home.hero.secondary` | = `home.hero.secondary` | approved |
 
-Below `thanks.not_ready.body` the `minicourse-debt` card (§7.3) is shown with its current state (pending until its file exists, US-024 AC4).
+Below `thanks.not_ready.body`, the blue `thanks.not_ready.more` button leads to the calculator (§11).
 
 ### 8.6 Preview mode (US-027)
 
@@ -538,7 +476,6 @@ Name and email use `form.name.*` and `form.email.*`; the optional WhatsApp uses 
 | `calc.result.email_note` | Te enviamos tu resultado y la guía "Cómo empezar a invertir siendo ejecutivo" a tu correo. | We've sent your result and the guide "How to start investing as an executive" to your email. | provisional |
 | `calc.result.disclaimer` | Este cálculo es una estimación educativa con los datos que escribiste; no es una recomendación financiera. | This calculation is an educational estimate based on the figures you entered; it is not financial advice. | provisional |
 | `calc.result.cta` | = `cta.vip_apply` | = `cta.vip_apply` | approved |
-| `calc.result.secondary` | = `cta.all_resources` | = `cta.all_resources` | approved |
 | `calc.restart` | Calcular de nuevo | Calculate again | provisional |
 
 `{months}` has one decimal, with a decimal comma in Spanish ("4,4 meses") and a point in English ("4.4 months"). `calc.result.covered` replaces the months and the zone body when other income covers the monthly outflow; the zone is then "freedom". "Zona de alerta" is Gaby's label (her example result); the other zone names are the team's. `calc.result.email_note` is shown only once the guide is sent by email (US-038). In preview builds the capture step stores nothing and the result shows `preview.form_note` (§8.6).

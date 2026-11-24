@@ -64,7 +64,7 @@ for (const lang of ['es', 'en'] as const) {
       await expect(page.getByText(story.bio.placeholder)).toBeVisible();
     });
 
-    test('the resources link follows the bio card and precedes the VIP band', async ({ page }) => {
+    test('the calculator link follows the bio card and precedes the VIP band', async ({ page }) => {
       const order = await page.evaluate(() => {
         const position = (selector: string) => {
           const element = document.querySelector(selector)!;
@@ -79,12 +79,12 @@ for (const lang of ['es', 'en'] as const) {
       expect(order).toEqual([...order].sort((a, b) => a - b));
     });
 
-    test('links to the resources', async ({ page }) => {
+    test('links to the calculator', async ({ page }) => {
       const link = page.getByTestId('story-resources-link');
-      await expect(link).toHaveText(common.cta.start_free);
+      await expect(link).toHaveText(story.resources_link);
       expect((await link.boundingBox())!.height).toBeGreaterThanOrEqual(44);
       await link.click();
-      await expect(page).toHaveURL(new RegExp(`${routePath('resources', lang)}$`));
+      await expect(page).toHaveURL(new RegExp(`${routePath('calculator', lang)}$`));
     });
 
     test('the VIP band leads to the VIP page', async ({ page }) => {

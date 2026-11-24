@@ -4,7 +4,7 @@
 // paragraphs in a narrow column; the media row (names as text chips in
 // same-height boxes that can take logos later); the experience row (Microsoft and
 // Oracle logos from public/logos as charcoal silhouettes, Intel as text); the
-// bio and credentials placeholder; the text link to the resources; the VIP band. The photo and bio
+// bio and credentials placeholder; the text link to the calculator; the VIP band. The photo and bio
 // placeholders carry the pending badge in every build (they are placeholders).
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PendingBadge from '../sections/PendingBadge.astro';
@@ -121,11 +121,11 @@ const mediaNames = [story.media['1'], story.media['2'], story.media['3'], story.
 
       <p class="mt-8">
         <a
-          href={pageHref('resources', lang)}
+          href={pageHref('calculator', lang)}
           class="inline-flex min-h-11 items-center font-semibold text-heritage-blue underline underline-offset-4"
           data-testid="story-resources-link"
         >
-          {common.cta.start_free}
+          {story.resources_link}
         </a>
       </p>
     </div>

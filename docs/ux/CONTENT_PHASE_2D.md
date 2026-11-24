@@ -11,7 +11,6 @@ Same rules as `CONTENT.md` (its Metadata): the row format is the same (`| key | 
 | [W](#part-w--the-wealth-mastery-page) | The Wealth Mastery page (it replaces §12, the Método Polaris page) | US-042 |
 | [C](#part-c--gabys-calculator) | §11, Gaby's calculator, with the error for the unanswered shares question | US-044 |
 | [P](#part-p--privacy-notice-gohighlevel) | §9, `privacy.p2` and `privacy.p4`: GoHighLevel as the processor of the contacts and the emails | US-045 |
-| [L](#part-l--the-resource-library-withdrawn) | §7 withdrawn, and every key that pointed at the library | US-046 |
 
 Rules for the moves:
 
@@ -279,30 +278,6 @@ Notes:
 | `privacy.p4` | Con quién los compartimos: con Google (almacenamiento en Google Sheets) y con GoHighLevel, la plataforma de Gaby, que recibe tu contacto (tu nombre, correo, teléfono si lo das e idioma y, según el formulario, tu resultado de la calculadora o tu respuesta de preselección), envía los correos y agenda la llamada. Ambos pueden almacenar información fuera de Costa Rica. | Who we share it with: Google (Google Sheets storage) and GoHighLevel, Gaby's platform, which receives your contact (your name, email, phone if you give it and language and, depending on the form, your calculator result or your pre-screening answer), sends the emails and schedules the call. Both may store data outside Costa Rica. | provisional |
 
 The note under §9 replaces its sentence on GoHighLevel and ADR-007 with: "v0.3 (phase 2d, US-045): `privacy.p2` adds the calculator's currency and concentration answer and says the figures are not sent; `privacy.p4` names GoHighLevel as the processor of the contacts and the emails as well as the booking (ADR-007 option C, ADR-008); `PRIVACY_NOTICE_VERSION` is bumped with this text." Both stay part of the legal review (US-018).
-
----
-
-## Part L — The resource library withdrawn
-
-**Moved by US-046** (US-043 removed the Home teaser's library links first). Gaby: one free resource, the calculator (brief §1 point 1).
-
-### L.1 Removed
-
-- **§7** (all of 7.1, 7.2 and 7.3) and the resource data file. The heading stays with one line: "## 7. Free resources — withdrawn in phase 2d (US-046): the calculator (§11) is the site's only free resource."
-- `meta.resources.*` (§1), `nav.resources` if Part V has not removed it, `cta.all_resources` and `vip_band.short_title` (§4), and `calc.result.secondary` (§11) if Part C has not removed it.
-- The §4 note's sentence "the resource library uses `vip_band.short_title`".
-- In the Metadata: the resource cards from the placeholders and the provisional blocks, and `resources.filter.label`, `resources.empty`, `resource.pending`, `resource.email.coming_soon` and `resource.cover_alt` from the no-badge list.
-
-### L.2 Changed
-
-| Key | Español | English | Status |
-|---|---|---|---|
-| `story.resources_link` | O empezá gratis: calculá tus meses de libertad | Or start free: calculate your months of freedom | provisional |
-| `thanks.not_ready.body` | Es posible que te contactemos por correo electrónico o WhatsApp. Cuando sea tu momento, aquí estaremos. Mientras tanto, podés empezar gratis: descubrí cuántos meses podrías sostenerte hoy. | We may reach out by email or WhatsApp. When the time is right for you, we'll be here. In the meantime, you can start for free: find out how many months you could sustain yourself today. | provisional |
-| `thanks.not_ready.more` | = `home.hero.secondary` | = `home.hero.secondary` | approved |
-
-- `cta.start_free` is **removed**; `story.resources_link` gets its own value and links to the calculator (US-046 AC2). The key keeps its name so the My story code does not move.
-- The not-ready screen shows the blue `thanks.not_ready.more` button to the calculator, not the mini-course card (`UX_UI_DIRECTION.md` §6.4); the note under §8.5 becomes "Below `thanks.not_ready.body`, the blue `thanks.not_ready.more` button leads to the calculator (§11)."
 
 ---
 

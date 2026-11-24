@@ -3,8 +3,7 @@
 // CONTENT.md section 11): one card with three steps in place (questions, your
 // details, result). The computation runs in the browser (calculatorController.ts);
 // the five figures never leave it. The page files in src/pages/{es,en} only pass the
-// language. Without JavaScript the card stays hidden and the VIP and library links
-// show instead.
+// language. Without JavaScript the card stays hidden and the link to apply shows instead.
 import PendingBadge from '../sections/PendingBadge.astro';
 import Button from '../layout/Button.astro';
 import PrivacyNotice from '../lead/PrivacyNotice.astro';
@@ -58,12 +57,9 @@ const showBadges = showsCalculatorBadge('calculator.questions');
 
 <section class="bg-ivory py-12 lg:py-20">
   <div class="mx-auto max-w-[640px] px-4">
-    <!-- Without JavaScript the calculator cannot run: the two links stay (US-035 AC8). -->
+    <!-- Without JavaScript the calculator cannot run: the link to apply stays. -->
     <noscript>
-      <div class="flex flex-col gap-4 sm:flex-row">
-        <Button variant="blue" href={pageHref('vip', lang)} label={common.cta.vip_apply} />
-        <Button variant="blue" href={pageHref('resources', lang)} label={common.cta.all_resources} />
-      </div>
+      <Button variant="blue" href={pageHref('vip', lang)} label={common.cta.vip_apply} />
     </noscript>
 
     <div
@@ -283,7 +279,6 @@ const showBadges = showsCalculatorBadge('calculator.questions');
 
         <div class="mt-6 flex flex-col gap-3 sm:flex-row">
           <Button variant="gold" href={pageHref('vip', lang)} label={common.cta.vip_apply} />
-          <Button variant="blue" href={pageHref('resources', lang)} label={common.cta.all_resources} />
         </div>
         <p class="mt-4">
           <button

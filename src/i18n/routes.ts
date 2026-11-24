@@ -4,14 +4,13 @@
 // phase 2b and is added with its story.
 import type { Language } from './index';
 
-export const PAGE_IDS = ['home', 'story', 'resources', 'vip', 'privacy', 'method', 'calculator', 'mastery'] as const;
+export const PAGE_IDS = ['home', 'story', 'vip', 'privacy', 'method', 'calculator', 'mastery'] as const;
 
 export type PageId = (typeof PAGE_IDS)[number];
 
 export const ROUTES: Record<PageId, Record<Language, string>> = {
   home: { es: '/es/', en: '/en/' },
   story: { es: '/es/mi-historia/', en: '/en/my-story/' },
-  resources: { es: '/es/recursos/', en: '/en/resources/' },
   vip: { es: '/es/aplicar/', en: '/en/apply/' },
   privacy: { es: '/es/privacidad/', en: '/en/privacy/' },
   method: { es: '/es/metodo-polaris/', en: '/en/polaris-method/' },

@@ -68,16 +68,16 @@ describe.each([
   it('covers every calc.* key of CONTENT.md except the two aliases', () => {
     const covered = new Set(entries(dictionary).map(([key]) => key));
     const documented = [...table.keys()].filter((key) => key.startsWith('calc.'));
-    const aliases = ['calc.result.cta', 'calc.result.secondary'];
+    const aliases = ['calc.result.cta'];
     expect(documented.filter((key) => !covered.has(key) && !aliases.includes(key))).toEqual([]);
   });
 });
 
 describe('aliases of the result buttons', () => {
-  it('calc.result.cta and calc.result.secondary point at cta.vip_apply and cta.all_resources', () => {
+  it('calc.result.cta points at cta.vip_apply, and there is no library button (US-046)', () => {
     expect(table.get('calc.result.cta')).toEqual(['= `cta.vip_apply`', '= `cta.vip_apply`']);
-    expect(table.get('calc.result.secondary')).toEqual(['= `cta.all_resources`', '= `cta.all_resources`']);
+    expect(table.has('calc.result.secondary')).toBe(false);
     expect(esCommon.cta.vip_apply).toBeTruthy();
-    expect(enCommon.cta.all_resources).toBeTruthy();
+    expect(enCommon.cta.vip_apply).toBeTruthy();
   });
 });

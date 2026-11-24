@@ -135,30 +135,6 @@ export interface VipDictionary {
   video: { title: string; placeholder: string };
 }
 
-/** Resource card labels and topic names (CONTENT.md sections 7.1-7.2), keyed as in CONTENT.md. */
-export interface ResourcesDictionary {
-  resource: {
-    type: Record<'minicourse' | 'guide' | 'template' | 'checklist' | 'class', string>;
-    free: string;
-    access: Record<'download' | 'email', string>;
-    cta: Record<'download' | 'guide' | 'class' | 'minicourse', string>;
-    pending: string;
-    email: { coming_soon: string };
-    /** Contains one `{title}` placeholder. */
-    cover_alt: string;
-  };
-  resources: {
-    eyebrow: string;
-    /** `*text*` marks the italic emphasis. */
-    title: string;
-    lead: string;
-    filter: { label: string; all: string };
-    topic: Record<'debt' | 'wallets' | 'investing' | 'mindset', string>;
-    featured: { label: string };
-    empty: string;
-  };
-}
-
 /**
  * Privacy notice (CONTENT.md section 9), keyed as in CONTENT.md (`privacy.title`,
  * `privacy.p1`, ...): the page and the dialog show the same text. Paragraphs may

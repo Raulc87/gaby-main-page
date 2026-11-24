@@ -102,7 +102,6 @@ Viewport rule (BR-010): a layout must not place two gold buttons in one viewport
 |---|---|---|---|
 | `home` | `/es/` | `/en/` | 2a |
 | `story` | `/es/mi-historia/` | `/en/my-story/` | 2a |
-| `resources` | `/es/recursos/` | `/en/resources/` | 2a; withdrawn in 2d (US-046) |
 | `vip` | `/es/aplicar/` | `/en/apply/` | 2a; moved in 2d (US-041; was `/es/mentoria-vip/`, `/en/vip-mentorship/`) |
 | `privacy` | `/es/privacidad/` | `/en/privacy/` | 2a |
 | `blog` | `/es/blog/` | `/en/blog/` | 2b (US-026) |

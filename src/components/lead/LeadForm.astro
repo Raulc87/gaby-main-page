@@ -6,8 +6,7 @@
 // the URL). After a 201 the card is replaced in place by the qualified screen
 // (thank-you + scheduler) or the not-ready screen, per src/lib/lead/routing.ts.
 import { SECTION_IDS, type Language } from '../../i18n';
-import { getCommon } from '../../i18n';
-import { FEATURED_RESOURCE_ID, getResource } from '../../data/resources';
+import { getCommon, getHome } from '../../i18n';
 import { CONTACT_EMAIL } from '../../lib/lead/config';
 import { getForm } from '../../lib/lead/dictionaries';
 import { detectPageLanguage } from '../../lib/lead/language';
@@ -16,7 +15,6 @@ import { pageHref } from '../../lib/site/links';
 import { IS_PREVIEW } from '../../lib/site/preview';
 import Button from '../layout/Button.astro';
 import PendingBadge from '../sections/PendingBadge.astro';
-import ResourceCard from '../resources/ResourceCard.astro';
 import ConsentField from './ConsentField.astro';
 import PrivacyNotice from './PrivacyNotice.astro';
 import ThankYou from './ThankYou.astro';
@@ -212,9 +210,9 @@ const scriptCopy = {
     <div class="mt-3">
       <PendingBadge label={common.pending.badge} block="thanks.not_ready" />
     </div>
-    <ResourceCard resource={getResource(FEATURED_RESOURCE_ID)} lang={lang} class="mt-6" />
+    <!-- The calculator is the site's only free resource (US-046, CONTENT.md 8.5); the button is blue, never gold. -->
     <div class="mt-6">
-      <Button variant="blue" href={pageHref('resources', lang)} label={common.cta.all_resources} />
+      <Button variant="blue" href={pageHref('calculator', lang)} label={getHome(lang).home.hero.secondary} />
     </div>
   </div>
 
