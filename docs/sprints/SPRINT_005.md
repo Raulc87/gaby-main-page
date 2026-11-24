@@ -1,11 +1,11 @@
-# SPRINT 005 — PLANNED
+# SPRINT 005 — ACTIVE
 
 ## Metadata
-- Status: PLANNED — waiting for the human owner's go-ahead (Entry Gates, gate 16)
+- Status: ACTIVE — the human owner gave the go-ahead on 2026-11-24 (Entry Gates, gate 16); agents launched the same day ([`SPRINT_005_AGENT_PROMPTS.md`](SPRINT_005_AGENT_PROMPTS.md) → Session IDs)
 - Duration: 8 business days
 - Saturdays and Sundays excluded
-- Start: the first business day after the go-ahead
-- End: 8 business days after the start, with the Sprint Review on the preview, with Gaby
+- Start: 2026-11-25 (the first business day after the go-ahead; agents began on their own files on 2026-11-24)
+- End: 2026-12-04 (8 business days), with the Sprint Review on the preview, with Gaby
 - Final reviewer: Human project owner
 
 ## Sprint Goal
@@ -36,7 +36,7 @@ Readiness checklist run on 2026-11-24 on the documents as #85 and this planning 
 | 3 | [`AGENTS.md`](../../AGENTS.md), [`CLAUDE.md`](../../CLAUDE.md) and the checklist match the Starter Kit (§1, blocking) | Done: kit v1.2.0. The kit's later versions are not synced (the owner's choice, 2026-11-08) |
 | 4 | [`README.md`](../../README.md) status matches [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md) (§1) | Done in this PR |
 | 5 | Branch names for every story (§1, blocking) | Done (Planned Stories) |
-| 6 | Spec v0.7, stories US-040–US-046, UX v1.2, contract v1.3, ADR-007, ADR-008 and the staged phase 2d copy agree (§2, blocking) | Spec, contract, ADRs, UX and stories: done in #85. **The staged copy (`CONTENT_PHASE_2D.md`): the coordinator's next docs PR, merged before the go-ahead** |
+| 6 | Spec v0.7, stories US-040–US-046, UX v1.2, contract v1.3, ADR-007, ADR-008 and the staged phase 2d copy agree (§2, blocking) | Spec, contract, ADRs, UX and stories: done in #85. The staged copy ([`CONTENT_PHASE_2D.md`](../ux/CONTENT_PHASE_2D.md)): done in #89 |
 | 7 | Every sprint story has testable acceptance criteria (§3, blocking) | Done (#85; reviewed) |
 | 8 | Shared interfaces locked (§4, blocking): [`LEAD_API_CONTRACT.md`](../specs/LEAD_API_CONTRACT.md) v1.3 (§11, §12) locked by #85; the route map changes of [`UX_UI_DIRECTION.md`](../ux/UX_UI_DIRECTION.md) §3 are made by the scaffold (merge order step 1) | Done |
 | 9 | Personal data (§5, blocking): Ley 8968; two consents; only the result goes to GoHighLevel (pending Gaby's confirmation, brief §8 point 4); the privacy notice names GoHighLevel's role (US-045 AC7). Nothing is public: the preview stores and sends nothing | Done. If Gaby asks for the figures, a docs PR changes FR-035, the notice and its consent before US-045 merges |
@@ -46,7 +46,7 @@ Readiness checklist run on 2026-11-24 on the documents as #85 and this planning 
 | 13 | **No agent uses a third party's live account** (owner decision asked on 2026-11-23; this plan proposes it, and merging approves it): agents never load Gaby's live GoHighLevel widget or call its API. Tests use stubs and a fake client; checks against the real account are the owner's, by hand | Proposed in this PR |
 | 14 | Developer guide (§6) | Done: [`CONTRIBUTING.md`](../../CONTRIBUTING.md) (#77), corrected by #86 |
 | 15 | Workstreams, ownership map, scaffold-first merge order with no cycle, conflict rule, prompts with the merge, review-flow, attribution and reviewer-independence rules (§7, §7.1, blocking) | Done in this PR ([`SPRINT_005_AGENT_PROMPTS.md`](SPRINT_005_AGENT_PROMPTS.md)) |
-| 16 | Go-ahead from the human owner (§8, blocking) | Pending, after gate 6 and #86 and #87 merge |
+| 16 | Go-ahead from the human owner (§8, blocking) | Done: given on 2026-11-24, after #86, #87, #88 and #89 merged |
 
 Non-blocking items, for the human owner and Gaby:
 - **The owner's manual check of the GoHighLevel calendar** (US-037, ADR-006 → Validation; the owner asked for it on 2026-11-24). In a local build with `PUBLIC_SCHEDULER_URL` set to Gaby's calendar and the backend in memory mode, submit a Wealth Mastery application with a qualified answer, using your own name and email:
