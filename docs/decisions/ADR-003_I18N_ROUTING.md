@@ -47,9 +47,9 @@ A third language is required, or SEO needs change.
 - Translation dictionaries are split per page (`src/i18n/{es,en}/<page>.ts`) plus shared ones (`common.ts` for header, footer, CTAs, VIP band; `form.ts` for the form), so agents working on different pages do not edit the same file. Strings come verbatim from `docs/ux/CONTENT.md`.
 - Section anchors are shared by both languages (`UX_UI_DIRECTION.md` §3).
 
+Validation adds: a unit test that every page id has a path in both languages and every path is unique; e2e that the toggle keeps the page in both directions for every page.
+
 ## Update — 2026-11-24: phase 2d routes
 
-The decision and the route map are unchanged; the list of pages in the 2026-10-16 update above is out of date. Phase 2d (`PROJECT_SPEC.md` v0.7, Sprint 005) removed `resources` (US-046) and `method` (US-042), added `mastery` (`/es/wealth-mastery/`, `/en/wealth-mastery/`, US-041) and the calculator (Sprint 004), and moved `vip` to `/es/aplicar/` and `/en/apply/` (US-041). The current paths are the table of `UX_UI_DIRECTION.md` §3, which `tests/unit/site/routes.test.ts` checks against the code.
-
-Validation adds: a unit test that every page id has a path in both languages and every path is unique; e2e that the toggle keeps the page in both directions for every page.
+The decision and the route map are unchanged; the list of pages in the 2026-10-16 update above is out of date. Phase 2d (`PROJECT_SPEC.md` v0.7, Sprint 005) removed `resources` (US-046) and `method` (US-042), added `mastery` (`/es/wealth-mastery/`, `/en/wealth-mastery/`, US-041), and moved `vip` to `/es/aplicar/` and `/en/apply/` (US-041). The calculator's route dates from phase 2c (Sprint 004). The current paths are the table of `UX_UI_DIRECTION.md` §3, which `tests/unit/site/routes.test.ts` checks against the code.
 

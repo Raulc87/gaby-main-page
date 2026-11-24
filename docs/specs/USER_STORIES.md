@@ -1115,3 +1115,59 @@ so that I don't land on a library that no longer exists.
 
 **Dependencies**
 - US-041 merged (the header). Can run in parallel with US-042 to US-045 where files do not overlap (the sprint plan's ownership map).
+
+---
+
+## US-047 — Demo environment for Gaby's functional test
+- Priority: High
+- Story Points: 5
+- Status: Proposed — Sprint 006 candidate
+- Related Requirements: FR-030 (the preview stays demonstration-only), FR-034 to FR-041, NFR-007
+- Related ADR: [ADR-009](../decisions/ADR-009_DEMO_ENVIRONMENT.md); ADR-001, ADR-005, ADR-006, ADR-008
+- Source: the human owner, 2026-11-24 (Gaby decides on gabykelly.com only after seeing the funnel work)
+
+**User Story**
+
+As Gaby,
+I want to use the real site, privately, before it replaces my GoHighLevel funnel,
+so that I can see my leads arrive and my calendar take a booking, and decide.
+
+**Acceptance Criteria**
+1. `docs/runbooks/DEPLOYMENT.md` has a demo section for `gabydemo.digitalstrike-solutions.com` (ADR-009):
+   - the cPanel subdomain and its own document root, separate from the owner's site;
+   - the Python app in its own application root, mounted at `/api` on the subdomain only;
+   - the build values: `PUBLIC_PREVIEW` unset, `PUBLIC_SCHEDULER_URL` set to Gaby's calendar, base path `/`;
+   - the deploy-time `.htaccess`: basic authentication over everything, `/api` included; `X-Robots-Tag: noindex, nofollow`; HTTPS forced;
+   - the environment: a test Google Sheet, `GHL_SYNC=on`, the token and key handled as `DEPLOYMENT.md` §6 says;
+   - how to record which `main` commit is deployed.
+2. A smoke check in that section, with expected answers:
+   - without the password: `401` for `/`, a page and both `/api` endpoints;
+   - with the password: the pages load, and an empty `POST` to each endpoint gets its validation error;
+   - the `X-Robots-Tag` header is present.
+3. A cleanup list in `docs/runbooks/GOHIGHLEVEL.md`: test contacts deleted from Gaby's GoHighLevel, test bookings cancelled, the test sheet's rows cleared or archived.
+4. A Spanish test checklist for Gaby, `docs/runbooks/DEMO_GABY_CHECKLIST_ES.md`, with what to do and what she should see:
+   - the calculator in USD and colones, with both consents and with only the required one;
+   - an application with a qualified answer and a not-ready answer;
+   - a booking;
+   - the contact and its tags in GoHighLevel;
+   - the emails, if her workflows are active.
+5. A workflow started by hand, `.github/workflows/demo-build.yml` (`workflow_dispatch`, `main` only), runs the same checks as CI. It then uploads two artifacts: the static site built with the demo values, and `api/` without tests. It never contains a secret, and no step deploys anywhere.
+6. The security baseline records the demo environment, as a proposed change for its owner if this is not this story's:
+   - its third parties: the owner's host, Google, GoHighLevel;
+   - test data only;
+   - the password and the secrets outside Git.
+7. Verified by the owner, not by agents, as ADR-009 → Validation lists:
+   - a calculator lead and an application reach the test sheet and Gaby's GoHighLevel (`crm_status` = `sent`);
+   - one booking is made and then cancelled;
+   - the `401` and `noindex` checks pass.
+   The results are recorded in the sprint's close-out.
+
+**Security**
+- No secret in Git, in a workflow, in an artifact or in chat; the token has contacts access only (`GOHIGHLEVEL.md`).
+- The demo is private (basic authentication over the whole subdomain, `/api` included) and carries test data only.
+- Agents never log into the owner's cPanel or Gaby's GoHighLevel, and never call the live APIs (Sprint 005 entry gate 13).
+
+**Dependencies**
+- ADR-009 accepted (the docs PR that adds this story).
+- Gaby's GoHighLevel set-up: a token with contacts access only, the location id, the custom fields and tags of contract §12.
+- The owner's cPanel account and a test Google Sheet with its service account (`GOOGLE_SHEETS_SETUP.md`).
