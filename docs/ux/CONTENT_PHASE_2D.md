@@ -13,12 +13,12 @@ Same rules as `CONTENT.md` (its Metadata): the row format is the same (`| key | 
 | [W](#part-w--the-wealth-mastery-page) | The Wealth Mastery page (it replaces §12, the Método Polaris page) | US-042 |
 | [C](#part-c--gabys-calculator) | §11, Gaby's calculator, with the error for the unanswered shares question | US-044 |
 | [P](#part-p--privacy-notice-gohighlevel) | §9, `privacy.p2` and `privacy.p4`: GoHighLevel as the processor of the contacts and the emails | US-045 |
-| [L](#part-l--the-resource-library-withdrawn) | §7 withdrawn, and every key that pointed at the library | US-046 |
+| [L](#part-l--the-resource-library-withdrawn) | §7 withdrawn, and every key that pointed at the library; **after Part H** | US-046 |
 
 Rules for the moves:
 
 - **Part V goes first** (US-041 merges first in Sprint 005). It also gives interim voseo to keys that Parts H, W, C, P and L later replace or remove, so the site is in voseo from the first merge and the AC1 test passes; each later part replaces those rows with its own.
-- **No part depends on another part's move**, except on Part V. Where two parts show the same text (the pillars on the Home and on the Wealth Mastery page), each writes it out in full; aliases (`= key`) point only at keys already in `CONTENT.md` after Part V.
+- **No part depends on another part's move**, except on Part V, and **Part L, which moves after Part H**: until Part H, the Home's calculator teaser shows `home.calculator.more` and the titles of two resources from the data file Part L deletes (the same order as `docs/sprints/SPRINT_005.md`: `GK-046` after `GK-043`). Where two parts show the same text (the pillars on the Home and on the Wealth Mastery page), each writes it out in full; aliases (`= key`) point only at keys already in `CONTENT.md` after Part V.
 - **Status.** `approved`: Gaby's Spanish, verbatim from the brief, or an approved value changed only by her two rules (voseo, the programme's name). `provisional`: proposed by the team, shown with the pending badge where `CONTENT.md` Metadata says so. Each part updates the Metadata's badge lists as its notes say.
 - **Section numbers stay.** A section that is withdrawn keeps its heading with one line saying so, so references to other sections keep working.
 - Gaby's few slips against her own rules are corrected here and listed for her in [Flags for Gaby](#flags-for-gaby).
@@ -36,9 +36,10 @@ US-041 also sets `CONTENT.md` Metadata to version 0.3, replaces its phase 2c lin
 The unit test fails if any Spanish string in `src/i18n/es/` contains one of these, matched **case-insensitively, as whole words, accent-sensitively** (so "puedes" fails and "podés" passes; "aplica a" fails and "Aplicá a" passes). Whole words must treat accented letters as letters (in JavaScript, a Unicode-aware look-around such as `(?<!\p{L})…(?!\p{L})` with the `u` flag; `\b` is ASCII-only). Each entry is a form the current copy uses, or a common one that has no voseo reading:
 
 - pronouns: `tú`, `ti` (as in "para ti", "sin ti"), `contigo`, `usted`, `ustedes`;
-- present: `quieres`, `tienes`, `puedes`, `sabes`, `eres`, `gastas`, `inviertes`, `decides`, `aprendes`, `entiendes`, `conviertes`, `ordenas`, `inflas`, `construyes`, `vives`, `buscas`, `necesitas`, `prefieres`, `descubres`, `recibes`, `deseas`, `usas`, `escribes`, `calificas`, `aceptas`;
+- present: `quieres`, `tienes`, `puedes`, `sabes`, `sientes`, `eres`, `gastas`, `inviertes`, `decides`, `aprendes`, `entiendes`, `conviertes`, `ordenas`, `inflas`, `construyes`, `vives`, `buscas`, `necesitas`, `prefieres`, `descubres`, `recibes`, `deseas`, `usas`, `escribes`, `calificas`, `aceptas`;
 - subjunctive: `trabajes`, `incluyas`;
-- imperative, as **phrases** (a bare imperative such as "incluye" or "trabaja" is also the third person, as in Gaby's "No incluye impuestos"): `aplica a`, `calcula tus`, `calcúlalo`, `define tu`, `descubre cuánto`, `descubre qué`, `escribe tu`, `escribe un`, `escribe el`, `escribe 0`, `escríbenos`, `inténtalo`, `déjanos`, `lee mi`, `llena la`, `llena una`, `mira el`, `ordena tu`, `convierte los`, `invierte y`, `usa la`, `usa solo`, `incluye el`, `selecciona una`, `conoce la`, `imagina saber`, `espera unos`, `trabaja directamente`, `organiza tus`, `reparte tu`, `agenda tu`.
+- imperative, as **phrases** (a bare imperative such as "incluye" or "trabaja" is also the third person, as in Gaby's "No incluye impuestos"): `aplica a`, `calcula tus`, `calcúlalo`, `define tu`, `descubre cuánto`, `descubre qué`, `escribe tu`, `escribe un`, `escribe el`, `escribe 0`, `escríbenos`, `inténtalo`, `déjanos`, `lee mi`, `llena la`, `llena una`, `mira el`, `ordena tu`, `convierte los`, `invierte y`, `usa la`, `usa solo`, `incluye el`, `selecciona una`, `conoce la`, `imagina saber`, `espera unos`, `trabaja directamente`, `organiza tus`, `reparte tu`, `agenda tu`, `empieza gratis`;
+- perfect, as a phrase (`has` alone is ambiguous): `has construido`.
 
 Checked when this file was written: every Spanish string in `src/i18n/es/` that matches the list has its voseo row in this part, and no Spanish value in this file matches it.
 
@@ -508,7 +509,7 @@ The note under §9 replaces its sentence on GoHighLevel and ADR-007 with: "v0.3 
 
 ## Part L — The resource library withdrawn
 
-**Moved by US-046.** Gaby: one free resource, the calculator (brief §1 point 1).
+**Moved by US-046, after Part H** (US-043 removes the Home teaser's library links first). Gaby: one free resource, the calculator (brief §1 point 1).
 
 ### L.1 Removed
 
