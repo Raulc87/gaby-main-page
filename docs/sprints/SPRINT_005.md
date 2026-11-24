@@ -161,7 +161,7 @@ Shared, owned by Agent 1 once `GK-041-voseo-wealth-mastery` merges: the route ma
 4. Integration check (Agent 2), on `main` locally and on the preview, at 390 and 1280 px: every page in both languages and the toggle; the header; the Home; the Wealth Mastery page; the calculator against the backend in memory mode (stores a v1.3 lead, then shows the result; an error keeps it hidden); the application and its routing; no link to a removed page; no request to Google Fonts; and, in the preview, no request to `/api` or to GoHighLevel.
 5. The owner's checks: the calendar (US-037), and US-045 with Gaby's token (ADR-008 → Validation).
 
-**Cycle check:** `GK-043`, `GK-042` and `GK-040` wait on `GK-041` (and `GK-040` on `GK-043`); `GK-046` waits on `GK-041` and `GK-043`; `GK-044` is built on `GK-045`, which waits on `GK-041`, and the pair merges to `main` as one; nothing waits on a branch that waits on it. No cycle.
+**Cycle check:** `GK-043`, `GK-042` and `GK-040` wait on `GK-041` (Agent 1 works on `GK-043` before `GK-040`, an order of work, not a merge dependency); `GK-046` waits on `GK-041` and `GK-043`; `GK-044` is built on `GK-045`, which waits on `GK-041`, and the pair merges to `main` as one; nothing waits on a branch that waits on it. No cycle.
 
 ## Conflict Resolution
 
