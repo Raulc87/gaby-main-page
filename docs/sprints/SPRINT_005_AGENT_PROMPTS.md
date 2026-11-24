@@ -22,7 +22,7 @@ At the go-ahead the coordinator also archives the Sprint 004 sessions, and recor
 2. Agent 1 starts `GK-041-voseo-wealth-mastery` at once (merge order step 1).
 3. Agents 2 and 3 start at the same time, on their own files until the scaffold merges:
    - Agent 2: Gaby's formula and its unit tests in `src/lib/calculator/`.
-   - Agent 3: `GK-045-ghl-contacts` on `api/**` (it merges after the scaffold).
+   - Agent 3: `GK-045-ghl-contacts` on `api/**` (it merges after the scaffold, together with `GK-044-calculator`: [`SPRINT_005.md`](SPRINT_005.md) merge order step 3).
 
 ## Coordination
 
@@ -148,7 +148,8 @@ Order of work:
      uniqueness, base path.
    - Update other agents' tests only where the rename or the voseo pass breaks an expected
      path or string (recorded exception); nothing else.
-   - E2E for the header in both languages at 390 and 1280 px (US-041 AC6).
+   - E2E for the header in both languages at 390 and 1280 px (US-041 AC6), in a new
+     tests/e2e/header.spec.ts (yours).
 2. GK-043-home — US-043, after the scaffold merges: the ten sections, the pillars (no
    numbers, no arrows), "Conocé Wealth Mastery →", no Wealth Mastery section, no library
    links; tests/e2e/home.spec.ts updated.
@@ -167,8 +168,8 @@ Order of work:
 [Paste the Common rules block here]
 
 You are Implementation Agent 2. Stories: US-044, US-046. You own tests/e2e/** except
-home.spec.ts, fonts.spec.ts, story.spec.ts and mastery.spec.ts, and you run the integration
-check.
+home.spec.ts, header.spec.ts, fonts.spec.ts, story.spec.ts and mastery.spec.ts, and you run
+the integration check.
 
 Order of work:
 1. Start now, on your own files only: Gaby's formula (PROJECT_SPEC.md FR-034) as one function
@@ -177,12 +178,16 @@ Order of work:
    (4.44, 4.45, 5.96, 9.95, 9.96, 10.5, 11.6; whole values below 10 without a decimal; "mes"
    for exactly 1); above 1,000 months; and the value sent to the API rounded down to two
    decimals and consistent with the zone.
-2. GK-046-withdraw-library — US-046, after the scaffold merges: remove the resources page,
+2. GK-046-withdraw-library — US-046, after the scaffold AND GK-043-home merge (the Home's
+   calculator teaser, Agent 1's, imports src/data/resources until then): remove the resources page,
    route (and UX §3's row, routes.ts and its tests: recorded exception), components, data and
    tests, and CONTENT.md §7; the not-ready screen offers the calculator; My story's link to
    the calculator (recorded exception: one key in story.ts and its use); an e2e check that
-   no internal link points at the old paths.
-3. GK-044-calculator — US-044, after GK-045-ghl-contacts merges: the page of UX §5.6 (one
+   no internal link points at the old paths. If GK-044 has not merged, also remove the
+   library links in your own CalculatorPage.astro and LeadForm.astro.
+3. GK-044-calculator — US-044, built on GK-045-ghl-contacts, with its PR targeting that
+   branch (SPRINT_005.md merge order step 3; the owner merges it there, then the pair into
+   main): the page of UX §5.6 (one
    step at a time; the currency switch of §6.10 converting from the typed amounts; Gaby's
    example figures; the shares question opening on "Elegí una opción", required), the two
    consents, POST /api/save-calculator-lead per contract v1.3 §11.2 (never the figures), the
@@ -203,7 +208,10 @@ Order of work:
 You are Implementation Agent 3. Stories: US-045, US-042.
 
 Order of work:
-1. GK-045-ghl-contacts — US-045, start now on api/**; it merges after the scaffold:
+1. GK-045-ghl-contacts — US-045, start now on api/**; it merges after the scaffold, and
+   only together with GK-044-calculator (SPRINT_005.md merge order step 3: Agent 2's PR
+   targets your branch; your PR's e2e calculator spec stays red until it lands there; say
+   so in your PR body; merge main into your branch when main moves):
    - /api/save-calculator-lead per contract v1.3 §11 (six zones, months with two decimals,
      currency, concentration_alert, the new columns at the end of the row).
    - Contract §12 for both endpoints: append the row as `pending`, send the contact to
@@ -223,7 +231,8 @@ Order of work:
    - The privacy notice (US-045 AC7) from CONTENT_PHASE_2D.md, in privacy.ts (recorded
      exception) with the PRIVACY_NOTICE_VERSION bump in the same PR.
 2. GK-042-wealth-mastery-page — US-042, after the scaffold merges: the page of UX §5.7 in
-   Gaby's eight sections, the pillars without numbers or arrows, the FAQ as <details>, the
+   Gaby's eight sections (import Agent 1's testimonial section unchanged), the pillars
+   without numbers or arrows, the FAQ as <details>, the
    photo placeholder, no prices, tests/e2e/mastery.spec.ts; and remove the Método Polaris
    page, its components, copy (CONTENT.md §12), route (routes.ts, its tests and UX §3's row)
    and tests/e2e/method.spec.ts (recorded exception: they were Agent 1's).

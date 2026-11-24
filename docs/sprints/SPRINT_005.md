@@ -72,9 +72,9 @@ Non-blocking items, for the human owner and Gaby:
 | US-041 Voseo, the Wealth Mastery name, the menu and routes (the scaffold) | 5 | Agent 1 | Gate 6 (the staged copy) | `GK-041-voseo-wealth-mastery` | To do |
 | US-043 Home for phase 2d | 3 | Agent 1 | `GK-041-voseo-wealth-mastery` | `GK-043-home` | To do |
 | US-040 Self-hosted typefaces | 2 | Agent 1 | `GK-041-voseo-wealth-mastery` (both touch the layout) | `GK-040-self-hosted-fonts` | To do |
-| US-046 Withdraw the resource library | 3 | Agent 2 | `GK-041-voseo-wealth-mastery` | `GK-046-withdraw-library` | To do |
-| US-044 Gaby's calculator | 5 | Agent 2 | `GK-041-voseo-wealth-mastery`; `GK-045-ghl-contacts` merged (the e2e test needs the v1.3 endpoint) | `GK-044-calculator` | To do |
-| US-045 Calculator leads v1.3 and the GoHighLevel contacts | 5 | Agent 3 | `GK-041-voseo-wealth-mastery` (both touch `privacy.ts`) | `GK-045-ghl-contacts` | To do |
+| US-046 Withdraw the resource library | 3 | Agent 2 | `GK-041-voseo-wealth-mastery`; `GK-043-home` merged (the Home's calculator teaser imports the resource data and links the library) | `GK-046-withdraw-library` | To do |
+| US-044 Gaby's calculator | 5 | Agent 2 | `GK-041-voseo-wealth-mastery`; built on `GK-045-ghl-contacts`, and its PR targets that branch (the v1.3 client and endpoint land together, merge order step 3) | `GK-044-calculator` | To do |
+| US-045 Calculator leads v1.3 and the GoHighLevel contacts | 5 | Agent 3 | `GK-041-voseo-wealth-mastery` (both touch `privacy.ts`); merges to `main` only together with `GK-044-calculator` (merge order step 3) | `GK-045-ghl-contacts` | To do |
 | US-042 Wealth Mastery page | 5 | Agent 3 | `GK-041-voseo-wealth-mastery` (the route and its stub) | `GK-042-wealth-mastery-page` | To do |
 
 Total: 28 points.
@@ -99,13 +99,13 @@ Total: 28 points.
 
 ### Agent 2 — Calculator, library removal, e2e
 - Starts at once on its own files: Gaby's formula as one function in `src/lib/calculator/` with its unit tests (US-044 AC1).
-- `GK-046-withdraw-library` (US-046), after the scaffold.
-- `GK-044-calculator` (US-044), after `GK-045-ghl-contacts` merges.
+- `GK-046-withdraw-library` (US-046), after the scaffold and `GK-043-home` (the Home's teaser stops using the library there). It also removes the library links in Agent 2's own calculator and thank-you files (`CalculatorPage.astro`, `LeadForm.astro`) if `GK-044` has not replaced them yet.
+- `GK-044-calculator` (US-044), built on `GK-045-ghl-contacts` (merge order step 3).
 - Keeps the cross-cutting e2e suite green, and runs the integration check (merge order step 4).
 
 ### Agent 3 — Backend and GoHighLevel, Wealth Mastery page
-- Starts at once on `api/**`: `GK-045-ghl-contacts` (US-045), merged after the scaffold (both touch `privacy.ts`).
-- `GK-042-wealth-mastery-page` (US-042), after the scaffold; it removes the Método Polaris page.
+- Starts at once on `api/**`: `GK-045-ghl-contacts` (US-045), merged after the scaffold (both touch `privacy.ts`) and together with `GK-044-calculator` (merge order step 3).
+- `GK-042-wealth-mastery-page` (US-042), after the scaffold; it removes the Método Polaris page. It imports Agent 1's testimonial section unchanged (`src/components/home/**`); a change to it is Agent 1's, on request.
 
 ## File Ownership Map
 
@@ -125,12 +125,12 @@ An agent edits only files it owns. If it needs a change in another agent's file,
 | `src/components/story/**`, `src/i18n/{es,en}/story.ts`, `src/pages/es/mi-historia/**`, `src/pages/en/my-story/**`, `public/logos/**` | Agent 3 |
 | `api/**`, `.github/workflows/**`, `.github/scripts/**`, [`.env.example`](../../.env.example), `docs/runbooks/**`, `docs/security/**`, [`CONTRIBUTING.md`](../../CONTRIBUTING.md) | Agent 3 |
 | `tests/unit/**` | The owner of the code under test |
-| [`tests/e2e/home.spec.ts`](../../tests/e2e/home.spec.ts) and a new `tests/e2e/fonts.spec.ts` (Agent 1); [`tests/e2e/story.spec.ts`](../../tests/e2e/story.spec.ts), `tests/e2e/mastery.spec.ts` (Agent 3); every other file in `tests/e2e/**`, including `support/`, the calculator and the cross-cutting suite | Agent 2 |
+| [`tests/e2e/home.spec.ts`](../../tests/e2e/home.spec.ts), a new `tests/e2e/header.spec.ts` (US-041 AC6) and a new `tests/e2e/fonts.spec.ts` (Agent 1); [`tests/e2e/story.spec.ts`](../../tests/e2e/story.spec.ts), `tests/e2e/mastery.spec.ts` (Agent 3); every other file in `tests/e2e/**`, including `support/`, the calculator and the cross-cutting suite | Agent 2 |
 | `docs/**` except `docs/runbooks/**` and `docs/security/**`, [`AGENTS.md`](../../AGENTS.md), [`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md), [`README.md`](../../README.md), [`TECH_STACK.md`](../../TECH_STACK.md) | Human owner (agents propose changes through PRs, per change management) |
 
 **Recorded exceptions (human owner, by approving this plan):**
 - **Copy moves:** each agent edits [`docs/ux/CONTENT.md`](../ux/CONTENT.md) and `docs/ux/CONTENT_PHASE_2D.md` only to move its own staged parts, as its story's acceptance criteria and the staging file's part table say, in the same PR as the code; the moved text is deleted from the staging file.
-- **The scaffold's voseo pass (US-041):** Agent 1 updates every agent's `src/i18n/{es,en}/*.ts` string values, and the expected strings and paths in other agents' tests, **only** to apply the staged voseo and naming copy and the `vip` path change. It changes no logic, key or component in those files. Each owner is named in the PR.
+- **The scaffold's voseo pass (US-041):** Agent 1 updates every agent's `src/i18n/{es,en}/*.ts` string values, and the expected strings and paths in other agents' tests, **only** to apply the staged voseo and naming copy and the `vip` path change. It changes no logic, key or component in those files. It also moves Agent 2's application page files to the new `vip` paths (`src/pages/es/aplicar/`, `src/pages/en/apply/`) unchanged; they stay Agent 2's. Each owner is named in the PR.
 - **Routes table:** the story that changes a route changes [`UX_UI_DIRECTION.md`](../ux/UX_UI_DIRECTION.md) §3's table in the same PR (US-041 adds `mastery` and moves `vip`; US-042 removes `method`; US-046 removes `resources`), because `tests/unit/site/routes.test.ts` reads it.
 - **US-042:** Agent 3 deletes the Método Polaris page's files (Agent 1's, listed above) and removes `method` from [`src/i18n/routes.ts`](../../src/i18n/routes.ts) and its route tests.
 - **US-046:** Agent 2 removes `resources` from [`src/i18n/routes.ts`](../../src/i18n/routes.ts) and its route tests, and changes My story's link to the calculator (one key in `story.ts` and its use in `src/components/story/**`, Agent 3's).
@@ -151,13 +151,17 @@ Shared, owned by Agent 1 once `GK-041-voseo-wealth-mastery` merges: the route ma
 1. `GK-041-voseo-wealth-mastery` (Agent 1). Nothing else merges before it.
 2. In parallel after step 1:
    - Agent 1: `GK-043-home`, then `GK-040-self-hosted-fonts`.
-   - Agent 2: `GK-046-withdraw-library`.
-   - Agent 3: `GK-045-ghl-contacts` and `GK-042-wealth-mastery-page`, in either order.
-3. `GK-044-calculator` (Agent 2), after `GK-045-ghl-contacts`.
+   - Agent 2: `GK-046-withdraw-library`, after `GK-043-home`.
+   - Agent 3: `GK-042-wealth-mastery-page`.
+3. **`GK-045-ghl-contacts` and `GK-044-calculator` together** (contract v1.3 changes the request and the zone codes, so neither the old client with the new endpoint nor the reverse passes the e2e suite):
+   - Agent 3 opens `GK-045-ghl-contacts` against `main`; its `e2e` job is expected red on the calculator spec until `GK-044` lands in it (the old client sends a v1.2 request). The reviewer reviews its backend at its own head.
+   - Agent 2 builds `GK-044-calculator` on `GK-045-ghl-contacts` and opens its PR **against that branch**. It is reviewed on its own diff.
+   - The owner merges `GK-044` into `GK-045-ghl-contacts`; the reviewer re-checks the combined head; when CI is green there, the owner merges `GK-045-ghl-contacts` into `main`. Neither merges into `main` alone.
+   - If `main` moves meanwhile, Agent 3 merges `main` into `GK-045-ghl-contacts` and Agent 2 merges that into `GK-044-calculator`.
 4. Integration check (Agent 2), on `main` locally and on the preview, at 390 and 1280 px: every page in both languages and the toggle; the header; the Home; the Wealth Mastery page; the calculator against the backend in memory mode (stores a v1.3 lead, then shows the result; an error keeps it hidden); the application and its routing; no link to a removed page; no request to Google Fonts; and, in the preview, no request to `/api` or to GoHighLevel.
 5. The owner's checks: the calendar (US-037), and US-045 with Gaby's token (ADR-008 → Validation).
 
-**Cycle check:** everything in step 2 waits on `GK-041` alone; `GK-044` waits on `GK-041` and `GK-045`; `GK-040` waits on `GK-041`; nothing waits on a branch that waits on it. No cycle.
+**Cycle check:** `GK-043`, `GK-042` and `GK-040` wait on `GK-041` (and `GK-040` on `GK-043`); `GK-046` waits on `GK-041` and `GK-043`; `GK-044` is built on `GK-045`, which waits on `GK-041`, and the pair merges to `main` as one; nothing waits on a branch that waits on it. No cycle.
 
 ## Conflict Resolution
 
