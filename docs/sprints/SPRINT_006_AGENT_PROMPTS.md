@@ -32,9 +32,11 @@ Filled in by the coordinator at launch.
 | Role | Session |
 |---|---|
 | Coordinator | `session_01AgwMvvPepgrLbwGJBETbN9` |
-| Review-only agent | `<REVIEWER_SESSION>` |
-| Agent 1 | — |
+| Review-only agent | `session_01DVcaZyzeQNozc4AksUVZ7N` |
+| Agent 1 | `session_01DVcaZwrqJN7BDZDEvEXPaK` |
 | Sprint 005 sessions archived (2026-11-24) | `session_01DVcaZxahidvJRQFzBMU7LN` (reviewer), `session_01DVcaZxGgkTBoDsNPvTq2vQ`, `session_01DVcaZyqHLdNB4p6TRKAWzo`, `session_01DVcaZxNi9NA63NVZJe1w19` |
+
+Launched on 2026-11-24 with the prompts below, `<REVIEWER_SESSION>` replaced by the reviewer's ID. The reviewer's prompt ends with one added line: read the documents, then wait for a review request, since no PR exists yet.
 
 ---
 
