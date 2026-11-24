@@ -18,7 +18,7 @@ Names only. Real values never go into Git, issues, pull requests or chat. The de
 | Node.js 22.12 or newer (`node --version` prints `v22.x`) | [`TECH_STACK.md`](TECH_STACK.md), `engines` in [`package.json`](package.json) |
 | Python 3.11 (`python3 --version`; the code stays compatible with 3.9 and newer) | [`TECH_STACK.md`](TECH_STACK.md), [`ADR-001`](docs/decisions/ADR-001_BACKEND_HOSTING.md) |
 | Frontend variables, in `.env` (copied from [`.env.example`](.env.example)): `PUBLIC_LEAD_ENDPOINT`, `PUBLIC_CALCULATOR_ENDPOINT`, `PUBLIC_SCHEDULER_URL`, `PUBLIC_CONTACT_EMAIL` | The defaults in the example file; meanings in [`LEAD_API_CONTRACT.md`](docs/specs/LEAD_API_CONTRACT.md) section 9 |
-| Backend variables, in `api/.env` (copied from [`api/.env.example`](api/.env.example)): `LEADS_STORAGE`, `GOOGLE_SERVICE_ACCOUNT_FILE`, `GOOGLE_SHEET_ID`, `GOOGLE_SHEET_TAB`, `GOOGLE_SHEET_CALCULATOR_TAB`, `PRIVACY_NOTICE_VERSION`, `RATE_LIMIT_MAX_REQUESTS`, `RATE_LIMIT_WINDOW_SECONDS` | The defaults in the example file (`LEADS_STORAGE=memory` needs no Google account); the Google values only for real Sheets mode, from [`GOOGLE_SHEETS_SETUP.md`](docs/runbooks/GOOGLE_SHEETS_SETUP.md). The service-account key file stays outside the repository |
+| Backend variables, in `api/.env` (copied from [`api/.env.example`](api/.env.example)): `LEADS_STORAGE`, `GOOGLE_SERVICE_ACCOUNT_FILE`, `GOOGLE_SHEET_ID`, `GOOGLE_SHEET_TAB`, `GOOGLE_SHEET_CALCULATOR_TAB`, `PRIVACY_NOTICE_VERSION`, `RATE_LIMIT_MAX_REQUESTS`, `RATE_LIMIT_WINDOW_SECONDS`, `GHL_SYNC` and the other `GHL_*` variables (empty and `off` by default; the token is a secret, see [`GOHIGHLEVEL.md`](docs/runbooks/GOHIGHLEVEL.md)) | The defaults in the example file (`LEADS_STORAGE=memory` needs no Google account); the Google values only for real Sheets mode, from [`GOOGLE_SHEETS_SETUP.md`](docs/runbooks/GOOGLE_SHEETS_SETUP.md). The service-account key file stays outside the repository |
 | Preview-build variables, set only when building the GitHub Pages preview: `PUBLIC_PREVIEW`, `SITE_BASE_PATH` | [`.github/workflows/preview.yml`](.github/workflows/preview.yml) and [`ADR-005`](docs/decisions/ADR-005_BRANCHING_AND_RELEASE_MODEL.md) |
 
 ## Set up
@@ -156,7 +156,7 @@ Before every push, run lint, type check, unit tests, build, the end-to-end specs
 | `src/lib/`, `src/data/` | Logic (`lead/` for the lead form, `calculator/` for the freedom-months formula and its validation, `site/` for links and base-path helpers) and typed data (the resource list) |
 | `src/styles/` | Tailwind setup and the brand design tokens |
 | `public/` | Static files: favicon, photos, logos, downloadable resources |
-| `api/` | The Flask backend: `app.py` (application factory), `routes/` (the lead endpoints), `validation.py`, `rate_limit.py`, `storage/` (Google Sheets and memory), `tests/` (pytest), `passenger_wsgi.py` (cPanel entry point), `run_local.py` |
+| `api/` | The Flask backend: `app.py` (application factory), `routes/` (the lead endpoints), `validation.py`, `rate_limit.py`, `storage/` (Google Sheets and memory), `crm/` (the GoHighLevel contacts: what is sent, the client, the resend step), `resend_crm.py` (the resend command), `tests/` (pytest, with a fake GoHighLevel client: no test calls the real API), `passenger_wsgi.py` (cPanel entry point), `run_local.py` |
 | `tests/unit/`, `tests/e2e/` | Vitest unit tests and Playwright end-to-end specs |
 | `scripts/` | Helper used by the end-to-end suite |
 | `.github/` | CI workflows, the docs link check script and the pull request template |

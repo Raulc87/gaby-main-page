@@ -26,6 +26,7 @@ from typing import Callable
 
 from flask import Response, current_app, request
 
+from crm.contacts import Contact
 from logging_utils import format_traceback_without_message
 from responses import contract_response
 from storage.base import StorageError
@@ -33,6 +34,7 @@ from time_utils import format_costa_rica_timestamp
 
 Validator = Callable[[dict], tuple[dict, dict]]
 RowBuilder = Callable[[dict], dict]
+ContactBuilder = Callable[[dict], Contact]
 
 
 def _is_honeypot_triggered(payload: dict) -> bool:
@@ -75,13 +77,15 @@ def handle_lead_submission(
     storage_config_key: str,
     validate: Validator,
     build_row: RowBuilder,
+    build_contact: ContactBuilder,
 ) -> Response:
-    """Run one lead submission through the contract's checks and store it.
+    """Run one lead submission through the contract's checks, store it and send the contact.
 
     `endpoint` is the application route, for log lines only. `validate`
     returns (normalized_fields, field_errors); `build_row` turns the
     normalized fields into the stored row, adding the server-generated
-    fields.
+    fields; `build_contact` turns the stored row into the GoHighLevel
+    contact (LEAD_API_CONTRACT.md section 12).
     """
     if (request.mimetype or "").lower() != "application/json":
         return _json_error(
@@ -107,7 +111,16 @@ def handle_lead_submission(
             response.status_code = 422
             return response
 
-        current_app.config[storage_config_key].save(build_row(normalized))
+        storage = current_app.config[storage_config_key]
+        crm_sync = current_app.config["CRM_SYNC"]
+        row = {**build_row(normalized), "crm_status": crm_sync.initial_status}
+        # A failed append raises here, so nothing is sent for a lead that
+        # was not saved (section 12).
+        row_reference = storage.save(row)
+        if crm_sync.enabled:
+            _send_contact_and_record_outcome(
+                storage, row_reference, crm_sync, build_contact, row
+            )
     except StorageError as exc:
         current_app.logger.error(
             "POST %s failed: storage_unavailable (cause=%s)",
@@ -127,6 +140,27 @@ def handle_lead_submission(
     response = contract_response(True, "Lead saved.")
     response.status_code = 201
     return response
+
+
+def _send_contact_and_record_outcome(
+    storage, row_reference, crm_sync, build_contact: ContactBuilder, row: dict
+) -> None:
+    """Send the saved lead to GoHighLevel, then update its row's `crm_status`.
+
+    Never raises for a GoHighLevel failure: the lead is stored, so the
+    response stays 201. If the cell update fails, the row stays `pending`
+    for the resend command (section 12).
+    """
+    outcome = crm_sync.send(build_contact, row)
+    try:
+        storage.set_crm_status(row_reference, outcome)
+    except StorageError as exc:
+        current_app.logger.error(
+            "crm_status not updated to %s: storage_unavailable (cause=%s) (submitted_at=%s)",
+            outcome,
+            _describe_storage_error_cause(exc),
+            row["submitted_at"],
+        )
 
 
 def server_generated_fields() -> dict:
