@@ -1,72 +1,85 @@
 import { describe, expect, it } from 'vitest';
 import {
   buildCalculatorPayload,
-  parseFigure,
+  MAX_FIGURE,
+  parseAmount,
+  raisesConcentrationAlert,
   validateDetails,
   validateFigures,
 } from '../../../src/lib/calculator/validation';
+import { SHARES_ANSWERS } from '../../../src/lib/calculator/types';
 
-const goodFigures = { expenses: '800', debt: '200', savings: '3000', investments: '0', other_income: '0' };
+const goodFigures = { expenses: '4500', savings: '9000', investments: '6000', solidarity: '5000', passive: '0' };
 
-describe('parseFigure', () => {
-  it('accepts 0 and positive numbers, with a point or a comma as decimal separator', () => {
-    expect(parseFigure('0')).toEqual({ value: 0 });
-    expect(parseFigure(' 1500 ')).toEqual({ value: 1500 });
-    expect(parseFigure('1500.5')).toEqual({ value: 1500.5 });
-    expect(parseFigure('1500,5')).toEqual({ value: 1500.5 });
+describe('parseAmount', () => {
+  it('reads whole amounts, with or without the thousands separators the field shows', () => {
+    expect(parseAmount('0')).toEqual({ value: 0 });
+    expect(parseAmount(' 1500 ')).toEqual({ value: 1500 });
+    expect(parseAmount('4.500')).toEqual({ value: 4500 });
+    expect(parseAmount('4,500')).toEqual({ value: 4500 });
+    expect(parseAmount('1.250.000')).toEqual({ value: 1250000 });
   });
 
-  it('requires a value', () => {
-    expect(parseFigure('')).toEqual({ error: 'required' });
-    expect(parseFigure('   ')).toEqual({ error: 'required' });
-  });
-
-  it.each(['-1', 'abc', '1e5', '1.2.3', '1,000.50', '$100', '+5', 'NaN', 'Infinity'])('rejects "%s"', (text) => {
-    expect(parseFigure(text)).toEqual({ error: 'number' });
-  });
-
-  it('rejects a number too large to be finite', () => {
-    expect(parseFigure('9'.repeat(400))).toEqual({ error: 'number' });
+  it('reads an empty field as 0: only the expenses are required (Gaby\'s prototype)', () => {
+    expect(parseAmount('')).toEqual({ value: 0 });
+    expect(parseAmount('   ')).toEqual({ value: 0 });
   });
 
   it('rejects an amount the exact cents arithmetic cannot hold, and accepts the largest that it can', () => {
-    expect(parseFigure('1e307'.replace('e307', '0'.repeat(307)))).toEqual({ error: 'number' });
-    expect(parseFigure('90071992547409.93')).toEqual({ error: 'number' });
-    expect(parseFigure('90071992547409.91')).toEqual({ value: 90071992547409.91 });
+    expect(parseAmount('9'.repeat(400))).toEqual({ error: 'number' });
+    expect(parseAmount('90071992547410')).toEqual({ error: 'number' });
+    expect(parseAmount('90071992547409')).toEqual({ value: 90071992547409 });
+    expect(MAX_FIGURE).toBeGreaterThan(90071992547409);
   });
 });
 
 describe('validateFigures', () => {
-  it('returns the figures when all five are valid', () => {
-    expect(validateFigures(goodFigures).figures).toEqual({
-      expenses: 800,
-      debt_payments: 200,
-      savings: 3000,
-      liquid_investments: 0,
-      other_income: 0,
+  it('returns the figures and the shares answer when all is valid', () => {
+    expect(validateFigures(goodFigures, 'from_20_to_50')).toEqual({
+      errors: {},
+      shares: 'from_20_to_50',
+      figures: {
+        expenses: 4500,
+        savings: 9000,
+        liquid_investments: 6000,
+        solidarity_association: 5000,
+        passive_income: 0,
+      },
     });
   });
 
-  it('reports every invalid or empty figure', () => {
-    const { errors, figures } = validateFigures({ ...goodFigures, savings: '', other_income: '-3' });
+  it('the shares question must be answered: the empty option shows calc.error.shares', () => {
+    const { errors, figures } = validateFigures(goodFigures, '');
     expect(figures).toBeUndefined();
-    expect(errors).toEqual({ savings: 'required', other_income: 'number' });
+    expect(errors).toEqual({ shares: 'shares' });
+    expect(validateFigures(goodFigures, 'some_other_value').errors).toEqual({ shares: 'shares' });
   });
 
-  it('expenses plus debt payments must be above 0', () => {
-    const { errors, figures } = validateFigures({ ...goodFigures, expenses: '0', debt: '0' });
-    expect(figures).toBeUndefined();
-    expect(errors).toEqual({ expenses: 'no_outflow' });
+  it('the expenses must be more than 0 (empty or 0 shows calc.error.expenses)', () => {
+    expect(validateFigures({ ...goodFigures, expenses: '' }, 'none').errors).toEqual({ expenses: 'expenses' });
+    expect(validateFigures({ ...goodFigures, expenses: '0' }, 'none').errors).toEqual({ expenses: 'expenses' });
   });
 
-  it('counts an outflow below one cent as 0, as the formula does', () => {
-    expect(validateFigures({ ...goodFigures, expenses: '0.004', debt: '0' }).errors).toEqual({ expenses: 'no_outflow' });
-    expect(validateFigures({ ...goodFigures, expenses: '0.005', debt: '0' }).figures).toBeDefined();
+  it('the other figures may be empty (0)', () => {
+    const { figures } = validateFigures({ expenses: '10', savings: '', investments: '', solidarity: '', passive: '' }, 'none');
+    expect(figures).toEqual({
+      expenses: 10,
+      savings: 0,
+      liquid_investments: 0,
+      solidarity_association: 0,
+      passive_income: 0,
+    });
   });
 
-  it('allows one of the two to be 0', () => {
-    expect(validateFigures({ ...goodFigures, expenses: '0' }).figures).toBeDefined();
-    expect(validateFigures({ ...goodFigures, debt: '0' }).figures).toBeDefined();
+  it('reports every out-of-range figure and the unanswered question together', () => {
+    const { errors } = validateFigures({ ...goodFigures, savings: '9'.repeat(30), passive: '9'.repeat(30) }, '');
+    expect(errors).toEqual({ savings: 'number', passive: 'number', shares: 'shares' });
+  });
+});
+
+describe('raisesConcentrationAlert', () => {
+  it('is true for "20% to 50%" and "over 50%" only', () => {
+    expect(SHARES_ANSWERS.filter(raisesConcentrationAlert)).toEqual(['from_20_to_50', 'over_50']);
   });
 });
 
@@ -118,17 +131,35 @@ describe('validateDetails', () => {
 });
 
 describe('buildCalculatorPayload', () => {
-  it('carries the details, the language, the months and the zone, and never the figures', () => {
-    const details = validateDetails(goodDetails).values!;
-    const payload = buildCalculatorPayload(details, { months: 3, zone: 'alert' }, 'es');
-    expect(Object.keys(payload).sort()).toEqual(
-      ['consent', 'email', 'language', 'marketing_consent', 'months', 'name', 'phone', 'website', 'zone'].sort(),
+  const details = () => validateDetails(goodDetails).values!;
+
+  it('carries exactly the fields of contract v1.3 section 11.2, and never the figures', () => {
+    const payload = buildCalculatorPayload(
+      details(),
+      { result: { api_months: 4.44, zone: 'alert' }, currency: 'USD', sharesAnswer: 'from_20_to_50' },
+      'es',
     );
-    expect(payload).toMatchObject({ language: 'es', months: 3, zone: 'alert' });
+    expect(payload).toEqual({
+      name: 'Ana María Pérez Soto',
+      email: 'ana.perez@example.com',
+      phone: null,
+      language: 'es',
+      consent: true,
+      marketing_consent: false,
+      months: 4.44,
+      zone: 'alert',
+      currency: 'USD',
+      concentration_alert: true,
+      website: '',
+    });
   });
 
-  it('sends months null when the result is covered', () => {
-    const details = validateDetails(goodDetails).values!;
-    expect(buildCalculatorPayload(details, { months: null, zone: 'freedom' }, 'en').months).toBeNull();
+  it('sends months null for financially free, the colones, and no alert when the shares are under 20%', () => {
+    const payload = buildCalculatorPayload(
+      details(),
+      { result: { api_months: null, zone: 'financially_free' }, currency: 'CRC', sharesAnswer: 'under_20' },
+      'en',
+    );
+    expect(payload).toMatchObject({ months: null, zone: 'financially_free', currency: 'CRC', concentration_alert: false });
   });
 });
