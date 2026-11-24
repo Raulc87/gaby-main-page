@@ -13,7 +13,7 @@ export const privacy: PrivacyDictionary = {
     p2:
       'Data we collect: full name, email, phone (WhatsApp), your pre-screening answer, the language you viewed the site in, and the date and time of your submission. If you use the calculator, we store your name, your email, your WhatsApp if you give it, your result (months and zone), whether you agreed to receive Gaby\'s emails, the language, and the date and time; the figures you enter in the calculator are not stored.',
     p3:
-      'Purpose: to contact you about the initial call and the VIP Mentorship, to prioritize calls and, if you use the calculator, to show you your result and email it to you with the guide and, only if you agree, to send you Gaby\'s emails, which you can unsubscribe from at any time. We do not use it for any other purpose and do not sell it.',
+      'Purpose: to contact you about the initial call and Wealth Mastery, to prioritize calls and, if you use the calculator, to show you your result and email it to you with the guide and, only if you agree, to send you Gaby\'s emails, which you can unsubscribe from at any time. We do not use it for any other purpose and do not sell it.',
     p4:
       'Who we share it with: Google (Google Sheets storage) and GoHighLevel (scheduling the call: your name, email and phone, and your booking details), which may store data outside Costa Rica.',
     p5:

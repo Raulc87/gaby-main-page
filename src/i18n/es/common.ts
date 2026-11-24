@@ -12,7 +12,7 @@ export const common: CommonContent = {
       title:
         'Gaby Kelly — Del mundo corporativo a tu libertad financiera',
       description:
-        'Mentoría financiera para ejecutivos y profesionales corporativos: ordena tu dinero, convierte los beneficios de tu carrera en capital e invierte para construir patrimonio.',
+        'Mentoría financiera para ejecutivos y profesionales corporativos: ordená tu dinero, convertí los beneficios de tu carrera en capital e invertí para construir patrimonio.',
     },
     story: {
       title: 'Mi historia — Gaby Kelly',
@@ -25,9 +25,14 @@ export const common: CommonContent = {
         'Guías, plantillas y minicursos gratuitos para ordenar, invertir y crecer.',
     },
     vip: {
-      title: 'Mentoría VIP · Wealth Mastery — Gaby Kelly',
+      title: 'Aplicá a Wealth Mastery — Gaby Kelly',
       description:
-        'Aplica para trabajar directamente con Gaby y agenda tu llamada inicial sin costo.',
+        'Aplicá para trabajar directamente con Gaby y agendá tu llamada inicial sin costo.',
+    },
+    mastery: {
+      title: 'Wealth Mastery — Gaby Kelly',
+      description:
+        'Mentoría individual para ejecutivos y profesionales del mundo corporativo: convertí tu salario en patrimonio con el Método Polaris.',
     },
     privacy: {
       title: 'Aviso de privacidad — Gaby Kelly',
@@ -36,21 +41,21 @@ export const common: CommonContent = {
     calculator: {
       title: '¿Cuántos meses podrías sostenerte? — Gaby Kelly',
       description:
-        'Diagnóstico gratis en 3 minutos: descubre cuánto tiempo te da hoy tu dinero sin tu salario.',
+        'Diagnóstico gratis en 3 minutos: descubrí cuánto tiempo te da hoy tu dinero sin tu salario.',
     },
     method: {
       title: 'Método Polaris — Gaby Kelly',
       description:
-        'Los tres pasos del Método Polaris para que tu salario trabaje para ti.',
+        'Los tres pasos del Método Polaris para que tu salario trabaje para vos.',
     },
   },
   nav: {
     brand: 'Gaby Kelly',
     story: 'Mi historia',
-    method: 'Método Polaris',
-    resources: 'Recursos gratis',
-    vip: 'Aplicar a la Mentoría VIP',
-    vip_short: 'Mentoría VIP',
+    mastery: 'Wealth Mastery',
+    diagnosis: 'Diagnóstico gratis',
+    vip: 'Aplicá a Wealth Mastery',
+    vip_short: 'Aplicá',
     menu_open: 'Abrir menú',
     menu_close: 'Cerrar menú',
     label: 'Navegación principal',
@@ -68,19 +73,19 @@ export const common: CommonContent = {
     privacy_link: 'Aviso de privacidad',
   },
   cta: {
-    vip_long: 'Trabaja directamente con Gaby · VIP',
-    vip_apply: 'Aplicar a la Mentoría VIP',
-    start_free: 'O empieza gratis con los recursos',
+    vip_long: 'Trabajá directamente con Gaby · Wealth Mastery',
+    vip_apply: 'Aplicá a Wealth Mastery',
+    start_free: 'O empezá gratis con los recursos',
     all_resources: 'Ver la biblioteca completa',
-    read_story: 'Lee mi historia completa',
+    read_story: 'Leé mi historia completa',
   },
   vip_band: {
-    eyebrow: 'Mentoría VIP · Wealth Mastery',
-    title: '¿Quieres trabajar *directamente conmigo*?',
+    eyebrow: 'Mentoría Wealth Mastery',
+    title: '¿Querés trabajar *directamente conmigo*?',
     body:
-      'Imagina saber exactamente con cuánto cuentas, tener tu dinero trabajando a tu favor y decidir sobre tu carrera desde la libertad, no desde la necesidad. Y, cuando estés con tu familia, estar ahí de verdad. Llena una breve aplicación y agenda tu llamada inicial.',
+      'Imaginá saber exactamente con cuánto contás, tener tu dinero trabajando a tu favor y decidir sobre tu carrera desde la libertad, no desde la necesidad. Y, cuando estés con tu familia, estar ahí de verdad. Llená una breve aplicación y agendá tu llamada inicial.',
     short_title:
-      '¿Prefieres un plan hecho a tu medida? *Trabaja directamente con Gaby.*',
+      '¿Preferís un plan hecho a tu medida? *Trabajá directamente con Gaby.*',
   },
   preview: {
     badge: 'Vista previa',

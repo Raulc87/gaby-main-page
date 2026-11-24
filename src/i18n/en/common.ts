@@ -24,9 +24,14 @@ export const common: CommonContent = {
         'Free guides, templates and mini-courses to organize, invest and grow.',
     },
     vip: {
-      title: 'VIP Mentorship · Wealth Mastery — Gaby Kelly',
+      title: 'Apply to Wealth Mastery — Gaby Kelly',
       description:
         'Apply to work directly with Gaby and book your free initial call.',
+    },
+    mastery: {
+      title: 'Wealth Mastery — Gaby Kelly',
+      description:
+        'One-to-one mentorship for corporate executives and professionals: turn your salary into wealth with the Polaris Method.',
     },
     privacy: {
       title: 'Privacy notice — Gaby Kelly',
@@ -47,10 +52,10 @@ export const common: CommonContent = {
   nav: {
     brand: 'Gaby Kelly',
     story: 'My story',
-    method: 'Polaris Method',
-    resources: 'Free resources',
-    vip: 'Apply to the VIP Mentorship',
-    vip_short: 'VIP Mentorship',
+    mastery: 'Wealth Mastery',
+    diagnosis: 'Free diagnosis',
+    vip: 'Apply to Wealth Mastery',
+    vip_short: 'Apply',
     menu_open: 'Open menu',
     menu_close: 'Close menu',
     label: 'Main navigation',
@@ -68,14 +73,14 @@ export const common: CommonContent = {
     privacy_link: 'Privacy notice',
   },
   cta: {
-    vip_long: 'Work directly with Gaby · VIP',
-    vip_apply: 'Apply to the VIP Mentorship',
+    vip_long: 'Work directly with Gaby · Wealth Mastery',
+    vip_apply: 'Apply to Wealth Mastery',
     start_free: 'Or start free with the resources',
     all_resources: 'See the full library',
     read_story: 'Read my full story',
   },
   vip_band: {
-    eyebrow: 'VIP Mentorship · Wealth Mastery',
+    eyebrow: 'Wealth Mastery Mentorship',
     title: 'Do you want to work *directly with me*?',
     body:
       'Imagine knowing exactly what you have, having your money work for you, and making career decisions from freedom, not necessity. And when you\'re with your family, truly being there. Fill in a short application and book your initial call.',

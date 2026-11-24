@@ -103,15 +103,16 @@ Viewport rule (BR-010): a layout must not place two gold buttons in one viewport
 | `home` | `/es/` | `/en/` | 2a |
 | `story` | `/es/mi-historia/` | `/en/my-story/` | 2a |
 | `resources` | `/es/recursos/` | `/en/resources/` | 2a; withdrawn in 2d (US-046) |
-| `vip` | `/es/mentoria-vip/` | `/en/vip-mentorship/` | 2a; renamed in 2d (US-041) |
+| `vip` | `/es/aplicar/` | `/en/apply/` | 2a; moved in 2d (US-041; was `/es/mentoria-vip/`, `/en/vip-mentorship/`) |
 | `privacy` | `/es/privacidad/` | `/en/privacy/` | 2a |
 | `blog` | `/es/blog/` | `/en/blog/` | 2b (US-026) |
 | `method` | `/es/metodo-polaris/` | `/en/polaris-method/` | 2c (US-028, placeholder steps); withdrawn in 2d (US-042) |
 | `calculator` | `/es/calculadora/` | `/en/calculator/` | 2c (US-035); "Diagnóstico gratis" in the menu from 2d |
+| `mastery` | `/es/wealth-mastery/` | `/en/wealth-mastery/` | 2d (US-041, stub page; US-042 fills it) |
 
 **Phase 2d route changes.** `tests/unit/site/routes.test.ts` checks the code against the table above, so each change is made to the table **in the same PR as the route**, by its story:
-- add `mastery`, `/es/wealth-mastery/` and `/en/wealth-mastery/` (US-041, with a stub page; US-042 fills it);
-- move `vip` to `/es/aplicar/` and `/en/apply/` (US-041; the id stays `vip`);
+- add `mastery`, `/es/wealth-mastery/` and `/en/wealth-mastery/` (US-041, with a stub page; US-042 fills it): done in the table above;
+- move `vip` to `/es/aplicar/` and `/en/apply/` (US-041; the id stays `vip`): done in the table above;
 - remove `method` (US-042, the Wealth Mastery page replaces it) and `resources` (US-046).
 
 The site is not in production, so the old paths need no redirects; the preview stops serving them, and every link to them is removed.

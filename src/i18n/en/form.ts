@@ -5,7 +5,7 @@
 import type { FormDictionary } from '../../lib/lead/types';
 
 export const form: FormDictionary = {
-  formTitle: 'Apply to the VIP Mentorship',
+  formTitle: 'Apply to Wealth Mastery',
   name: {
     label: 'Full name',
     hint: 'Enter your first and last name.',

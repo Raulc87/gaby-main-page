@@ -13,13 +13,13 @@ export const home: HomeDictionary = {
       eyebrow:
         'Mentoría financiera para ejecutivos y profesionales corporativos',
       title:
-        'Ganas bien, pero tu dinero *no te está dando tranquilidad.*',
+        'Ganás bien, pero tu dinero *no te está dando tranquilidad.*',
       lead:
-        'Te acompaño a ordenar tu dinero, convertir los beneficios de tu carrera en capital e invertir para construir patrimonio y libertad, sin tener que renunciar a lo que has construido.',
+        'Te acompaño a ordenar tu dinero, convertir los beneficios de tu carrera en capital e invertir para construir patrimonio y libertad, sin tener que renunciar a lo que ya construiste.',
       cta:
-        'Aplica a la Mentoría VIP',
+        'Aplicá a Wealth Mastery',
       secondary:
-        'Calcula tus meses de libertad gratis',
+        'Calculá tus meses de libertad gratis',
       trust:
         '18 años en el mundo corporativo · Más de 10 años invirtiendo',
       photo: {
@@ -35,7 +35,7 @@ export const home: HomeDictionary = {
       p1:
         'Más rango, más gente a cargo, cuotas cada vez más altas, aumentos, viajes. Por fuera, todo va bien.',
       p2:
-        'Pero aunque trabajes desde casa, tu mente no está ahí. Está en la cuota, en el equipo, en la próxima reunión. Sientes que *todo depende de ti*.',
+        'Pero aunque trabajés desde casa, tu mente no está ahí. Está en la cuota, en el equipo, en la próxima reunión. Cada vez más cosas dependen de vos, y sentís que *todo depende de vos*.',
       p3:
         'Mientras tanto, cada aumento se va en un estilo de vida un poco más caro.',
       closing:
@@ -46,32 +46,32 @@ export const home: HomeDictionary = {
         'Si nada cambia, en cinco años…',
       '1': {
         title:
-          'Tienes un gran currículum, pero no patrimonio.',
+          'Tenés un gran currículum, pero no patrimonio.',
         body:
           'Ganaste bien durante años y aun así tu tranquilidad depende del próximo depósito de planilla.',
       },
       '2': {
         title:
-          'Tu libertad depende de un puesto que no controlas.',
+          'Tu libertad depende de un puesto que no controlás.',
         body:
           'Si mañana tu puesto cambiara, no sabrías con certeza cuántos meses podrías sostenerte.',
       },
       '3': {
         title:
-          'Los años con tu familia pasan sin ti.',
+          'Los años con tu familia pasan sin vos.',
         body:
           'Estás en la cena, pero tu cabeza sigue en la oficina. Ese tiempo no se recupera.',
       },
       closing:
-        'No tiene que ser así. Y no tienes que descubrirlo tan tarde como yo.',
+        'No tiene que ser así. Y no tenés que descubrirlo tan tarde como yo.',
       cta:
-        '¿Cuántos meses podrías sostenerte tú? Calcúlalo gratis',
+        '¿Cuántos meses podrías sostenerte vos? Calculalo gratis',
     },
     story: {
       eyebrow:
         'Mi historia',
       title:
-        'Yo estuve donde *estás tú.*',
+        'Yo estuve donde *estás vos.*',
       p1:
         'Trabajé 18 años en el mundo corporativo, con partners de Intel, Microsoft y Oracle. Era mamá sola y, por subir la escalera, sacrifiqué mucho tiempo con mi hija.',
       p2:
@@ -101,11 +101,11 @@ export const home: HomeDictionary = {
     },
     opportunity: {
       eyebrow:
-        'La oportunidad que tienes en las manos',
+        'La oportunidad que tenés en las manos',
       title:
         'Tu carrera ya te dio las herramientas. *Te falta el sistema.*',
       lead:
-        'Trabajar en una transnacional o una gran corporación te da beneficios que casi nadie aprovecha. Si no inflas tu estilo de vida, se convierten en capital para invertir.',
+        'Trabajar en una transnacional o una gran corporación te da beneficios que casi nadie aprovecha. Si no inflás tu estilo de vida, se convierten en capital para invertir.',
       '1': {
         title:
           'Salario alto y aumentos',
@@ -140,63 +140,63 @@ export const home: HomeDictionary = {
         title:
           'Roce y contactos',
         body:
-          'Una red que vale oro cuando construyes algo propio.',
+          'Una red que vale oro cuando construís algo propio.',
       },
     },
     method: {
       eyebrow:
         'El Método Polaris',
       title:
-        'Tres pasos para que tu salario *trabaje para ti.*',
+        'Tres pasos para que tu salario *trabaje para vos.*',
       '1': {
         title:
-          'Define tu Norte',
+          'Definí tu Norte',
         body:
-          'Claridad sobre lo que quieres y sobre tu relación con el dinero.',
+          'Claridad sobre lo que querés y sobre tu relación con el dinero.',
       },
       '2': {
         title:
-          'Ordena tu dinero',
+          'Ordená tu dinero',
         body:
           'Tu sistema de billeteras: cada ingreso y cada beneficio con un propósito.',
       },
       '3': {
         title:
-          'Invierte y construye patrimonio',
+          'Invertí y construí patrimonio',
         body:
-          'Decisiones conscientes, alineadas con la vida que quieres.',
+          'Decisiones conscientes, alineadas con la vida que querés.',
       },
       cta:
         'Quiero aplicar el Método Polaris con Gaby',
     },
     mastery: {
       title:
-        'Lo que aprendes *en la mentoría.*',
+        'Lo que aprendés *en la mentoría.*',
       lead:
-        'No es teoría: es lo mismo que aplico en mi propio portafolio desde hace más de 10 años, explicado para que tú puedas entenderlo, evaluarlo y decidir.',
+        'No es teoría: es lo mismo que aplico en mi propio portafolio desde hace más de 10 años, explicado para que vos lo podás entender, evaluar y decidir.',
       '1': {
         title:
           'Tu Norte y tu relación con el dinero',
         body:
-          'Claridad sobre la vida que quieres y las creencias que hoy te frenan.',
+          'Claridad sobre la vida que querés y las creencias que hoy te frenan.',
       },
       '2': {
         title:
           'Sistema de billeteras',
         body:
-          'Ordenas cada ingreso y cada beneficio con un propósito.',
+          'Ordenás cada ingreso y cada beneficio con un propósito.',
       },
       '3': {
         title:
           'Beneficios corporativos y flujo',
         body:
-          'Conviertes lo que tu empresa ya te da en capital para invertir.',
+          'Convertís lo que tu empresa ya te da en capital para invertir.',
       },
       '4': {
         title:
           'Bolsa y ETFs',
         body:
-          'Entiendes cómo funcionan los mercados y cómo evaluar una inversión.',
+          'Entendés cómo funcionan los mercados y cómo evaluar una inversión.',
       },
       '5': {
         title:
@@ -214,7 +214,7 @@ export const home: HomeDictionary = {
         title:
           'Cripto',
         body:
-          'Entiendes cómo funciona y cómo pensarla con criterio y sin euforia.',
+          'Entendés cómo funciona y cómo pensarla con criterio y sin euforia.',
       },
     },
     change: {
@@ -226,11 +226,11 @@ export const home: HomeDictionary = {
         '1':
           'Cada aumento se va en un estilo de vida más caro',
         '2':
-          'No sabes cuántos meses podrías sostenerte',
+          'No sabés cuántos meses podrías sostenerte',
         '3':
           'Los beneficios corporativos se pierden sin propósito',
         '4':
-          'Inviertes poco, tarde o con miedo',
+          'Invertís poco, tarde o con miedo',
         '5':
           'Estás en casa, pero tu cabeza sigue en el trabajo',
       },
@@ -240,13 +240,13 @@ export const home: HomeDictionary = {
         '1':
           'Cada aumento va directo a tu patrimonio',
         '2':
-          'Sabes exactamente con cuánto cuentas',
+          'Sabés exactamente con cuánto contás',
         '3':
           'Tus beneficios se convierten en capital para invertir',
         '4':
-          'Inviertes con un plan y con claridad',
+          'Invertís con un plan y con claridad',
         '5':
-          'Decides sobre tu carrera desde la libertad, y estás presente de verdad',
+          'Decidís sobre tu carrera desde la libertad, y estás presente de verdad',
       },
     },
     testimonials: {
@@ -261,11 +261,11 @@ export const home: HomeDictionary = {
       title:
         '¿Cuántos meses podrías sostenerte *si cambiara tu puesto?*',
       lead:
-        'Cinco datos y descubres cuánto tiempo te da hoy tu dinero sin tu salario.',
+        'Cinco datos y descubrís cuánto tiempo te da hoy tu dinero sin tu salario.',
       receive:
-        'Recibes tu resultado y tu zona al instante.',
+        'Recibís tu resultado y tu zona al instante.',
       receive_with_guide:
-        'Recibes tu resultado, tu zona y la guía "Cómo empezar a invertir siendo ejecutivo".',
+        'Recibís tu resultado, tu zona y la guía "Cómo empezar a invertir siendo ejecutivo".',
       cta:
         'Calcular mis meses gratis',
       example: {
@@ -281,11 +281,11 @@ export const home: HomeDictionary = {
     },
     vip: {
       body:
-        'Imagina saber exactamente con cuánto cuentas, tener tu dinero trabajando a tu favor y, cuando estés con tu familia, estar ahí de verdad.',
+        'Imaginá saber exactamente con cuánto contás, tener tu dinero trabajando a tu favor y, cuando estés con tu familia, estar ahí de verdad.',
       step: {
         '1': {
           title:
-            'Aplica',
+            'Aplicá',
           body:
             'Una breve aplicación de 5 minutos.',
         },
@@ -293,7 +293,7 @@ export const home: HomeDictionary = {
           title:
             'Llamada inicial conmigo',
           body:
-            'Vemos dónde estás y si la mentoría es para ti.',
+            'Vemos dónde estás y si Wealth Mastery es para vos.',
         },
         '3': {
           title:

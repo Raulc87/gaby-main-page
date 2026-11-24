@@ -33,7 +33,7 @@ describe('pageHref', () => {
 
   it('appends the anchor after the path', () => {
     expect(pageHref('home', 'es', 'metodo', '/gaby-main-page/')).toBe('/gaby-main-page/es/#metodo');
-    expect(pageHref('vip', 'en', 'aplicar', '/')).toBe('/en/vip-mentorship/#aplicar');
+    expect(pageHref('vip', 'en', 'aplicar', '/')).toBe('/en/apply/#aplicar');
   });
 
   it('switching language keeps the page id', () => {
