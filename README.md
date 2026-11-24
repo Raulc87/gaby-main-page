@@ -4,7 +4,7 @@ First pilot project built with the [Spec-Driven Development Starter Kit](https:/
 
 ## Project status
 
-**Phase 2 (brand redesign and multipage site).** Sprints 001 and 002 are CLOSED (phase 1, one-page site); Sprint 003 is CLOSED (phase 2a, closed 2026-11-08 after Gaby's review). **Sprint 004 is ACTIVE** (phase 2c: the StoryBrand Home, the calculator, the Método Polaris page, the security baseline), 2026-11-09 to 2026-11-18, finishing with the GoHighLevel calendar (US-037). Phase 2d (Gaby's final content of 2026-11-23: voseo, Wealth Mastery, her calculator, the leads in GoHighLevel) is specified for Sprint 005. Production deployment is on hold until the hosting is decided (the domain is gabykelly.com); progress is shown on a GitHub Pages preview.
+**Phase 2 (brand redesign and multipage site).** Sprints 001 and 002 are CLOSED (phase 1, one-page site); Sprint 003 is CLOSED (phase 2a, closed 2026-11-08 after Gaby's review). Sprint 004 is CLOSED (phase 2c, closed 2026-11-24: the StoryBrand Home, the calculator, the Método Polaris page, the security baseline, the GoHighLevel calendar). **Sprint 005 is PLANNED** (phase 2d, Gaby's final content of 2026-11-23: voseo, Wealth Mastery, her calculator, the leads in GoHighLevel). Production deployment is on hold until the hosting is decided (the domain is gabykelly.com); progress is shown on a GitHub Pages preview.
 
 See `PROJECT_CONTEXT.md` for the document map and current status.
 
@@ -16,7 +16,7 @@ The VIP path:
 
 1. Visitor applies on the VIP page (full name, email, WhatsApp, one screening question about willingness and capacity to invest, privacy consent).
 2. The application is stored in Google Sheets.
-3. Qualified answers see a thank-you and book a call in the inline Calendly scheduler; the others see a thank-you with a free mini-course.
+3. Qualified answers see a thank-you and book a call in the inline GoHighLevel calendar (ADR-006); the others see a thank-you with a free mini-course.
 
 Phase 1 (Sprints 001–002) built the one-page version of this flow; phase 2 (`docs/specs/PROJECT_SPEC.md` v0.5) turns it into a multipage site in Gaby's official brand.
 

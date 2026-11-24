@@ -13,7 +13,7 @@ This is a content-heavy one-page site with:
 - lead form
 - one lightweight backend endpoint
 - Google Sheets persistence
-- Calendly inline embed
+- GoHighLevel booking widget, inline embed (ADR-006; Calendly before)
 
 A heavy application framework or relational database is not justified.
 
@@ -98,7 +98,7 @@ No SQL database for the pilot.
 
 ## 7. Scheduling
 
-Calendly inline embed (official embed script), shown only after a successful save, with name and email pre-filled. Fallback: `mailto:` link to the contact email.
+Gaby's GoHighLevel booking widget (ADR-006, US-037): an inline iframe from `api.leadconnectorhq.com` and GoHighLevel's embed script from `link.msgsndr.com`, loaded only on the qualified thank-you screen after a successful save, with first name, last name, email and phone pre-filled in its URL. Configured by `PUBLIC_SCHEDULER_URL` (Calendly, `PUBLIC_CALENDLY_URL`, until #84). Fallback: `mailto:` link to the contact email. Preview builds show a static stand-in and load nothing from GoHighLevel.
 
 ## 8. Testing
 
