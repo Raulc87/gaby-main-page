@@ -1,61 +1,79 @@
-// Client-side validation of the calculator's two steps (US-035 AC2, AC4).
+// Client-side validation of the calculator's two steps (US-044 AC2, AC3, AC7).
 // The details reuse the lead form's rules (name, email, phone, consent) so the
-// client and the server agree (contract v1.2 section 11.2: "As in section 3").
+// client and the server agree (contract v1.3 section 11.2: "As in section 3").
 import type { Language } from '../../i18n';
 import type { FieldErrorCode } from '../lead/types';
 import { validateConsent, validateEmail, validateName, validatePhone } from '../lead/validation';
-import type { CalculatorFigures, CalculatorZone } from './formula';
-import { FIGURE_KEYS, type CalculatorDetailsField, type CalculatorLeadPayload, type FigureKey } from './types';
+import { sanitizeAmount } from './amounts';
+import type { CalculatorFigures, CalculatorResult } from './formula';
+import {
+  FIGURE_KEYS,
+  SHARES_ANSWERS,
+  type CalculatorDetailsField,
+  type CalculatorLeadPayload,
+  type Currency,
+  type FigureKey,
+  type SharesAnswer,
+} from './types';
 
-export type FigureErrorCode = 'required' | 'number' | 'no_outflow';
+/** `expenses`: empty or 0 (`calc.error.expenses`); `number`: out of range (`calc.error.number`); `shares`: unanswered (`calc.error.shares`). */
+export type FigureErrorCode = 'expenses' | 'number' | 'shares';
 
 /**
  * The largest figure accepted: the formula works in whole cents (exact integers), so an amount
  * must stay below Number.MAX_SAFE_INTEGER cents (about 90 trillion). Anything larger is not a
- * realistic amount and is reported with the same "enter a number" error.
+ * realistic amount and is reported with the same "enter a number" error (FR-034).
  */
 export const MAX_FIGURE = Number.MAX_SAFE_INTEGER / 100;
 
-/** Plain decimal numbers only: digits with an optional decimal point or comma, no sign, no thousands separators. */
-const FIGURE_PATTERN = /^\d+(?:[.,]\d+)?$/;
-
-export function parseFigure(raw: unknown): { value?: number; error?: FigureErrorCode } {
-  if (typeof raw !== 'string' || raw.trim() === '') return { error: 'required' };
-  const text = raw.trim();
-  if (!FIGURE_PATTERN.test(text)) return { error: 'number' };
-  const value = Number(text.replace(',', '.'));
+/**
+ * An amount from what the field holds: whole, 0 or more. An empty field is 0 (Gaby's prototype:
+ * only the expenses are required); too large an amount is an error.
+ */
+export function parseAmount(raw: unknown): { value?: number; error?: 'number' } {
+  const digits = typeof raw === 'string' ? sanitizeAmount(raw) : '';
+  if (digits === '') return { value: 0 };
+  const value = Number(digits);
   if (!Number.isFinite(value) || value > MAX_FIGURE) return { error: 'number' };
   return { value };
 }
 
-export interface FiguresValidation {
-  errors: Partial<Record<FigureKey, FigureErrorCode>>;
-  figures?: CalculatorFigures;
+/** The shares answers that raise the concentration alert (FR-034): 20% to 50%, and over 50%. */
+export function raisesConcentrationAlert(answer: SharesAnswer): boolean {
+  return answer === 'from_20_to_50' || answer === 'over_50';
 }
 
-/** Five required numbers of 0 or more; expenses plus debt payments must be above 0. */
-export function validateFigures(raw: Record<FigureKey, unknown>): FiguresValidation {
+export function isSharesAnswer(value: unknown): value is SharesAnswer {
+  return typeof value === 'string' && (SHARES_ANSWERS as readonly string[]).includes(value);
+}
+
+export interface FiguresValidation {
+  errors: Partial<Record<FigureKey | 'shares', FigureErrorCode>>;
+  figures?: CalculatorFigures;
+  shares?: SharesAnswer;
+}
+
+/** Five whole amounts of 0 or more (expenses above 0) and the shares answer, which must be chosen. */
+export function validateFigures(raw: Record<FigureKey, unknown>, sharesRaw: unknown): FiguresValidation {
   const errors: FiguresValidation['errors'] = {};
   const values: Partial<Record<FigureKey, number>> = {};
   for (const key of FIGURE_KEYS) {
-    const result = parseFigure(raw[key]);
+    const result = parseAmount(raw[key]);
     if (result.error) errors[key] = result.error;
     else values[key] = result.value;
   }
-  // Same rule as the formula: amounts are taken to cents, so 0.004 counts as 0.
-  const outflowCents = Math.round((values.expenses ?? 0) * 100) + Math.round((values.debt ?? 0) * 100);
-  if (!errors.expenses && !errors.debt && outflowCents <= 0) {
-    errors.expenses = 'no_outflow';
-  }
-  if (Object.keys(errors).length > 0) return { errors };
+  if (!errors.expenses && !values.expenses) errors.expenses = 'expenses';
+  if (!isSharesAnswer(sharesRaw)) errors.shares = 'shares';
+  if (Object.keys(errors).length > 0 || !isSharesAnswer(sharesRaw)) return { errors };
   return {
     errors,
+    shares: sharesRaw,
     figures: {
       expenses: values.expenses!,
-      debt_payments: values.debt!,
       savings: values.savings!,
       liquid_investments: values.investments!,
-      other_income: values.other_income!,
+      solidarity_association: values.solidarity!,
+      passive_income: values.passive!,
     },
   };
 }
@@ -108,11 +126,25 @@ export function validateDetails(input: RawDetailsInput): DetailsValidation {
   };
 }
 
-/** The request body: the visitor's details plus the result; never the five figures. */
+/** What the details step sends besides the visitor's own details: the result, the currency and the shares answer. */
+export interface CalculatorOutcome {
+  result: Pick<CalculatorResult, 'api_months' | 'zone'>;
+  currency: Currency;
+  sharesAnswer: SharesAnswer;
+}
+
+/** The request body (contract v1.3 section 11.2): the visitor's details plus the result; never the five figures. */
 export function buildCalculatorPayload(
   details: NonNullable<DetailsValidation['values']>,
-  result: { months: number | null; zone: CalculatorZone },
+  outcome: CalculatorOutcome,
   language: Language,
 ): CalculatorLeadPayload {
-  return { ...details, language, months: result.months, zone: result.zone };
+  return {
+    ...details,
+    language,
+    months: outcome.result.api_months,
+    zone: outcome.result.zone,
+    currency: outcome.currency,
+    concentration_alert: raisesConcentrationAlert(outcome.sharesAnswer),
+  };
 }

@@ -165,7 +165,7 @@ describe('submitLead', () => {
   });
 });
 
-describe('submitCalculatorLead (contract v1.2 section 11.4)', () => {
+describe('submitCalculatorLead (contract v1.3 section 11.4)', () => {
   const calculatorPayload: CalculatorLeadPayload = {
     name: 'Ana María Pérez Soto',
     email: 'ana.perez@example.com',
@@ -173,8 +173,10 @@ describe('submitCalculatorLead (contract v1.2 section 11.4)', () => {
     language: 'es',
     consent: true,
     marketing_consent: false,
-    months: 4.4,
+    months: 4.44,
     zone: 'alert',
+    currency: 'USD',
+    concentration_alert: true,
     website: '',
   };
 
