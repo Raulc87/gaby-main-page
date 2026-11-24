@@ -129,7 +129,7 @@ Expected: the build finishes and `dist/` holds the preview. In PowerShell, set `
 
 ## Test and check
 
-Run from the repository root. CI runs the same checks on every pull request ([`frontend.yml`](.github/workflows/frontend.yml), [`backend.yml`](.github/workflows/backend.yml), [`docs-link-check.yml`](.github/workflows/docs-link-check.yml), [`dependency-audit.yml`](.github/workflows/dependency-audit.yml), which also runs every Monday; [`preview.yml`](.github/workflows/preview.yml) builds and publishes the preview on every push to `main`), and they must be green before merge. Which checks GitHub enforces is the owner's repository setting.
+Run from the repository root. CI runs the same checks on every pull request ([`frontend.yml`](.github/workflows/frontend.yml), [`backend.yml`](.github/workflows/backend.yml), [`docs-link-check.yml`](.github/workflows/docs-link-check.yml), [`dependency-audit.yml`](.github/workflows/dependency-audit.yml), which also runs every Monday; [`preview.yml`](.github/workflows/preview.yml) builds and publishes the preview on every push to `main`), and they must be green before merge. Which checks GitHub enforces is the owner's repository setting. [`demo-build.yml`](.github/workflows/demo-build.yml) is started by hand on `main` and packages the demo environment's site and `api/` as artifacts (it runs four of these checks; it needs the calendar URL as its `scheduler_url` input or the `DEMO_SCHEDULER_URL` repository variable): see [`DEPLOYMENT.md`](docs/runbooks/DEPLOYMENT.md) section 11.
 
 | What | Command | Expected |
 |---|---|---|
