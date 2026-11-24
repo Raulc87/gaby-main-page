@@ -208,7 +208,7 @@ Planned on 2026-11-24 by the coordinator, after the human owner's "add it to the
 
 ## Close-out (2026-11-24)
 
-Every planned story is merged, eight business days early, in the planned order: the scaffold first (#91), then the Home (#95), the self-hosted typefaces (#96) and the Wealth Mastery page (#97); the calculator (#93) merged into the GoHighLevel branch, and the pair reached `main` together as #92 (merge order step 3); the library removal (#101) last, after the Home. Every implementation PR had a review-only agent review ("Ready for human approval" at its merged head, or confirmed for that head right after the merge: #101) and a Codex review before the human owner merged it.
+Every planned story is merged, eight business days early, in the planned order: the scaffold first (#91, step 1); the calculator (#93) merged into the GoHighLevel branch, and the pair reached `main` together as #92 (step 3); in step 2, which runs in parallel, the self-hosted typefaces (#96), the Home (#95) and the Wealth Mastery page (#97), in that merge order; and the library removal (#101) last, after the Home. Every implementation PR had a review-only agent review ("Ready for human approval" at its merged head, or confirmed for that head right after the merge: #101) and a Codex review before the human owner merged it.
 
 **Integration check** (merge order step 4, Agent 2, 2026-11-24, on `main` at `d9db8cd`): passed.
 - On a fresh checkout: lint clean; `astro check` 0 errors; 574 unit, 432 pytest and 309 e2e tests (backend in memory mode); the build has 13 pages and none of the removed ones; the docs link check 0 broken.
@@ -234,7 +234,7 @@ Every planned story is merged, eight business days early, in the planned order: 
 - **A plan gap found by an agent:** UX 1.2 added two colour tokens (`terracotta-soft`, `alert-tint`) that no story assigned; Agent 2 found it and Agent 1 added them in the scaffold (#91).
 
 **Sprint Definition of Done:**
-- [x] Stories meet their acceptance criteria and moved their copy out of `CONTENT_PHASE_2D.md`, deleted once empty (#101).
+- [x] Stories meet their acceptance criteria and moved their copy out of `CONTENT_PHASE_2D.md`, deleted once empty (#101), **except US-040 AC3 ("looks as it does today"), partly met**: the review of #96 found the files identical to the upstream fonts, but no before/after comparison was possible (the agents cannot reach Google Fonts). The owner compares the typefaces on the preview (Follow-ups).
 - [x] GitHub Actions green on `main`; the preview publishes (checked by the integration check).
 - [ ] The owner's calendar check (US-037): carried. It needs a build with a backend and a real calendar URL; see "Testing with Gaby" below.
 - [ ] The preview reviewed with Gaby (Sprint Review): carried to the functional test with Gaby (below).
@@ -247,10 +247,11 @@ Every planned story is merged, eight business days early, in the planned order: 
 - The staging environment (above), then the owner's checks with it: the calendar (US-037), the contacts with Gaby's token (US-045, ADR-008 → Validation), and the Sprint Review with Gaby on it.
 - Gaby's GoHighLevel set-up (token with contacts access only, location id, custom fields, tags; `docs/runbooks/GOHIGHLEVEL.md`) and her workflows and texts (US-038, US-039).
 - From Gaby: the "Flags for Gaby" list (formerly at the end of the staging file; in the history at #89), her answers on brief §8 points 4 and 6, the FAQ answers, the "Quién te guía" photo, the hero photo, testimonials, the English review; deleting the test contact `ana.perez@example.com` (Sprint 004 incident).
-- Owner: compare the typefaces on the preview (US-040 AC3, partly evidenced: the agents could not reach Google Fonts for a before/after).
+- Owner: compare the typefaces on the preview, to settle US-040 AC3 (partly met; see the Definition of Done).
+- Done in this close-out: `ADR-003_I18N_ROUTING.md` gets a phase 2d update, because its 2026-10-16 route list still named the removed `resources` and the old `vip` paths (the reviewer's nit on #91 and #103).
 - Kept in the backlog: the `LeadForm` defaults and `SECTION_IDS` cleanup; moving `PendingBadge`; the Vite preview server answering unknown paths with 200 in e2e (a static host returns 404).
 
 **Retrospective (short):**
-- What worked: the staged copy in parts, each moved by its story, kept seven stories editing `CONTENT.md` without one wrong value (the reviewer verified 226 staged rows by key); the joint merge of the calculator and its endpoint kept `main` green through a breaking contract change; the integration check found nothing to fix.
+- What worked: the staged copy in parts, each moved by its story, kept seven stories editing `CONTENT.md` without one wrong value (the reviewer verified 229 staged rows by key: 226 on #97, 3 more on #101); the joint merge of the calculator and its endpoint kept `main` green through a breaking contract change; the integration check found nothing to fix.
 - What to keep: owner decisions quoted on the PR they concern; the reviewer re-checking every merge of `main`.
 - What to change: one writer per branch (see the first incident); plan every token and shared string a story needs (the colour tokens); a staging environment before the next review with Gaby.
