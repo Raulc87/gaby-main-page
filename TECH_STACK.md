@@ -1,10 +1,10 @@
 # TECH_STACK — Gabriela Kelly Pilot
 
 ## Metadata
-- Version: 0.4
+- Version: 0.4.1
 - Status: Approved for Sprint 001; v0.4 proposed for Sprint 003 (phase 2)
 - Complexity: Simple
-- Last updated: 2026-10-16 (v0.4: phase 2 — GitHub Pages preview, ADR-005; production host undecided; multipage routes, ADR-003 update; fonts Playfair Display and Manrope, `UX_UI_DIRECTION.md` v1.0). v0.3 (2026-09-23: Node floor raised from 20 LTS to 22 LTS, section 4 — see GK-010-frontend-scaffold PR #4)
+- Last updated: 2026-11-24 (v0.4.1: the GoHighLevel booking widget replaces Calendly, ADR-006, US-037). 2026-10-16 (v0.4: phase 2 — GitHub Pages preview, ADR-005; production host undecided; multipage routes, ADR-003 update; fonts Playfair Display and Manrope, `UX_UI_DIRECTION.md` v1.0). v0.3 (2026-09-23: Node floor raised from 20 LTS to 22 LTS, section 4 — see GK-010-frontend-scaffold PR #4)
 
 ## 1. Complexity Assessment
 
@@ -13,7 +13,7 @@ This is a content-heavy one-page site with:
 - lead form
 - one lightweight backend endpoint
 - Google Sheets persistence
-- Calendly inline embed
+- GoHighLevel booking widget, inline embed (ADR-006; Calendly before)
 
 A heavy application framework or relational database is not justified.
 
@@ -98,7 +98,7 @@ No SQL database for the pilot.
 
 ## 7. Scheduling
 
-Calendly inline embed (official embed script), shown only after a successful save, with name and email pre-filled. Fallback: `mailto:` link to the contact email.
+Gaby's GoHighLevel booking widget (ADR-006, US-037): an inline iframe from `api.leadconnectorhq.com` and GoHighLevel's embed script from `link.msgsndr.com`, loaded only on the qualified thank-you screen after a successful save, with first name, last name, email and phone pre-filled in its URL. Configured by `PUBLIC_SCHEDULER_URL` (Calendly, `PUBLIC_CALENDLY_URL`, until #84). Fallback: `mailto:` link to the contact email. Preview builds show a static stand-in and load nothing from GoHighLevel.
 
 ## 8. Testing
 

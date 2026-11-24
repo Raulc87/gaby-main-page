@@ -1,7 +1,7 @@
-# SPRINT 004 — ACTIVE
+# SPRINT 004 — CLOSED
 
 ## Metadata
-- Status: ACTIVE — the human owner gave the go-ahead on 2026-11-08 (Entry Gates, gate 15)
+- Status: CLOSED on 2026-11-24 (Close-out below); the human owner gave the go-ahead on 2026-11-08 (Entry Gates, gate 15)
 - Duration: 8 business days
 - Saturdays and Sundays excluded
 - Start: Monday 2026-11-09, the first business day after the go-ahead (the agents started on 2026-11-08)
@@ -67,15 +67,15 @@ Non-blocking items, for the human owner:
 
 | Story | Points | Owner | Dependencies | Branch | Status |
 |---|---:|---|---|---|---|
-| US-034 (scaffold: routes `method` and `calculator`, their stub pages, header label) | — | Agent 1 | — | `GK-034-site-scaffold` | To do |
-| US-034 StoryBrand Home | 8 | Agent 1 | `GK-034-site-scaffold` | `GK-034-home` | To do |
-| US-028 Método Polaris page (placeholder steps) | 3 | Agent 1 | `GK-034-site-scaffold` | `GK-028-method-page` | To do |
-| US-036 Calculator leads (endpoint and sheet tab; contract v1.2 locked by this PR) | 3 | Agent 3 | — | `GK-036-calculator-leads` | To do |
-| US-035 Calculator page | 5 | Agent 2 | `GK-034-site-scaffold`; `GK-036-calculator-leads` merged (the e2e test needs the endpoint) | `GK-035-calculator` | To do |
-| US-029 Security baseline | 5 | Agent 3 | — | `GK-029-security-baseline` | To do |
-| US-030 Developer guide (`CONTRIBUTING.md`) | 2 | Agent 3 | `GK-036-calculator-leads` merged (the guide lists its configuration) | `GK-030-contributing` | To do |
-| US-037 GoHighLevel calendar (only when the embed URL arrives) | 3 | Agent 2 | Gaby's GoHighLevel calendar and its embed URL | `GK-037-ghl-scheduler` | Waiting on Gaby |
-| Chore: e2e for the root page's preview marker (Sprint 003 follow-up, US-027 AC2) | — | Agent 2 | — | `GK-CHORE-root-marker-e2e` | To do |
+| US-034 (scaffold: routes `method` and `calculator`, their stub pages, header label) | — | Agent 1 | — | `GK-034-site-scaffold` | Done (#74) |
+| US-034 StoryBrand Home | 8 | Agent 1 | `GK-034-site-scaffold` | `GK-034-home` | Done (#78) |
+| US-028 Método Polaris page (placeholder steps) | 3 | Agent 1 | `GK-034-site-scaffold` | `GK-028-method-page` | Done (#79) |
+| US-036 Calculator leads (endpoint and sheet tab; contract v1.2 locked by this PR) | 3 | Agent 3 | — | `GK-036-calculator-leads` | Done (#73) |
+| US-035 Calculator page | 5 | Agent 2 | `GK-034-site-scaffold`; `GK-036-calculator-leads` merged (the e2e test needs the endpoint) | `GK-035-calculator` | Done (#80) |
+| US-029 Security baseline | 5 | Agent 3 | — | `GK-029-security-baseline` | Done (#75, after the lockfile fix #82) |
+| US-030 Developer guide (`CONTRIBUTING.md`) | 2 | Agent 3 | `GK-036-calculator-leads` merged (the guide lists its configuration) | `GK-030-contributing` | Done (#77) |
+| US-037 GoHighLevel calendar (only when the embed URL arrives) | 3 | Agent 2 | Gaby's GoHighLevel calendar and its embed URL | `GK-037-ghl-scheduler` | Done (#84) |
+| Chore: e2e for the root page's preview marker (Sprint 003 follow-up, US-027 AC2) | — | Agent 2 | — | `GK-CHORE-root-marker-e2e` | Done (#72) |
 
 Total: 26 points, plus US-037 (3) when the calendar is ready.
 
@@ -227,3 +227,46 @@ Planned on 2026-11-08 by the coordinator, after the human owner's "yes, go ahead
 3. records the session IDs there.
 
 Done on 2026-11-08: the Sprint 003 sessions are archived, and the review-only agent and the three implementation agents are running; their session IDs are in [`SPRINT_004_AGENT_PROMPTS.md`](SPRINT_004_AGENT_PROMPTS.md) → Session IDs.
+
+## Close-out (2026-11-24)
+
+All planned stories are merged, in the planned order: the scaffold first (#74, 2026-11-08); then the leads endpoint (#73) before the calculator (#80) and the developer guide (#77); the security baseline (#75) after the lockfile-only audit fix (#82), which it needed to turn its new `npm audit` check green; the Home (#78) after the Método Polaris page (#79), with Agent 1 resolving their copy conflicts by merging `main`; and the GoHighLevel calendar (#84) last, when Gaby's calendar arrived (2026-11-23). Every PR had a review-only agent review and a Codex review before the human owner merged it, and every one except #84 was rated "Ready for human approval": #84 merged at "Changes needed", with the `PUBLIC_CALENDLY_URL` rename still open (see the incidents; finished by #86 and #87). The integration check (merge order step 4, Agent 2, 2026-11-19) passed: lint, type check, 353 unit, 251 pytest and 210 e2e tests on a fresh checkout of `main`, and 60 of 60 page checks on the deployed preview in both languages at 390 and 1280 px.
+
+**Done (29 points):** US-034 (#74, #78), US-028 (#79), US-036 (#73), US-035 (#80), US-029 (#75), US-030 (#77), US-037 (#84), and the chores #72 (root-page preview marker e2e) and #82 (lockfile-only `npm audit` fix). Docs PRs during the sprint: #71 (go-ahead and session IDs), #76 (contract 1.2.1), #81 (spec 0.6.1), #83 (US-040), #85 (phase 2d: spec 0.7, contract 1.3, ADR-007 decided, ADR-008, UX 1.2, US-041 to US-046).
+
+**Security (US-029):** [`SECURITY_BASELINE.md`](../security/SECURITY_BASELINE.md) approved by the owner by merging #75 (AC7), with its decisions: not high-risk, ASVS level 2, the fix times, and the accepted risks R-1 to R-8 (R-1, Google Fonts, is answered by US-040). The owner's settings, with their dates: secret scanning with push protection and Dependabot alerts on 2026-11-08; private vulnerability reporting (O-3) and the required checks `frontend`, `e2e`, `pytest`, "Docs link check", `npm audit` and `pip-audit` on `main` (O-4) on 2026-11-19.
+
+**Owner decisions recorded during the sprint** (given in the coordinator's session and relayed; merging this docs PR confirms them in the owner's name):
+- #73, 2026-11-08: the contract's `Allow` header wording ("yes, reword the contract to 'includes POST'"), done in #76.
+- #80, 2026-11-08: the largest figure the calculator accepts written into FR-034 ("yes, make the FR-034 PR"), done in #81.
+- #78, 2026-11-08: option (a), the two `diagnostic-*` entries in `src/data/resources.ts` (Agent 2's file) added by Agent 1 in #78 as a recorded exception ("a for 78").
+- #82, 2026-11-08: the lockfile-only audit fix by Agent 1 ("yes to the lockfile PR").
+- #75, 2026-11-19: US-040, self-hosted typefaces, as a Sprint 005 candidate ("let's do that"), done in #83.
+- #84, 2026-11-23: the GoHighLevel calendar link and the split of the name field into first and last name (two or three words: the first is the first name; four or more: the first two), kept by merging #84.
+- Phase 2d, 2026-11-23: "go with your recommendations, for number 4 we need a good explanation for her to approve. On 6, leave hers but also explain to her with a good explanation about your conclusion" ([`BRIEF_2026-11-23_WEALTH_MASTERY.md`](../ux/BRIEF_2026-11-23_WEALTH_MASTERY.md) §8), merged in #85.
+
+**Process incidents and what changed:**
+- 2026-11-08: Agents 1 and 3 created their review requests and coordinator messages as scheduled messages **without a fire time**, so they never fired; four PRs waited for a review that had not been requested. The coordinator then fired them with `fire_trigger`, which started four empty sessions instead of reaching the reviewer; they were archived with the owner's approval. Rule since then, in every prompt: always pass `run_once_at`, and never use `fire_trigger`.
+- 2026-11-23: to check the calendar's prefill (US-037 AC2), Agent 2 loaded Gaby's live GoHighLevel widget with example data, and GoHighLevel may have stored it as a contact (`ana.perez@example.com`). Nothing was booked. The owner was asked to have Gaby delete it, and agents were told not to load the live widget again. Sprint 005 makes it a rule (its plan, entry gate 13).
+- #84 merged while US-037 AC1's rename of `PUBLIC_CALENDLY_URL` in other owners' files was still open (the owner had not chosen between companion PRs and an exception). The files' owners fix it in #86 (Agent 3: `.env.example`, `CONTRIBUTING.md`, the runbooks, the baseline's third parties) and #87 (Agent 1: `src/env.d.ts`), and this PR fixes `README.md` and `TECH_STACK.md`.
+
+**Sprint Definition of Done:**
+- [x] Stories meet their acceptance criteria and moved their copy out of `CONTENT_PHASE_2C.md`, which #84 left empty (deleted in the phase 2d copy PR, with the links to it).
+- [x] GitHub Actions green on `main`; the preview publishes.
+- [x] `SECURITY_BASELINE.md` approved by the owner (#75).
+- [ ] The preview reviewed with Gaby: carried to Sprint 005. Gaby's final content (2026-11-23) reached us before she reviewed this sprint's preview; the review now happens on the Sprint 005 preview, which applies it.
+- [x] No known critical regression. The rename gap above is a configuration-docs gap, fixed by #86 and #87 before Sprint 005 starts.
+- [x] Human reviewer approves the sprint: the human owner, 2026-11-24 (verbatim, in the coordinator's session): "add it to the Sprint 005 plan, and close Sprint 004".
+
+**Open owner decisions carried from Sprint 003, settled:** the featured mini-course in the grid (#60) and one badge per Método Polaris step (#61) are moot (the library is withdrawn and the steps become pillars, phase 2d). Still open: the logo source for My story (#56).
+
+**Follow-ups, into the Sprint 005 plan:**
+- The owner's manual end-to-end check of the GoHighLevel calendar (ADR-006 → Validation; the owner asked for it on 2026-11-24): a qualified application in a local build with `PUBLIC_SCHEDULER_URL` set shows Gaby's calendar prefilled, and one test booking appears in her GoHighLevel calendar (then cancelled).
+- The phase 2d copy PR (`CONTENT_PHASE_2D.md`), and deleting the empty `CONTENT_PHASE_2C.md` with its links.
+- #86 and #87 merged.
+- Kept in the backlog: the `LeadForm` defaults and `SECTION_IDS` cleanup; moving `PendingBadge`; replacing the provisional photo (waits on Gaby's photos). The resource-filter follow-ups are dropped with the library.
+
+**Retrospective (short):**
+- What worked: the scaffold-first order and the independent backend branch let five PRs merge on the first day; the review-only agent caught a contract inconsistency, a CI-only failure, the rename gap and a race in an e2e test before merge; the readiness of each PR reached the owner through the coordinator within minutes.
+- What to keep: copy staged outside the tables the tests read (the same applied to UX §3's routes table in #85); every owner decision quoted on the PR or in the docs.
+- What to change: scheduled messages always with a fire time; no agent touches a third party's live account; a PR is merged only when its blocking review items are resolved, or the owner records why not.
