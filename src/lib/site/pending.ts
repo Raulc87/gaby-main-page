@@ -15,11 +15,7 @@ export const PENDING_BLOCKS = {
   'story.photo': 'placeholder',
   'story.bio': 'placeholder',
   'vip.video': 'placeholder',
-  'method.steps_placeholder': 'placeholder',
   // Provisional copy blocks
-  // The Home's pillars are Gaby's final text. This block and `method.steps_placeholder` are
-  // used only by the Método Polaris page, which US-042 deletes; both entries go after it.
-  'home.method': 'provisional',
   'home.guide_stat': 'provisional',
   'vip.steps': 'provisional',
   'thanks.not_ready': 'provisional',
