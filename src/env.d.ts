@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_LEAD_ENDPOINT?: string;
   readonly PUBLIC_CALCULATOR_ENDPOINT?: string;
   readonly PUBLIC_SCHEDULER_URL?: string;
+  readonly PUBLIC_CRC_PER_USD?: string;
   readonly PUBLIC_CONTACT_EMAIL?: string;
   readonly PUBLIC_PREVIEW?: string;
 }

@@ -269,6 +269,11 @@ Gabriela's real production sheet.
 | `PRIVACY_NOTICE_VERSION` | Whatever `api/.env.example` documents at deploy time (this is `GK-018-privacy-version`'s job to finalize; don't hand-pick a value here) |
 | `RATE_LIMIT_MAX_REQUESTS` | Leave **unset** (defaults to `5`) or set an explicit number above `0`. **Never `0` in production** — `0` disables spam protection entirely (contract section 9 reserves `0` for tests and local development) |
 | `RATE_LIMIT_WINDOW_SECONDS` | Leave unset (defaults to `600`) unless you have a specific reason to change it |
+| `GHL_SYNC` | `on` to send each saved lead to Gaby's GoHighLevel account, `off` (the default) to save without sending. Set `on` only after the values below exist ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md)) |
+| `GHL_API_TOKEN` | The private integration token, contacts access only ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 1). A secret: paste it only here, never into chat, a file or Git |
+| `GHL_LOCATION_ID` | Gaby's GoHighLevel location id ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 2) |
+| `GHL_FIELD_MESES`, `GHL_FIELD_ZONA`, `GHL_FIELD_MONEDA`, `GHL_FIELD_ALERTA`, `GHL_FIELD_PRESELECCION` | The ids of the five custom fields ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 3) |
+| `GHL_TIMEOUT_SECONDS` | Leave unset (defaults to `5`) |
 
 **Check:** after restarting, look at the app's log (section 7 below) for the startup line. It
 should read `Lead storage active: google_sheets (key_file_exists=True, key_file_readable=True,
