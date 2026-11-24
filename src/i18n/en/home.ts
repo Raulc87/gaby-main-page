@@ -142,75 +142,37 @@ export const home: HomeDictionary = {
       eyebrow:
         'The Polaris Method',
       title:
-        'Three steps so your salary *works for you.*',
-      '1': {
-        title:
-          'Define your North',
-        body:
-          'Clarity about what you want and about your relationship with money.',
-      },
-      '2': {
-        title:
-          'Organize your money',
-        body:
-          'Your wallet system: every income and every benefit with a purpose.',
-      },
-      '3': {
-        title:
-          'Invest and build wealth',
-        body:
-          'Deliberate decisions, aligned with the life you want.',
-      },
-      cta:
-        'I want to apply the Polaris Method with Gaby',
-    },
-    mastery: {
-      title:
-        'What you learn *in the mentorship.*',
+        'Three pillars that move forward together, *with every paycheck.*',
       lead:
-        'It isn\'t theory: it\'s what I\'ve applied in my own portfolio for more than 10 years, explained so you can understand it, evaluate it and decide.',
+        'Polaris is the North Star: your north, the one that guides the way. That\'s how my method was born, from more than 10 years building my own portfolio: a clear north so every decision with your money goes in the same direction.',
       '1': {
+        label:
+          'Millionaire Mindset',
         title:
-          'Your North and your relationship with money',
+          'Mindset',
         body:
-          'Clarity about the life you want and the beliefs holding you back today.',
+          'Your beliefs and patterns with money, and the life you want to build.',
       },
       '2': {
+        label:
+          'Money Management',
         title:
-          'The wallet system',
+          'Management',
         body:
-          'You give every income and every benefit a purpose.',
+          'Your wallet system and your protection: every income and every benefit with a purpose.',
       },
       '3': {
+        label:
+          'Investments and Passive Income',
         title:
-          'Corporate benefits and cash flow',
+          'Investing',
         body:
-          'You turn what your company already gives you into capital to invest.',
+          'Stocks, real estate, gold, silver and crypto: understand, evaluate and decide.',
       },
-      '4': {
-        title:
-          'Stocks and ETFs',
-        body:
-          'You understand how markets work and how to evaluate an investment.',
-      },
-      '5': {
-        title:
-          'Real estate',
-        body:
-          'How to analyze a property as an investment, not an expense.',
-      },
-      '6': {
-        title:
-          'Commodities: gold and silver',
-        body:
-          'Their role as protection within a portfolio.',
-      },
-      '7': {
-        title:
-          'Crypto',
-        body:
-          'You understand how it works and how to think about it with judgment and without euphoria.',
-      },
+      closing:
+        'It isn\'t one thing first and then the other: with every income you move forward in all three at the same time.',
+      link:
+        'Get to know Wealth Mastery',
     },
     change: {
       title:
@@ -271,8 +233,6 @@ export const home: HomeDictionary = {
         zone:
           'Alert zone',
       },
-      more:
-        'More resources in the library:',
     },
     vip: {
       body:

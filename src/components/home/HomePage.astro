@@ -1,7 +1,7 @@
 ---
-// The Home (US-034, UX_UI_DIRECTION.md section 5.1, CONTENT.md section 5): hero, problem,
-// stakes, guide, opportunity, Método Polaris, Wealth Mastery, before and after, proof,
-// calculator and the VIP band, in that order. The application form lives on the VIP page;
+// The Home (US-034, phase 2d US-043, UX_UI_DIRECTION.md section 5.1, CONTENT.md section 5):
+// hero, problem, stakes, guide, opportunity, Método Polaris, before and after, proof,
+// calculator and the VIP band, in that order (ten sections). The application form lives on the VIP page;
 // every VIP call to action leads there. Gold buttons: the hero's and the closing band's
 // only, with blue sections between them (BR-010).
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -12,7 +12,6 @@ import GuideSection from './GuideSection.astro';
 import HomeHero from './HomeHero.astro';
 import HomeVipSection from './HomeVipSection.astro';
 import LadderSection from './LadderSection.astro';
-import MasterySection from './MasterySection.astro';
 import MethodSection from './MethodSection.astro';
 import OpportunitySection from './OpportunitySection.astro';
 import StakesSection from './StakesSection.astro';
@@ -32,7 +31,6 @@ const { lang } = Astro.props;
   <GuideSection lang={lang} />
   <OpportunitySection lang={lang} />
   <MethodSection lang={lang} />
-  <MasterySection lang={lang} />
   <ChangeSection lang={lang} />
   <TestimonialsSection lang={lang} />
   <CalculatorSection lang={lang} />

@@ -18,10 +18,10 @@ export const PENDING_BLOCKS = {
   'method.steps_placeholder': 'placeholder',
   'resource.file_pending': 'placeholder',
   // Provisional copy blocks
+  // The Home's pillars are Gaby's final text; this block is only the Método Polaris page's
+  // steps, which US-042 deletes together with this entry.
   'home.method': 'provisional',
-  'home.ladder_p2': 'provisional',
   'home.guide_stat': 'provisional',
-  'home.mastery': 'provisional',
   'vip.steps': 'provisional',
   'thanks.not_ready': 'provisional',
   'resource.provisional_title': 'provisional',
