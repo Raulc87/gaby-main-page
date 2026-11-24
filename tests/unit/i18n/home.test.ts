@@ -24,6 +24,8 @@ function flatten(value: object, prefix = ''): Array<[string, string]> {
   );
 }
 
+const keys = (pairs: Array<[string, string]>) => pairs.map(([key]) => key);
+
 describe.each([
   ['es', 0],
   ['en', 1],
@@ -52,8 +54,7 @@ describe.each([
     const aliases: Record<string, [source: string, value: string]> = {
       'home.story.media.label': ['story.media.label', story.media.label],
       'home.story.cta': ['cta.read_story', common.cta.read_story],
-      'home.mastery.eyebrow': ['vip_band.eyebrow', common.vip_band.eyebrow],
-      'home.mastery.cta': ['cta.vip_apply', common.cta.vip_apply],
+      'home.method.cta': ['cta.vip_apply', common.cta.vip_apply],
       'home.vip.eyebrow': ['vip_band.eyebrow', common.vip_band.eyebrow],
       'home.vip.title': ['vip_band.title', common.vip_band.title],
       'home.vip.cta': ['cta.vip_apply', common.cta.vip_apply],
@@ -64,6 +65,22 @@ describe.each([
       expect(value, source).toBe(table.get(source)![column]);
       expect(keys).not.toContain(key);
     }
+  });
+
+  it('no longer has the Wealth Mastery section, the pillars\' numbers or the library link keys (phase 2d)', () => {
+    const keys = entries.map(([key]) => key);
+    expect(keys.some((key) => key.startsWith('home.mastery.'))).toBe(false);
+    expect([...table.keys()].some((key) => key.startsWith('home.mastery.'))).toBe(false);
+    expect(keys).not.toContain('home.calculator.more');
+    expect(table.has('home.calculator.more')).toBe(false);
+  });
+
+  it('gives each pillar an official name, a short name and a line (US-043 AC2)', () => {
+    for (const n of ['1', '2', '3']) {
+      for (const part of ['label', 'title', 'body']) expect(keys(entries)).toContain(`home.method.${n}.${part}`);
+    }
+    expect(keys(entries)).toContain('home.method.closing');
+    expect(keys(entries)).toContain('home.method.link');
   });
 
   it('no longer has the resources teaser keys (the calculator replaced it)', () => {

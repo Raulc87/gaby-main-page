@@ -17,7 +17,7 @@ Every visitor-facing string of the phase 2 site lives here, keyed, in both langu
 - Values are copied verbatim and never contain markers. The code keeps the list of provisional keys next to the strings (`UX_UI_DIRECTION.md` §7).
 - **Pending badge (which keys show one):** only content blocks, never navigation, accessibility labels, alt text, metadata or state messages. Two kinds (`UX_UI_DIRECTION.md` §6.5):
   - **Placeholders** (content that has not arrived; BR-011), badge in **every** build, production included, until the real content replaces them: the Home hero photo (§5.1), the testimonial cards (§5.9), the Método Polaris page's steps placeholder (`method.steps.placeholder`, §12), the story photo and bio placeholders (§6), the VIP video module (§8.2), and every resource card whose file has not been delivered (§7.3).
-  - **Provisional copy blocks**, badge in preview and development builds only: the Método Polaris steps (§5.6), the third figure of the guide (§5.4), the Wealth Mastery modules (§5.7), the calculator's details step body (`calc.capture.body`, §11.2), the VIP steps (§8.1), the not-ready screen (§8.5), and resource cards with provisional titles. Before any production release, each of these is approved or the human owner decides per block whether it ships (as the phase 1 go-live gate did).
+  - **Provisional copy blocks**, badge in preview and development builds only: the third figure of the guide (§5.4), the calculator's details step body (`calc.capture.body`, §11.2), the VIP steps (§8.1), the not-ready screen (§8.5), and resource cards with provisional titles. Before any production release, each of these is approved or the human owner decides per block whether it ships (as the phase 1 go-live gate did).
   - No badge: `nav.*`, `skip_link`, `lang.*`, `meta.*`, `*_alt`, `resource.cover_alt`, `resources.filter.label`, `resources.empty`, `resource.pending`, `resource.email.coming_soon`, `story.media.label`, `story.experience.label`, the calculator's team-written form control and state message (`calc.shares.placeholder`, `calc.error.shares`), `preview.*`, `privacy.*` (the notice has its own DRAFT label).
 - `*text*` marks the italic emphasis (Playfair italic, `UX_UI_DIRECTION.md` §2) inside a heading; the asterisks are not part of the text.
 - `{contact_email}` is replaced with a `mailto:` link to `PUBLIC_CONTACT_EMAIL`.
@@ -95,7 +95,7 @@ My story uses `vip_band.title` and `vip_band.body`; the Home's closing band uses
 
 ## 5. Home (`/es/`, `/en/`)
 
-Phase 2c (US-034): the StoryBrand Home from Gaby's review of 2026-11-08 ([`BRIEF_2026-11-08_STORYBRAND.md`](BRIEF_2026-11-08_STORYBRAND.md) §1). Eleven sections in this order: hero, problem, stakes, guide, opportunity, Método Polaris, Wealth Mastery, before and after, proof, calculator, VIP. The Spanish marked `approved` is Gaby's, quoted from the dummy; the English is a translation (provisional, see Metadata). The dummy is plain text: where a new title has an italic part (`*...*`), the split follows the site's title pattern ([`UX_UI_DIRECTION.md`](UX_UI_DIRECTION.md) §2.3), not the dummy.
+Phase 2c (US-034): the StoryBrand Home from Gaby's review of 2026-11-08 ([`BRIEF_2026-11-08_STORYBRAND.md`](BRIEF_2026-11-08_STORYBRAND.md) §1). Phase 2d (US-043): ten sections in this order: hero, problem, stakes, guide, opportunity, Método Polaris, before and after, proof, calculator, VIP (the Wealth Mastery section moved to the Wealth Mastery page, §12). The Spanish marked `approved` is Gaby's, quoted from the dummy; the English is a translation (provisional, see Metadata). The dummy is plain text: where a new title has an italic part (`*...*`), the split follows the site's title pattern ([`UX_UI_DIRECTION.md`](UX_UI_DIRECTION.md) §2.3), not the dummy.
 
 ### 5.1 Hero (`#hero`)
 
@@ -185,41 +185,26 @@ The dummy leaves the third figure as "[X]"; "200+" comes from the page gabykelly
 | Key | Español | English | Status |
 |---|---|---|---|
 | `home.method.eyebrow` | El Método Polaris | The Polaris Method | approved |
-| `home.method.title` | Tres pasos para que tu salario *trabaje para vos.* | Three steps so your salary *works for you.* | approved |
-| `home.method.1.title` | Definí tu Norte | Define your North | provisional |
-| `home.method.1.body` | Claridad sobre lo que querés y sobre tu relación con el dinero. | Clarity about what you want and about your relationship with money. | provisional |
-| `home.method.2.title` | Ordená tu dinero | Organize your money | provisional |
-| `home.method.2.body` | Tu sistema de billeteras: cada ingreso y cada beneficio con un propósito. | Your wallet system: every income and every benefit with a purpose. | provisional |
-| `home.method.3.title` | Invertí y construí patrimonio | Invest and build wealth | provisional |
-| `home.method.3.body` | Decisiones conscientes, alineadas con la vida que querés. | Deliberate decisions, aligned with the life you want. | provisional |
-| `home.method.cta` | Quiero aplicar el Método Polaris con Gaby | I want to apply the Polaris Method with Gaby | approved |
+| `home.method.title` | Tres pilares que avanzan juntos, *con cada salario.* | Three pillars that move forward together, *with every paycheck.* | approved |
+| `home.method.lead` | Polaris es la Estrella Polar: tu norte, el que guía el camino. Así nació mi método, de más de 10 años construyendo mi propio portafolio: un norte claro para que cada decisión con tu dinero vaya en la misma dirección. | Polaris is the North Star: your north, the one that guides the way. That's how my method was born, from more than 10 years building my own portfolio: a clear north so every decision with your money goes in the same direction. | approved |
+| `home.method.1.label` | Mentalidad Millonaria | Millionaire Mindset | approved |
+| `home.method.1.title` | Mentalidad | Mindset | approved |
+| `home.method.1.body` | Tus creencias y patrones con el dinero, y la vida que querés construir. | Your beliefs and patterns with money, and the life you want to build. | approved |
+| `home.method.2.label` | Administración del Dinero | Money Management | approved |
+| `home.method.2.title` | Administración | Management | approved |
+| `home.method.2.body` | Tu sistema de billeteras y tu protección: cada ingreso y cada beneficio con un propósito. | Your wallet system and your protection: every income and every benefit with a purpose. | approved |
+| `home.method.3.label` | Inversiones e Ingresos Pasivos | Investments and Passive Income | approved |
+| `home.method.3.title` | Inversión | Investing | approved |
+| `home.method.3.body` | Bolsa, bienes raíces, oro, plata y cripto: entender, evaluar y decidir. | Stocks, real estate, gold, silver and crypto: understand, evaluate and decide. | approved |
+| `home.method.closing` | No es primero una cosa y después la otra: con cada ingreso avanzás en los tres al mismo tiempo. | It isn't one thing first and then the other: with every income you move forward in all three at the same time. | approved |
+| `home.method.cta` | = `cta.vip_apply` | = `cta.vip_apply` | approved |
+| `home.method.link` | Conocé Wealth Mastery | Get to know Wealth Mastery | approved |
 
-The steps stay provisional until Gaby sends the official Método Polaris steps (US-028). `home.method.cta` leads to the VIP page (blue style, BR-010).
+Gaby's official pillars (2026-11-23). They are worked in parallel, so they show no numbers, no arrows and no order (`UX_UI_DIRECTION.md` §5.1). `home.method.cta` (blue, BR-010) leads to the application page; `home.method.link` is a text link to the Wealth Mastery page (§12), its arrow drawn by the link style.
 
 ### 5.7 What you learn in Wealth Mastery (`#wealth-mastery`)
 
-| Key | Español | English | Status |
-|---|---|---|---|
-| `home.mastery.eyebrow` | = `vip_band.eyebrow` | = `vip_band.eyebrow` | approved |
-| `home.mastery.title` | Lo que aprendés *en la mentoría.* | What you learn *in the mentorship.* | approved |
-| `home.mastery.lead` | No es teoría: es lo mismo que aplico en mi propio portafolio desde hace más de 10 años, explicado para que vos lo podás entender, evaluar y decidir. | It isn't theory: it's what I've applied in my own portfolio for more than 10 years, explained so you can understand it, evaluate it and decide. | approved |
-| `home.mastery.1.title` | Tu Norte y tu relación con el dinero | Your North and your relationship with money | provisional |
-| `home.mastery.1.body` | Claridad sobre la vida que querés y las creencias que hoy te frenan. | Clarity about the life you want and the beliefs holding you back today. | provisional |
-| `home.mastery.2.title` | Sistema de billeteras | The wallet system | provisional |
-| `home.mastery.2.body` | Ordenás cada ingreso y cada beneficio con un propósito. | You give every income and every benefit a purpose. | provisional |
-| `home.mastery.3.title` | Beneficios corporativos y flujo | Corporate benefits and cash flow | provisional |
-| `home.mastery.3.body` | Convertís lo que tu empresa ya te da en capital para invertir. | You turn what your company already gives you into capital to invest. | provisional |
-| `home.mastery.4.title` | Bolsa y ETFs | Stocks and ETFs | provisional |
-| `home.mastery.4.body` | Entendés cómo funcionan los mercados y cómo evaluar una inversión. | You understand how markets work and how to evaluate an investment. | provisional |
-| `home.mastery.5.title` | Bienes raíces | Real estate | provisional |
-| `home.mastery.5.body` | Cómo analizar una propiedad como inversión, no como gasto. | How to analyze a property as an investment, not an expense. | provisional |
-| `home.mastery.6.title` | Commodities: oro y plata | Commodities: gold and silver | provisional |
-| `home.mastery.6.body` | Su papel como protección dentro de un portafolio. | Their role as protection within a portfolio. | provisional |
-| `home.mastery.7.title` | Cripto | Crypto | provisional |
-| `home.mastery.7.body` | Entendés cómo funciona y cómo pensarla con criterio y sin euforia. | You understand how it works and how to think about it with judgment and without euphoria. | provisional |
-| `home.mastery.cta` | = `cta.vip_apply` | = `cta.vip_apply` | approved |
-
-The module list is provisional: the dummy asks to confirm with Gaby whether a module is missing. The wording is educational (understand, evaluate, decide), consistent with the disclaimer (FR-028); no module promises returns (BR-003). `home.mastery.cta` uses the blue style (BR-010).
+Withdrawn in phase 2d (US-043): the Wealth Mastery page (§12) explains the pillars.
 
 ### 5.8 Before and after (`#antes-despues`)
 
@@ -265,9 +250,8 @@ Three placeholder cards (two with photo and text, one video) until real, authori
 | `home.calculator.example.label` | Ejemplo de resultado | Example result | approved |
 | `home.calculator.example.value` | 4,4 meses | 4.4 months | approved |
 | `home.calculator.example.zone` | Zona de alerta | Alert zone | approved |
-| `home.calculator.more` | Más recursos en la biblioteca: | More resources in the library: | approved |
 
-`home.calculator.receive_with_guide` is shown only once the guide is sent by email (US-038); until then `home.calculator.receive`, so the page never promises an email that is not sent. Below `home.calculator.more`, two links to the resource library: the titles of `diagnostic-benefits` and `diagnostic-investor` (§7.3). This section replaces the free-resources teaser: the calculator is the Home's only lead magnet.
+`home.calculator.receive_with_guide` is shown only once the guide is sent by email (US-038); until then `home.calculator.receive`, so the page never promises an email that is not sent. This section replaces the free-resources teaser: the calculator is the Home's only lead magnet.
 
 ### 5.11 Work with me (`#vip`)
 
