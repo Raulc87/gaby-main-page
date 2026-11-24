@@ -45,7 +45,7 @@ Filled in by the coordinator at launch.
 | Agent 3 | `session_01DVcaZxNi9NA63NVZJe1w19` |
 | Sprint 004 sessions archived (2026-11-24) | `session_01DVcaZzj3KLrxs4MDCQrWwv` (reviewer), `session_01DVcaZvWHFdkQNprDdf3oN5`, `session_01DVcaZwUYcJUBXSdcAj6hsC`, `session_01DVcaZy7qxywZkhJzCL5kje` |
 
-Launched on 2026-11-24 with the prompts below, `<REVIEWER_SESSION>` replaced by the reviewer's ID. Agent 3's prompt also names the kit's runbook style guide (`Raulc87/sdd_starter_kit` at `v1.2.0`, `docs/process/RUNBOOK_STYLE.md`), attached by the agent with `add_repo` when needed, as in Sprint 004.
+Launched on 2026-11-24 with the prompts below, `<REVIEWER_SESSION>` replaced by the reviewer's ID.
 
 ---
 
@@ -238,6 +238,8 @@ Order of work:
    photo placeholder, no prices, tests/e2e/mastery.spec.ts; and remove the Método Polaris
    page, its components, copy (CONTENT.md §12), route (routes.ts, its tests and UX §3's row)
    and tests/e2e/method.spec.ts (recorded exception: they were Agent 1's).
+
+The runbook style guide is in the private kit repository Raulc87/sdd_starter_kit at tag v1.2.0 (docs/process/RUNBOOK_STYLE.md); attach it with add_repo (read access) if you need it.
 ```
 
 ---

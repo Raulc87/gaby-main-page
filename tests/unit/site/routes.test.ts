@@ -16,14 +16,12 @@ describe('route map', () => {
       'story',
       'vip',
       'privacy',
-      'method',
       'calculator',
       'mastery',
     ]);
   });
 
-  it('gives method and calculator the paths of UX_UI_DIRECTION.md section 3', () => {
-    expect(ROUTES.method).toEqual({ es: '/es/metodo-polaris/', en: '/en/polaris-method/' });
+  it('gives calculator the paths of UX_UI_DIRECTION.md section 3', () => {
     expect(ROUTES.calculator).toEqual({ es: '/es/calculadora/', en: '/en/calculator/' });
   });
 
@@ -40,6 +38,16 @@ describe('route map', () => {
     expect(existsSync(join(ROOT, 'src/pages/es/recursos'))).toBe(false);
     expect(existsSync(join(ROOT, 'src/pages/en/resources'))).toBe(false);
     expect(existsSync(join(ROOT, 'src/data/resources.ts'))).toBe(false);
+  });
+
+  it('no longer has a path to the Método Polaris page, which the Wealth Mastery page replaced (US-042 AC6)', () => {
+    const paths = PAGE_IDS.flatMap((id) => LANGUAGES.map((lang) => routePath(id, lang)));
+    expect(paths).not.toContain('/es/metodo-polaris/');
+    expect(paths).not.toContain('/en/polaris-method/');
+    expect(PAGE_IDS).not.toContain('method');
+    for (const folder of ['src/pages/es/metodo-polaris', 'src/pages/en/polaris-method']) {
+      expect(existsSync(join(ROOT, folder)), folder).toBe(false);
+    }
   });
 
   it('no longer has a path to the old VIP pages', () => {

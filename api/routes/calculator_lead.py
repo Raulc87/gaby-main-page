@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from flask import Blueprint
 
+from crm.contacts import calculator_contact
 from routes.submission import handle_lead_submission, server_generated_fields
 from validation import validate_calculator_lead
 
@@ -33,6 +34,8 @@ def _build_row(normalized: dict) -> dict:
         "source": CALCULATOR_SOURCE,
         "privacy_notice_version": server_fields["privacy_notice_version"],
         "status": server_fields["status"],
+        "currency": normalized["currency"],
+        "concentration_alert": normalized["concentration_alert"],
     }
 
 
@@ -43,4 +46,5 @@ def save_calculator_lead():
         "CALCULATOR_LEAD_STORAGE",
         validate_calculator_lead,
         _build_row,
+        calculator_contact,
     )

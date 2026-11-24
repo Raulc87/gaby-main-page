@@ -10,6 +10,7 @@ import Header from '../components/layout/Header.astro';
 import PreviewBar from '../components/layout/PreviewBar.astro';
 import { getCommon, type Language } from '../i18n';
 import type { PageId } from '../i18n/routes';
+import { fontUrl, preloadedFonts } from '../lib/site/fonts';
 import { assetUrl } from '../lib/site/links';
 import { IS_PREVIEW } from '../lib/site/preview';
 
@@ -32,17 +33,17 @@ const { title, description } = common.meta[pageId];
     <meta name="description" content={description} />
     {IS_PREVIEW && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/svg+xml" href={assetUrl('/favicon.svg')} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!--
-      UX_UI_DIRECTION.md section 2.3: only the listed weights — Playfair
-      Display 500 (+ italic 500 for emphasis and the wordmark), Manrope
-      400, 600 and 700.
+      UX_UI_DIRECTION.md section 2.3: the typefaces are served by the site itself
+      (US-040); the @font-face rules are in global.css. The heading and body files are
+      preloaded so text does not jump on load. A font preload needs `crossorigin`
+      even for the same origin.
     -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap"
-    />
+    {
+      preloadedFonts().map((font) => (
+        <link rel="preload" as="font" type="font/woff2" href={fontUrl(font.file)} crossorigin="anonymous" />
+      ))
+    }
   </head>
   <body class="flex min-h-screen flex-col">
     <a

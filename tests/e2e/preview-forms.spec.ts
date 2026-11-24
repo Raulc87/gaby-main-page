@@ -55,13 +55,13 @@ test.afterAll(async () => {
   if (outDir) rmSync(outDir, { recursive: true, force: true });
 });
 
-/** Records every request that is not to the preview build itself or to Google Fonts (the site's own fonts). */
+/** Records every request that is not to the preview build itself (the typefaces are self-hosted, US-040). */
 function trackRequests(page: Page): { forbidden: string[]; api: string[] } {
   const tracked = { forbidden: [] as string[], api: [] as string[] };
   page.on('request', (request) => {
     const url = new URL(request.url());
     if (url.pathname.startsWith('/api')) tracked.api.push(request.url());
-    const allowedHost = ['127.0.0.1', 'fonts.googleapis.com', 'fonts.gstatic.com'].includes(url.hostname);
+    const allowedHost = url.hostname === '127.0.0.1';
     if (!allowedHost || /leadconnectorhq|msgsndr/.test(url.hostname)) tracked.forbidden.push(request.url());
   });
   return tracked;
@@ -132,7 +132,7 @@ for (const lang of ['es', 'en'] as const) {
   });
 }
 
-// US-035 AC5 (FR-030): in a preview build the calculator's details step stores and sends
+// US-044 AC6 (FR-030): in a preview build the calculator's details step stores and sends
 // nothing: the result appears with `preview.form_note`, and no request goes to /api or a third party.
 for (const lang of ['es', 'en'] as const) {
   test(`preview calculator (${lang}): the result appears with the demonstration note and nothing is sent`, async ({ page }) => {
@@ -141,14 +141,14 @@ for (const lang of ['es', 'en'] as const) {
 
     await expect(page.locator('[data-preview-bar]')).toContainText(getCommon(lang).preview.banner);
     await answerQuestions(page);
+    // The details step's body is a provisional block: its badge shows in a preview build.
+    await expect(page.locator(CALC.stepDetails).getByText(getCommon(lang).pending.badge)).toBeVisible();
     await fillDetails(page, { marketing: true });
     await page.locator(CALC.submit).click();
 
     await expect(page.locator(CALC.stepResult)).toBeVisible();
     await expect(page.locator(`${CALC.stepResult} [data-preview-note]`)).toHaveText(getCommon(lang).preview.form_note);
-    await expect(page.locator(CALC.zoneTitle)).toHaveText(getCalculator(lang).zones.alert.title);
-    // The pending badge shows on the questions and on the result in a preview build.
-    await expect(page.locator(CALC.stepResult).getByText(getCommon(lang).pending.badge)).toBeVisible();
+    await expect(page.locator(CALC.zoneTitle)).toHaveText(getCalculator(lang).result.zones.alert.title);
 
     await page.waitForLoadState('networkidle');
     expect(tracked.api).toEqual([]);

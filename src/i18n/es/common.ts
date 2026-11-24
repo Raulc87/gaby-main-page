@@ -38,11 +38,6 @@ export const common: CommonContent = {
       description:
         'Diagnóstico gratis en 3 minutos: descubrí cuánto tiempo te da hoy tu dinero sin tu salario.',
     },
-    method: {
-      title: 'Método Polaris — Gaby Kelly',
-      description:
-        'Los tres pasos del Método Polaris para que tu salario trabaje para vos.',
-    },
   },
   nav: {
     brand: 'Gaby Kelly',

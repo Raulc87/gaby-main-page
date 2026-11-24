@@ -1,0 +1,42 @@
+---
+// How it works `#como-funciona` (UX_UI_DIRECTION.md section 5.7 item 4): surface; the title and
+// four cards (a 3-month programme, one-to-one sessions every 15 days, a content library, a
+// community of graduates), 2 × 2 on desktop and one column on mobile. No prices (Gaby's note).
+// The community card's line is adapted to gender-neutral wording (BR-005): pending badge until
+// Gaby confirms it.
+import PendingBadge from '../sections/PendingBadge.astro';
+import { getCommon, type Language } from '../../i18n';
+import { MASTERY_ANCHORS } from './anchors';
+import { getMastery } from './dictionary';
+import { showsMasteryBadge } from './pending';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { how } = getMastery(lang).mastery;
+const { pending } = getCommon(lang);
+const cards = [how['1'], how['2'], how['3'], how['4']];
+---
+
+<section id={MASTERY_ANCHORS.how} tabindex="-1" class="scroll-mt-16 outline-none bg-surface">
+  <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
+    <h2 class="max-w-[44rem] text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">{how.title}</h2>
+    <ul class="mt-12 grid gap-6 md:grid-cols-2" data-how-cards>
+      {
+        cards.map((card, index) => (
+          <li data-how-card class="flex flex-col rounded-[4px] border border-sand bg-ivory p-6 lg:p-8">
+            <h3 class="font-sans text-[1.1875rem] font-bold leading-snug text-charcoal">{card.title}</h3>
+            <p class="mt-2 text-base text-charcoal">{card.body}</p>
+            {index === 3 && showsMasteryBadge('mastery.adapted_lines') && (
+              <p class="mt-4">
+                <PendingBadge label={pending.badge} />
+              </p>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

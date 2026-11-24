@@ -1,0 +1,80 @@
+---
+// Is it for you? `#para-vos` (UX_UI_DIRECTION.md section 5.7 item 2): surface; the title and
+// two cards side by side (stacked on mobile). "Es para vos si…" is a surface card with a 2 px
+// heritage-blue border and a heritage-blue check before each item; "No es para vos si…" is an
+// ivory card with a thin sand cross (decorative). Two of the "no" lines are adapted to
+// gender-neutral wording (BR-005) and carry the pending badge until Gaby confirms them.
+import PendingBadge from '../sections/PendingBadge.astro';
+import { getCommon, type Language } from '../../i18n';
+import { MASTERY_ANCHORS } from './anchors';
+import { getMastery } from './dictionary';
+import { showsMasteryBadge } from './pending';
+
+interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const { fit } = getMastery(lang).mastery;
+const { pending } = getCommon(lang);
+const yes = [fit.yes['1'], fit.yes['2'], fit.yes['3'], fit.yes['4'], fit.yes['5']];
+const no = [fit.no['1'], fit.no['2'], fit.no['3']];
+---
+
+<section id={MASTERY_ANCHORS.fit} tabindex="-1" class="scroll-mt-16 outline-none bg-surface">
+  <div class="mx-auto max-w-[1160px] px-4 py-16 lg:py-24">
+    <h2 class="max-w-[44rem] text-[clamp(1.875rem,1.4rem+1.9vw,2.75rem)] leading-tight">{fit.title}</h2>
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      <div data-fit-yes class="rounded-[4px] border-2 border-heritage-blue bg-surface p-6 lg:p-8">
+        <h3 class="font-sans text-[1.1875rem] font-bold leading-snug text-charcoal">{fit.yes.title}</h3>
+        <ul class="mt-5 space-y-4">
+          {
+            yes.map((item) => (
+              <li class="flex gap-3 text-charcoal">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  class="mt-1 h-5 w-5 shrink-0 text-heritage-blue"
+                >
+                  <path d="M4 10.5l4 4 8-9" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div data-fit-no class="rounded-[4px] border border-sand bg-ivory p-6 lg:p-8">
+        <h3 class="font-sans text-[1.1875rem] font-bold leading-snug text-charcoal">{fit.no.title}</h3>
+        <ul class="mt-5 space-y-4">
+          {
+            no.map((item) => (
+              <li class="flex gap-3 text-charcoal">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke-width="1.2"
+                  class="mt-1 h-5 w-5 shrink-0 stroke-sand"
+                >
+                  <path d="M5 5l10 10M15 5L5 15" stroke-linecap="round" />
+                </svg>
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+        {
+          showsMasteryBadge('mastery.adapted_lines') && (
+            <p class="mt-5">
+              <PendingBadge label={pending.badge} />
+            </p>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
