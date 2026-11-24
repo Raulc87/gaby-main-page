@@ -179,13 +179,13 @@ The demo environment ([`DEPLOYMENT.md`](DEPLOYMENT.md) section 11) sends contact
 
 1. **List the test rows.** Open the **test** sheet (check its name: never a sheet that holds a real lead). In the tabs `leads` and `calculator`, note the email of every row the round made (filter by the date in `submitted_at`). If a row you still want to see in GoHighLevel says `failed` or `pending`, resend it first (section 7); otherwise leave it.
 
-   Expected: a list of the test email addresses and nothing else.
+   Expected: a list of the test email addresses and nothing else. Test applications use their own fictitious phone number each (`DEPLOYMENT.md` section 11.9): GoHighLevel falls back to the phone when no contact has the email (section 3b), so a shared or real number could merge two test contacts or update a real one.
 
 2. **Cancel the test bookings.** In GoHighLevel, open **Calendars**, then the appointments list of the demo's calendar. Find each appointment booked by a test address, and cancel it. If the screen names differ on Gaby's plan, use the equivalent.
 
    Expected: no appointment of a test address stays booked, and its time is free again in the calendar. GoHighLevel may email the cancellation to the test address.
 
-3. **Delete the test contacts.** Open **Contacts**, search each email of step 1, check that the name and email are the test's, and delete the contact. Include the test contact of the earlier checks, `ana.perez@example.com`, if it still exists.
+3. **Delete the test contacts.** Open **Contacts**, search each email of step 1, check that the name and email are the test's and that the contact was created on the day of the test (its creation date), and delete the contact. If anything does not match, or the contact is a real person, do not delete it. Include the test contact of the earlier checks, `ana.perez@example.com`, if it still exists.
 
    Expected: searching each test email finds no contact. A contact of a person who is not a test stays untouched.
 

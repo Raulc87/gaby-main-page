@@ -5,8 +5,10 @@ name: Demo build
 # with the demo values, and api/ without its tests. See docs/runbooks/DEPLOYMENT.md
 # section 11.
 #
-# Started by hand, on main only. It runs the same checks as CI, then uploads two
-# artifacts. It holds no secret and deploys nothing: the owner downloads the
+# Started by hand, on main only. It runs four of CI's checks (lint, type check, unit
+# tests, pytest), not the end-to-end tests, npm audit, pip-audit or the docs link
+# check: the deployed commit must already be green on main (DEPLOYMENT.md 11.1). Then
+# it uploads two artifacts. It holds no secret and deploys nothing: the owner downloads the
 # artifacts and uploads them to the host. The calendar URL is public (Gaby's
 # GoHighLevel booking widget): it is a run input, or the repository variable
 # DEMO_SCHEDULER_URL (a variable, not a secret).

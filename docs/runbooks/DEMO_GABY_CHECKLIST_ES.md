@@ -13,7 +13,7 @@ Es una **demo privada**: no es gabykelly.com, nadie más entra, y todo lo que es
 | La dirección | `https://gabydemo.digitalstrike-solutions.com/`. Abrila siempre escribiendo `https://` al principio |
 | Usuario y contraseña | Te llegan aparte, en otro mensaje. El navegador los pide al entrar: es normal, la demo es privada |
 | Cuatro correos de prueba, uno distinto para cada prueba (y un quinto si hacés el paso 8) | Si tu correo es `nombre@gmail.com`, podés usar `nombre+prueba1@gmail.com`, `nombre+prueba2@gmail.com`, `nombre+prueba3@gmail.com` y `nombre+prueba4@gmail.com`: todos llegan a tu misma bandeja. Nunca el correo de una clienta o de un cliente |
-| Un teléfono para las aplicaciones | El tuyo, o el de alguien del equipo que sepa que es una prueba, con código de país (por ejemplo +506 y el número). Nunca el de una clienta o de un cliente |
+| Dos teléfonos de prueba, uno para cada aplicación | `+50600000003` para la prueba 3 y `+50600000004` para la prueba 4: no son números de nadie. Antes de empezar, buscá cada uno en **Contacts** de tu GoHighLevel: si ya hay un contacto con ese número, usá otro que no esté en tu cuenta. Nunca tu número ni el de una persona real: GoHighLevel reconoce a un contacto también por su teléfono, y la prueba podría cambiar o mezclar contactos de verdad |
 | Tu GoHighLevel abierto en otra pestaña | Para los pasos 4, 6 y 7 |
 | Un papel o un documento para anotar | Si algo no se ve como dice acá, anotá el paso, qué viste y la hora, y sacá una captura de pantalla |
 
@@ -48,7 +48,7 @@ Cada paso dice **qué hacer** y **qué deberías ver**.
 1. Abrí de nuevo la calculadora desde «Diagnóstico gratis» en el menú. No uses «Calcular otra vez»: ese botón conserva los datos y los casilleros de la prueba anterior.
 2. Cambiá la moneda a **Colones**.
 3. En la pregunta de las acciones elegí **«No tengo acciones de mi empresa»** y tocá «Calcular mis meses».
-4. Revisá que el nombre y el correo estén vacíos y que **los dos casilleros estén sin marcar**. Escribí el nombre **Prueba Dos** y el **correo de prueba 2**. Si querés, poné tu WhatsApp.
+4. Revisá que el nombre y el correo estén vacíos y que **los dos casilleros estén sin marcar**. Escribí el nombre **Prueba Dos** y el **correo de prueba 2**. Dejá el WhatsApp vacío.
 5. Primero tocá **«Ver mi resultado»** sin marcar nada.
 6. Ahora marcá **solo el primer casillero** (el del tratamiento de datos) y dejá **sin marcar** el de recibir los correos de Gaby. Tocá «Ver mi resultado» otra vez.
 
@@ -63,7 +63,7 @@ Cada paso dice **qué hacer** y **qué deberías ver**.
 **Qué hacer**
 
 1. Abrí «Wealth Mastery» en el menú y entrá a la aplicación, o abrí la página `/es/aplicar/`.
-2. En «Aplicá a Wealth Mastery» escribí el nombre **Prueba Tres**, el **correo de prueba 3** y tu teléfono con código de país.
+2. En «Aplicá a Wealth Mastery» escribí el nombre **Prueba Tres**, el **correo de prueba 3** y el **teléfono de prueba 3** (`+50600000003`).
 3. En la pregunta sobre tu disposición a invertir elegí **«Quiero invertir si el programa es adecuado para mí.»**
 4. Marcá el casillero del tratamiento de datos y tocá **«Enviar mi aplicación»**.
 
@@ -90,7 +90,7 @@ Cada paso dice **qué hacer** y **qué deberías ver**.
 **Qué hacer**
 
 1. Volvé a la aplicación (`/es/aplicar/`).
-2. Escribí el nombre **Prueba Cuatro**, el **correo de prueba 4** y tu teléfono.
+2. Escribí el nombre **Prueba Cuatro**, el **correo de prueba 4** y el **teléfono de prueba 4** (`+50600000004`).
 3. Elegí **«Solo estoy explorando por ahora.»**, marcá el casillero y tocá «Enviar mi aplicación».
 
 **Qué deberías ver**
@@ -111,7 +111,7 @@ Cada paso dice **qué hacer** y **qué deberías ver**.
 | 3. Aplicación que califica | `aplicacion-vip`, `idioma-es` | `preseleccion` = «Quiero invertir si el programa es adecuado para mí.» |
 | 4. Aplicación que todavía no califica | `aplicacion-vip`, `idioma-es` | `preseleccion` = «Solo estoy explorando por ahora.» |
 
-Cada contacto tiene el nombre y el correo que escribiste, y el teléfono si lo pusiste.
+Cada contacto tiene el nombre y el correo que escribiste y, en las aplicaciones, su teléfono de prueba. Son cuatro contactos distintos: si dos pruebas aparecen mezcladas en un mismo contacto, anotalo con la hora.
 
 Si falta un contacto, o tiene etiquetas o campos distintos, anotalo con la hora: quien administra la demo revisa la hoja de prueba y el registro del servidor para ver por qué.
 
@@ -140,7 +140,7 @@ Si falta un contacto, o tiene etiquetas o campos distintos, anotalo con la hora:
 Cuando termines, borrá lo que hicieron las pruebas. Buscá por los correos de prueba, no por etiqueta: tus contactos reales pueden tener las mismas etiquetas.
 
 1. **Primero las citas.** En GoHighLevel, **Calendars**: cancelá la cita de **Prueba Tres** y cualquier otra que hayas agendado con un correo de prueba.
-2. **Después los contactos.** En **Contacts**, buscá cada correo de prueba, revisá que el nombre y el correo sean los de la prueba, y borrá el contacto.
+2. **Después los contactos.** En **Contacts**, buscá cada correo de prueba, revisá que el nombre y el correo sean los de la prueba y que el contacto se creó hoy (columna de fecha de creación), y borrá el contacto. Si no coincide algo, o el contacto es una persona real, **no lo borres** y avisá.
 3. **La hoja de prueba** la limpia quien administra la demo, con la lista de [`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) sección 10.
 
 **Qué deberías ver:** al buscar cada correo de prueba, GoHighLevel no encuentra ningún contacto, y tu calendario no tiene citas de las pruebas.

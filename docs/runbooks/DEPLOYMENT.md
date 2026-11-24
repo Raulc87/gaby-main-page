@@ -520,9 +520,9 @@ Real values never go into Git, issues, pull requests or chat. The names below ar
 3. Click the green **Run workflow** button and open the new run.
 4. When it ends, download the two artifacts at the bottom of the run page: `demo-site-<short commit>` and `demo-api-<short commit>`. GitHub gives each as a zip; you need to be signed in.
 
-The workflow runs the same checks as CI (lint, type check, unit tests, pytest) and then builds with the demo values: `PUBLIC_PREVIEW` unset, base path `/`, `PUBLIC_SCHEDULER_URL` set to the calendar. It reads no secret and deploys nothing. There is no need to build by hand.
+The workflow runs four of CI's checks (lint, type check, unit tests, pytest). It does **not** repeat the end-to-end tests, `npm audit`, `pip-audit` or the docs link check: the green checks of 11.1 on the commit being deployed cover them. Then it builds with the demo values: `PUBLIC_PREVIEW` unset, base path `/`, `PUBLIC_SCHEDULER_URL` set to the calendar. It reads no secret and deploys nothing. There is no need to build by hand.
 
-**Check:** the jobs `main only`, `frontend`, `backend` and `package` have a green check; the run is titled with the newest commit of `main`; the run's summary lists `dist/` with `es`, `en`, `index.html` and `demo-build.txt`, and `api-package/` with `passenger_wsgi.py`, `crm/`, `routes/` and `storage/`, and with no `tests`, `.env` or `.json` file. If the run fails on the calendar URL, it names the reason (empty, not https, or the placeholder of `.env.example`).
+**Check:** the jobs `main only`, `frontend`, `backend` and `package` have a green check; the run page shows the commit it ran on, and it is the newest commit of `main` (compare it with `https://github.com/Raulc87/gaby-main-page/commits/main`); the run's summary lists `dist/` with `es`, `en`, `index.html` and `demo-build.txt`, and `api-package/` with `passenger_wsgi.py`, `crm/`, `routes/` and `storage/`, and with no `tests`, `.env` or `.json` file. If the run fails on the calendar URL, it names the reason (empty, not https, or the placeholder of `.env.example`).
 
 ### 11.3 Create the subdomain with its own document root
 
@@ -539,15 +539,9 @@ This is sections 2 and 3, for the demo's folder, done **before** the site is upl
 
 1. **HTTPS.** If the demo's domain has a **Force HTTPS Redirect** toggle (*Domains*), turn it on: it redirects before any password is asked, which the `.htaccess` redirect below cannot do (section 2). Either way, type `https://` yourself and tell Gaby to do the same.
 2. **Password.** *Files*, **Directory Privacy**, open the demo's document root (`gabydemo`, reached from the home directory), tick **Password protect this directory**, name it, save, and create the user `<demo-user>` with `<demo-password>`. cPanel writes the basic-authentication lines into `gabydemo/.htaccess`.
-3. **The rest of the deploy-time file.** In *File Manager* (show hidden files), open `gabydemo/.htaccess` and add the lines below **under** the ones cPanel wrote. Keep every line cPanel wrote as it is. This file is a deploy-time file: it is not in Git, and the password and its file never go there.
+3. **The rest of the deploy-time file.** In *File Manager* (show hidden files), open `gabydemo/.htaccess`. Step 2 made cPanel write the authentication lines there: expect lines like `AuthType Basic`, `AuthName`, `AuthUserFile` (a path outside the document root) and `Require valid-user`. **Leave them exactly as they are, and do not paste them again.** Add only the block below, **under** them. This file is a deploy-time file: it is not in Git, and the password and its file never go there.
 
 ```apache
-# Written by cPanel's Directory Privacy: leave these lines as cPanel wrote them.
-AuthType Basic
-AuthName "<the name you gave in cPanel>"
-AuthUserFile "<the path cPanel chose, outside the document root>"
-Require valid-user
-
 # Added by the owner (DEPLOYMENT.md section 11.4, ADR-009).
 # Never indexed. "always" puts it on the 401 answer too.
 <IfModule mod_headers.c>
@@ -572,7 +566,7 @@ The first must print `401`. The second must print `x-robots-tag: noindex, nofoll
 ### 11.5 Upload the site
 
 1. In *File Manager*, open `gabydemo`, upload the `demo-site-<short commit>` zip, **Extract** it in place, then delete the zip. (Or unzip it on your machine and upload the contents with SFTP.)
-2. Do not upload over `.htaccess`: the artifact has none.
+2. Do not upload over `.htaccess`: the artifact has none. Leave alone any `.htaccess` that cPanel creates in a folder named after the app's URL (for example `gabydemo/api/`) when the app is set up in 11.6: it may hold the app's Passenger lines.
 
 **Check:** `gabydemo/` holds `index.html`, `es/`, `en/`, `_astro/`, `demo-build.txt` and, still, the `.htaccess` of 11.4. With the password, `curl -u "<demo-user>:$DP_PASS" -s -o /dev/null -w "%{http_code}\n" https://gabydemo.digitalstrike-solutions.com/es/` prints `200`.
 
@@ -586,7 +580,7 @@ This is section 5, with these differences.
 4. **Startup file** `passenger_wsgi.py`, **entry point** `application`, as section 5.
 5. Upload the `demo-api-<short commit>` zip into `gabydemo-api`, **Extract** it in place, then delete the zip. It holds exactly what section 5 step 8 lists, `crm/` and `resend_crm.py` included, and none of the files it says not to upload. Do not add a `.env` file.
 6. Install the dependencies (section 5 step 9, `requirements.txt`) and click **Restart**.
-7. Open `gabydemo/.htaccess` again. cPanel may have added lines for the app. All of 11.4 must still be there: the authentication lines, the `X-Robots-Tag` header and the redirect. Add back anything missing.
+7. Open `gabydemo/.htaccess` again, and look for an `.htaccess` in a folder named after the app's URL (for example `gabydemo/api/`): cPanel may have added lines for the app in either. All of 11.4 must still be there: the authentication lines, the `X-Robots-Tag` header and the redirect. Add back anything missing.
 
 **Check (this is the one that decides whether to go on):**
 ```bash
@@ -651,6 +645,7 @@ curl -u "<demo-user>:$DP_PASS" -s -w "\n%{http_code}\n" -X POST $BASE/api/save-c
 ```bash
 curl -sI $BASE/ | grep -i '^x-robots-tag'
 curl -u "<demo-user>:$DP_PASS" -sI $BASE/es/ | grep -i '^x-robots-tag'
+curl -sI -X POST $BASE/api/save-lead | grep -i '^x-robots-tag'
 curl -s -o /dev/null -w "%{http_code}\n" http://gabydemo.digitalstrike-solutions.com/
 ```
 
@@ -665,7 +660,7 @@ curl -u "<demo-user>:$DP_PASS" -s $BASE/demo-build.txt
 | Without the password: `/`, `/es/`, `POST /api/save-lead`, `POST /api/save-calculator-lead` | `401` for each of the four |
 | With the password: `/es/`, `/en/`, `/es/calculadora/`, `/es/aplicar/` | `200` for each |
 | With the password: the empty `POST` to each endpoint | `422`, and a body with `"error_code": "validation_error"` and the missing fields in `field_errors`, for each |
-| `X-Robots-Tag`, with and without the password | `x-robots-tag: noindex, nofollow`, both times |
+| `X-Robots-Tag`, on `/` without the password, on `/es/` with it, and on an unauthenticated `/api` answer | `x-robots-tag: noindex, nofollow`, each time (the last shows the document root's `.htaccess` reaches `/api`) |
 | `http://` | `301` or `308` with the cPanel toggle; `401` with only the `.htaccess` redirect (section 2 explains why; the first request is then challenged over plain HTTP, so always use `https://`) |
 | `demo-build.txt` | The `commit:` line is the commit of the run you deployed (11.10) |
 
@@ -675,7 +670,7 @@ Any other answer: fix the cause (section 7's table and 11.11) and run the whole 
 
 ### 11.9 The owner's checks and Gaby's test
 
-After 11.8, the owner runs ADR-009 → Validation, with the password, and records the results in the sprint's close-out (US-047 AC7). Use test email addresses only:
+After 11.8, the owner runs ADR-009 → Validation, with the password, and records the results in the sprint's close-out (US-047 AC7). Use test email addresses and the test phone numbers only. Before you send Gaby her checklist, run one application with each of the two test phone numbers it names (`+50600000003`, `+50600000004`), each with its own test email, and check that each reaches GoHighLevel as its own contact with `crm_status` = `sent`; if GoHighLevel refuses a number, pick another that no contact has and change it in the checklist. Never use a real person's number: when no contact has the email, GoHighLevel can fall back to the phone ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 3b), so a shared or real number could merge test contacts or change a real one.
 
 1. A calculator lead and an application, in Spanish and in English: each appears as a row in the test sheet and as a contact in Gaby's GoHighLevel, with its tags and fields ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md) section 6, steps 2 to 5, and the tags of section 4), and the row's `crm_status` says `sent`.
 2. A qualified application shows Gaby's calendar with the applicant's details filled in; make one test booking, check that it appears in her calendar, then cancel it (`GOHIGHLEVEL.md` section 10).
