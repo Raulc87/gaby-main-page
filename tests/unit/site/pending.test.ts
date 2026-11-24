@@ -34,11 +34,9 @@ describe('pending badge visibility', () => {
       'story.photo',
       'story.bio',
       'vip.video',
-      'method.steps_placeholder',
       'resource.file_pending',
     ];
     const provisional: PendingBlockId[] = [
-      'home.method',
       'home.guide_stat',
       'vip.steps',
       'thanks.not_ready',
@@ -46,12 +44,15 @@ describe('pending badge visibility', () => {
     ];
     for (const block of placeholders) expect(PENDING_BLOCKS[block]).toBe('placeholder');
     for (const block of provisional) expect(PENDING_BLOCKS[block]).toBe('provisional');
+    // The Método Polaris page was removed in phase 2d, and the Home's pillars are Gaby's final text.
+    expect(Object.keys(PENDING_BLOCKS)).not.toContain('home.method');
+    expect(Object.keys(PENDING_BLOCKS)).not.toContain('method.steps_placeholder');
   });
 
   it('resolves a block through its kind', () => {
     expect(showsPendingBadge('vip.video', production)).toBe(true);
-    expect(showsPendingBadge('home.method', production)).toBe(false);
-    expect(showsPendingBadge('home.method', preview)).toBe(true);
+    expect(showsPendingBadge('home.guide_stat', production)).toBe(false);
+    expect(showsPendingBadge('home.guide_stat', preview)).toBe(true);
   });
 });
 
