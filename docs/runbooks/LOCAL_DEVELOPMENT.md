@@ -83,6 +83,10 @@ Default. With `LEADS_STORAGE=memory` in `api/.env` (or unset — `memory` is the
 3. Restart `python run_local.py`.
 4. Submit the form once and confirm a new row appears in the sheet, in the column order from `LEAD_API_CONTRACT.md` section 6.
 
+## 6b. Sending leads to GoHighLevel (optional)
+
+By default (`GHL_SYNC=off` in `api/.env`) nothing is sent and each row says `off` in its `crm_status`. The tests use a fake client and never call GoHighLevel. To send real contacts to Gaby's account from your machine, follow [`GOHIGHLEVEL.md`](GOHIGHLEVEL.md): that is the owner's check, with Gaby's token in `api/.env` (ignored by Git), and your own name and email.
+
 ## 7. Running the checks locally
 
 ```bash

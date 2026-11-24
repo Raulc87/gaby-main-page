@@ -11,7 +11,6 @@ Same rules as `CONTENT.md` (its Metadata): the row format is the same (`| key | 
 | [V](#part-v--voseo-the-wealth-mastery-name-and-the-new-menu) | Voseo and the Wealth Mastery name in every existing key that stays or that a later story replaces (§1–§6, §8, §9, §11), the new menu keys, the `mastery` stub's metadata, and the check list of "tú" forms for the US-041 AC1 test | US-041 |
 | [H](#part-h--home-the-three-pillars-and-no-library-links) | Home: the Método Polaris as three pillars (§5.6), the Wealth Mastery section removed (§5.7), the teaser's library links removed (§5.10) | US-043 |
 | [W](#part-w--the-wealth-mastery-page) | The Wealth Mastery page (it replaces §12, the Método Polaris page) | US-042 |
-| [P](#part-p--privacy-notice-gohighlevel) | §9, `privacy.p2` and `privacy.p4`: GoHighLevel as the processor of the contacts and the emails | US-045 |
 | [L](#part-l--the-resource-library-withdrawn) | §7 withdrawn, and every key that pointed at the library; **after Part H** | US-046 |
 
 Rules for the moves:
@@ -377,19 +376,6 @@ The three steps are the Home's (`home.vip.step.*`, §5.11): Gaby's steps here ar
 - Placeholders (badge in every build): remove "the Método Polaris page's steps placeholder (`method.steps.placeholder`, §12)"; add "the Wealth Mastery page's guide photo (`mastery.guide.photo.placeholder`, §12)".
 - Provisional copy blocks: add "the Wealth Mastery page's FAQ answers and the two adapted lines (`mastery.fit.no.2`, `mastery.fit.no.3`, `mastery.how.4.body`, §12)".
 - No badge: add `mastery.guide.photo_alt`.
-
----
-
-## Part P — Privacy notice: GoHighLevel
-
-**Moved by US-045** (AC7), with the `PRIVACY_NOTICE_VERSION` bump (the one bump of phase 2d, Part V.8). `privacy.p3` keeps its Part V value.
-
-| Key | Español | English | Status |
-|---|---|---|---|
-| `privacy.p2` | Datos que recopilamos: nombre completo, correo electrónico, teléfono (WhatsApp), tu respuesta a la pregunta de preselección, el idioma en el que ves el sitio, y la fecha y hora de tu envío. Si usás la calculadora, guardamos tu nombre, tu correo, tu WhatsApp si lo das, tu resultado (meses y zona), la moneda que elegiste, si una parte grande de tus inversiones está en acciones de tu empresa (sí o no), si aceptaste recibir los correos de Gaby, el idioma y la fecha y hora; las cifras que escribís en la calculadora no se guardan ni se envían. | Data we collect: full name, email, phone (WhatsApp), your pre-screening answer, the language you viewed the site in, and the date and time of your submission. If you use the calculator, we store your name, your email, your WhatsApp if you give it, your result (months and zone), the currency you chose, whether a large part of your investments is in your company's shares (yes or no), whether you agreed to receive Gaby's emails, the language, and the date and time; the figures you enter in the calculator are neither stored nor sent. | provisional |
-| `privacy.p4` | Con quién los compartimos: con Google (almacenamiento en Google Sheets) y con GoHighLevel, la plataforma de Gaby, que recibe tu contacto (tu nombre, correo, teléfono si lo das e idioma y, según el formulario, tu resultado de la calculadora o tu respuesta de preselección), envía los correos y agenda la llamada. Ambos pueden almacenar información fuera de Costa Rica. | Who we share it with: Google (Google Sheets storage) and GoHighLevel, Gaby's platform, which receives your contact (your name, email, phone if you give it and language and, depending on the form, your calculator result or your pre-screening answer), sends the emails and schedules the call. Both may store data outside Costa Rica. | provisional |
-
-The note under §9 replaces its sentence on GoHighLevel and ADR-007 with: "v0.3 (phase 2d, US-045): `privacy.p2` adds the calculator's currency and concentration answer and says the figures are not sent; `privacy.p4` names GoHighLevel as the processor of the contacts and the emails as well as the booking (ADR-007 option C, ADR-008); `PRIVACY_NOTICE_VERSION` is bumped with this text." Both stay part of the legal review (US-018).
 
 ---
 

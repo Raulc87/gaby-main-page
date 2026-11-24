@@ -34,9 +34,11 @@ account later requires no code change (ADR-002).
 2. Rename the first worksheet tab to `leads` (matches `GOOGLE_SHEET_TAB` default; use a different tab name only if you also set `GOOGLE_SHEET_TAB` to match).
 3. In row 1, add the header row in this **exact order** (`LEAD_API_CONTRACT.md` section 6):
 
-   | A | B | C | D | E | F | G | H | I |
-   |---|---|---|---|---|---|---|---|---|
-   | `submitted_at` | `name` | `email` | `phone` | `screening_answer` | `language` | `consent` | `privacy_notice_version` | `status` |
+   | A | B | C | D | E | F | G | H | I | J |
+   |---|---|---|---|---|---|---|---|---|---|
+   | `submitted_at` | `name` | `email` | `phone` | `screening_answer` | `language` | `consent` | `privacy_notice_version` | `status` | `crm_status` |
+
+   `crm_status` (contract v1.3, the last column) records whether the lead's contact reached GoHighLevel: `pending`, `sent`, `failed` or `off` ([`GOHIGHLEVEL.md`](GOHIGHLEVEL.md)). A sheet created before v1.3 gets the new header in the first free cell of row 1, to the right of `status`.
 
 4. Click **Share**, paste the service account's email address (from step 3), give it **Editor** access, and uncheck "Notify people" (a service account has no inbox).
 5. Copy the sheet ID from its URL: `https://docs.google.com/spreadsheets/d/<SHEET_ID>/edit` — this is `GOOGLE_SHEET_ID`.
@@ -48,13 +50,15 @@ Calculator leads (US-036) go to a second tab of the same sheet, so the people wh
 1. In the same sheet, add a worksheet tab named `calculator` (matches the `GOOGLE_SHEET_CALCULATOR_TAB` default; use another name only if you also set `GOOGLE_SHEET_CALCULATOR_TAB` to match).
 2. In row 1, add the header row in this **exact order** (`LEAD_API_CONTRACT.md` section 11.5):
 
-   | A | B | C | D | E | F | G | H | I | J | K | L |
-   |---|---|---|---|---|---|---|---|---|---|---|---|
-   | `submitted_at` | `name` | `email` | `phone` | `language` | `months` | `zone` | `consent` | `marketing_consent` | `source` | `privacy_notice_version` | `status` |
+   | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O |
+   |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+   | `submitted_at` | `name` | `email` | `phone` | `language` | `months` | `zone` | `consent` | `marketing_consent` | `source` | `privacy_notice_version` | `status` | `currency` | `concentration_alert` | `crm_status` |
+
+   The three v1.3 columns (`currency`, `concentration_alert`, `crm_status`) come last, so a sheet created for v1.2 gets them to the right of `status` without moving anything. A v1.2 row keeps its one decimal in `months` and its old zone codes; its `crm_status` stays empty, so the resend command skips it.
 
 3. The service account already has Editor access to the whole sheet (step 4.4), so the new tab needs no further sharing.
 
-The `phone` and `months` cells are empty when the visitor gave no phone or when other income covers the monthly outflow. `source` is always `calculator`. The calculator's five figures are never stored.
+The `phone` and `months` cells are empty when the visitor gave no phone or when the result is "∞" (financially free). `months` has two decimals, rounded down. `source` is always `calculator`. The calculator's five figures are never stored.
 
 ## 5. Add a status dropdown (data validation)
 
@@ -84,6 +88,8 @@ GOOGLE_SHEET_ID=<the id from step 4.5>
 GOOGLE_SHEET_TAB=leads
 GOOGLE_SHEET_CALCULATOR_TAB=calculator
 ```
+
+To also send each lead to GoHighLevel, see [`GOHIGHLEVEL.md`](GOHIGHLEVEL.md); until then the `crm_status` cells say `off`.
 
 Restart `python run_local.py`, submit the form once, and confirm a new row appears with `status = started` and every other column populated as described in section 4. Calculator leads are checked the same way against the `calculator` tab (section 4b).
 

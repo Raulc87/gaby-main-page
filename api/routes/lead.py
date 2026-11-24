@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from flask import Blueprint
 
+from crm.contacts import vip_contact
 from routes.submission import handle_lead_submission, server_generated_fields
 from validation import validate_lead
 
@@ -32,4 +33,6 @@ def _build_row(normalized: dict) -> dict:
 
 @bp.route("/save-lead", methods=["POST"])
 def save_lead():
-    return handle_lead_submission("/save-lead", "LEAD_STORAGE", validate_lead, _build_row)
+    return handle_lead_submission(
+        "/save-lead", "LEAD_STORAGE", validate_lead, _build_row, vip_contact
+    )

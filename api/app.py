@@ -14,6 +14,7 @@ import logging
 from flask import Flask, request
 
 from config import Config
+from crm.sync import create_crm_sync
 from errors import register_error_handlers
 from rate_limit import RateLimiter
 from responses import contract_response
@@ -51,6 +52,7 @@ def create_app(api_prefix: str = "") -> Flask:
     app.config["LEAD_STORAGE"] = create_storage(config)
     app.config["CALCULATOR_LEAD_STORAGE"] = create_calculator_storage(config)
     app.config["PRIVACY_NOTICE_VERSION"] = config.PRIVACY_NOTICE_VERSION
+    app.config["CRM_SYNC"] = create_crm_sync(config)
     # One limiter per endpoint: the calculator's requests never count
     # against /save-lead's budget, nor the reverse (contract section 11.1).
     app.config["RATE_LIMITER"] = _new_rate_limiter(config)
