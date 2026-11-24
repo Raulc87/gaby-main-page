@@ -1,10 +1,14 @@
 // US-046 AC2, AC3: the resource library is withdrawn. No internal link on any page points at its
 // old paths, the build has no page there, and the not-ready screen and My story lead to the calculator.
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { expect, test } from '@playwright/test';
 import { LANGUAGES } from '../../src/i18n';
 import { PAGE_IDS, routePath } from '../../src/i18n/routes';
 
 const OLD_PATHS = ['/es/recursos/', '/en/resources/'] as const;
+/** The build output of the old library pages (the e2e web server builds `dist/` before the tests run). */
+const OLD_BUILD_DIRS = ['dist/es/recursos', 'dist/en/resources'] as const;
 /** Hrefs that would lead to the library, by path or by the old section anchor. */
 const LIBRARY_HREF = /\/(recursos|resources)(\/|#|$)|#recursos$/;
 
@@ -19,6 +23,13 @@ for (const lang of LANGUAGES) {
       expect(hrefs.filter((href) => LIBRARY_HREF.test(href))).toEqual([]);
     });
   }
+}
+
+for (const dir of OLD_BUILD_DIRS) {
+  // The preview server answers 200 for an unknown path, so the build output is the real proof (US-046 AC3).
+  test(`the build output has no ${dir} folder`, () => {
+    expect(existsSync(resolve(process.cwd(), dir))).toBe(false);
+  });
 }
 
 for (const path of OLD_PATHS) {
